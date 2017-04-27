@@ -1,0 +1,40 @@
+# C++ objects and libs
+
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+*.so.*
+# Qt-es
+/ipch
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*-build-*
+
+# QtCreator
+
+*.autosave
+
+#QtCtreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+TAGS
+vc110.pdb
+
+#Visual Studio
+*.sdf
+.vs/MGLEngine/v14/.suo
+MGLEngine.VC.opendb
