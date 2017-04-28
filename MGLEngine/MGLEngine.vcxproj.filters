@@ -5,5 +5,32 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{79faa401-bedd-452a-8d84-c5ec467e8b76}</UniqueIdentifier>
+      <Extensions>shared/*</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="MGLEngine.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="shared\Exception.cpp" />
+    <ClCompile Include="shared\FieldArray.cpp" />
+    <ClCompile Include="shared\Path.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MGLEngine.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="shared\Exception.h" />
+    <ClInclude Include="shared\iterator_shorthands.hpp" />
+    <ClInclude Include="shared\NTree.h" />
+    <ClInclude Include="shared\opointer.h" />
+    <ClInclude Include="shared\Path.h" />
+    <ClInclude Include="shared\shared_global.h" />
+    <ClInclude Include="shared\tree.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shared\shared.pro" />
   </ItemGroup>
 </Project>

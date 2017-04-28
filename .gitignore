@@ -38,3 +38,4 @@ vc110.pdb
 *.sdf
 .vs/MGLEngine/v14/.suo
 MGLEngine.VC.opendb
+/MGLEngine/Debug
