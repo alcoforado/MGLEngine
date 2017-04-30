@@ -135,7 +135,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMGLContainer.h" />
+    <ClInclude Include="Utils\Exception.h" />
+    <ClInclude Include="Utils\iterator_shorthands.hpp" />
+    <ClInclude Include="Utils\NTree.h" />
+    <ClInclude Include="Utils\opointer.h" />
+    <ClInclude Include="Utils\Path.h" />
+    <ClInclude Include="Utils\shared_global.h" />
+    <ClInclude Include="Utils\tree.hpp" />
     <ClInclude Include="Window\IWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Utils\Exception.cpp" />
+    <ClCompile Include="Utils\FieldArray.cpp" />
+    <ClCompile Include="Utils\Path.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
