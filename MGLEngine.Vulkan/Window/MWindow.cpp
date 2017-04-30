@@ -1,7 +1,19 @@
 #include "MWindow.h"
+#include <glfw/glfw3.h>
+bool MGL::Window::isGLFWInitialized = false;
 
 MGL::Window::Window()
 {
+	_width = 800;
+	_height = 640;
+	if (!this->isGLFWInitialized)
+	{
+		int result = glfwInit();
+		if (result == 0)
+		{
+			throw new Exception("Could not initialize GLFW Window");
+		}
+	}
 }
 
 

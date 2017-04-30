@@ -9,5 +9,5 @@ UnmanagedFacade::UnmanagedFacade()
 
 IMGLContainer* UnmanagedFacade::GetContainer()
 {
-	return (new MGLContainer());
+	return new MGLContainer();
 }

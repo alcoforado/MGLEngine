@@ -4,7 +4,9 @@
 namespace MGL {
 	class Window : public IWindow
 	{
+
 	private :
+		static bool isGLFWInitialized;
 		int _width;
 		int _height;
 	public:
