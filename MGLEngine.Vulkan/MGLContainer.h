@@ -5,6 +5,7 @@
 class Window;
 class MGLContainer :public  IMGLContainer
 {
+
 public:
 
 	MGLContainer()

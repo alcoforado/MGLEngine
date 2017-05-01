@@ -1,11 +1,12 @@
 #pragma once
 #include <Window/IWindow.h>
+#include <glfw/glfw3.h>
 
 namespace MGL {
 	class Window : public IWindow
 	{
-
 	private :
+		GLFWwindow *_window;
 		static bool isGLFWInitialized;
 		int _width;
 		int _height;

@@ -1,11 +1,12 @@
 #include "MWindow.h"
-#include <glfw/glfw3.h>
+#include <Utils/Exception.h>
 bool MGL::Window::isGLFWInitialized = false;
 
 MGL::Window::Window()
 {
 	_width = 800;
 	_height = 640;
+	_window = NULL;
 	if (!this->isGLFWInitialized)
 	{
 		int result = glfwInit();
@@ -13,6 +14,14 @@ MGL::Window::Window()
 		{
 			throw new Exception("Could not initialize GLFW Window");
 		}
+		isGLFWInitialized = true;
+		
+		_window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+		if (!_window)
+		{
+			throw new Exception("Create Window failed");
+		}
+
 	}
 }
 
@@ -29,4 +38,6 @@ void MGL::Window::SetSize(int width, int height)
 
 void MGL::Window::EasyRun()
 {
+
+	
 }
