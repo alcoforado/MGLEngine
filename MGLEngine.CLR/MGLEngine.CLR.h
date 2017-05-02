@@ -24,7 +24,10 @@ namespace MGLEngineCLR {
 		{
 			_window->EasyRun();
 		}
-
+		void PsychoRun()
+		{
+			_window->PsychoRun();
+		}
 
 		~Window()
 		{

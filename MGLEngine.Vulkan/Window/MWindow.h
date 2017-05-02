@@ -1,6 +1,6 @@
 #pragma once
 #include <Window/IWindow.h>
-#include <glfw/glfw3.h>
+class GLFWwindow;
 
 namespace MGL {
 	class Window : public IWindow
@@ -17,6 +17,7 @@ namespace MGL {
 		// Inherited via IWindow
 		virtual void SetSize(int width, int height) override;
 		virtual void EasyRun() override;
+		virtual void PsychoRun() override;
 	};
 
 }

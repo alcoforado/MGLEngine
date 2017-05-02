@@ -22,7 +22,7 @@ namespace MGLEngine.Server
             System.Diagnostics.Trace.WriteLine("Hello World");
             System.Diagnostics.Trace.WriteLine("Hello World");
             System.Diagnostics.Trace.WriteLine("Hello World");
-            w.EasyRun();
+            w.PsychoRun();
         }
     }
 }

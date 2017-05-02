@@ -9,6 +9,7 @@ public:
 
 	virtual void SetSize(int width, int height) = 0;
 	virtual void EasyRun() = 0;
+	virtual void PsychoRun() =0;
 
 
 

@@ -1,6 +1,14 @@
 #include "MWindow.h"
 #include <Utils/Exception.h>
+#include <cassert>
+
+#include <vulkan/vulkan.h>
+#include <glfw/glfw3.h>
 bool MGL::Window::isGLFWInitialized = false;
+
+#define VK_MAKE_VERSION(major, minor, patch) \
+    (((major) << 22) | ((minor) << 12) | (patch))
+#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
 MGL::Window::Window()
 {
@@ -22,6 +30,8 @@ MGL::Window::Window()
 			throw new Exception("Create Window failed");
 		}
 
+		//Initialize Vulkan
+		vkCreateInstance()
 	}
 }
 
@@ -38,6 +48,22 @@ void MGL::Window::SetSize(int width, int height)
 
 void MGL::Window::EasyRun()
 {
-
+	assert(_window);
+	while (!glfwWindowShouldClose(_window))
+	{
+		glfwWaitEvents();
+	}
 	
 }
+
+
+void MGL::Window::PsychoRun()
+{
+	assert(_window);
+	while (!glfwWindowShouldClose(_window))
+	{
+		glfwPollEvents();
+	}
+	
+}
+
