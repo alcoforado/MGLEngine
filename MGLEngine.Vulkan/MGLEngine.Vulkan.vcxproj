@@ -145,10 +145,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGLContainer.cpp" />
+    <ClCompile Include="VulkanContext.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MGLContainer.h" />
+    <ClInclude Include="VulkanContext.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>
   <ItemGroup>

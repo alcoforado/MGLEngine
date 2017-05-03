@@ -31,7 +31,7 @@ MGL::Window::Window()
 		}
 
 		//Initialize Vulkan
-		vkCreateInstance()
+		
 	}
 }
 
