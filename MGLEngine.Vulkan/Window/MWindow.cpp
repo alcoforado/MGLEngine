@@ -4,6 +4,7 @@
 
 #include <vulkan/vulkan.h>
 #include <glfw/glfw3.h>
+#include "../VulkanContext.h"
 bool MGL::Window::isGLFWInitialized = false;
 
 #define VK_MAKE_VERSION(major, minor, patch) \
@@ -24,14 +25,19 @@ MGL::Window::Window()
 		}
 		isGLFWInitialized = true;
 		
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		_window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 		if (!_window)
 		{
 			throw new Exception("Create Window failed");
 		}
 
-		//Initialize Vulkan
 		
+
+		//Initialize Vulkan
+		_vkContext = new VulkanContext();
+
+		_vkContext->Initialize(_window);
 	}
 }
 

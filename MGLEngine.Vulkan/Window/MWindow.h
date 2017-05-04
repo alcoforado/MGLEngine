@@ -1,12 +1,14 @@
 #pragma once
 #include <Window/IWindow.h>
-class GLFWwindow;
+class VulkanContext;
+struct GLFWwindow;
 
 namespace MGL {
 	class Window : public IWindow
 	{
 	private :
 		GLFWwindow *_window;
+		VulkanContext *_vkContext;
 		static bool isGLFWInitialized;
 		int _width;
 		int _height;

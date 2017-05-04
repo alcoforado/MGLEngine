@@ -2,7 +2,7 @@
 #include <vulkan/vulkan.h>
 #include <string>
 #include <vector>
-class GLFWWindow;
+struct GLFWwindow;
 
 struct InstanceLayer {
 	VkLayerProperties layer;
@@ -13,13 +13,18 @@ class VulkanContext
 {
 
 private:
+	void AssertVulkanSuccess(VkResult res);
+	
 	
 	VkInstance _vkInstance;
+	std::vector<VkPhysicalDevice> _vkDevices;
+	std::vector<InstanceLayer> _vkLayers;
 public:
 	VulkanContext();
 	~VulkanContext();
-	void Initialize(GLFWWindow* window);
+	void Initialize(GLFWwindow* window);
 	std::vector<InstanceLayer> GetLayerProperties();
 	std::string MapVkResultToString(VkResult result);
+	std::vector<VkPhysicalDevice> GetPhysicalDevices(VkInstance &inst);
 };
 

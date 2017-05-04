@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <map>
+#include <fstream>
 VulkanContext::VulkanContext()
 {
 
@@ -22,7 +23,8 @@ VulkanContext::~VulkanContext()
 static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType, uint64_t srcObject,
 	size_t location, int32_t msgCode, const char *pLayerPrefix, const char *pMsg,
 	void *pUserData) {
-	int size = strlen(pMsg) + 100;
+	size_t size = strlen(pMsg);
+	size += 100;
 	char *message = (char *)malloc(size);
 
 	assert(message);
@@ -58,8 +60,40 @@ static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectType
     (((major) << 22) | ((minor) << 12) | (patch))
 #define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
-void VulkanContext::Initialize(GLFWWindow * window)
+void VulkanContext::Initialize(GLFWwindow * window)
 {
+	//Get all layer properties and extensions
+	_vkLayers = GetLayerProperties();
+
+
+
+
+	std::ofstream out("log.txt",std::ofstream::trunc);
+	for (int i = 0; i < _vkLayers.size(); i++)
+	{
+		out << _vkLayers[i].layer.layerName << " Desc: " << _vkLayers[i].layer.description << std::endl;
+	}
+	out.close();
+
+
+	//Get GLFW Necessary Vulkan extensions and layers
+	std::vector<const char*> vulkan_extensions;
+	std::vector<const char*> vulkan_layers;
+
+	uint32_t count;
+	const char** extensions = glfwGetRequiredInstanceExtensions(&count);
+	for (uint32_t i = 0; i < count; i++)
+	{
+		vulkan_extensions.push_back(extensions[i]);
+	}
+
+	//If Debug mode, add validation layers and set report function
+#ifdef _DEBUG
+	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
+	vulkan_extensions.push_back("VK_EXT_debug_report")
+#endif
+
+
 	//Set Application Info
 	VkApplicationInfo app_info{};
 	app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -70,19 +104,16 @@ void VulkanContext::Initialize(GLFWWindow * window)
 	app_info.engineVersion = 1;
 	app_info.apiVersion = VK_API_VERSION_1_0;
 
-	//Get Extensions needed by GLFW
-	uint32_t extensions_count;
-	const char** extensions = glfwGetRequiredInstanceExtensions(&extensions_count);
-
+	
+	//Set Instance Info
 	VkInstanceCreateInfo inst_info = {};
 	inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	inst_info.pNext = NULL;
 	inst_info.pApplicationInfo = &app_info;
 	inst_info.enabledLayerCount = 0;
 	inst_info.ppEnabledLayerNames = NULL;
-	inst_info.enabledExtensionCount = extensions_count;
-	inst_info.ppEnabledExtensionNames = extensions;
-
+	inst_info.enabledExtensionCount = glfw_extensions.size();
+	inst_info.ppEnabledExtensionNames = glfw_extensions.data();
 
 	VkDebugReportCallbackCreateInfoEXT dbg_info;
 	memset(&dbg_info, 0, sizeof(dbg_info));
@@ -90,9 +121,6 @@ void VulkanContext::Initialize(GLFWWindow * window)
 	dbg_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_INFORMATION_BIT_EXT;
 	dbg_info.pfnCallback = DbgCallback;
 	inst_info.pNext = &dbg_info;
-
-
-
 
 	VkResult err;
 	err = vkCreateInstance(&inst_info, NULL, &(this->_vkInstance));
@@ -103,7 +131,29 @@ void VulkanContext::Initialize(GLFWWindow * window)
 		throw new Exception("Vulkan initialization failed with error %s", MapVkResultToString(err).c_str());;
 	}
 
+	
+	_vkDevices=GetPhysicalDevices(_vkInstance);
+	
+}
 
+void VulkanContext::AssertVulkanSuccess(VkResult res)
+{
+	if (res != VK_SUCCESS)
+	{
+		throw new Exception("Error Result: %s", this->MapVkResultToString(res));
+	}
+}
+
+std::vector<VkPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance &inst)
+{
+	std::vector<VkPhysicalDevice> result;
+	uint32_t gpu_count = 1;
+	VkResult res = vkEnumeratePhysicalDevices(inst, &gpu_count, NULL);
+	assert(gpu_count);
+	result.resize(gpu_count);
+	res = vkEnumeratePhysicalDevices(inst, &gpu_count, result.data());
+	AssertVulkanSuccess(res);
+	return result;
 }
 
 std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
@@ -120,12 +170,15 @@ std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
 	* entries loaded into the data pointer - in case the number
 	* of layers went down or is smaller than the size given.
 	*/
+	VkLayerProperties *vk_props=NULL;
+	VkResult res;
+	uint32_t instance_layer_count = 0;
 	do {
-		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, NULL);
-		if (res) return res;
+		 res = vkEnumerateInstanceLayerProperties(&instance_layer_count, NULL);
+		AssertVulkanSuccess(res);
 
 		if (instance_layer_count == 0) {
-			return VK_SUCCESS;
+			return std::vector<InstanceLayer>();
 		}
 
 		vk_props = (VkLayerProperties *)realloc(vk_props, instance_layer_count * sizeof(VkLayerProperties));
@@ -136,17 +189,28 @@ std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
+	std::vector<InstanceLayer> result;
+
 	for (uint32_t i = 0; i < instance_layer_count; i++) {
-		layer_properties layer_props;
-		layer_props.properties = vk_props[i];
-		res = init_global_extension_properties(layer_props);
-		if (res) return res;
-		info.instance_layer_properties.push_back(layer_props);
+		InstanceLayer elem;
+		elem.layer = vk_props[i];
+		
+		
+		do {
+			uint32_t instance_extension_count;
+			res = vkEnumerateInstanceExtensionProperties(elem.layer.layerName, &instance_extension_count, NULL);
+			AssertVulkanSuccess(res);
+
+			if (instance_extension_count != 0) {
+				elem.extensions.resize(instance_extension_count);
+				VkExtensionProperties *instance_extensions = elem.extensions.data();
+				res = vkEnumerateInstanceExtensionProperties(elem.layer.layerName, &instance_extension_count, instance_extensions);
+			}
+			result.push_back(elem);
+		} while (res == VK_INCOMPLETE);
 	}
 	free(vk_props);
-
-	return res;
-	return std::vector<InstanceLayer>();
+	return result;
 }
 
 std::string VulkanContext::MapVkResultToString(VkResult result)
@@ -188,3 +252,4 @@ std::string VulkanContext::MapVkResultToString(VkResult result)
 	}
 	return map[result];
 }
+
