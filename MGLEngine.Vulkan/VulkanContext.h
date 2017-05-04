@@ -10,6 +10,13 @@ struct InstanceLayer {
 	std::vector<VkExtensionProperties> extensions;
 };
 
+struct VulkanPhysicalDeviceInfo {
+	VkPhysicalDevice Handler;
+	VkQueueFamilyProperties FamilyProperties;
+	VkPhysicalDeviceMemoryProperties MemoryProperties;
+	VkPhysicalDeviceProperties GraphicProperties;
+};
+
 class VulkanContext
 {
 	//static public
@@ -20,6 +27,7 @@ private:
 	
 
 	VkInstance _vkInstance;
+	std::vector<VulkanPhysicalDeviceInfo> _vkDevices;
 	std::vector<VkPhysicalDevice> _vkDevices;
 	std::vector<InstanceLayer> _vkLayers;
 public:
