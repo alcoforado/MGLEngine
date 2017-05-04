@@ -8,6 +8,9 @@
 #include <string.h>
 #include <map>
 #include <fstream>
+
+ std::ofstream* VulkanContext::err = new std::ofstream("vulkan_log.txt", std::ofstream::trunc);
+
 VulkanContext::VulkanContext()
 {
 
@@ -42,8 +45,7 @@ static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectType
 		sprintf_s(message, size, "DEBUG: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
 	}
 
-	printf("%s\n", message);
-	fflush(stdout);
+	(*VulkanContext::err) << message << std::endl;
 	free(message);
 
 	/*
@@ -90,7 +92,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
 	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
-	vulkan_extensions.push_back("VK_EXT_debug_report")
+	vulkan_extensions.push_back("VK_EXT_debug_report");
 #endif
 
 
@@ -110,18 +112,19 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	inst_info.pNext = NULL;
 	inst_info.pApplicationInfo = &app_info;
-	inst_info.enabledLayerCount = 0;
-	inst_info.ppEnabledLayerNames = NULL;
-	inst_info.enabledExtensionCount = glfw_extensions.size();
-	inst_info.ppEnabledExtensionNames = glfw_extensions.data();
+	inst_info.enabledLayerCount = (uint32_t) vulkan_layers.size();
+	inst_info.ppEnabledLayerNames = vulkan_layers.data();
+	inst_info.enabledExtensionCount = (uint32_t) vulkan_extensions.size();
+	inst_info.ppEnabledExtensionNames = vulkan_extensions.data();
 
+#ifdef _DEBUG
 	VkDebugReportCallbackCreateInfoEXT dbg_info;
 	memset(&dbg_info, 0, sizeof(dbg_info));
 	dbg_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
 	dbg_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_INFORMATION_BIT_EXT;
 	dbg_info.pfnCallback = DbgCallback;
 	inst_info.pNext = &dbg_info;
-
+#endif
 	VkResult err;
 	err = vkCreateInstance(&inst_info, NULL, &(this->_vkInstance));
 	if (err == VK_ERROR_INCOMPATIBLE_DRIVER) {
