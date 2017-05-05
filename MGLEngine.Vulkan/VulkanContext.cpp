@@ -147,38 +147,33 @@ void VulkanContext::AssertVulkanSuccess(VkResult res)
 	}
 }
 
-std::vector<VkPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance &inst)
+std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstance &inst)
 {
-	std::vector<VkPhysicalDevice> result;
+	std::vector<VulkanPhysicalDeviceInfo> result;
 	uint32_t gpu_count = 1;
 	VkResult res = vkEnumeratePhysicalDevices(inst, &gpu_count, NULL);
 	assert(gpu_count);
-	result.resize(gpu_count);
-	res = vkEnumeratePhysicalDevices(inst, &gpu_count, result.data());
+	std::vector<VkPhysicalDevice> devs;
+	devs.resize(gpu_count);
+
+	res = vkEnumeratePhysicalDevices(inst, &gpu_count, devs.data());
 	AssertVulkanSuccess(res);
 	
-	uint32_t const U_ASSERT_ONLY req_count = gpu_count;
-	VkResult res = vkEnumeratePhysicalDevices(info.inst, &gpu_count, NULL);
-	assert(gpu_count);
-	info.gpus.resize(gpu_count);
+	for (int i=0;i<devs.size();i++)
+	{
+		VulkanPhysicalDeviceInfo elem;
+		elem.Handler = devs[i];
+		uint32_t family_count;
+		//get physical queues
+		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, NULL);
+		assert(family_count >= 1);
+		elem.FamilyProperties.resize(family_count);
+		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, elem.FamilyProperties.data());
+		vkGetPhysicalDeviceMemoryProperties(elem.Handler, &elem.MemoryProperties);
+		vkGetPhysicalDeviceProperties(elem.Handler, &elem.GraphicProperties);
+		result.push_back(elem);
+	}
 
-	res = vkEnumeratePhysicalDevices(info.inst, &gpu_count, info.gpus.data());
-	assert(!res && gpu_count >= req_count);
-
-	vkGetPhysicalDeviceQueueFamilyProperties(info.gpus[0], &info.queue_family_count, NULL);
-	assert(info.queue_family_count >= 1);
-
-	info.queue_props.resize(info.queue_family_count);
-	vkGetPhysicalDeviceQueueFamilyProperties(info.gpus[0], &info.queue_family_count, info.queue_props.data());
-	assert(info.queue_family_count >= 1);
-
-	/* This is as good a place as any to do this */
-	vkGetPhysicalDeviceMemoryProperties(info.gpus[0], &info.memory_properties);
-	vkGetPhysicalDeviceProperties(info.gpus[0], &info.gpu_props);
-
-	return res;
-
-	
 	return result;
 }
 

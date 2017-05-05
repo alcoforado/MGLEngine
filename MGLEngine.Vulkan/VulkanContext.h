@@ -12,7 +12,7 @@ struct InstanceLayer {
 
 struct VulkanPhysicalDeviceInfo {
 	VkPhysicalDevice Handler;
-	VkQueueFamilyProperties FamilyProperties;
+	std::vector<VkQueueFamilyProperties> FamilyProperties;
 	VkPhysicalDeviceMemoryProperties MemoryProperties;
 	VkPhysicalDeviceProperties GraphicProperties;
 };
@@ -28,7 +28,6 @@ private:
 
 	VkInstance _vkInstance;
 	std::vector<VulkanPhysicalDeviceInfo> _vkDevices;
-	std::vector<VkPhysicalDevice> _vkDevices;
 	std::vector<InstanceLayer> _vkLayers;
 public:
 	VulkanContext();
@@ -37,6 +36,6 @@ public:
 	void Initialize(GLFWwindow* window);
 	std::vector<InstanceLayer> GetLayerProperties();
 	std::string MapVkResultToString(VkResult result);
-	std::vector<VkPhysicalDevice> GetPhysicalDevices(VkInstance &inst);
+	std::vector<VulkanPhysicalDeviceInfo> GetPhysicalDevices(VkInstance &inst);
 };
 
