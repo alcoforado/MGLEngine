@@ -65,7 +65,7 @@ public:
 	void AssertVulkanSuccess(VkResult res) const;
 	void Initialize(GLFWwindow* window);
 	std::vector<LayerProperties> GetInstanceLayerProperties() const;
-	std::vector<LayerProperties> GetDeviceLayerProperties(VkPhysicalDevice dev);
+	std::vector<LayerProperties> GetDeviceLayerProperties(VkPhysicalDevice dev) const;
 	
 	VkDevice GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice) const;
 	std::string MapVkResultToString(VkResult result) const;

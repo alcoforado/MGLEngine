@@ -155,7 +155,7 @@ void VulkanContext::AssertVulkanSuccess(VkResult res) const
 	}
 }
 
-std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstance &inst)
+std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstance &inst) const
 {
 	std::vector<VulkanPhysicalDeviceInfo> result;
 	uint32_t gpu_count = 1;
@@ -245,7 +245,7 @@ std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const
 	return result;
 }
 
-std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalDevice dev)
+std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalDevice dev) const
 {
 	/*
 	* It's possible, though very rare, that the number of
