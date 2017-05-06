@@ -55,6 +55,8 @@ private:
 	
 
 	VkInstance _vkInstance;
+	VkDevice _vkDevice;
+
 	std::vector<VulkanPhysicalDeviceInfo> _vkDevices;
 	std::vector<LayerProperties> _vkLayers;
 public:

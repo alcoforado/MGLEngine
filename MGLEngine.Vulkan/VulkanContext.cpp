@@ -85,6 +85,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 
 	//Get GLFW Necessary Vulkan extensions and layers
 	std::vector<const char*> vulkan_extensions;
+	std::vector<const char*> device_extensions;
 	std::vector<const char*> vulkan_layers;
 
 	uint32_t count;
@@ -93,7 +94,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	{
 		vulkan_extensions.push_back(extensions[i]);
 	}
-
+	device_extensions = vulkan_extensions;
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
 	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
@@ -156,15 +157,16 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	device_info.pNext = NULL;
 	device_info.queueCreateInfoCount = 1;
 	device_info.pQueueCreateInfos = &queue_info;
-	device_info.enabledExtensionCount = 0;
-	device_info.ppEnabledExtensionNames = NULL;
+	device_info.enabledExtensionCount = (uint32_t) device_extensions.size();
+	device_info.ppEnabledExtensionNames = device_extensions.data();
 	device_info.enabledLayerCount = 0;
 	device_info.ppEnabledLayerNames = NULL;
 	device_info.pEnabledFeatures = NULL;
 
-#ifdef _DEBUG
 
-#endif
+	
+	err = vkCreateDevice(_vkDevices[0].Handler, &device_info, NULL, &_vkDevice);
+	AssertVulkanSuccess(err);
 
 	
 }
