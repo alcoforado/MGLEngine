@@ -148,6 +148,9 @@
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
     <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="VulkanContext\VulkanLayerProperties.cpp" />
+    <ClCompile Include="VulkanContext\VulkanInstance.cpp" />
+    <ClCompile Include="VulkanContext\VulkanLogicalDevice.cpp" />
+    <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +158,9 @@
     <ClInclude Include="VulkanContext\VulkanContext.h" />
     <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />
     <ClInclude Include="VulkanContext\VulkanLayerProperties.h" />
+    <ClInclude Include="VulkanContext\VulkanInstance.h" />
+    <ClInclude Include="VulkanContext\VulkanLogicalDevice.h" />
+    <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>
   <ItemGroup>

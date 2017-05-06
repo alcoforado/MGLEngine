@@ -2,38 +2,33 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include "VulkanLayerProperties.h"
-struct VulkanPhysicalDevice {
-	VkPhysicalDevice Handler;
-	std::vector<VkQueueFamilyProperties> QueueFamilyProperties;
-	VkPhysicalDeviceFeatures Features;
-	VkPhysicalDeviceMemoryProperties MemoryProperties;
-	VkPhysicalDeviceProperties GraphicProperties;
-	std::vector<VulkanLayerProperties> LayerProperties;
+#include "VulkanLogicalDevice.h"
+#include <glfw/glfw3.h>
 
-	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags)
-	{
-		std::vector<VkQueueFamilyProperties> result;
-		for (int i = 0; i < QueueFamilyProperties.size(); i++)
-		{
-			if (QueueFamilyProperties[i].queueFlags & flags)
-			{
-				result.push_back(QueueFamilyProperties[i]);
-			}
-		}
-		return result;
-	}
+class VulkanInstance;
 
-	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const
-	{
-		for (int i = 0; i < QueueFamilyProperties.size(); i++)
-		{
-			if (QueueFamilyProperties[i].queueFlags & flags)
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
+class VulkanPhysicalDevice {
+
+	friend VulkanInstance;
+
+
+	const VulkanInstance& _vulkanInstance;
+	VkPhysicalDevice _handler;
+	std::vector<VkQueueFamilyProperties> _queueFamilyProperties;
+	VkPhysicalDeviceFeatures _features;
+	VkPhysicalDeviceMemoryProperties _memoryProperties;
+	VkPhysicalDeviceProperties _graphicProperties;
+	std::vector<VulkanLayerProperties> _layerProperties;
+	VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysicalDevice handler);
+public:
+	const VulkanInstance& GetVulkanInstance() const { return _vulkanInstance; }
+	VkPhysicalDevice GetHandler() const  { return _handler; };
+	
+	VulkanLogicalDevice CreateLogicalDevice(GLFWwindow *window);
+	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
+	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
+	
+	std::vector<VulkanLayerProperties> GetAvailableLayerProperties();
 
 };
 
