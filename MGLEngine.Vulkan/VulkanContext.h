@@ -5,7 +5,7 @@
 #include <fstream>
 struct GLFWwindow;
 
-struct InstanceLayer {
+struct LayerProperties {
 	VkLayerProperties layer;
 	std::vector<VkExtensionProperties> extensions;
 };
@@ -15,6 +15,7 @@ struct VulkanPhysicalDeviceInfo {
 	std::vector<VkQueueFamilyProperties> FamilyProperties;
 	VkPhysicalDeviceMemoryProperties MemoryProperties;
 	VkPhysicalDeviceProperties GraphicProperties;
+	std::vector<LayerProperties> LayerProperties;
 };
 
 class VulkanContext
@@ -28,13 +29,16 @@ private:
 
 	VkInstance _vkInstance;
 	std::vector<VulkanPhysicalDeviceInfo> _vkDevices;
-	std::vector<InstanceLayer> _vkLayers;
+	std::vector<LayerProperties> _vkLayers;
 public:
 	VulkanContext();
 	~VulkanContext();
 	void AssertVulkanSuccess(VkResult res);
 	void Initialize(GLFWwindow* window);
-	std::vector<InstanceLayer> GetLayerProperties();
+	std::vector<LayerProperties> GetInstanceLayerProperties();
+	std::vector<LayerProperties> GetDeviceLayerProperties(VkPhysicalDevice dev);
+	
+
 	std::string MapVkResultToString(VkResult result);
 	std::vector<VulkanPhysicalDeviceInfo> GetPhysicalDevices(VkInstance &inst);
 };

@@ -9,19 +9,9 @@
 #include <map>
 #include <fstream>
 
- std::ofstream* VulkanContext::err = new std::ofstream("vulkan_log.txt", std::ofstream::trunc);
-
-VulkanContext::VulkanContext()
-{
-
-}
-
-
-VulkanContext::~VulkanContext()
-{
-}
-
-
+#define VK_MAKE_VERSION(major, minor, patch) \
+    (((major) << 22) | ((minor) << 12) | (patch))
+#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
 static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType, uint64_t srcObject,
 	size_t location, int32_t msgCode, const char *pLayerPrefix, const char *pMsg,
@@ -58,14 +48,29 @@ static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectType
 	return false;
 }
 
-#define VK_MAKE_VERSION(major, minor, patch) \
-    (((major) << 22) | ((minor) << 12) | (patch))
-#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
+
+
+
+std::ofstream* VulkanContext::err = new std::ofstream("vulkan_log.txt", std::ofstream::trunc);
+
+VulkanContext::VulkanContext()
+{
+
+}
+
+
+VulkanContext::~VulkanContext()
+{
+}
+
+
+
+
 
 void VulkanContext::Initialize(GLFWwindow * window)
 {
 	//Get all layer properties and extensions
-	_vkLayers = GetLayerProperties();
+	_vkLayers = GetInstanceLayerProperties();
 
 
 
@@ -171,13 +176,15 @@ std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstan
 		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, elem.FamilyProperties.data());
 		vkGetPhysicalDeviceMemoryProperties(elem.Handler, &elem.MemoryProperties);
 		vkGetPhysicalDeviceProperties(elem.Handler, &elem.GraphicProperties);
+		elem.LayerProperties = this->GetDeviceLayerProperties(elem.Handler);
 		result.push_back(elem);
 	}
 
 	return result;
 }
 
-std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
+
+std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties()
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -199,7 +206,7 @@ std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
 		AssertVulkanSuccess(res);
 
 		if (instance_layer_count == 0) {
-			return std::vector<InstanceLayer>();
+			return std::vector<LayerProperties>();
 		}
 
 		vk_props = (VkLayerProperties *)realloc(vk_props, instance_layer_count * sizeof(VkLayerProperties));
@@ -210,10 +217,10 @@ std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
-	std::vector<InstanceLayer> result;
+	std::vector<LayerProperties> result;
 
 	for (uint32_t i = 0; i < instance_layer_count; i++) {
-		InstanceLayer elem;
+		LayerProperties elem;
 		elem.layer = vk_props[i];
 		
 		
@@ -233,6 +240,63 @@ std::vector<InstanceLayer> VulkanContext::GetLayerProperties()
 	free(vk_props);
 	return result;
 }
+
+std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalDevice dev)
+{
+	/*
+	* It's possible, though very rare, that the number of
+	* instance layers could change. For example, installing something
+	* could include new layers that the loader would pick up
+	* between the initial query for the count and the
+	* request for VkLayerProperties. The loader indicates that
+	* by returning a VK_INCOMPLETE status and will update the
+	* the count parameter.
+	* The count parameter will be updated with the number of
+	* entries loaded into the data pointer - in case the number
+	* of layers went down or is smaller than the size given.
+	*/
+	VkLayerProperties *vk_props = NULL;
+	VkResult res;
+	uint32_t device_layer_count = 0;
+	do {
+		res = vkEnumerateDeviceLayerProperties(dev,&device_layer_count, NULL);
+		AssertVulkanSuccess(res);
+
+		if (device_layer_count == 0) {
+			return std::vector<LayerProperties>();
+		}
+
+		vk_props = (VkLayerProperties *)realloc(vk_props, device_layer_count * sizeof(VkLayerProperties));
+
+		res = vkEnumerateDeviceLayerProperties(dev,&device_layer_count, vk_props);
+	} while (res == VK_INCOMPLETE);
+
+	/*
+	* Now gather the extension list for each instance layer.
+	*/
+	std::vector<LayerProperties> result;
+
+	for (uint32_t i = 0; i < device_layer_count; i++) {
+		LayerProperties elem;
+		elem.layer = vk_props[i];
+
+
+		do {
+			uint32_t device_extension_count;
+			res = vkEnumerateDeviceExtensionProperties(dev,elem.layer.layerName, &device_extension_count, NULL);
+			AssertVulkanSuccess(res);
+
+			if (device_extension_count != 0) {
+				elem.extensions.resize(device_extension_count);
+				res = vkEnumerateDeviceExtensionProperties(dev,elem.layer.layerName, &device_extension_count, elem.extensions.data());
+			}
+			result.push_back(elem);
+		} while (res == VK_INCOMPLETE);
+	}
+	free(vk_props);
+	return result;
+}
+
 
 std::string VulkanContext::MapVkResultToString(VkResult result)
 {
