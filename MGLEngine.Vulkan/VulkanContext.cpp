@@ -139,8 +139,33 @@ void VulkanContext::Initialize(GLFWwindow * window)
 		throw new Exception("Vulkan initialization failed with error %s", MapVkResultToString(err).c_str());;
 	}
 
-	
 	_vkDevices=GetPhysicalDevices(_vkInstance);
+
+	//Create Device with the Queues
+	assert(_vkDevices.size() > 0);
+	float queue_priorities[1] = { 0.0 };
+	VkDeviceQueueCreateInfo queue_info;
+	queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queue_info.pNext = NULL;
+	queue_info.queueCount = 1;
+	queue_info.pQueuePriorities = queue_priorities;
+	queue_info.queueFamilyIndex = _vkDevices[0].FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
+
+	VkDeviceCreateInfo device_info = {};
+	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	device_info.pNext = NULL;
+	device_info.queueCreateInfoCount = 1;
+	device_info.pQueueCreateInfos = &queue_info;
+	device_info.enabledExtensionCount = 0;
+	device_info.ppEnabledExtensionNames = NULL;
+	device_info.enabledLayerCount = 0;
+	device_info.ppEnabledLayerNames = NULL;
+	device_info.pEnabledFeatures = NULL;
+
+#ifdef _DEBUG
+
+#endif
+
 	
 }
 
@@ -172,11 +197,12 @@ std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstan
 		//get physical queues
 		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, NULL);
 		assert(family_count >= 1);
-		elem.FamilyProperties.resize(family_count);
-		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, elem.FamilyProperties.data());
+		elem.QueueFamilyProperties.resize(family_count);
+		vkGetPhysicalDeviceQueueFamilyProperties(elem.Handler, &family_count, elem.QueueFamilyProperties.data());
 		vkGetPhysicalDeviceMemoryProperties(elem.Handler, &elem.MemoryProperties);
 		vkGetPhysicalDeviceProperties(elem.Handler, &elem.GraphicProperties);
 		elem.LayerProperties = this->GetDeviceLayerProperties(elem.Handler);
+		vkGetPhysicalDeviceFeatures(elem.Handler, &elem.Features);
 		result.push_back(elem);
 	}
 
