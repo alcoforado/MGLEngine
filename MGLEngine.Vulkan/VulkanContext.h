@@ -31,7 +31,7 @@ struct VulkanPhysicalDeviceInfo {
 		return result;
 	}
 
-	uint32_t FindQueueFamilyIndexWithType(VkFlags flags)
+	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const
 	{
 		for (int i = 0; i < QueueFamilyProperties.size(); i++)
 		{
@@ -62,13 +62,13 @@ private:
 public:
 	VulkanContext();
 	~VulkanContext();
-	void AssertVulkanSuccess(VkResult res);
+	void AssertVulkanSuccess(VkResult res) const;
 	void Initialize(GLFWwindow* window);
-	std::vector<LayerProperties> GetInstanceLayerProperties();
+	std::vector<LayerProperties> GetInstanceLayerProperties() const;
 	std::vector<LayerProperties> GetDeviceLayerProperties(VkPhysicalDevice dev);
 	
-
-	std::string MapVkResultToString(VkResult result);
+	VkDevice GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice) const;
+	std::string MapVkResultToString(VkResult result) const;
 	std::vector<VulkanPhysicalDeviceInfo> GetPhysicalDevices(VkInstance &inst);
 };
 

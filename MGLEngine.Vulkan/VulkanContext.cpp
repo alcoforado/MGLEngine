@@ -94,7 +94,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	{
 		vulkan_extensions.push_back(extensions[i]);
 	}
-	device_extensions = vulkan_extensions;
+	
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
 	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
@@ -141,37 +141,13 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	}
 
 	_vkDevices=GetPhysicalDevices(_vkInstance);
-
-	//Create Device with the Queues
-	assert(_vkDevices.size() > 0);
-	float queue_priorities[1] = { 0.0 };
-	VkDeviceQueueCreateInfo queue_info;
-	queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-	queue_info.pNext = NULL;
-	queue_info.queueCount = 1;
-	queue_info.pQueuePriorities = queue_priorities;
-	queue_info.queueFamilyIndex = _vkDevices[0].FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
-
-	VkDeviceCreateInfo device_info = {};
-	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	device_info.pNext = NULL;
-	device_info.queueCreateInfoCount = 1;
-	device_info.pQueueCreateInfos = &queue_info;
-	device_info.enabledExtensionCount = (uint32_t) device_extensions.size();
-	device_info.ppEnabledExtensionNames = device_extensions.data();
-	device_info.enabledLayerCount = 0;
-	device_info.ppEnabledLayerNames = NULL;
-	device_info.pEnabledFeatures = NULL;
-
-
+	_vkDevice = GetLogicalDevice(_vkDevices[0]);
 	
-	err = vkCreateDevice(_vkDevices[0].Handler, &device_info, NULL, &_vkDevice);
-	AssertVulkanSuccess(err);
-
 	
+
 }
 
-void VulkanContext::AssertVulkanSuccess(VkResult res)
+void VulkanContext::AssertVulkanSuccess(VkResult res) const 
 {
 	if (res != VK_SUCCESS)
 	{
@@ -212,7 +188,7 @@ std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstan
 }
 
 
-std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties()
+std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const 
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -326,7 +302,44 @@ std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalD
 }
 
 
-std::string VulkanContext::MapVkResultToString(VkResult result)
+VkDevice VulkanContext::GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice) const
+{
+	//Create Device with the Queues
+	assert(_vkDevices.size() > 0);
+	float queue_priorities[1] = { 0.0 };
+	std::vector<const char*> device_extensions;
+	device_extensions.push_back("VK_KHR_swapchain");
+	VkDeviceQueueCreateInfo queue_info;
+	queue_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queue_info.pNext = NULL;
+	queue_info.queueCount = 1;
+	queue_info.pQueuePriorities = queue_priorities;
+	queue_info.queueFamilyIndex = _vkDevices[0].FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
+
+	VkDeviceCreateInfo device_info = {};
+	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	device_info.pNext = NULL;
+	device_info.queueCreateInfoCount = 1;
+	device_info.pQueueCreateInfos = &queue_info;
+	device_info.enabledExtensionCount = (uint32_t)device_extensions.size();
+	device_info.ppEnabledExtensionNames = device_extensions.data();
+	device_info.enabledLayerCount = 0;
+	device_info.ppEnabledLayerNames = NULL;
+	device_info.pEnabledFeatures = NULL;
+
+
+	if (!glfwGetPhysicalDevicePresentationSupport(_vkInstance, _vkDevices[0].Handler, _vkDevices[0].FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT)))
+	{
+		throw new Exception("Vulkan does not support GLFW, Ending application");
+	}
+
+	VkDevice result;
+	VkResult err = vkCreateDevice(_vkDevices[0].Handler, &device_info, NULL, &result);
+	AssertVulkanSuccess(err);
+	return result;
+}
+
+std::string VulkanContext::MapVkResultToString(VkResult result) const 
 {
 	static std::map<int, std::string> map;
 	if (map.size() == 0)
