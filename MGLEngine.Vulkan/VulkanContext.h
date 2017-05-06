@@ -55,7 +55,7 @@ private:
 	
 
 	VkInstance _vkInstance;
-	VkDevice _vkDevice;
+	VkDevice _vkLogicalDevice;
 
 	std::vector<VulkanPhysicalDeviceInfo> _vkDevices;
 	std::vector<LayerProperties> _vkLayers;
@@ -69,6 +69,7 @@ public:
 	
 	VkDevice GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice) const;
 	std::string MapVkResultToString(VkResult result) const;
-	std::vector<VulkanPhysicalDeviceInfo> GetPhysicalDevices(VkInstance &inst);
+	std::vector<VulkanPhysicalDeviceInfo> GetPhysicalDevices(VkInstance &inst) const;
+	VkSurfaceKHR GetSurfaceKHR(GLFWwindow* window) const;
 };
 

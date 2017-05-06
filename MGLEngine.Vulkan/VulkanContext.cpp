@@ -141,7 +141,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	}
 
 	_vkDevices=GetPhysicalDevices(_vkInstance);
-	_vkDevice = GetLogicalDevice(_vkDevices[0]);
+	_vkLogicalDevice =GetLogicalDevice(_vkDevices[0]);
 	
 	
 
@@ -339,7 +339,7 @@ VkDevice VulkanContext::GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice
 	return result;
 }
 
-std::string VulkanContext::MapVkResultToString(VkResult result) const 
+std::string VulkanContext::MapVkResultToString(VkResult result)  const
 {
 	static std::map<int, std::string> map;
 	if (map.size() == 0)
@@ -377,5 +377,13 @@ std::string VulkanContext::MapVkResultToString(VkResult result) const
 		map[VK_RESULT_MAX_ENUM] = "VK_RESULT_MAX_ENUM";
 	}
 	return map[result];
+}
+
+VkSurfaceKHR VulkanContext::GetSurfaceKHR(GLFWwindow* window) const
+{
+	VkSurfaceKHR surface;
+	VkResult err = glfwCreateWindowSurface(_vkInstance, window, NULL, &surface); 
+	AssertVulkanSuccess(err);
+	return surface;
 }
 
