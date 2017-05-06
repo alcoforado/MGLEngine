@@ -4,7 +4,7 @@
 
 #include <vulkan/vulkan.h>
 #include <glfw/glfw3.h>
-#include "../VulkanContext.h"
+#include "../VulkanContext/VulkanContext.h"
 bool MGL::Window::isGLFWInitialized = false;
 
 #define VK_MAKE_VERSION(major, minor, patch) \

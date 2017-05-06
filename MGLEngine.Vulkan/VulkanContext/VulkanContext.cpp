@@ -141,7 +141,7 @@ void VulkanContext::Initialize(GLFWwindow * window)
 	}
 
 	_vkDevices=GetPhysicalDevices(_vkInstance);
-	_vkLogicalDevice =GetLogicalDevice(_vkDevices[0]);
+	_vkLogicalDevice =CreateLogicalDevice(_vkDevices[0]);
 	
 	
 
@@ -155,9 +155,9 @@ void VulkanContext::AssertVulkanSuccess(VkResult res) const
 	}
 }
 
-std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstance &inst) const
+std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance &inst) const
 {
-	std::vector<VulkanPhysicalDeviceInfo> result;
+	std::vector<VulkanPhysicalDevice> result;
 	uint32_t gpu_count = 1;
 	VkResult res = vkEnumeratePhysicalDevices(inst, &gpu_count, NULL);
 	assert(gpu_count);
@@ -169,7 +169,7 @@ std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstan
 	
 	for (int i=0;i<devs.size();i++)
 	{
-		VulkanPhysicalDeviceInfo elem;
+		VulkanPhysicalDevice elem;
 		elem.Handler = devs[i];
 		uint32_t family_count;
 		//get physical queues
@@ -188,7 +188,7 @@ std::vector<VulkanPhysicalDeviceInfo> VulkanContext::GetPhysicalDevices(VkInstan
 }
 
 
-std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const 
+std::vector<VulkanLayerProperties> VulkanContext::GetInstanceLayerProperties() const 
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -210,7 +210,7 @@ std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const
 		AssertVulkanSuccess(res);
 
 		if (instance_layer_count == 0) {
-			return std::vector<LayerProperties>();
+			return std::vector<VulkanLayerProperties>();
 		}
 
 		vk_props = (VkLayerProperties *)realloc(vk_props, instance_layer_count * sizeof(VkLayerProperties));
@@ -221,10 +221,10 @@ std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
-	std::vector<LayerProperties> result;
+	std::vector<VulkanLayerProperties> result;
 
 	for (uint32_t i = 0; i < instance_layer_count; i++) {
-		LayerProperties elem;
+		VulkanLayerProperties elem;
 		elem.layer = vk_props[i];
 		
 		
@@ -245,7 +245,7 @@ std::vector<LayerProperties> VulkanContext::GetInstanceLayerProperties() const
 	return result;
 }
 
-std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalDevice dev) const
+std::vector<VulkanLayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalDevice dev) const
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -267,7 +267,7 @@ std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalD
 		AssertVulkanSuccess(res);
 
 		if (device_layer_count == 0) {
-			return std::vector<LayerProperties>();
+			return std::vector<VulkanLayerProperties>();
 		}
 
 		vk_props = (VkLayerProperties *)realloc(vk_props, device_layer_count * sizeof(VkLayerProperties));
@@ -278,10 +278,10 @@ std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalD
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
-	std::vector<LayerProperties> result;
+	std::vector<VulkanLayerProperties> result;
 
 	for (uint32_t i = 0; i < device_layer_count; i++) {
-		LayerProperties elem;
+		VulkanLayerProperties elem;
 		elem.layer = vk_props[i];
 
 
@@ -302,7 +302,7 @@ std::vector<LayerProperties> VulkanContext::GetDeviceLayerProperties(VkPhysicalD
 }
 
 
-VkDevice VulkanContext::GetLogicalDevice(VulkanPhysicalDeviceInfo physicalDevice) const
+VkDevice VulkanContext::CreateLogicalDevice(VulkanPhysicalDevice physicalDevice) const
 {
 	//Create Device with the Queues
 	assert(_vkDevices.size() > 0);

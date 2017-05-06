@@ -145,12 +145,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGLContainer.cpp" />
-    <ClCompile Include="VulkanContext.cpp" />
+    <ClCompile Include="VulkanContext\VulkanContext.cpp" />
+    <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
+    <ClCompile Include="VulkanContext\VulkanLayerProperties.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MGLContainer.h" />
-    <ClInclude Include="VulkanContext.h" />
+    <ClInclude Include="VulkanContext\VulkanContext.h" />
+    <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />
+    <ClInclude Include="VulkanContext\VulkanLayerProperties.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>
   <ItemGroup>
