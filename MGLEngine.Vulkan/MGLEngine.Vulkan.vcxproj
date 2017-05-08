@@ -144,6 +144,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VulkanContext\AllocatedQueue.cpp" />
     <ClCompile Include="MGLContainer.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
     <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VulkanContext\AllocatedQueue.h" />
     <ClInclude Include="MGLContainer.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />
     <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />

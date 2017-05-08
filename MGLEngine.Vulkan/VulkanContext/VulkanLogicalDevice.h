@@ -15,6 +15,7 @@ private:
 	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
 public:
 	~VulkanLogicalDevice();
-
+	VkDevice GetHandle() const { return _vkDevice; }
+	VkSurfaceKHR GetSurface() const { return _vkSurface; }
 };
 
