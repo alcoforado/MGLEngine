@@ -7,6 +7,28 @@
 
 std::ofstream vulkanError("vulkan_log.txt", std::ofstream::trunc);
 
+std::vector<std::string> ConvertToVectorString(std::vector<const char*> user)
+{
+	std::vector<std::string> result;
+	for (int i = 0; i < user.size(); i++)
+	{
+		result.push_back(user[i]);
+	}
+	return result;
+}
+
+
+std::vector<const char*> ConvertToVectorChar(std::vector<std::string> user)
+{
+	std::vector<const char*> result;
+	for (int i = 0; i < user.size(); i++)
+	{
+		result.push_back(user[i].c_str());
+	}
+	return result;
+}
+
+
 
 void AssertVulkanSuccess(VkResult res) 
 {

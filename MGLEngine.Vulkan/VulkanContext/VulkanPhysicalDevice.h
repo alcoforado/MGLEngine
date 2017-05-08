@@ -27,7 +27,8 @@ public:
 	VulkanLogicalDevice CreateLogicalDevice(GLFWwindow *window);
 	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
 	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
-	
+	std::vector<uint32_t> VulkanPhysicalDevice::FindQueueFamilyIndicesThatSupportPresentation(VkSurfaceKHR surface) const;
+
 	std::vector<VulkanLayerProperties> GetAvailableLayerProperties();
 
 };
