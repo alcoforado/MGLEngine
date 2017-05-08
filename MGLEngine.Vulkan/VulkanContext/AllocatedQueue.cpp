@@ -6,9 +6,6 @@ AllocatedQueue::AllocatedQueue(VulkanLogicalDevice logicalDevice, int familyInde
 	vkGetDeviceQueue(_logicalDevice.GetHandle(), _familyIndex, _queueIndex,&_handle);
 }
 
-
-
-
 AllocatedQueue::~AllocatedQueue()
 {
 }
