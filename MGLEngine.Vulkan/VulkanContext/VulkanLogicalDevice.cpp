@@ -44,14 +44,14 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 		queues.push_back(queue_info);
 	}
 
-
+	auto enabled_extensions= ConvertToVectorChar(_enabledExtensions);
 	VkDeviceCreateInfo device_info = {};
 	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	device_info.pNext = NULL;
-	device_info.queueCreateInfoCount = queues.size();
+	device_info.queueCreateInfoCount = (uint32_t) queues.size();
 	device_info.pQueueCreateInfos = queues.data();
 	device_info.enabledExtensionCount = (uint32_t)_enabledExtensions.size();
-	device_info.ppEnabledExtensionNames = ConvertToVectorChar(_enabledExtensions).data();
+	device_info.ppEnabledExtensionNames = enabled_extensions.data();
 	device_info.enabledLayerCount = 0;
 	device_info.ppEnabledLayerNames = NULL;
 	device_info.pEnabledFeatures = NULL;
@@ -63,8 +63,14 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	//create device;
 	err = vkCreateDevice(physicalDevice.GetHandler(), &device_info, NULL, &_vkDevice);
 	AssertVulkanSuccess(err);
-	
-	
+
+	for (auto queue : queues)
+	{
+		for (uint32_t queue_index = 0; queue_index < queue.queueCount; queue_index++)
+		{
+			_queues.push_back(AllocatedQueue(*this, queue.queueFamilyIndex, queue_index));
+		}
+	}
 	
 
 

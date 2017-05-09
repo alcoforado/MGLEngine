@@ -19,12 +19,10 @@ private:
 	
 
 	VulkanInstance _vkInstance;
-	VkDevice _vkLogicalDevice;
+	VulkanLogicalDevice _vkLogicalDevice;
 
-	std::vector<VulkanPhysicalDevice> _vkDevices;
-	std::vector<VulkanLayerProperties> _vkLayers;
 public:
-	VulkanContext();
+	VulkanContext(GLFWwindow* window);
 	~VulkanContext();
 	void Initialize(GLFWwindow* window);
 	

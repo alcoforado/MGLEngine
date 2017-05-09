@@ -105,6 +105,9 @@ VulkanInstance::VulkanInstance()
 	}
 
 	_vkPhysicalDevices = ComputePhysicalDevices();
+
+	
+
 }
 
 

@@ -119,7 +119,7 @@ std::vector<uint32_t> VulkanPhysicalDevice::FindQueueFamilyIndicesThatSupportPre
 	return result;
 }
 
-VulkanLogicalDevice VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window)
+VulkanLogicalDevice VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const
 {
 	return VulkanLogicalDevice(window, *this);
 }

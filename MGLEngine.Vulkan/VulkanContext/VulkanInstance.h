@@ -14,6 +14,8 @@ class VulkanInstance
 	std::vector<VulkanPhysicalDevice> ComputePhysicalDevices() const;
 	std::vector<VulkanLayerProperties> ComputeAvailableLayers() const;
 
+	
+
 public:
 	const std::vector<VulkanLayerProperties>& GetAvailableLayers() const { return _vkLayers; }
 	const std::vector<VulkanPhysicalDevice>& GetPhysicalDevices() const { return _vkPhysicalDevices; }

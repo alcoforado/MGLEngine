@@ -1,18 +1,18 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
-#include "VulkanLogicalDevice.h"
-
+class VulkanLogicalDevice;
 class AllocatedQueue
 {
-	VulkanLogicalDevice _logicalDevice;
+private:
+	const VulkanLogicalDevice& _logicalDevice;
 	VkQueue _handle;
 	int _queueIndex;
 	int _familyIndex;
 public:
 
 
-	AllocatedQueue(VulkanLogicalDevice logicalDevice, int familyIndex, int queueIndex);
+	AllocatedQueue(const VulkanLogicalDevice &logicalDevice, int familyIndex, int queueIndex);
 	~AllocatedQueue();
 
 	//Getters

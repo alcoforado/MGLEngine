@@ -14,7 +14,8 @@
 
 
 
-VulkanContext::VulkanContext()
+VulkanContext::VulkanContext(GLFWwindow * window)
+	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window))
 {
 
 }
@@ -30,9 +31,6 @@ VulkanContext::~VulkanContext()
 
 void VulkanContext::Initialize(GLFWwindow * window)
 {
-	//Get all layer properties and extensions
-
-
 }
 
 

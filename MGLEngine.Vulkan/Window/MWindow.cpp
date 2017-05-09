@@ -35,9 +35,8 @@ MGL::Window::Window()
 		
 
 		//Initialize Vulkan
-		_vkContext = new VulkanContext();
+		_vkContext = new VulkanContext(_window);
 
-		_vkContext->Initialize(_window);
 	}
 }
 
