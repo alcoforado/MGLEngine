@@ -73,7 +73,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	}
 	
 
-
+	
 
 }
 

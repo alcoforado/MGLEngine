@@ -11,4 +11,4 @@ extern std::ofstream vulkanError;
 
 std::vector<std::string> ConvertToVectorString(std::vector<const char*> user);
 
-std::vector<const char*> ConvertToVectorChar(std::vector<std::string> user);
+std::vector<const char*> ConvertToVectorChar(const std::vector<std::string>& user);

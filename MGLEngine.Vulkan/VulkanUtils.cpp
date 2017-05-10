@@ -18,7 +18,7 @@ std::vector<std::string> ConvertToVectorString(std::vector<const char*> user)
 }
 
 
-std::vector<const char*> ConvertToVectorChar(std::vector<std::string> user)
+std::vector<const char*> ConvertToVectorChar(const std::vector<std::string>& user)
 {
 	std::vector<const char*> result;
 	for (int i = 0; i < user.size(); i++)
