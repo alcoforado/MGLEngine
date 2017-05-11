@@ -20,6 +20,7 @@ class VulkanSurface
 	std::vector<VkPresentModeKHR> _presentModes;
 	uint32_t _windowWidth;
 	uint32_t _windowHeight;
+	
 public:
 	VulkanSurface(const VulkanPhysicalDevice& device,GLFWwindow* window);
 	~VulkanSurface();
@@ -30,6 +31,7 @@ public:
 	VkExtent2D GetExtent() const;
 	std::vector<uint32_t> FindQueueFamilyIndicesThatSupportPresentation() const;
 	PresentationGraphicsFamilyIndices GetPresentationAndGraphicsQueusFamilyIndices() const;
-
+	void CreateSwapChain();
+	VkSurfaceCapabilitiesKHR GetCapabilities() const { return _capabilities; }
 };
 

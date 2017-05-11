@@ -109,5 +109,3 @@ PresentationGraphicsFamilyIndices VulkanSurface::GetPresentationAndGraphicsQueus
 	}
 	return result;
 }
-
-

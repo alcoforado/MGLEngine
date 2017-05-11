@@ -15,6 +15,9 @@ private:
 	const VulkanPhysicalDevice &_physicalDevice;
 	std::vector<std::string> _enabledExtensions;
 	std::vector<AllocatedQueue> _queues;
+	std::vector<VkImage> _images;
+	VkSwapchainKHR _swapChain;
+
 
 	void CreateSwapChain();
 	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
