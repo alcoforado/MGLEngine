@@ -19,15 +19,17 @@ class VulkanPhysicalDevice {
 	VkPhysicalDeviceMemoryProperties _memoryProperties;
 	VkPhysicalDeviceProperties _graphicProperties;
 	std::vector<VulkanLayerProperties> _layerProperties;
+
 	VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysicalDevice handler);
 public:
 	const VulkanInstance& GetVulkanInstance() const { return _vulkanInstance; }
-	VkPhysicalDevice GetHandler() const  { return _handler; };
-	
+	VkPhysicalDevice GetHandle() const  { return _handler; }
+	std::vector<VkQueueFamilyProperties> GetFamilyProperties() const { return _queueFamilyProperties; }
 	VulkanLogicalDevice CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
+
+
 	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
-	std::vector<uint32_t> VulkanPhysicalDevice::FindQueueFamilyIndicesThatSupportPresentation(VkSurfaceKHR surface) const;
 
 	std::vector<VulkanLayerProperties> GetAvailableLayerProperties();
 

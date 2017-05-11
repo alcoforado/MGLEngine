@@ -5,9 +5,46 @@
 #include "../VulkanUtils.h"
 #include <glfw\glfw3.h>
 #include <algorithm>
+#include <cassert>
+
+void VulkanLogicalDevice::CreateSwapChain()
+{
+	assert(_surface.SupportsFormat(VK_FORMAT_A8B8G8R8_UNORM_PACK32, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR));
+	assert(_surface.SupportsPresentation(VK_PRESENT_MODE_MAILBOX_KHR));
+	assert(_surface.SupportsImageCount(3));
+	
+	VkSwapchainCreateInfoKHR createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.surface = _surface.GetHandle();
+	createInfo.minImageCount = 3;
+	createInfo.imageFormat = VK_FORMAT_A8B8G8R8_UNORM_PACK32;
+	createInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+	createInfo.imageExtent = _surface.GetExtent();
+	createInfo.imageArrayLayers = 1;
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+	auto pgQueues = _surface.GetPresentationAndGraphicsQueusFamilyIndices();
+	std::vector<uint32_t> queues;
+	if(pgQueues.GraphicQueueFamily  == pgQueues.PresentationQueueFamily)
+	{
+		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		createInfo.queueFamilyIndexCount = 0; // Optional
+		createInfo.pQueueFamilyIndices = nullptr; // Optional
+	}
+	else
+	{
+		queues.push_back(pgQueues.GraphicQueueFamily);
+		queues.push_back(pgQueues.PresentationQueueFamily);
+		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		createInfo.queueFamilyIndexCount = 2;
+		createInfo.pQueueFamilyIndices = queues.data();
+	}
+	
+}
 
 VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice)
-	:_physicalDevice(physicalDevice)
+	:_physicalDevice(physicalDevice),
+	 _surface(physicalDevice,window)
 {
 	//Create Device with the Queues
 	float queue_priorities[1] = { 0.0 };
@@ -18,14 +55,10 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 
 
 	//Get instance
-	VkInstance inst = physicalDevice.GetVulkanInstance().GetHandle();
-
-	//create surface
-	VkResult err = glfwCreateWindowSurface(inst, window, NULL, &_vkSurface);
-	AssertVulkanSuccess(err);
+	auto instHandle = physicalDevice.GetVulkanInstance().GetHandle();
 
 	auto familyGraphicsIndex = physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
-	auto presentation_indices= physicalDevice.FindQueueFamilyIndicesThatSupportPresentation(_vkSurface);
+	auto presentation_indices= _surface.FindQueueFamilyIndicesThatSupportPresentation();
 	auto presentation_index = std::find(presentation_indices.begin(), presentation_indices.end(), familyGraphicsIndex);
 
 	std::vector<VkDeviceQueueCreateInfo> queues;
@@ -56,12 +89,12 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	device_info.ppEnabledLayerNames = NULL;
 	device_info.pEnabledFeatures = NULL;
 
-	if (!glfwGetPhysicalDevicePresentationSupport(inst, physicalDevice.GetHandler(), physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT)))
+	if (!glfwGetPhysicalDevicePresentationSupport(instHandle, physicalDevice.GetHandle(), physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT)))
 	{
 		throw new Exception("Vulkan does not support GLFW, Ending application");
 	}
 	//create device;
-	err = vkCreateDevice(physicalDevice.GetHandler(), &device_info, NULL, &_vkDevice);
+	VkResult err = vkCreateDevice(physicalDevice.GetHandle(), &device_info, NULL, &_vkDevice);
 	AssertVulkanSuccess(err);
 
 	for (auto queue : queues)
@@ -71,9 +104,8 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 			_queues.push_back(AllocatedQueue(*this, queue.queueFamilyIndex, queue_index));
 		}
 	}
-	
 
-	
+	CreateSwapChain();
 
 }
 

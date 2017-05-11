@@ -94,6 +94,7 @@ std::vector<VkQueueFamilyProperties> VulkanPhysicalDevice::FindQueuesWithType(Vk
 	return result;
 }
 
+
 uint32_t VulkanPhysicalDevice::FindQueueFamilyIndexWithType(VkFlags flags) const
 {
 	for (int i = 0; i < _queueFamilyProperties.size(); i++)
@@ -106,18 +107,6 @@ uint32_t VulkanPhysicalDevice::FindQueueFamilyIndexWithType(VkFlags flags) const
 	return -1;
 }
 
-std::vector<uint32_t> VulkanPhysicalDevice::FindQueueFamilyIndicesThatSupportPresentation(VkSurfaceKHR surface) const
-{
-	std::vector<uint32_t> result;
-	for (int i = 0; i < _queueFamilyProperties.size(); i++)
-	{
-		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(_handler, i, surface, &presentSupport);
-		if (presentSupport)
-			result.push_back(i);
-	}
-	return result;
-}
 
 VulkanLogicalDevice VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const
 {
