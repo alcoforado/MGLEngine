@@ -15,9 +15,9 @@
 
 
 VulkanContext::VulkanContext(GLFWwindow * window)
-	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window))
+	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
+	_swapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice)
 {
-
 }
 
 

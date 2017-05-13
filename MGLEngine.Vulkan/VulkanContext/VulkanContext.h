@@ -5,6 +5,7 @@
 #include <fstream>
 #include "VulkanPhysicalDevice.h"
 #include "VulkanInstance.h"
+#include "VulkanSwapChain.h"
 struct GLFWwindow;
 
 
@@ -20,6 +21,8 @@ private:
 
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
+	VulkanSwapChain _swapChain;
+
 
 public:
 	VulkanContext(GLFWwindow* window);
