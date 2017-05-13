@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project InitialTargets="CompileShaders" DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -73,6 +73,10 @@
     <IncludePath>$(ProjectDir)\..\References\include;$(ProjectDir)\..\MGLEngine.Shared;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\..\References\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <ItemDefinitionGroup>
+    <GLSLShader>
+    </GLSLShader>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -174,7 +178,30 @@
       <Project>{e055e8e7-749c-4e20-ad45-1145bbf3b21c}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <GLSLShader Include="shaders\canvas2D.vert" />
+    <GLSLShader Include="shaders\canvas2D.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\compileGLSL.proj" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="hello.txt">
+    <Message Text="Compiling GLSL %(GLSLShader.Filename)%(GLSLShader.Extension)" />
+    <PropertyGroup>
+       <OriginalFileName>%(GLSLShader.Filename)%(GLSLShader.Extension)</OriginalFileName>
+   </PropertyGroup>
+
+    <Message Condition="'$(VULKAN_SDK)'==''" Text="Error, cant find environment variable VULKAN_SDK, Make sure that the  Lunar  Vulkan SDK is installed"/>
+    <Message Condition="'$(VULKAN_SDK)'!=''" Text="$(VULKAN_SDK)\Bin\glslangValidator.exe  $(OriginalFileName) -V --vn $(OriginalFileName.Replace('.','_')) -o $(OriginalFileName).h"/>
+    <Exec  
+    Condition="'$(VULKAN_SDK)'!=''" 
+    Command="$(VULKAN_SDK)\Bin\glslangValidator.exe  $(OriginalFileName) -V --vn $(OriginalFileName.Replace('.','_')) -o $(OriginalFileName).h"
+    WorkingDirectory="$(ProjectDir)\shaders"
+    />
+    <!--<MSBuild Projects="./shaders/compileGLSL.proj" Targets="Build" />-->
+  </Target>
+ 
 </Project>

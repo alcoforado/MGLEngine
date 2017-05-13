@@ -113,3 +113,4 @@ VulkanLogicalDevice VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window
 	return VulkanLogicalDevice(window, *this);
 }
 
+
