@@ -182,40 +182,21 @@
     <GLSLShader Include="shaders\canvas2D.vert" />
     <GLSLShader Include="shaders\canvas2D.frag" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\compileGLSL.proj" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-
-
-
-  <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="hello.txt">
-    <Message Text="Compiling GLSL %(GLSLShader.Filename)%(GLSLShader.Extension)" />
-    <Message Text="Compiling 2 GLSL %(GLSLShader.Filename)%(GLSLShader.Extension)" />
+  <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="shaders\shaders_bytecode.h">
     <PropertyGroup>
-       <OriginalFileName>%(GLSLShader.Filename)%(GLSLShader.Extension)</OriginalFileName>
-   </PropertyGroup>
-
-    <Message Condition="'$(VULKAN_SDK)'==''" Text="Error, cant find environment variable VULKAN_SDK, Make sure that the  Lunar  Vulkan SDK is installed"/>
-    <Message Condition="'$(VULKAN_SDK)'!=''" Text="$(VULKAN_SDK)\Bin\glslangValidator.exe  $(OriginalFileName) -V --vn $(OriginalFileName.Replace('.','_')) -o $(OriginalFileName).h"/>
-
-    <Exec  
-    Condition="'$(VULKAN_SDK)'!=''" 
-    Command="$(VULKAN_SDK)\Bin\glslangValidator.exe  $(OriginalFileName) -V --vn $(OriginalFileName.Replace('.','_')) -o $(OriginalFileName).h"
-    WorkingDirectory="$(ProjectDir)\shaders"
-    />
-    <!--<Exec  Condition="'$(VULKAN_SDK)'!=''"  Command="rm shaders.h"  WorkingDirectory="$(ProjectDir)\shaders" />-->
-    <!--<Exec  Condition="'$(VULKAN_SDK)'!=''"  Command="type $(OriginalFileName).h >> shaders.h"  WorkingDirectory="$(ProjectDir)\shaders" />-->
-
-
+      <OriginalFileName>%(GLSLShader.Filename)%(GLSLShader.Extension)</OriginalFileName>
+    </PropertyGroup>
+    <Message Condition="'$(VULKAN_SDK)'==''" Text="Error, cant find environment variable VULKAN_SDK, Make sure that the  Lunar  Vulkan SDK is installed" />
+    <Message Condition="'$(VULKAN_SDK)'!=''" Text="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\shaders" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\shaders" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="type %(GLSLShader.Filename)%(GLSLShader.Extension).h &gt;&gt; shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\shaders" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\shaders" />
     <!--<MSBuild Projects="./shaders/compileGLSL.proj" Targets="Build" />-->
   </Target>
- 
-<Target Name="ConcatenateHeaders">
-
-</Target>
-
-
+  <Target Name="ConcatenateHeaders">
+  </Target>
 </Project>
