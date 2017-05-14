@@ -10,5 +10,8 @@ class VertexShaderByteCode
 public:
 	VertexShaderByteCode(const VulkanLogicalDevice &device, uint32_t* p, int size);
 	~VertexShaderByteCode();
+	VkShaderModule GetHandle() const {
+		return _vkModule;
+	}
 };
 

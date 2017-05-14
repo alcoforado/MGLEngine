@@ -160,6 +160,7 @@
     <ClCompile Include="VulkanContext\VulkanLogicalDevice.cpp" />
     <ClCompile Include="VulkanContext\VulkanSurface.cpp" />
     <ClCompile Include="VulkanContext\VulkanSwapChain.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanPipeline.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="VulkanContext\VulkanLogicalDevice.h" />
     <ClInclude Include="VulkanContext\VulkanSurface.h" />
     <ClInclude Include="VulkanContext\VulkanSwapChain.h" />
+    <ClInclude Include="RenderPipeline\VulkanPipeline.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>
