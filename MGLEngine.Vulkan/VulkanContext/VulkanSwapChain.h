@@ -13,6 +13,15 @@ class VulkanSwapChain
 	VkExtent2D _dims;
 	std::vector<VkImage> _images;
 	std::vector<VkImageView> _imagesviews;
+	
+	
+	std::vector<VkAttachmentReference> _colorAttachmentsRefs;
+	std::vector<VkSubpassDescription> _subpasses;
+	
+
+
+
+
 	public:
 	VulkanSwapChain(const VulkanSurface &surface,const  VulkanLogicalDevice &device);
 	const VulkanLogicalDevice& GetLogicalDevice()const { return _logicalDevice; }
