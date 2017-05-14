@@ -148,6 +148,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RenderPipeline\Compiler.cpp" />
+    <ClCompile Include="RenderPipeline\FragmentShaderByteCode.cpp" />
+    <ClCompile Include="RenderPipeline\VertexShaderByteCode.cpp" />
     <ClCompile Include="VulkanContext\AllocatedQueue.cpp" />
     <ClCompile Include="MGLContainer.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
@@ -161,6 +164,9 @@
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RenderPipeline\Compiler.h" />
+    <ClInclude Include="RenderPipeline\FragmentShaderByteCode.h" />
+    <ClInclude Include="RenderPipeline\VertexShaderByteCode.h" />
     <ClInclude Include="VulkanContext\AllocatedQueue.h" />
     <ClInclude Include="MGLContainer.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />

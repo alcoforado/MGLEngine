@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMGLContainer.h" />
+    <ClInclude Include="RenderPipeline\ICompiler.h" />
     <ClInclude Include="Utils\Exception.h" />
     <ClInclude Include="Utils\iterator_shorthands.hpp" />
     <ClInclude Include="Utils\NTree.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RenderPipeline\ICompiler.cpp" />
     <ClCompile Include="Utils\Exception.cpp" />
     <ClCompile Include="Utils\FieldArray.cpp" />
     <ClCompile Include="Utils\Path.cpp" />
