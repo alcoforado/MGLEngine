@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "VulkanRenderPass.h"
 class VulkanSwapChain;
 class VertexShaderByteCode;
 class FragmentShaderByteCode;
@@ -17,6 +18,8 @@ public:
 	VkPipelineColorBlendAttachmentState ColorBlendAttachment;
 	VkPipelineColorBlendStateCreateInfo ColorBlending;
 	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
+	VulkanRenderPass RenderPass;
+
 	std::vector<VkDynamicState>  DynamicStates;
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);

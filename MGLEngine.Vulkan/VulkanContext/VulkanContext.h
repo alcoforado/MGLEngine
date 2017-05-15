@@ -6,12 +6,14 @@
 #include "VulkanPhysicalDevice.h"
 #include "VulkanInstance.h"
 #include "VulkanSwapChain.h"
+#include "../RenderPipeline/VulkanPipeline.h"
+#include "../Renders/IRenderContext.h"
 struct GLFWwindow;
 
 
 
 
-class VulkanContext
+class VulkanContext : IRenderContext
 {
 	//static public
 public:
@@ -23,12 +25,14 @@ private:
 	VulkanLogicalDevice _vkLogicalDevice;
 	VulkanSwapChain _swapChain;
 
-
 public:
 	VulkanContext(GLFWwindow* window);
 	~VulkanContext();
 	void Initialize(GLFWwindow* window);
 	
 	std::vector<VulkanPhysicalDevice> GetPhysicalDevices(VkInstance &inst) const;
+	const VulkanSwapChain& GetSwapChain() const {
+		return _swapChain;
+	};
 };
 

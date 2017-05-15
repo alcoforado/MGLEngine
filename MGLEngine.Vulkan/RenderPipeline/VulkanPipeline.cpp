@@ -6,6 +6,7 @@
 
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
+	:RenderPass(swapChain.GetLogicalDevice())
 {
 	VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -35,8 +36,8 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	VkViewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
-	viewport.width = swapChain.GetExtent().width;
-	viewport.height = swapChain.GetExtent().height;
+	viewport.width =static_cast<float>(swapChain.GetExtent().width);
+	viewport.height = static_cast<float>(swapChain.GetExtent().height);
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
 	VkRect2D scissor = {};
@@ -100,6 +101,7 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	PipelineLayoutInfo.pSetLayouts = nullptr; // Optional
 	PipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 	PipelineLayoutInfo.pPushConstantRanges = 0; // Optional
+
 
 	auto err=vkCreatePipelineLayout(swapChain.GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
