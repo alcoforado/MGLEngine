@@ -5,8 +5,12 @@
 #include <map>
 
 
+class VulkanLogicalDevice;
+
 class VulkanRenderPass
 {
+	const VulkanLogicalDevice& _logicalDevice;
+
 	std::map<std::string, size_t> _colorNameMapping;
 	std::vector<VkAttachmentDescription> _colorAttachments;
 
@@ -15,7 +19,7 @@ class VulkanRenderPass
 	VkRenderPass _renderPass;
 	bool _isLoaded;
 public:
-	VulkanRenderPass();
+	VulkanRenderPass(const VulkanLogicalDevice& device);
 	~VulkanRenderPass();
 
 	void AddColorDescription(std::string name, VkAttachmentDescription desc);

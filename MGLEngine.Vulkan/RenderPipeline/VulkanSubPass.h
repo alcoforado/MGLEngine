@@ -17,7 +17,7 @@ public:
 	
 	VulkanSubPass(VkPipelineBindPoint bindPoint);
 	void AddColorAttachementReference(std::string name, VkImageLayout layout);
-
+	std::vector<VulkanAttachmentReference>& GetColorAttachements() { return ColorAttachments; }
 	
 	~VulkanSubPass();
 };
