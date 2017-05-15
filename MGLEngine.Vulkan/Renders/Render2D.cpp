@@ -5,7 +5,8 @@
 
 Render2D::Render2D(IRenderContext& renderContext)
 {
-	
+	//VertexShaderByteCode vertexByteCode(renderContext.,);
+	//FragmentShaderByteCode _fragShaderCode;
 }
 
 Render2D::~Render2D()

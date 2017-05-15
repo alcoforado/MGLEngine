@@ -5,6 +5,7 @@
 enum ShaderByteCodeType {VERTEX_SHADER,FRAGMENT_SHADER};
 class FragmentShaderByteCode
 {
+	const VulkanLogicalDevice& _device;
 	VkShaderModule _vkModule;
 public:
 	//FragmentShaderByteCode(std::vector<uint32_t>& bytecode);
