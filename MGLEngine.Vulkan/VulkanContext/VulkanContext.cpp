@@ -51,6 +51,11 @@ void VulkanContext::Initialize(GLFWwindow * window)
 {
 }
 
+std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& inst) const
+{
+	return _vkInstance.GetPhysicalDevices();
+}
+
 
 
 

@@ -31,8 +31,10 @@ public:
 	void Initialize(GLFWwindow* window);
 	
 	std::vector<VulkanPhysicalDevice> GetPhysicalDevices(VkInstance &inst) const;
-	const VulkanSwapChain& GetSwapChain() const {
+	const VulkanSwapChain& GetSwapChain() const override {
 		return _swapChain;
-	};
+	}
+
+	const VulkanLogicalDevice& GetLogicalDevice() const override { return _vkLogicalDevice; }
 };
 

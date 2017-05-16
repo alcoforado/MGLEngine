@@ -2,7 +2,7 @@
 #include "../VulkanUtils.h"
 
 
-FragmentShaderByteCode::FragmentShaderByteCode(const VulkanLogicalDevice &device,uint32_t* p, int size)
+FragmentShaderByteCode::FragmentShaderByteCode(const VulkanLogicalDevice &device,const uint32_t* p, int size)
 	:_device(device)
 {
 	VkShaderModuleCreateInfo createInfo = {};

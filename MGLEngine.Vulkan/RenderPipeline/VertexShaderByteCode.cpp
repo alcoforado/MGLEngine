@@ -2,7 +2,7 @@
 #include "../VulkanUtils.h"
 #include "../VulkanContext/VulkanLogicalDevice.h"
 
-VertexShaderByteCode::VertexShaderByteCode(const VulkanLogicalDevice &device, uint32_t* p, int size)
+VertexShaderByteCode::VertexShaderByteCode(const VulkanLogicalDevice &device, const uint32_t* p, int size)
 :_device(device)
 {
 	VkShaderModuleCreateInfo createInfo = {};

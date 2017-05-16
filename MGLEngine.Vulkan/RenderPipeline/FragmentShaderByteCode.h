@@ -9,7 +9,7 @@ class FragmentShaderByteCode
 	VkShaderModule _vkModule;
 public:
 	//FragmentShaderByteCode(std::vector<uint32_t>& bytecode);
-	FragmentShaderByteCode(const VulkanLogicalDevice &device, uint32_t* p, int size);
+	FragmentShaderByteCode(const VulkanLogicalDevice &device, const uint32_t* p, int size);
 	~FragmentShaderByteCode();
 	VkShaderModule GetHandle() const { return _vkModule; }
 };
