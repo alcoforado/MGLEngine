@@ -10,10 +10,11 @@ class VulkanPipeline
 	const VulkanSwapChain &_swapChain;
 	VkPipelineLayout _vkPipelineLayout;
 	bool _isLoaded;
-	
+	VkPipeline _vkPipeline;
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
+	std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
 	VkPipelineVertexInputStateCreateInfo VertexInputInfo;
 	VkPipelineInputAssemblyStateCreateInfo InputAssembly;
 	VkPipelineRasterizationStateCreateInfo Rasterizer;
@@ -22,8 +23,12 @@ public:
 	VkPipelineColorBlendStateCreateInfo ColorBlending;
 	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
 	VulkanRenderPass RenderPass;
-
+	VkGraphicsPipelineCreateInfo pipelineInfo;
 	std::vector<VkDynamicState>  DynamicStates;
+
+	VkViewport Viewport;
+	VkRect2D Scissor;
+
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
 

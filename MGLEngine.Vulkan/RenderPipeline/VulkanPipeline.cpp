@@ -12,6 +12,10 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	RenderPass(swapChain.GetLogicalDevice())
 {
 	_isLoaded = false;
+	pipelineInfo.sType= VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	
+
+
 
 	VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -25,6 +29,10 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	FragShaderStageInfo.module = fragment.GetHandle();
 	FragShaderStageInfo.pName = "main";
 	
+	ShaderStages.push_back(VertShaderStageInfo);
+	ShaderStages.push_back(FragShaderStageInfo);
+
+
 	VertexInputInfo = {};
 	VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	VertexInputInfo.vertexBindingDescriptionCount = 0;
@@ -38,22 +46,18 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	InputAssembly.primitiveRestartEnable = VK_FALSE;
 
 	//Set Viewport
-	VkViewport viewport = {};
-	viewport.x = 0.0f;
-	viewport.y = 0.0f;
-	viewport.width =static_cast<float>(swapChain.GetExtent().width);
-	viewport.height = static_cast<float>(swapChain.GetExtent().height);
-	viewport.minDepth = 0.0f;
-	viewport.maxDepth = 1.0f;
-	VkRect2D scissor = {};
-	scissor.offset = { 0, 0 };
-	scissor.extent = swapChain.GetExtent();
-	VkPipelineViewportStateCreateInfo viewportState = {};
-	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-	viewportState.viewportCount = 1;
-	viewportState.pViewports = &viewport;
-	viewportState.scissorCount = 1;
-	viewportState.pScissors = &scissor;
+	 
+	Viewport.x = 0.0f;
+	Viewport.y = 0.0f;
+	Viewport.width =static_cast<float>(swapChain.GetExtent().width);
+	Viewport.height = static_cast<float>(swapChain.GetExtent().height);
+	Viewport.minDepth = 0.0f;
+	Viewport.maxDepth = 1.0f;
+	
+	Scissor = {};
+	Scissor.offset = { 0, 0 };
+	Scissor.extent = swapChain.GetExtent();
+	
 
 
 	Rasterizer = {};
@@ -121,10 +125,41 @@ void VulkanPipeline::Load()
 		throw new Exception("Error, pipeline is already loaded");
 	}
 
+	pipelineInfo.stageCount = ShaderStages.size();
+	pipelineInfo.pStages = ShaderStages.data();
+	pipelineInfo.pVertexInputState = &VertexInputInfo;
+	pipelineInfo.pInputAssemblyState = &InputAssembly;
+	
+	
+	VkPipelineViewportStateCreateInfo viewportState = {};
+	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	viewportState.viewportCount = 1;
+	viewportState.pViewports = &Viewport;
+	viewportState.scissorCount = 1;
+	viewportState.pScissors = &Scissor;
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &Rasterizer;
+	pipelineInfo.pMultisampleState = &Multisampling;
+	pipelineInfo.pDepthStencilState = nullptr;
+	pipelineInfo.pColorBlendState = &ColorBlending;
+	pipelineInfo.pDynamicState = nullptr;
 
 
 	auto err = vkCreatePipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
+
+	pipelineInfo.layout = _vkPipelineLayout;
+	
+	auto renderHandle = RenderPass.Load();
+	pipelineInfo.renderPass = renderHandle;
+	pipelineInfo.subpass = 0;
+	
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+	pipelineInfo.basePipelineIndex = -1; // Optional
+
+	err = vkCreateGraphicsPipelines(_swapChain.GetLogicalDevice().GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
+	AssertVulkanSuccess(err);
+
 }
 
 

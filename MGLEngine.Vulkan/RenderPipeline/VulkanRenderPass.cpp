@@ -54,7 +54,7 @@ void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescrip
 }
 
 
-void VulkanRenderPass::Load()
+VkRenderPass VulkanRenderPass::Load()
 {
 
 	//Create subpasses structures.
@@ -91,7 +91,7 @@ void VulkanRenderPass::Load()
 	auto err=vkCreateRenderPass(_logicalDevice.GetHandle(), &renderPassInfo, nullptr, &_renderPass);
 	AssertVulkanSuccess(err);
 	_isLoaded = true;
-
+	return _renderPass;
 	
 
 }

@@ -32,4 +32,5 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 
 RenderColor2D::~RenderColor2D()
 {
+
 }

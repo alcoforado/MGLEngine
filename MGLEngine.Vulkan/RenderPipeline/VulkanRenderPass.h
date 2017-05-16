@@ -28,6 +28,6 @@ public:
 	VulkanSubPass& AddGraphicSubpass(std::string name);
 	VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name);
 
-	void Load();
+	VkRenderPass Load();
 };
 
