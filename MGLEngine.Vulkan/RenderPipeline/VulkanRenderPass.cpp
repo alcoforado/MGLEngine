@@ -18,7 +18,7 @@ VulkanRenderPass::~VulkanRenderPass()
 
 
 
-void VulkanRenderPass::AddGraphicSubpass(std::string name)
+VulkanSubPass& VulkanRenderPass::AddGraphicSubpass(std::string name)
 {
 	VulkanSubPass subpass(VK_PIPELINE_BIND_POINT_GRAPHICS);
 	_subpasses.push_back(subpass);
@@ -27,6 +27,7 @@ void VulkanRenderPass::AddGraphicSubpass(std::string name)
 		throw new Exception("Error Subpass name must be unique");
 	}
 	_subpassesNameMapping[name] = _subpasses.size() - 1;
+	_subpasses.back();
 }
 
 VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name)

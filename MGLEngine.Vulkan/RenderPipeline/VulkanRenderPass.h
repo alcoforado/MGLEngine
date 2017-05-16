@@ -25,7 +25,7 @@ public:
 
 	void AddColorDescription(std::string name, VkAttachmentDescription desc);
 	std::vector<VkAttachmentDescription> GetColorAttachments() const{ return _colorAttachments; }
-	void AddGraphicSubpass(std::string name);
+	VulkanSubPass& AddGraphicSubpass(std::string name);
 	VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name);
 
 	void Load();
