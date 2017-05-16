@@ -125,7 +125,7 @@ void VulkanPipeline::Load()
 		throw new Exception("Error, pipeline is already loaded");
 	}
 
-	pipelineInfo.stageCount = ShaderStages.size();
+	pipelineInfo.stageCount = static_cast<uint32_t>(ShaderStages.size());
 	pipelineInfo.pStages = ShaderStages.data();
 	pipelineInfo.pVertexInputState = &VertexInputInfo;
 	pipelineInfo.pInputAssemblyState = &InputAssembly;
@@ -165,4 +165,11 @@ void VulkanPipeline::Load()
 
 VulkanPipeline::~VulkanPipeline()
 {
+	if (_isLoaded)
+	{
+
+		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
+		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
+	}
 }
+

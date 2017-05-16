@@ -13,6 +13,10 @@ VulkanRenderPass::VulkanRenderPass(const VulkanLogicalDevice& device)
 
 VulkanRenderPass::~VulkanRenderPass()
 {
+	if (_isLoaded)
+	{
+		vkDestroyRenderPass(_logicalDevice.GetHandle(), _renderPass, nullptr);
+	}
 }
 
 
@@ -27,7 +31,7 @@ VulkanSubPass& VulkanRenderPass::AddGraphicSubpass(std::string name)
 		throw new Exception("Error Subpass name must be unique");
 	}
 	_subpassesNameMapping[name] = _subpasses.size() - 1;
-	_subpasses.back();
+	return _subpasses.back();
 }
 
 VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name)
