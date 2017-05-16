@@ -16,10 +16,31 @@ VulkanRenderPass::~VulkanRenderPass()
 }
 
 
-void VulkanRenderPass::AddSubpass(VulkanSubPass subpass)
+
+
+void VulkanRenderPass::AddGraphicSubpass(std::string name)
 {
+	VulkanSubPass subpass(VK_PIPELINE_BIND_POINT_GRAPHICS);
 	_subpasses.push_back(subpass);
+	if (_subpassesNameMapping.find(name) != _subpassesNameMapping.end())
+	{
+		throw new Exception("Error Subpass name must be unique");
+	}
+	_subpassesNameMapping[name] = _subpasses.size() - 1;
 }
+
+VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name)
+{
+	if (_subpassesNameMapping.find(name) == _subpassesNameMapping.end())
+	{
+		throw new Exception("Error subpass with name %s not found",name.c_str());
+	}
+	return _subpasses[_subpassesNameMapping[name]];
+}
+
+
+
+
 
 void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescription desc)
 {

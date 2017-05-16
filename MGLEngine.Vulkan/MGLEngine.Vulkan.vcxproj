@@ -149,7 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renders\IRenderContext.cpp" />
-    <ClCompile Include="Renders\Render2D.cpp" />
+    <ClCompile Include="Renders\RenderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
     <ClCompile Include="RenderPipeline\FragmentShaderByteCode.cpp" />
     <ClCompile Include="RenderPipeline\VertexShaderByteCode.cpp" />
@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renders\IRenderContext.h" />
-    <ClInclude Include="Renders\Render2D.h" />
+    <ClInclude Include="Renders\RenderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
     <ClInclude Include="RenderPipeline\FragmentShaderByteCode.h" />
     <ClInclude Include="RenderPipeline\VertexShaderByteCode.h" />

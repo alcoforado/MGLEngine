@@ -9,7 +9,7 @@
 #include <map>
 #include <fstream>
 #include "../VulkanUtils.h"
-#include "../Renders/Render2D.h"
+#include "../Renders/RenderColor2D.h"
 
 
 VulkanContext::VulkanContext(GLFWwindow * window)
@@ -32,7 +32,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	colorAttachmentRef.attachment = 0;
 	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-	Render2D *render = new Render2D(*this);
+	RenderColor2D *render = new RenderColor2D(*this);
 
 
 	

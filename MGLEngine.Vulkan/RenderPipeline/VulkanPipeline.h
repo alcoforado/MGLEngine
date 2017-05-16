@@ -7,7 +7,10 @@ class FragmentShaderByteCode;
 #include <vulkan/vulkan.h>
 class VulkanPipeline
 {
+	const VulkanSwapChain &_swapChain;
 	VkPipelineLayout _vkPipelineLayout;
+	bool _isLoaded;
+	
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
@@ -23,6 +26,8 @@ public:
 	std::vector<VkDynamicState>  DynamicStates;
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
+
+	void Load();
 	
 	~VulkanPipeline();
 };

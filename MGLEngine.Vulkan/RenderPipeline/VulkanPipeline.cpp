@@ -3,11 +3,16 @@
 #include "FragmentShaderByteCode.h"
 #include "../VulkanContext/VulkanSwapChain.h"
 #include "../VulkanUtils.h"
+#include <cassert>
+#include "Utils/Exception.h"
 
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
-	:RenderPass(swapChain.GetLogicalDevice())
+	:_swapChain(swapChain),
+	RenderPass(swapChain.GetLogicalDevice())
 {
+	_isLoaded = false;
+
 	VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	VertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
@@ -103,9 +108,23 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	PipelineLayoutInfo.pPushConstantRanges = 0; // Optional
 
 
-	auto err=vkCreatePipelineLayout(swapChain.GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
-	AssertVulkanSuccess(err);
 
+
+	
+
+}
+
+void VulkanPipeline::Load()
+{
+	if (_isLoaded)
+	{
+		throw new Exception("Error, pipeline is already loaded");
+	}
+
+
+
+	auto err = vkCreatePipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
+	AssertVulkanSuccess(err);
 }
 
 

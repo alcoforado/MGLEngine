@@ -69,10 +69,10 @@
     <ClCompile Include="RenderPipeline\VulkanRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\Render2D.cpp">
+    <ClCompile Include="Renders\IRenderContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renders\IRenderContext.cpp">
+    <ClCompile Include="Renders\RenderColor2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,10 +128,10 @@
     <ClInclude Include="RenderPipeline\VulkanRenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\Render2D.h">
+    <ClInclude Include="Renders\IRenderContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renders\IRenderContext.h">
+    <ClInclude Include="Renders\RenderColor2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

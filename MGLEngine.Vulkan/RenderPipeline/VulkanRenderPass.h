@@ -14,6 +14,7 @@ class VulkanRenderPass
 	std::map<std::string, size_t> _colorNameMapping;
 	std::vector<VkAttachmentDescription> _colorAttachments;
 
+	std::map<std::string, size_t> _subpassesNameMapping;
 	std::vector<VulkanSubPass> _subpasses;
 
 	VkRenderPass _renderPass;
@@ -24,7 +25,8 @@ public:
 
 	void AddColorDescription(std::string name, VkAttachmentDescription desc);
 	std::vector<VkAttachmentDescription> GetColorAttachments() const{ return _colorAttachments; }
-	void AddSubpass(VulkanSubPass subpass);
+	void AddGraphicSubpass(std::string name);
+	VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name);
 
 	void Load();
 };

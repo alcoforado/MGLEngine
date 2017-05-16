@@ -12,7 +12,7 @@ VulkanSubPass::VulkanSubPass(VkPipelineBindPoint bindPoint)
 }
 
 
-void VulkanSubPass::AddColorAttachementReference(std::string name, VkImageLayout layout)
+void VulkanSubPass::RefColorAttachement(std::string name, enum VkImageLayout layout)
 {
 	VulkanAttachmentReference ref;
 	ref.attachment = -1;

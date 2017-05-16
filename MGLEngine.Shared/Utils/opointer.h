@@ -1,6 +1,6 @@
 #ifndef  _MY_OPointer_
 #define _MY_OPointer_
-
+#include <cassert>
 
 /** OPointer 
  *
