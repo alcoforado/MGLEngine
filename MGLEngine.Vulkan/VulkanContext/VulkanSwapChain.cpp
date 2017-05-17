@@ -9,7 +9,7 @@ VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogic
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	createInfo.surface = _surface.GetHandle();
 	createInfo.minImageCount = 3;
-	createInfo.imageFormat = VK_FORMAT_A8B8G8R8_UNORM_PACK32;
+	createInfo.imageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 	createInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
 	createInfo.imageExtent = _surface.GetExtent();
 	createInfo.imageArrayLayers = 1;

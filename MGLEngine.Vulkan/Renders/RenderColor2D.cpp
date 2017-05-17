@@ -26,7 +26,7 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 		.AddGraphicSubpass("pass1")
 	    .RefColorAttachement("color", VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 	
-
+	_pPipeline->Load();
 
 }
 

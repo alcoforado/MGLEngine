@@ -25,7 +25,7 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 
 	FragShaderStageInfo = {};
 	FragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	FragShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+	FragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 	FragShaderStageInfo.module = fragment.GetHandle();
 	FragShaderStageInfo.pName = "main";
 	
