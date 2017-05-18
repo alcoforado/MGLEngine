@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="Renders\IRenderContext.cpp" />
     <ClCompile Include="Renders\RenderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
@@ -165,11 +166,12 @@
     <ClCompile Include="VulkanContext\VulkanSwapChain.cpp" />
     <ClCompile Include="RenderPipeline\VulkanPipeline.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSubPass.cpp" />
-    <ClCompile Include="VulkanFramebuffer.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanFramebuffer.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="Renders\IRenderContext.h" />
     <ClInclude Include="Renders\RenderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
@@ -187,7 +189,7 @@
     <ClInclude Include="VulkanContext\VulkanSwapChain.h" />
     <ClInclude Include="RenderPipeline\VulkanPipeline.h" />
     <ClInclude Include="RenderPipeline\VulkanSubPass.h" />
-    <ClInclude Include="VulkanFramebuffer.h" />
+    <ClInclude Include="RenderPipeline\VulkanFramebuffer.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>

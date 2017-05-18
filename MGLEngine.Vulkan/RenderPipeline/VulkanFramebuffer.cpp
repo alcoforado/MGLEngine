@@ -1,7 +1,7 @@
 #include "VulkanFramebuffer.h"
-#include "VulkanContext/VulkanSwapChain.h"
+#include "../VulkanContext/VulkanSwapChain.h"
 #include <cassert>
-#include "VulkanUtils.h"
+#include "../VulkanUtils.h"
 
 
 VulkanFramebuffer::VulkanFramebuffer(const VulkanRenderPass& renderPass,const VulkanSwapChain& swapChain)

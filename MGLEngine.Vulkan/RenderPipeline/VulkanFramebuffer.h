@@ -1,6 +1,6 @@
 #pragma once
-#include "RenderPipeline/VulkanRenderPass.h"
-#include "VulkanContext/VulkanSwapChain.h"
+#include "VulkanRenderPass.h"
+#include "../VulkanContext/VulkanSwapChain.h"
 
 class VulkanFramebuffer
 {

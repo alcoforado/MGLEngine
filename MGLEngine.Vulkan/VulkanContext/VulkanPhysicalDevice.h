@@ -31,6 +31,8 @@ public:
 
 	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
 
+	uint32_t FindGraphicsQueueIndex() const { return FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);}
+
 	std::vector<VulkanLayerProperties> GetAvailableLayerProperties();
 
 };

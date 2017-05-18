@@ -75,7 +75,10 @@
     <ClCompile Include="Renders\RenderColor2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanFramebuffer.cpp">
+    <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanFramebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,7 +140,10 @@
     <ClInclude Include="Renders\RenderColor2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VulkanFramebuffer.h">
+    <ClInclude Include="RenderPipeline\VulkanCommandPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanFramebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
