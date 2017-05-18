@@ -160,6 +160,8 @@ void VulkanPipeline::Load()
 	err = vkCreateGraphicsPipelines(_swapChain.GetLogicalDevice().GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
 	AssertVulkanSuccess(err);
 
+
+	_pFramebuffer = new VulkanFramebuffer(RenderPass,_swapChain);
 }
 
 
@@ -170,6 +172,7 @@ VulkanPipeline::~VulkanPipeline()
 
 		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
 		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
+		
 	}
 }
 

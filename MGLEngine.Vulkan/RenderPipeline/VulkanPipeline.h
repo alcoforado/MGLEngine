@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "VulkanRenderPass.h"
+#include "../VulkanFramebuffer.h"
+#include "Utils/opointer.h"
 class VulkanSwapChain;
 class VertexShaderByteCode;
 class FragmentShaderByteCode;
@@ -28,7 +30,7 @@ public:
 
 	VkViewport Viewport;
 	VkRect2D Scissor;
-
+	OPointer<VulkanFramebuffer> _pFramebuffer;
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
 

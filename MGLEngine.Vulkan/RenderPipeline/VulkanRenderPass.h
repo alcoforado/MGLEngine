@@ -27,7 +27,8 @@ public:
 	std::vector<VkAttachmentDescription> GetColorAttachments() const{ return _colorAttachments; }
 	VulkanSubPass& AddGraphicSubpass(std::string name);
 	VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name);
-
+	VkRenderPass GetHandle() const;
+	
 	VkRenderPass Load();
 };
 

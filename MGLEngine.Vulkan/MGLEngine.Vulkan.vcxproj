@@ -165,6 +165,7 @@
     <ClCompile Include="VulkanContext\VulkanSwapChain.cpp" />
     <ClCompile Include="RenderPipeline\VulkanPipeline.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSubPass.cpp" />
+    <ClCompile Include="VulkanFramebuffer.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="VulkanContext\VulkanSwapChain.h" />
     <ClInclude Include="RenderPipeline\VulkanPipeline.h" />
     <ClInclude Include="RenderPipeline\VulkanSubPass.h" />
+    <ClInclude Include="VulkanFramebuffer.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>

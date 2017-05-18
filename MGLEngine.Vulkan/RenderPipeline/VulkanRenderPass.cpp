@@ -43,8 +43,14 @@ VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name)
 	return _subpasses[_subpassesNameMapping[name]];
 }
 
-
-
+VkRenderPass VulkanRenderPass::GetHandle() const
+{
+	if (!_isLoaded)
+	{
+		throw new Exception("Render Pass was not loaded yet. Call Load method before you can get a handle");
+	}
+	return _renderPass;
+}
 
 
 void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescription desc)

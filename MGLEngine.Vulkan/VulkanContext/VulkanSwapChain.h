@@ -23,5 +23,6 @@ class VulkanSwapChain
 	VkExtent2D GetExtent() const { return _dims; }
 	~VulkanSwapChain();
 	VkFormat GetImageFormat() const { return _imageFormat; }
+	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
 };
 
