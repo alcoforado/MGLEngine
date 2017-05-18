@@ -30,5 +30,6 @@ public:
 	VkRenderPass GetHandle() const;
 	
 	VkRenderPass Load();
+	void GetSwapChain() const;
 };
 

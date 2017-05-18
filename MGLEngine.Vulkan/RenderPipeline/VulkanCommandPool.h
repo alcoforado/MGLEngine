@@ -9,5 +9,9 @@ class VulkanCommandPool
 public:
 	explicit VulkanCommandPool(const VulkanLogicalDevice &_device);
 	~VulkanCommandPool();
+	VkCommandPool GetHandle() const { return _vkPool; }
+	const VulkanLogicalDevice& GetLogicalDevice() const {
+		return _logicalDevice;
+	}
 };
 

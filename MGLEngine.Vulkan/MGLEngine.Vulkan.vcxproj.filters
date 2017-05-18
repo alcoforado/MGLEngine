@@ -81,6 +81,12 @@
     <ClCompile Include="RenderPipeline\VulkanSwapChainFramebuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanFramebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -144,6 +150,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanSwapChainFramebuffers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanFramebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
