@@ -161,7 +161,7 @@ void VulkanPipeline::Load()
 	AssertVulkanSuccess(err);
 
 
-	_pFramebuffer = new VulkanFramebuffer(RenderPass,_swapChain);
+	_pFramebuffer = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
 }
 
 

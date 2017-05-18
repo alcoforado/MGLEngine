@@ -78,7 +78,7 @@
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderPipeline\VulkanFramebuffer.cpp">
+    <ClCompile Include="RenderPipeline\VulkanSwapChainFramebuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +143,7 @@
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderPipeline\VulkanFramebuffer.h">
+    <ClInclude Include="RenderPipeline\VulkanSwapChainFramebuffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

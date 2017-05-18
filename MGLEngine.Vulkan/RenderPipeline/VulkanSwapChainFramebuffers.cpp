@@ -1,10 +1,10 @@
-#include "VulkanFramebuffer.h"
+#include "VulkanSwapChainFramebuffers.h"
 #include "../VulkanContext/VulkanSwapChain.h"
 #include <cassert>
 #include "../VulkanUtils.h"
 
 
-VulkanFramebuffer::VulkanFramebuffer(const VulkanRenderPass& renderPass,const VulkanSwapChain& swapChain)
+VulkanSwapChainFramebuffers::VulkanSwapChainFramebuffers(const VulkanRenderPass& renderPass,const VulkanSwapChain& swapChain)
 	:_swapChain(swapChain)
 {
 	auto imageViews = swapChain.GetImageViews();
@@ -28,7 +28,7 @@ VulkanFramebuffer::VulkanFramebuffer(const VulkanRenderPass& renderPass,const Vu
 	}
 }
 
-VulkanFramebuffer::~VulkanFramebuffer()
+VulkanSwapChainFramebuffers::~VulkanSwapChainFramebuffers()
 {
 	for(auto framebuffer : _framebuffers)
 	{

@@ -2,12 +2,12 @@
 #include "VulkanRenderPass.h"
 #include "../VulkanContext/VulkanSwapChain.h"
 
-class VulkanFramebuffer
+class VulkanSwapChainFramebuffers
 {
 	const VulkanSwapChain& _swapChain;
 	std::vector<VkFramebuffer> _framebuffers;
 public:
-	VulkanFramebuffer(const VulkanRenderPass& renderPass, const VulkanSwapChain& swapChain);
-	~VulkanFramebuffer();
+	VulkanSwapChainFramebuffers(const VulkanRenderPass& renderPass, const VulkanSwapChain& swapChain);
+	~VulkanSwapChainFramebuffers();
 };
 
