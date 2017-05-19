@@ -5,7 +5,7 @@
 
 
 VulkanSwapChainFramebuffers::VulkanSwapChainFramebuffers(const VulkanRenderPass& renderPass,const VulkanSwapChain& swapChain)
-	:_swapChain(swapChain)
+	:_swapChain(swapChain),_renderPass(renderPass)
 {
 	auto imageViews = swapChain.GetImageViews();
 	assert(renderPass.GetColorAttachments().size() == 1);
@@ -34,4 +34,10 @@ VulkanSwapChainFramebuffers::~VulkanSwapChainFramebuffers()
 	{
 		vkDestroyFramebuffer(_swapChain.GetLogicalDevice().GetHandle(),framebuffer,nullptr);
 	}
+}
+
+VulkanFramebuffer VulkanSwapChainFramebuffers::GetFramebuffer(int i) const
+{
+	assert(_framebuffers.size() > i);  
+	return VulkanFramebuffer(_renderPass, _swapChain, _framebuffers[i]); 
 }

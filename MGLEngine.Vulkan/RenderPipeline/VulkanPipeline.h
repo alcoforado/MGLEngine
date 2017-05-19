@@ -33,7 +33,7 @@ public:
 	OPointer<VulkanSwapChainFramebuffers> _pFramebuffer;
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
-
+	VkPipeline GetHanlde() const { return _vkPipeline; }
 	void Load();
 	
 	~VulkanPipeline();
