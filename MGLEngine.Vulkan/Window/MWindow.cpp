@@ -56,7 +56,8 @@ void MGL::Window::EasyRun()
 	assert(_window);
 	while (!glfwWindowShouldClose(_window))
 	{
-		glfwWaitEvents();
+		glfwPollEvents(); 
+		_vkContext->Draw();
 	}
 	
 }

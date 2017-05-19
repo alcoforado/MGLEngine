@@ -32,7 +32,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	colorAttachmentRef.attachment = 0;
 	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-	RenderColor2D *render = new RenderColor2D(*this);
+	render = new RenderColor2D(*this);
 
 
 	
@@ -57,11 +57,10 @@ std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& 
 }
 
 
+void VulkanContext::Draw()
+{
 
 
 
 
-
-
-
-
+}

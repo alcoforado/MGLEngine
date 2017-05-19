@@ -8,6 +8,7 @@
 #include "VulkanSwapChain.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../Renders/IRenderContext.h"
+#include "../Renders/RenderColor2D.h"
 struct GLFWwindow;
 
 
@@ -20,7 +21,7 @@ public:
 	
 private:
 	
-
+	RenderColor2D *render;
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
 	VulkanSwapChain _swapChain;
@@ -36,5 +37,6 @@ public:
 	}
 
 	virtual const VulkanLogicalDevice& GetLogicalDevice() const override { return _vkLogicalDevice; }
+	void Draw();
 };
 

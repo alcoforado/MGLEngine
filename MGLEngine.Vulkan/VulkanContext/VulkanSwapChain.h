@@ -2,6 +2,7 @@
 #include <vulkan/vulkan.h>
 #include "VulkanSurface.h"
 #include "VulkanLogicalDevice.h"
+#include "../RenderPipeline/VulkanSemaphore.h"
 
 class VulkanSwapChain
 {
@@ -13,8 +14,8 @@ class VulkanSwapChain
 	VkExtent2D _dims;
 	std::vector<VkImage> _images;
 	std::vector<VkImageView> _imagesviews;
-	
-	
+	uint32_t _nextImageIndex;
+	VulkanSemaphore _nextImageSemaphore;
 	
 	
 	public:
@@ -24,5 +25,6 @@ class VulkanSwapChain
 	~VulkanSwapChain();
 	VkFormat GetImageFormat() const { return _imageFormat; }
 	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
+	VulkanSemaphore& NextImagePipelineAsync();
 };
 

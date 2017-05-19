@@ -11,5 +11,6 @@ class VulkanSemaphore
 public:
 	VulkanSemaphore(const VulkanLogicalDevice & logicalDevice);
 	~VulkanSemaphore();
+	VkSemaphore GetHandle() const { return _vkSemaphore; }
 };
 

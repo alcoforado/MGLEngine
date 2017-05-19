@@ -3,7 +3,8 @@
 
 
 VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogicalDevice& device)
-:_surface(surface),_logicalDevice(device)
+:_surface(surface),_logicalDevice(device),
+_nextImageSemaphore(device)
 {
 	VkSwapchainCreateInfoKHR createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -92,4 +93,11 @@ VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogic
 
 VulkanSwapChain::~VulkanSwapChain()
 {
+	vkDestroySwapchainKHR(_logicalDevice.GetHandle(),_handle,nullptr);
+}
+
+VulkanSemaphore& VulkanSwapChain::NextImagePipelineAsync()
+{
+	vkAcquireNextImageKHR(_logicalDevice.GetHandle(), _handle, std::numeric_limits<uint64_t>::max(), _nextImageSemaphore.GetHandle(), VK_NULL_HANDLE, &_nextImageIndex);
+	return _nextImageSemaphore;
 }
