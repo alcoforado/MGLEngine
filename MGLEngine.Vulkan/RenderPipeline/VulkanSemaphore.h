@@ -1,6 +1,7 @@
 #pragma once
-#include "VulkanContext/AllocatedQueue.h"
 #include <cstdint>
+#include <vulkan/vulkan.h>
+
 class VulkanLogicalDevice;
 
 class VulkanSemaphore

@@ -1,7 +1,7 @@
 #include "VulkanSemaphore.h"
 #include <vulkan/vulkan.h>
-#include "VulkanContext/VulkanLogicalDevice.h"
-#include "VulkanUtils.h"
+#include "../VulkanContext/VulkanLogicalDevice.h"
+#include "../VulkanUtils.h"
 
 
 VulkanSemaphore::VulkanSemaphore(const VulkanLogicalDevice &logicalDevice)
