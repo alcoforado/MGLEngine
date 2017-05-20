@@ -89,7 +89,7 @@ void VulkanCommandBuffer::End()
 	AssertVulkanSuccess(err);
 }
 
-const VulkanSemaphore& VulkanCommandBuffer::Submit(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
+const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait.GetHandle();
 	if (_pSubmitInfoCache == nullptr)
