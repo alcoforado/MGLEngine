@@ -88,11 +88,11 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
 const VulkanAllocatedQueue& VulkanLogicalDevice::GetGraphicQueue() const
 {
 	auto index=_physicalDevice.FindGraphicsQueueIndex();
-	for (auto q : _queues)
+	for (int i=0;i<_queues.size();i++)
 	{
-		if (q.GetFamilyIndex() == index)
+		if (_queues[i].GetFamilyIndex() == index)
 		{
-			return q;
+			return _queues[i];
 		}
 	}
 	throw new Exception("No graphic queueu was found");

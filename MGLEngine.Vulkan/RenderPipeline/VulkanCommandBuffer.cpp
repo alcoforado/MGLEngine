@@ -105,7 +105,7 @@ const VulkanSemaphore& VulkanCommandBuffer::Submit(VulkanSemaphore &wait, VkPipe
 			VkSubmitInfo &submitInfo = *_pSubmitInfoCache;
 			submitInfo = {};
 			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			VkPipelineStageFlags waitStages[] = { pipelineStage };
+			VkPipelineStageFlags waitStages[] = { static_cast<VkFlags>(pipelineStage) };
 			submitInfo.waitSemaphoreCount = 1;
 			submitInfo.pWaitDstStageMask = waitStages;
 			submitInfo.commandBufferCount = 1;
