@@ -163,6 +163,8 @@ void VulkanPipeline::Load()
 
 
 	_pFramebuffer = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
+
+	_isLoaded = true;
 }
 
 
