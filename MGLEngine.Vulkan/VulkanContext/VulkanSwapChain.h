@@ -26,5 +26,7 @@ class VulkanSwapChain
 	VkFormat GetImageFormat() const { return _imageFormat; }
 	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
 	VulkanSemaphore& NextImagePipelineAsync();
+	VkSwapchainKHR GetHandle() { return _handle; }
+	void Present(const VulkanSemaphore& lock);
 };
 

@@ -101,3 +101,23 @@ VulkanSemaphore& VulkanSwapChain::NextImagePipelineAsync()
 	vkAcquireNextImageKHR(_logicalDevice.GetHandle(), _handle, std::numeric_limits<uint64_t>::max(), _nextImageSemaphore.GetHandle(), VK_NULL_HANDLE, &_nextImageIndex);
 	return _nextImageSemaphore;
 }
+
+void VulkanSwapChain::Present(const VulkanSemaphore& lock)
+{
+	VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+	auto lh = lock.GetHandle();
+	auto h = this->GetHandle();
+
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = &lh;
+	VkSwapchainKHR swapChains[] = {h};
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = swapChains;
+	presentInfo.pImageIndices = &_nextImageIndex;
+	presentInfo.pResults = nullptr;
+	auto err=vkQueuePresentKHR(_logicalDevice.GetGraphicQueue().GetHandle(),&presentInfo);
+	AssertVulkanSuccess(err);
+
+}
