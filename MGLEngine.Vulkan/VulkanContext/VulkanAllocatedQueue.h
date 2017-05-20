@@ -2,7 +2,7 @@
 
 #include <vulkan/vulkan.h>
 class VulkanLogicalDevice;
-class AllocatedQueue
+class VulkanAllocatedQueue
 {
 private:
 	const VulkanLogicalDevice& _logicalDevice;
@@ -12,8 +12,8 @@ private:
 public:
 
 
-	AllocatedQueue(const VulkanLogicalDevice &logicalDevice, int familyIndex, int queueIndex);
-	~AllocatedQueue();
+	VulkanAllocatedQueue(const VulkanLogicalDevice &logicalDevice, int familyIndex, int queueIndex);
+	~VulkanAllocatedQueue();
 
 	//Getters
 	int GetFamilyIndex() const { return _familyIndex; }

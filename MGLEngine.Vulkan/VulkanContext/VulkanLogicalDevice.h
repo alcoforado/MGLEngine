@@ -2,7 +2,7 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <string>
-#include "AllocatedQueue.h"
+#include "VulkanAllocatedQueue.h"
 #include "VulkanSurface.h"
 class VulkanPhysicalDevice;
 struct GLFWwindow;
@@ -14,7 +14,7 @@ private:
 	VulkanSurface  _surface;
 	const VulkanPhysicalDevice &_physicalDevice;
 	std::vector<std::string> _enabledExtensions;
-	std::vector<AllocatedQueue> _queues;
+	std::vector<VulkanAllocatedQueue> _queues;
 	std::vector<VkImage> _images;
 	
 
@@ -26,7 +26,7 @@ public:
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanSurface& GetSurface() const { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
-	const AllocatedQueue& GetGraphicQueue() const;
+	const VulkanAllocatedQueue& GetGraphicQueue() const;
 
 };
 

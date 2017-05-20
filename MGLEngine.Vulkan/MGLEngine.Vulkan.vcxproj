@@ -156,7 +156,7 @@
     <ClCompile Include="RenderPipeline\VertexShaderByteCode.cpp" />
     <ClCompile Include="RenderPipeline\VulkanRenderPass.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp" />
-    <ClCompile Include="VulkanContext\AllocatedQueue.cpp" />
+    <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp" />
     <ClCompile Include="MGLContainer.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
     <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="RenderPipeline\VertexShaderByteCode.h" />
     <ClInclude Include="RenderPipeline\VulkanRenderPass.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
-    <ClInclude Include="VulkanContext\AllocatedQueue.h" />
+    <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h" />
     <ClInclude Include="MGLContainer.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />
     <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />

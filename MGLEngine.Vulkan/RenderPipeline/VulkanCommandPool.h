@@ -1,5 +1,5 @@
 #pragma once
-#include "../VulkanContext/AllocatedQueue.h"
+#include "../VulkanContext/VulkanAllocatedQueue.h"
 class VulkanLogicalDevice;
 
 class VulkanCommandPool

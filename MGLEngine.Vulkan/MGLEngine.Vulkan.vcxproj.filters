@@ -42,9 +42,6 @@
     <ClCompile Include="VulkanContext\VulkanLogicalDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanContext\AllocatedQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VulkanContext\VulkanSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -114,9 +114,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VulkanContext\VulkanLogicalDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VulkanContext\AllocatedQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VulkanContext\VulkanSurface.h">
@@ -162,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
