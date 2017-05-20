@@ -1,6 +1,7 @@
 #pragma once
 #include "VulkanCommandPool.h"
 #include <glm/detail/type_vec4.hpp>
+#include "VulkanSemaphore.h"
 
 class VulkanPipeline;
 class VulkanFramebuffer;
@@ -9,10 +10,13 @@ class VulkanCommandBuffer
 {
 	const VulkanCommandPool& _pool;
 	VkCommandBuffer _vkCommandBuffer;
-	bool _isOpen;
-
-	void AssertIsOpen();
+	const VulkanPipeline *_pipeline;
+	VkSubmitInfo *_pSubmitInfoCache;
 	
+	bool _isOpen;
+	void AssertIsOpen();
+	VulkanSemaphore _lock;
+
 public:
 	VulkanCommandBuffer();
 	VulkanCommandBuffer(const VulkanCommandPool& pool);
@@ -24,6 +28,8 @@ public:
 	VulkanCommandBuffer & BindPipeline(const VulkanPipeline& pipeline);
 
 	void End();
+	const VulkanSemaphore&  Submit(VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
+
 	~VulkanCommandBuffer();
 };
 

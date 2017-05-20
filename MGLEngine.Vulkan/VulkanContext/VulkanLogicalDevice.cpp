@@ -84,3 +84,17 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 VulkanLogicalDevice::~VulkanLogicalDevice()
 {
 }
+
+const AllocatedQueue& VulkanLogicalDevice::GetGraphicQueue() const
+{
+	auto index=_physicalDevice.FindGraphicsQueueIndex();
+	for (auto q : _queues)
+	{
+		if (q.GetFamilyIndex() == index)
+		{
+			return q;
+		}
+	}
+	throw new Exception("No graphic queueu was found");
+
+}

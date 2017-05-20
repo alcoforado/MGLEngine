@@ -19,8 +19,11 @@ void VulkanCommandBuffer::AssertIsOpen()
 }
 
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool &pool)
-	:_pool(pool)
+	:_pool(pool),
+	_lock(pool.GetLogicalDevice())
 {
+	_pipeline = nullptr;
+	_pSubmitInfoCache = nullptr;
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = _pool.GetHandle();
@@ -72,7 +75,11 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline& pipeline)
 {
 	AssertIsOpen();
-	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.GetHanlde());
+	if (_pipeline != nullptr)
+		throw new Exception("CommandBuffer is already assigned to a pipeline");
+	
+	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.GetHandle());
+	_pipeline = &pipeline;
 	return *this;
 }
 
@@ -81,6 +88,41 @@ void VulkanCommandBuffer::End()
 	auto err = vkEndCommandBuffer(_vkCommandBuffer);
 	AssertVulkanSuccess(err);
 }
+
+const VulkanSemaphore& VulkanCommandBuffer::Submit(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
+{
+	auto hw = wait.GetHandle();
+	if (_pSubmitInfoCache == nullptr)
+	{
+		
+		if (_pipeline == nullptr)
+		{
+			throw new Exception("No pipeline is assigned to buffer command, use the methods ::BindPipeline before submission");
+		}
+		if (_pSubmitInfoCache == nullptr)
+		{
+			_pSubmitInfoCache = new VkSubmitInfo();
+			VkSubmitInfo &submitInfo = *_pSubmitInfoCache;
+			submitInfo = {};
+			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			VkPipelineStageFlags waitStages[] = { pipelineStage };
+			submitInfo.waitSemaphoreCount = 1;
+			submitInfo.pWaitDstStageMask = waitStages;
+			submitInfo.commandBufferCount = 1;
+			submitInfo.pCommandBuffers = &_vkCommandBuffer;
+			VkSemaphore signalSemaphores[] = { _lock.GetHandle() };
+			submitInfo.signalSemaphoreCount = 1;
+			submitInfo.pSignalSemaphores = signalSemaphores;
+		}
+	}
+	_pSubmitInfoCache->pWaitSemaphores = &hw;
+	auto err = vkQueueSubmit(_pipeline->GetSwapChain().GetLogicalDevice().GetGraphicQueue().GetHandle(), 1,_pSubmitInfoCache, VK_NULL_HANDLE);
+	AssertVulkanSuccess(err);
+
+	return _lock;
+
+}
+
 
 
 VulkanCommandBuffer::~VulkanCommandBuffer()

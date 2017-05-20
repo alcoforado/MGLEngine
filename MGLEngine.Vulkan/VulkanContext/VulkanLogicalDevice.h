@@ -26,5 +26,7 @@ public:
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanSurface& GetSurface() const { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
+	const AllocatedQueue& GetGraphicQueue() const;
+
 };
 
