@@ -4,14 +4,17 @@
 #include "../RenderPipeline/VulkanPipeline.h"
 #include <memory>
 #include <Utils/opointer.h>
+#include "../RenderPipeline/VulkanCommandBuffer.h"
 class IRenderContext;
 
 class RenderColor2D
 {
 	OPointer<VulkanPipeline> _pPipeline;
-public:
+	std::vector<VulkanCommandBuffer> _commands;
+	
+	public:
 	explicit RenderColor2D(IRenderContext& renderContext);
 	~RenderColor2D();
-	
+	const VulkanSemaphore& Draw(const VulkanSemaphore& wait);
 };
 

@@ -28,5 +28,6 @@ class VulkanSwapChain
 	VulkanSemaphore& NextImagePipelineAsync();
 	VkSwapchainKHR GetHandle() { return _handle; }
 	void Present(const VulkanSemaphore& lock);
+	uint32_t GetCurrentImageIndex() const { return _nextImageIndex; }
 };
 

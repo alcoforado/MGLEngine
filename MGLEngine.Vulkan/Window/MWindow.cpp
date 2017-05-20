@@ -56,7 +56,7 @@ void MGL::Window::EasyRun()
 	assert(_window);
 	while (!glfwWindowShouldClose(_window))
 	{
-		glfwPollEvents(); 
+		glfwWaitEvents();
 		_vkContext->Draw();
 	}
 	
@@ -69,6 +69,7 @@ void MGL::Window::PsychoRun()
 	while (!glfwWindowShouldClose(_window))
 	{
 		glfwPollEvents();
+		_vkContext->Draw();
 	}
 	
 }

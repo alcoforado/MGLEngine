@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RenderPipeline\CommandBufferCollection.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="Renders\IRenderContext.cpp" />
     <ClCompile Include="Renders\RenderColor2D.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RenderPipeline\CommandBufferCollection.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="Renders\IRenderContext.h" />
     <ClInclude Include="Renders\RenderColor2D.h" />

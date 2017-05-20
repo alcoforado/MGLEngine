@@ -5,6 +5,7 @@
 #include "../VulkanUtils.h"
 #include <cassert>
 #include "Utils/Exception.h"
+#include "VulkanCommandBuffer.h"
 
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
@@ -163,6 +164,7 @@ void VulkanPipeline::Load()
 
 	_pFramebuffer = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
 }
+
 
 
 VulkanPipeline::~VulkanPipeline()

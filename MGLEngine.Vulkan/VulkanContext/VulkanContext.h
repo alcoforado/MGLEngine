@@ -25,7 +25,7 @@ private:
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
 	VulkanSwapChain _swapChain;
-
+	VulkanCommandPool _commandPool;
 public:
 	VulkanContext(GLFWwindow* window);
 	~VulkanContext();
@@ -38,5 +38,6 @@ public:
 
 	virtual const VulkanLogicalDevice& GetLogicalDevice() const override { return _vkLogicalDevice; }
 	void Draw();
+	virtual const VulkanCommandPool* GetCommandPool() const override { return &_commandPool; }
 };
 

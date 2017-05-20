@@ -14,5 +14,6 @@ public:
 	~VulkanSwapChainFramebuffers();
 	const VulkanSwapChain& GetSwapChain() const { return _swapChain; }
 	VulkanFramebuffer GetFramebuffer(int i) const;
+	size_t Size() const { return _framebuffers.size(); }
 };
 

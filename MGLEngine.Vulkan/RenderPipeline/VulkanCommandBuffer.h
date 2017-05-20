@@ -8,7 +8,7 @@ class VulkanFramebuffer;
 
 class VulkanCommandBuffer
 {
-	const VulkanCommandPool& _pool;
+	const VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
 	const VulkanPipeline *_pipeline;
 	VkSubmitInfo *_pSubmitInfoCache;
@@ -18,17 +18,16 @@ class VulkanCommandBuffer
 	VulkanSemaphore _lock;
 
 public:
-	VulkanCommandBuffer();
-	VulkanCommandBuffer(const VulkanCommandPool& pool);
+	VulkanCommandBuffer(const VulkanCommandPool* pool);
 
-	VulkanCommandBuffer & BeginRenderPass(const VulkanFramebuffer & framebuffer, glm::vec4 color);
+	VulkanCommandBuffer & BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 
 	VulkanCommandBuffer & Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 
-	VulkanCommandBuffer & BindPipeline(const VulkanPipeline& pipeline);
+	VulkanCommandBuffer & BindPipeline(const VulkanPipeline* pipeline);
 
 	void End();
-	const VulkanSemaphore&  SubmitPipelineAsync(VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
+	const VulkanSemaphore&  SubmitPipelineAsync(const VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
 
 	~VulkanCommandBuffer();
 };

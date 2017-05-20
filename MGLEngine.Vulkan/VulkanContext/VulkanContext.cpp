@@ -14,7 +14,8 @@
 
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
-	_swapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice)
+	_swapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice),
+	_commandPool(_vkLogicalDevice)
 
 {
 	//Set Pipeline
@@ -59,8 +60,10 @@ std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& 
 
 void VulkanContext::Draw()
 {
-
-
+	auto s1 = _swapChain.NextImagePipelineAsync();
+	auto s2 = render->Draw(s1);
+	_swapChain.Present(s2);
+	
 
 
 }

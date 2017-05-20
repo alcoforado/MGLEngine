@@ -18,19 +18,19 @@ void VulkanCommandBuffer::AssertIsOpen()
 	}
 }
 
-VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool &pool)
-	:_pool(pool),
-	_lock(pool.GetLogicalDevice())
+VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
+	:_pPool(pool),
+	_lock(_pPool->GetLogicalDevice())
 {
 	_pipeline = nullptr;
 	_pSubmitInfoCache = nullptr;
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	allocInfo.commandPool = _pool.GetHandle();
+	allocInfo.commandPool = _pPool->GetHandle();
 	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 	allocInfo.commandBufferCount = 1;
 
-	auto err = vkAllocateCommandBuffers(pool.GetLogicalDevice().GetHandle(), &allocInfo, &_vkCommandBuffer);
+	auto err = vkAllocateCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), &allocInfo, &_vkCommandBuffer);
 	AssertVulkanSuccess(err);
 
 	VkCommandBufferBeginInfo beginInfo = {};
@@ -42,7 +42,7 @@ VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool &pool)
 	_isOpen = true;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(const VulkanFramebuffer& framebuffer, glm::vec4 color)
+VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color)
 {
 	AssertIsOpen();
 	VkClearValue cl = { color.x,color.y,color.z,color.w };
@@ -72,14 +72,14 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	return *this;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline& pipeline)
+VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline* pipeline)
 {
 	AssertIsOpen();
 	if (_pipeline != nullptr)
 		throw new Exception("CommandBuffer is already assigned to a pipeline");
 	
-	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.GetHandle());
-	_pipeline = &pipeline;
+	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetHandle());
+	_pipeline = pipeline;
 	return *this;
 }
 
@@ -89,7 +89,7 @@ void VulkanCommandBuffer::End()
 	AssertVulkanSuccess(err);
 }
 
-const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
+const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait.GetHandle();
 	if (_pSubmitInfoCache == nullptr)
