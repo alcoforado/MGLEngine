@@ -40,7 +40,7 @@ public:
 
 	void Load();
 	const VulkanSwapChain& GetSwapChain() const { return _swapChain; };
-	const VulkanSwapChainFramebuffers& GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return *_pFramebuffer; }
+	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffer; }
 	
 
 	

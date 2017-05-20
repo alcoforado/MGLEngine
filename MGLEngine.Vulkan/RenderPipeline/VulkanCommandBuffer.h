@@ -27,6 +27,8 @@ public:
 	VulkanCommandBuffer & BindPipeline(const VulkanPipeline* pipeline);
 
 	void End();
+	void EndRenderPass();
+	
 	const VulkanSemaphore&  SubmitPipelineAsync(const VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
 
 	~VulkanCommandBuffer();

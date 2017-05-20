@@ -31,14 +31,15 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 	
 	auto framebuffers = _pPipeline->GetVulkanSwapChainFramebuffers();
 	glm::vec4 color(0, 0, 0, 1.0);
-	for (int i=0;i<framebuffers.Size();i++)
+	for (int i=0;i<framebuffers->Size();i++)
 	{
-		auto framebuffer = framebuffers.GetFramebuffer(i);
-		VulkanCommandBuffer comm(renderContext.GetCommandPool());
-		comm.BeginRenderPass(framebuffer,glm::vec4(0,0,0,0));
-		comm.BindPipeline(_pPipeline);
-		comm.Draw(3, 1, 0, 0);
-		comm.End();
+		auto framebuffer = framebuffers->GetFramebuffer(i);
+		VulkanCommandBuffer* comm = new VulkanCommandBuffer(renderContext.GetCommandPool());
+		comm->BeginRenderPass(framebuffer,glm::vec4(0,0,0,0));
+		comm->BindPipeline(_pPipeline);
+		comm->Draw(3, 1, 0, 0);
+		comm->EndRenderPass();
+		comm->End();
 		_commands.push_back(comm);
 	}
 	
@@ -47,11 +48,14 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 
 RenderColor2D::~RenderColor2D()
 {
-
+	for(auto pc: _commands)
+	{
+		delete pc;
+	}
 }
 
 const VulkanSemaphore& RenderColor2D::Draw(const VulkanSemaphore& wait)
 {
 	uint32_t index = _pPipeline->GetSwapChain().GetCurrentImageIndex();
-	return _commands[index].SubmitPipelineAsync(wait,VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+	return _commands[index]->SubmitPipelineAsync(wait,VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 }

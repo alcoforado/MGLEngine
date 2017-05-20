@@ -89,6 +89,12 @@ void VulkanCommandBuffer::End()
 	AssertVulkanSuccess(err);
 }
 
+void VulkanCommandBuffer::EndRenderPass()
+{
+	vkCmdEndRenderPass(_vkCommandBuffer);
+}
+
+
 const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait.GetHandle();

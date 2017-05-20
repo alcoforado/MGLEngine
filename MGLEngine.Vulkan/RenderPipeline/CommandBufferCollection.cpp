@@ -2,7 +2,7 @@
 #include "VulkanPipeline.h"
 
 CommandBufferCollection::CommandBufferCollection(const VulkanCommandPool* pool, const VulkanPipeline* pipeline, glm::vec4 color)
-:_framebuffers(pipeline->GetVulkanSwapChainFramebuffers())
+:_framebuffers(*(pipeline->GetVulkanSwapChainFramebuffers()))
 {
 	for (int i = 0; i<_framebuffers.Size(); i++)
 	{
