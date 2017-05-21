@@ -98,6 +98,8 @@ void VulkanCommandBuffer::EndRenderPass()
 const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait.GetHandle();
+	VkPipelineStageFlags waitStages[] = { static_cast<VkFlags>(pipelineStage) };
+	VkSemaphore signalSemaphores[] = { _lock.GetHandle() };
 	if (_pSubmitInfoCache == nullptr)
 	{
 		
@@ -111,12 +113,10 @@ const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSema
 			VkSubmitInfo &submitInfo = *_pSubmitInfoCache;
 			submitInfo = {};
 			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-			VkPipelineStageFlags waitStages[] = { static_cast<VkFlags>(pipelineStage) };
 			submitInfo.waitSemaphoreCount = 1;
 			submitInfo.pWaitDstStageMask = waitStages;
 			submitInfo.commandBufferCount = 1;
 			submitInfo.pCommandBuffers = &_vkCommandBuffer;
-			VkSemaphore signalSemaphores[] = { _lock.GetHandle() };
 			submitInfo.signalSemaphoreCount = 1;
 			submitInfo.pSignalSemaphores = signalSemaphores;
 		}
