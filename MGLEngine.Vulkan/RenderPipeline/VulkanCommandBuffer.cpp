@@ -133,4 +133,6 @@ const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSema
 
 VulkanCommandBuffer::~VulkanCommandBuffer()
 {
+	vkFreeCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), _pPool->GetHandle(), 1, &_vkCommandBuffer);
 }
+
