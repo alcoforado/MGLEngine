@@ -28,5 +28,6 @@ public:
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanAllocatedQueue& GetGraphicQueue() const;
 	void OnResizeWindow(GLFWwindow *window) { _surface.UpdateWindowDims(window); }
+	void WaitToBeIdle();
 };
 

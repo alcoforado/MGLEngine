@@ -98,3 +98,8 @@ const VulkanAllocatedQueue& VulkanLogicalDevice::GetGraphicQueue() const
 	throw new Exception("No graphic queueu was found");
 
 }
+
+void VulkanLogicalDevice::WaitToBeIdle()
+{
+	vkDeviceWaitIdle(_vkDevice);
+}

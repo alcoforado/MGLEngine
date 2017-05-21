@@ -21,8 +21,6 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
 	render = new RenderColor2D(*this);
 
-
-	
 }
 
 
