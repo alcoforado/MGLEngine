@@ -2,11 +2,3 @@
 
 
 
-DefragArray::DefragArray()
-{
-}
-
-
-DefragArray::~DefragArray()
-{
-}

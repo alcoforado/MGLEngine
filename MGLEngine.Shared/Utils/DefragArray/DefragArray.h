@@ -1,38 +1,47 @@
 #pragma once
 #include "CopyRegion.h"
+#include "../opointer.h"
+#include <vector>
+#include <list>
+#include "CopyPlanSequenceDetail.h"
 
 template<class T>
 class DefragArray
 {
 private:
-	std::list<CopyRegion> OptimizePlan(std::list<CopyRegion>& p)
+	std::vector<CopyRegion>* OptimizePlan(std::vector<CopyRegion> p)
 	{
-		var plan = new List<CopyPlan>(p);
-		plan.Sort((a, b) = > a.Orig.offI - b.Orig.offI);
-
-
-		var optimumPlan = new List<CopyPlan>();
-
-		if (plan.Count > 1)
+		
+		std::sort(p.first(), p.end(), [](const T&a, const T&b)->bool
 		{
-			var mergedSegment = plan[0];
-			for (int i = 1; i < plan.Count; i++)
+			return a.Orig.offI < b.Orig.offI;
+		});
+
+
+
+		std::vector<CopyRegion>* optimumPlan = new std::vector<CopyRegion>();
+		optimumPlan->reserve(p.size());
+
+		if (p.size() > 1)
+		{
+			CopyRegion rg = p[0];
+			for (int i = 1; i < p.size(); i++)
 			{
-				if (!mergedSegment.TryRightMerge(plan[i]))
+				if (!rg.TryRightMerge(p[i]))
 				{
-					optimumPlan.Add(mergedSegment);
-					mergedSegment = plan[i];
+					optimumPlan->Add(rg);
+					rg = p[i];
 				}
 			}
-			optimumPlan.Add(mergedSegment);
+			optimumPlan->push_back(rg);
 		}
 		else
 		{
-			optimumPlan.Add(plan.First());
+			optimumPlan->push_back(p[0]);
 		}
 		return optimumPlan;
 	}
-
+	/*
 	public static void CopyArraySegments<T>(T[] src, T[] dst, List<CopyPlan> plan)
 	{
 		var optPlan = OptimizePlan(plan);
@@ -49,17 +58,17 @@ private:
 		System.Diagnostics.Debug.Assert(cp.Dst.offI + cp.Dst.size <= dst.Length);
 		Array.Copy(src, cp.Orig.offI, dst, cp.Dst.offI, cp.Orig.size);
 	}
+	*/
 
 
-
-	public static void ReorganizeArray<T>(T[] src, List<CopyPlan> plan)
+	void ReorganizeArray(std::vector<T> &src, std::vector<CopyRegion> plan)
 	{
-		var optPlan = OptimizePlan(plan);
+		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(plan);
 
 
 
 		//create the list of copy conflicts
-		var backupList = new List<CopyPlanSequenceDetail<T>>();
+		auto backupList = new std::list<CopyPlanSequenceDetail<T>*>();
 		var seqPlan = optPlan.Select(x = > new CopyPlanSequenceDetail<T>(x)).ToList();
 		for (int i = 0; i<seqPlan.Count; i++)
 		{
@@ -124,4 +133,4 @@ private:
 	}
 
 
-}
+};
