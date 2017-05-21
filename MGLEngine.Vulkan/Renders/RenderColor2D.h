@@ -15,6 +15,7 @@ class RenderColor2D
 	public:
 	explicit RenderColor2D(IRenderContext& renderContext);
 	~RenderColor2D();
+	void OnSwapChange();
 	const VulkanSemaphore& Draw(const VulkanSemaphore& wait);
 };
 

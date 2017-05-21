@@ -48,11 +48,17 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 
 RenderColor2D::~RenderColor2D()
 {
+	
+}
+
+void RenderColor2D::OnSwapChange()
+{
 	_pPipeline.if_free();
-	for(auto pc: _commands)
+	for (auto pc : _commands)
 	{
 		delete pc;
 	}
+	_commands.clear();
 }
 
 const VulkanSemaphore& RenderColor2D::Draw(const VulkanSemaphore& wait)

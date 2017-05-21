@@ -48,6 +48,21 @@
     <ClInclude Include="RenderPipeline\ICompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\DefragArray\ArrayRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\DefragArray\CopyRegion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CopyPlanSequenceDetail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\DefragArray\CopyPlanSequenceDetail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefragArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">
@@ -60,6 +75,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderPipeline\ICompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CopyPlanSequenceDetail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\DefragArray\CopyPlanSequenceDetail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DefragArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
