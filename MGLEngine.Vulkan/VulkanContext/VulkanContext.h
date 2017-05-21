@@ -9,6 +9,7 @@
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../Renders/IRenderContext.h"
 #include "../Renders/RenderColor2D.h"
+#include "Utils/opointer.h"
 struct GLFWwindow;
 
 
@@ -24,16 +25,17 @@ private:
 	RenderColor2D *render;
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
-	VulkanSwapChain _swapChain;
+	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanCommandPool _commandPool;
 public:
 	VulkanContext(GLFWwindow* window);
+	void OnResize(GLFWwindow* window);
 	~VulkanContext();
 	void Initialize(GLFWwindow* window);
 	
 	std::vector<VulkanPhysicalDevice> GetPhysicalDevices(VkInstance &inst) const;
 	virtual const VulkanSwapChain& GetSwapChain() const override {
-		return _swapChain;
+		return *_pSwapChain;
 	}
 
 	virtual const VulkanLogicalDevice& GetLogicalDevice() const override { return _vkLogicalDevice; }

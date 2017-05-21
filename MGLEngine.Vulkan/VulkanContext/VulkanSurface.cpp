@@ -30,16 +30,24 @@ VulkanSurface::VulkanSurface(const VulkanPhysicalDevice& device, GLFWwindow* win
 		_presentModes.resize(presentModeCount);
 		vkGetPhysicalDeviceSurfacePresentModesKHR(device.GetHandle(), _vkSurface, &presentModeCount, _presentModes.data());
 	}
-	
-	int width, height;
-	glfwGetWindowSize(window, &width,&height);
-	_windowHeight = static_cast<uint32_t>(height);
-	_windowWidth = static_cast<uint32_t>(width);
+
+	this->UpdateWindowDims(window);
+
 
 }
 
+void VulkanSurface::UpdateWindowDims(GLFWwindow* window)
+{
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	_windowHeight = static_cast<uint32_t>(height);
+	_windowWidth = static_cast<uint32_t>(width);
+}
+
+
 VulkanSurface::~VulkanSurface()
 {
+	vkDestroySurfaceKHR(_physicalDevice.GetVulkanInstance().GetHandle(), _vkSurface, nullptr);
 }
 
 bool VulkanSurface::SupportsFormat(VkFormat format, VkColorSpaceKHR colorSpace) const 

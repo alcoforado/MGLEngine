@@ -93,6 +93,8 @@ _nextImageSemaphore(device)
 
 VulkanSwapChain::~VulkanSwapChain()
 {
+	for (auto img : _imagesviews)
+		vkDestroyImageView(_logicalDevice.GetHandle(), img, nullptr);
 	vkDestroySwapchainKHR(_logicalDevice.GetHandle(),_handle,nullptr);
 }
 

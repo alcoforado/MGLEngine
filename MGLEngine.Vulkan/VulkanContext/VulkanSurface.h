@@ -23,6 +23,7 @@ class VulkanSurface
 	
 public:
 	VulkanSurface(const VulkanPhysicalDevice& device,GLFWwindow* window);
+	void UpdateWindowDims(GLFWwindow *window);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
 	bool SupportsFormat(VkFormat format, VkColorSpaceKHR colorSpace)const;

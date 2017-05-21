@@ -33,14 +33,14 @@ public:
 
 	VkViewport Viewport;
 	VkRect2D Scissor;
-	OPointer<VulkanSwapChainFramebuffers> _pFramebuffer;
+	OPointer<VulkanSwapChainFramebuffers> _pFramebuffers;
 
 	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
 	VkPipeline GetHandle() const { return _vkPipeline; }
 
 	void Load();
 	const VulkanSwapChain& GetSwapChain() const { return _swapChain; };
-	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffer; }
+	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
 	
 
 	

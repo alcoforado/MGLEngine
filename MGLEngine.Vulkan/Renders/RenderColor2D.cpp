@@ -48,6 +48,7 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 
 RenderColor2D::~RenderColor2D()
 {
+	_pPipeline.if_free();
 	for(auto pc: _commands)
 	{
 		delete pc;

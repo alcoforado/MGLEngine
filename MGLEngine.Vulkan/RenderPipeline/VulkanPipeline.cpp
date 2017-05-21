@@ -162,7 +162,7 @@ void VulkanPipeline::Load()
 	AssertVulkanSuccess(err);
 
 
-	_pFramebuffer = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
+	_pFramebuffers = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
 
 	_isLoaded = true;
 }
@@ -173,7 +173,7 @@ VulkanPipeline::~VulkanPipeline()
 {
 	if (_isLoaded)
 	{
-
+		delete _pFramebuffers;
 		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
 		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
 		

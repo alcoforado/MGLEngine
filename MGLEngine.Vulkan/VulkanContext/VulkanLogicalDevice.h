@@ -27,6 +27,6 @@ public:
 	const VulkanSurface& GetSurface() const { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanAllocatedQueue& GetGraphicQueue() const;
-
+	void OnResizeWindow(GLFWwindow *window) { _surface.UpdateWindowDims(window); }
 };
 
