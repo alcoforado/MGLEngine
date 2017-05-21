@@ -1,14 +1,11 @@
 #pragma once
+#include "CopyRegion.h"
+
+template<class T>
 class DefragArray
 {
-public:
-	DefragArray();
-	~DefragArray();
-};
-
-public static class DefragArray
-{
-	private static List<CopyPlan> OptimizePlan(List<CopyPlan> p)
+private:
+	std::list<CopyRegion> OptimizePlan(std::list<CopyRegion>& p)
 	{
 		var plan = new List<CopyPlan>(p);
 		plan.Sort((a, b) = > a.Orig.offI - b.Orig.offI);
