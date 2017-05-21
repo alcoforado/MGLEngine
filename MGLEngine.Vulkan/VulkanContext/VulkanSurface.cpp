@@ -40,6 +40,7 @@ void VulkanSurface::UpdateWindowDims(GLFWwindow* window)
 {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_physicalDevice.GetHandle(), _vkSurface, &_capabilities);
 	_windowHeight = static_cast<uint32_t>(height);
 	_windowWidth = static_cast<uint32_t>(width);
 }

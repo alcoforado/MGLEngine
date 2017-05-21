@@ -18,7 +18,8 @@ struct GLFWwindow;
 class VulkanContext : public IRenderContext
 {
 	//static public
-public:
+private:
+	static void OnWindowResized(GLFWwindow* window, int width, int height);
 	
 private:
 	
@@ -27,6 +28,8 @@ private:
 	VulkanLogicalDevice _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanCommandPool _commandPool;
+	
+
 public:
 	VulkanContext(GLFWwindow* window);
 	void OnResize(GLFWwindow* window);

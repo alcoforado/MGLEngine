@@ -173,7 +173,7 @@ VulkanPipeline::~VulkanPipeline()
 {
 	if (_isLoaded)
 	{
-		delete _pFramebuffers;
+		_pFramebuffers.if_free();
 		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
 		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
 		

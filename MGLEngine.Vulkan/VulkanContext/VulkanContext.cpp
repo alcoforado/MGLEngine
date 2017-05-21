@@ -12,20 +12,35 @@
 #include "../Renders/RenderColor2D.h"
 
 
+void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
+	if (width == 0 || height == 0) return;
+
+	VulkanContext *ctx = reinterpret_cast<VulkanContext*>(glfwGetWindowUserPointer(window));
+	ctx->OnResize(window);
+}
+
+
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
 	_commandPool(_vkLogicalDevice)
 
 {
+	glfwSetWindowUserPointer(window, this);
+	glfwSetWindowSizeCallback(window, OnWindowResized);
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
 	render = new RenderColor2D(*this);
 
+
 }
 
 
-void VulkanContext::OnResize(GLFWwindow *window )
+
+
+void VulkanContext::OnResize(GLFWwindow *window)
 {
+	_vkLogicalDevice.WaitToBeIdle();
+
 	delete render;
 	_pSwapChain.if_free();
 	_vkLogicalDevice.OnResizeWindow(window);
