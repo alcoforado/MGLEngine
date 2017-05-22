@@ -8,11 +8,11 @@
 template<class T>
 class DefragArray
 {
-private:
+public:
 	std::vector<CopyRegion>* OptimizePlan(std::vector<CopyRegion> p)
 	{
 		
-		std::sort(p.first(), p.end(), [](const T&a, const T&b)->bool
+		std::sort(p.begin(), p.end(), [](const CopyRegion &a, const CopyRegion &b)->bool
 		{
 			return a.Orig.offI < b.Orig.offI;
 		});
@@ -29,7 +29,7 @@ private:
 			{
 				if (!rg.TryRightMerge(p[i]))
 				{
-					optimumPlan->Add(rg);
+					optimumPlan->push_back(rg);
 					rg = p[i];
 				}
 			}
@@ -68,69 +68,57 @@ private:
 
 
 		//create the list of copy conflicts
-		auto backupList = new std::list<CopyPlanSequenceDetail<T>*>();
-		var seqPlan = optPlan.Select(x = > new CopyPlanSequenceDetail<T>(x)).ToList();
-		for (int i = 0; i<seqPlan.Count; i++)
+		std::set<CopyPlanSequenceDetail<T>*> backupList,seqPlan;
+		for (auto cp : *optPlan) { seqPlan.insert(new CopyPlanSequenceDetail<T>(cp)); }
+
+
+		for (auto cp1 : seqPlan)
 		{
-			var cp1 = seqPlan[i];
-			for (int j = 0; j < seqPlan.Count && j != i; j++)
+			for (auto cp2: seqPlan)
 			{
-				var cp2 = seqPlan[j];
-				if (cp2.Copy.Orig.IsAfter(cp1.Copy.Dst))
+				if (cp1 == cp2)
+					continue;
+				if ( cp2->Copy.Orig.IsAfter(cp1->Copy.Dst) )
 				{
 					break;
 				}
-				if (cp2.Copy.Orig.Intersects(cp1.Copy.Dst))
+				if (cp2->Copy.Orig.Intersects(cp1->Copy.Dst))
 				{
-					cp1.IsBlockedBy.Add(cp2);
-					cp2.Blocks.Add(cp1);
+					cp1->IsBlockedBy.insert(cp2);
+					cp2->Blocks.insert(cp1);
 				}
 			}
 		}
 
 
 
-		while (seqPlan.Count > 0)
+		while (seqPlan.size() > 0)
 		{
-			int minBlockedValue = int.MaxValue;
-			int minBlockIndex = 0;
-			int cI = 0;
-			foreach(var p in seqPlan)
+			auto minElemIt = (std::min_element(seqPlan.begin(), seqPlan.end(), [](const CopyPlanSequenceDetail<T>* a, const CopyPlanSequenceDetail<T>* b) -> bool {return a->IsBlockedBy.size() < b->IsBlockedBy.size(); }));
+			auto minElem = *minElemIt;
+
+			if (minElem->IsBlockedBy.size() != 0)
 			{
-				if (p.IsBlockedBy.Count < minBlockedValue)
+				for (auto it=minElem->IsBlockedBy.begin();it!=minElem->IsBlockedBy.end();it++)
 				{
-					minBlockedValue = p.IsBlockedBy.Count;
-					minBlockIndex = cI;
-				}
-				cI++;
-			}
-			var minElem = seqPlan[minBlockIndex];
-			if (minElem.IsBlockedBy.Count == 0)
-				CopyArraySegment(src, src, minElem.Copy);
-			else
-			{
-				foreach(var blockingElem in minElem.IsBlockedBy)
-				{
-					blockingElem.CreateBackup(src);
-					blockingElem.RemoveBlocks();
+					auto blockingElem = *it;
+					blockingElem->CreateBackup(src);
+					blockingElem->RemoveBlocks();
 
 					//Move the backed up element to the backed up elements list
-					seqPlan.Remove(blockingElem);
-					backupList.Add(blockingElem);
+					seqPlan.erase(blockingElem);
+					backupList.insert(blockingElem);
 				}
 			}
-
-			minElem.RemoveBlocks();
-			seqPlan.Remove(minElem);
-
+			minElem->Copy.Execute(src);
+			minElem->RemoveBlocks();
+			seqPlan.erase(minElem);
+			delete minElem;
 		}
-		foreach(var backupElem in backupList)
+		for (auto backupElem : backupList)
 		{
-			backupElem.ApplyBackup(src);
+			backupElem->ApplyBackup(src);
+			delete backupElem;
 		}
-
-
 	}
-
-
 };

@@ -135,7 +135,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CopyPlanSequenceDetail.h" />
     <ClInclude Include="Utils\DefragArray\DefragArray.h" />
     <ClInclude Include="Utils\DefragArray\CopyPlanSequenceDetail.h" />
     <ClInclude Include="Utils\DefragArray\CopyRegion.h" />
@@ -152,10 +151,7 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CopyPlanSequenceDetail.cpp" />
-    <ClCompile Include="Utils\DefragArray\DefragArray.cpp" />
     <ClCompile Include="RenderPipeline\ICompiler.cpp" />
-    <ClCompile Include="Utils\DefragArray\CopyPlanSequenceDetail.cpp" />
     <ClCompile Include="Utils\Exception.cpp" />
     <ClCompile Include="Utils\FieldArray.cpp" />
     <ClCompile Include="Utils\Path.cpp" />

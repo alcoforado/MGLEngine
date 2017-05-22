@@ -7,6 +7,17 @@ public:
 public:
 	ArrayRegion(){}
 	~ArrayRegion(){}
+	ArrayRegion(int o,int s)
+	{
+		offI = o;
+		size = s;
+			
+	}
+	int LastIndex()
+	{
+		return offI + size - 1;
+	}
+
 
 	 bool ContinuouslyFollows(ArrayRegion dst) const
 	 {

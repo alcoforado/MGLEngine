@@ -4,6 +4,7 @@
 #include <vector>
 #include <cassert>
 #include <set>
+#include "../Exception.h"
 template<class T>
 class CopyPlanSequenceDetail
 {
@@ -35,11 +36,11 @@ public:
 	{
 		for(CopyPlanSequenceDetail<T>* copyPlan : Blocks)
 		{
-			size_type found = copyPlan->IsBlockedBy.erase(this);
+			std::size_t found = copyPlan->IsBlockedBy.erase(this);
 			if (!found)
 				throw new Exception("Consistency Error found in blocks construction");
 		}
 	}
-	~CopyPlanSequenceDetail();
+	~CopyPlanSequenceDetail(){}
 };
 
