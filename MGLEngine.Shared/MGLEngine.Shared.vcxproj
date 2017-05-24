@@ -135,6 +135,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utils\Arrays\ArraySelect.h" />
+    <ClInclude Include="Shapes\IRender3D.h" />
+    <ClInclude Include="Shapes\ITopology2D.h" />
+    <ClInclude Include="Shapes\ITopology3D.h" />
+    <ClInclude Include="Shapes\Shape2D.h" />
+    <ClInclude Include="Shapes\IShape3D.h" />
+    <ClInclude Include="Shapes\IShape2D.h" />
+    <ClInclude Include="Utils\DrawTree\DrawInfo.h" />
+    <ClInclude Include="Utils\DrawTree\DrawTree.h" />
     <ClInclude Include="Utils\DefragArray\DefragArray.h" />
     <ClInclude Include="Utils\DefragArray\CopyPlanSequenceDetail.h" />
     <ClInclude Include="Utils\DefragArray\CopyRegion.h" />
@@ -142,6 +151,7 @@
     <ClInclude Include="IMGLContainer.h" />
     <ClInclude Include="RenderPipeline\ICompiler.h" />
     <ClInclude Include="Utils\Exception.h" />
+    <ClInclude Include="Utils\Arrays\IArray.h" />
     <ClInclude Include="Utils\iterator_shorthands.hpp" />
     <ClInclude Include="Utils\NTree.h" />
     <ClInclude Include="Utils\opointer.h" />
@@ -151,9 +161,17 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Utils\Arrays\ArraySelect.cpp" />
+    <ClCompile Include="Shapes\IRender3D.cpp" />
+    <ClCompile Include="Shapes\ITopology2D.cpp" />
+    <ClCompile Include="Shapes\ITopology3D.cpp" />
+    <ClCompile Include="Shapes\Shape2D.cpp" />
+    <ClCompile Include="Shapes\IShape3D.cpp" />
+    <ClCompile Include="Shapes\IShape2D.cpp" />
+    <ClCompile Include="Utils\DrawTree\DrawInfo.cpp" />
+    <ClCompile Include="Utils\DrawTree\DrawTree.cpp" />
     <ClCompile Include="RenderPipeline\ICompiler.cpp" />
     <ClCompile Include="Utils\Exception.cpp" />
-    <ClCompile Include="Utils\FieldArray.cpp" />
     <ClCompile Include="Utils\Path.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
