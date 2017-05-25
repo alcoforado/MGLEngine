@@ -4,32 +4,23 @@
 
 
 #include <vector>
-#include <utilities/IArray.h>
+#include "IArray.h"
 	template<class MemberType>
 class ArraySelect
 {
-	float *_data;
+	void *_data;
 	int _size;
 	int _type_off;
 	int _member_off;
 
 
 public:
-	template<class ClassType>
-	ArraySelect(std::vector<ClassType> &data, MemberType ClassType::*vertice)
-	{
-		static_assert(sizeof(ClassType) % 4 == 0, "Type cannot have 4 bytes alignment");
-		_data = (float*) &(data[0]);
-		_size = data.size();
-		_type_off = sizeof(ClassType) / sizeof(float);
-		_member_off = ((float*)&(data[0].*vertice)) - ((float*) &(data[0]));
-	}
 
 	template<class ClassType>
 	ArraySelect(IArray<ClassType> &data, MemberType ClassType::*vertice)
 	{
-		static_assert(sizeof(ClassType) % 4 == 0, "Type cannot have 4 bytes alignment");
-		_data = (float*) &(data[0]);
+		static_assert(sizeof(ClassType) % 4 == 0, "Type can only have 4 bytes alignment");
+		_data = &(data[0]);
 		_size = data.size();
 		_type_off = sizeof(ClassType) / sizeof(float);
 		_member_off = ((float*)&(data[0].*vertice)) - ((float*) &(data[0]));
@@ -48,5 +39,3 @@ public:
 
 
 #endif // VERTICEARRAY_H
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc.Terms Privacy Security Status Help
