@@ -2,11 +2,3 @@
 
 
 
-DrawTree::DrawTree()
-{
-}
-
-
-DrawTree::~DrawTree()
-{
-}

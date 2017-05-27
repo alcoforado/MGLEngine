@@ -2,11 +2,3 @@
 
 
 
-ITopology2D::ITopology2D()
-{
-}
-
-
-ITopology2D::~ITopology2D()
-{
-}

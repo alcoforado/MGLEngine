@@ -2,11 +2,3 @@
 
 
 
-DrawInfo::DrawInfo()
-{
-}
-
-
-DrawInfo::~DrawInfo()
-{
-}

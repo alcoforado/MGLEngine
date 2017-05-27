@@ -19,7 +19,7 @@ public:
 	}
 
 
-	OfType& operator[](Index i)
+	OfType& operator[](size_t i)
 	{
 		assert(i<_size);
 		return _ptr[i];

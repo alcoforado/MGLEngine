@@ -90,9 +90,6 @@
     <ClInclude Include="Utils\Arrays\IArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PositionArray2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shapes\IRender2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -126,9 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Arrays\ArraySelect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionArray2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

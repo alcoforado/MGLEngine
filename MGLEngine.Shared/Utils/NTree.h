@@ -6,7 +6,7 @@
 #include <functional>
 
 	template<class Data>
-	class NTreeNode<Data>
+	class NTreeNode
 	{
 	private:
 		std::list<NTreeNode<Data>*> _childs;
@@ -72,6 +72,26 @@
 			action(ptr);
 		}
 
+		void ForAllPreOrderControlDescent(std::function<bool(NTreeNode<Data>*)> visitor)
+		{
+			if (this->IsChildless())
+			{
+				visitor(this);
+				return;
+			}
+			else
+			{
+				if (!visitor(this))
+					return;
+				for (auto ch : _childs)
+				{
+					ch->ForAllInOrder(visitor);
+				}
+				
+			}
+		}
+
+
 		void ForAllInOrder(std::function<void(NTreeNode<Data>*)> visitor)
 		{
 			if (this->IsChildless())
@@ -117,7 +137,7 @@
 			this->_parent = nullptr;
 			parent->_childs.remove(this);
 		}
-	}
+	};
 
 
 
