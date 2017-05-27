@@ -137,6 +137,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PositionArray2D.h" />
+    <ClInclude Include="Shapes\IRender2D.h" />
     <ClInclude Include="Utils\Arrays\ArraySelect.h" />
     <ClInclude Include="Shapes\IRender3D.h" />
     <ClInclude Include="Shapes\ITopology2D.h" />
@@ -163,13 +165,12 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PositionArray2D.cpp" />
     <ClCompile Include="Utils\Arrays\ArraySelect.cpp" />
-    <ClCompile Include="Shapes\IRender3D.cpp" />
     <ClCompile Include="Shapes\ITopology2D.cpp" />
     <ClCompile Include="Shapes\ITopology3D.cpp" />
     <ClCompile Include="Shapes\Shape2D.cpp" />
     <ClCompile Include="Shapes\IShape3D.cpp" />
-    <ClCompile Include="Shapes\IShape2D.cpp" />
     <ClCompile Include="Utils\DrawTree\DrawInfo.cpp" />
     <ClCompile Include="Utils\DrawTree\DrawTree.cpp" />
     <ClCompile Include="RenderPipeline\ICompiler.cpp" />

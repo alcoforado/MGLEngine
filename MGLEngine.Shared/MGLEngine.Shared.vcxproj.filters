@@ -90,6 +90,12 @@
     <ClInclude Include="Utils\Arrays\IArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PositionArray2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IRender2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">
@@ -107,9 +113,6 @@
     <ClCompile Include="Utils\DrawTree\DrawInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes\IShape2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shapes\IShape3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,10 +125,10 @@
     <ClCompile Include="Shapes\Shape2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes\IRender3D.cpp">
+    <ClCompile Include="Utils\Arrays\ArraySelect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Arrays\ArraySelect.cpp">
+    <ClCompile Include="PositionArray2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,15 +11,20 @@ class IArray
 protected:
 	IArray() { _ptr = NULL; _size = 0; }
 	OfType *_ptr;
-	Index _size;
+	size_t _size;
 public:
+	IArray(OfType *p,size_t size)
+	{
+		_size = size;
+	}
+
 
 	OfType& operator[](Index i)
 	{
 		assert(i<_size);
 		return _ptr[i];
 	}
-	Index size() { return _size; }
+	size_t size() { return _size; }
 
 	OfType* GetPointer() { return _ptr; }
 };

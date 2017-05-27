@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "IArray.h"
-	template<class MemberType>
+template<class MemberType>
 class ArraySelect
 {
 	void *_data;
@@ -22,8 +22,8 @@ public:
 		static_assert(sizeof(ClassType) % 4 == 0, "Type can only have 4 bytes alignment");
 		_data = &(data[0]);
 		_size = data.size();
-		_type_off = sizeof(ClassType) / sizeof(float);
-		_member_off = ((float*)&(data[0].*vertice)) - ((float*) &(data[0]));
+		_type_off = sizeof(ClassType);
+		_member_off = static_cast<void*>(&data[0].*vertice) - static_cast<void*>(&(data[0]));
 	}
 
 
