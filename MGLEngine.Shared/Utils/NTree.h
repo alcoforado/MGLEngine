@@ -5,6 +5,7 @@
 #include <list>
 #include <functional>
 
+
 	template<class Data>
 	class NTreeNode
 	{
@@ -16,9 +17,9 @@
 	public:
 		
 		NTreeNode(Data data)
+		:_data(data)
 		{
 			_parent = nullptr;
-			_data = data;
 		}
 
 		bool IsChildless()

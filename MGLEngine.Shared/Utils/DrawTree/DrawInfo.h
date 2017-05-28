@@ -32,18 +32,20 @@ template<class VerticeData>
 class DrawInfo
 {
 	ShapeInfo<VerticeData> _shape;
+	DrawInfo()
+	{
+		NeedRedraw = false;
+		DrawInfoType = Root;
+	}
+
 	
-	
+
 public:
+	
 	DrawInfo(const DrawInfo<VerticeData>& data)
 	{
 		*this = data;
 	}
-	DrawInfo()
-	{
-		*this = CreateRoot();
-	}
-
 	ArrayLocation Current;
 	ArrayLocation Future;
 	DrawInfoType DrawInfoType;
