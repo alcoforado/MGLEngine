@@ -9,7 +9,7 @@ template<class T>
 class DefragArray
 {
 public:
-	std::vector<CopyRegion>* OptimizePlan(std::vector<CopyRegion> p)
+	std::vector<CopyRegion>* OptimizePlan(std::vector<CopyRegion> &p)
 	{
 		
 		std::sort(p.begin(), p.end(), [](const CopyRegion &a, const CopyRegion &b)->bool
@@ -61,24 +61,41 @@ public:
 	*/
 
 
-	void ReorganizeArray(std::vector<T> &src, std::vector<CopyRegion> plan)
+	void ReorganizeArray(const std::vector<T> &src, std::vector<T> &dst,std::vector<CopyRegion> &plan)
+	{
+		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(plan);
+
+		std::vector<CopyRegion> &plan = *optPlan;
+
+		for(CopyRegion &cp : plan)
+		{
+			cp.Execute(src, dst);
+		}
+
+
+
+		
+	}
+
+
+	void ReorganizeArray(std::vector<T> &src, std::vector<CopyRegion> &plan)
 	{
 		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(plan);
 
 
 
 		//create the list of copy conflicts
-		std::set<CopyPlanSequenceDetail<T>*> backupList,seqPlan;
+		std::set<CopyPlanSequenceDetail<T>*> backupList, seqPlan;
 		for (auto cp : *optPlan) { seqPlan.insert(new CopyPlanSequenceDetail<T>(cp)); }
 
 
 		for (auto cp1 : seqPlan)
 		{
-			for (auto cp2: seqPlan)
+			for (auto cp2 : seqPlan)
 			{
 				if (cp1 == cp2)
 					continue;
-				if ( cp2->Copy.Orig.IsAfter(cp1->Copy.Dst) )
+				if (cp2->Copy.Orig.IsAfter(cp1->Copy.Dst))
 				{
 					break;
 				}
@@ -99,7 +116,7 @@ public:
 
 			if (minElem->IsBlockedBy.size() != 0)
 			{
-				for (auto it=minElem->IsBlockedBy.begin();it!=minElem->IsBlockedBy.end();it++)
+				for (auto it = minElem->IsBlockedBy.begin(); it != minElem->IsBlockedBy.end(); it++)
 				{
 					auto blockingElem = *it;
 					blockingElem->CreateBackup(src);

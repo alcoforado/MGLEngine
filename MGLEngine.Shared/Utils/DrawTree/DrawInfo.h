@@ -18,8 +18,14 @@ class ShapeInfo
 	public:
 		ITopology2D *Topology;
 		IRender2D<VerticeData> *Render;
-
-
+		void WriteData(IArray<VerticeData> &v,IArray<uint32_t> &i)
+		{
+			assert(Topology != nullptr);
+			assert(Render != nullptr);
+			ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
+			Topology->WriteTopology(sV, i);
+			Render->Write(v);
+		}
 };
 
 template<class VerticeData>

@@ -37,5 +37,14 @@ public:
 		auto p = src.data();
 		memcpy(src.data() + Dst.offI, src.data() + Orig.offI, Dst.size*sizeof(T));
 	}
+	template<class T>
+	void Execute(const std::vector<T> &src, std::vector<T> &dst)
+	{
+		assert(Orig.LastIndex() < src.size());
+		assert(Dst.LastIndex() < dst.size());
+		assert(Dst.size == Orig.size);
+		auto p = src.data();
+		memcpy(dst.data() + Dst.offI, src.data() + Orig.offI, Dst.size * sizeof(T));
+	}
 
 };
