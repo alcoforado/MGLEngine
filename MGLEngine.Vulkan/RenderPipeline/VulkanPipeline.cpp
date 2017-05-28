@@ -34,12 +34,7 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	ShaderStages.push_back(FragShaderStageInfo);
 
 
-	VertexInputInfo = {};
-	VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	VertexInputInfo.vertexBindingDescriptionCount = 0;
-	VertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-	VertexInputInfo.vertexAttributeDescriptionCount = 0;
-	VertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+	
 
 	InputAssembly = {};
 	InputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -128,7 +123,7 @@ void VulkanPipeline::Load()
 
 	pipelineInfo.stageCount = static_cast<uint32_t>(ShaderStages.size());
 	pipelineInfo.pStages = ShaderStages.data();
-	pipelineInfo.pVertexInputState = &VertexInputInfo;
+	pipelineInfo.pVertexInputState = VertexInputInfo.GetPipelineInputAssmeblyStateCreateInfo();
 	pipelineInfo.pInputAssemblyState = &InputAssembly;
 	
 	

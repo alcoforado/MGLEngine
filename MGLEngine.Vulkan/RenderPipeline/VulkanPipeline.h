@@ -5,6 +5,7 @@
 #include "Utils/opointer.h"
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
+#include "VulkanInputLayout.h"
 class VulkanCommandPool;
 class VulkanSwapChain;
 class VertexShaderByteCode;
@@ -20,7 +21,7 @@ public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
 	std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
-	VkPipelineVertexInputStateCreateInfo VertexInputInfo;
+	VulkanInputLayout VertexInputInfo;
 	VkPipelineInputAssemblyStateCreateInfo InputAssembly;
 	VkPipelineRasterizationStateCreateInfo Rasterizer;
 	VkPipelineMultisampleStateCreateInfo Multisampling;

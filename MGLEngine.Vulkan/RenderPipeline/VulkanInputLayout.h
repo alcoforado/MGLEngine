@@ -2,21 +2,38 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <glm/detail/type_vec2.hpp>
-
+#include <typeinfo>
+#include "Utils/Exception.h"
 class VulkanInputLayout;
 
 template<class VerticeData>
 class InputBinding
 {
-	VulkanInputLayout *_layout;
+	std::vector<VkVertexInputAttributeDescription> *_attributes;
 
-	InputBinding(VulkanInputLayout *layout)
+	InputBinding(std::vector<VkVertexInputAttributeDescription> *v)
 	{
-		_layout = layout;
+		_attributes = v;
 	}
-	InputBinding& AddField(glm::vec2 VerticeData::*member)
+	template<class T>
+	VkFormat TypeToVulkanFormat()
 	{
-		AddField(member.)
+		if (typeid(T) == typeid(glm::vec2))
+		{
+			return VK_FORMAT_R32G32_SFLOAT; 
+		}
+		throw new Exception("Can't get Vulkan Format from type %s", typeid(T).name);
+	}
+	template<class FieldType>
+	InputBinding& AddField(uint32_t loc,FieldType VerticeData::*member)
+	{
+		VkVertexInputAttributeDescription attr = {};
+		VerticeData v;
+		attr.binding = 0;
+		attr.location = loc;
+		attr.format = TypeToVulkanFormat<FieldType>();
+		attr.offset = static_cast<void*>(&(v.*member)) - static_cast<void*>(&v);
+		v->push_back(attr);
 		return *this;
 	}
 };
@@ -24,8 +41,9 @@ class InputBinding
 class VulkanInputLayout
 {
 	
-	VkPipelineInputAssemblyStateCreateInfo InputAssembly;
+	VkPipelineVertexInputStateCreateInfo VertexInputInfo;
 	std::vector<VkVertexInputBindingDescription> _vBindings;
+	std::vector<VkVertexInputAttributeDescription> _vAttributes;
 public:
 	            VulkanInputLayout();
 	~VulkanInputLayout();
@@ -38,10 +56,18 @@ public:
 		bindingDescription.stride = sizeof(VerticeData);
 		bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 		_vBindings.push_back(bindingDescription);
-		return  InputBinding<VerticeData>();
+		return  InputBinding<VerticeData>(&_vAttributes);
 	}
 
-	VkPipelineInputAssemblyStateCreateInfo GetPipelineInputAssmeblyStateCreateInfo();
+	VkPipelineVertexInputStateCreateInfo* GetPipelineInputAssmeblyStateCreateInfo()
+	{
+		VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+		VertexInputInfo.vertexBindingDescriptionCount = _vBindings.size();
+		VertexInputInfo.pVertexBindingDescriptions =  _vBindings.data(); // Optional
+		VertexInputInfo.vertexAttributeDescriptionCount = _vAttributes.size();
+		VertexInputInfo.pVertexAttributeDescriptions = _vAttributes.data(); // Optional
+		return &VertexInputInfo;
+	}
 
 };
 
