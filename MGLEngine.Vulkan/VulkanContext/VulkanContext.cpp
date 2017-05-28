@@ -9,7 +9,7 @@
 #include <map>
 #include <fstream>
 #include "../VulkanUtils.h"
-#include "../Renders/RenderColor2D.h"
+#include "../Renders/ShaderColor2D.h"
 
 
 void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
@@ -29,7 +29,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	glfwSetWindowSizeCallback(window, OnWindowResized);
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
-	render = new RenderColor2D(*this);
+	render = new ShaderColor2D(*this);
 
 
 }
@@ -46,7 +46,7 @@ void VulkanContext::OnResize(GLFWwindow *window)
 	_vkLogicalDevice.OnResizeWindow(window);
 
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
-	render = new RenderColor2D(*this);
+	render = new ShaderColor2D(*this);
 }
 
 

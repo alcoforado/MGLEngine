@@ -151,7 +151,7 @@
     <ClCompile Include="RenderPipeline\CommandBufferCollection.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="Renders\IRenderContext.cpp" />
-    <ClCompile Include="Renders\RenderColor2D.cpp" />
+    <ClCompile Include="Renders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
     <ClCompile Include="RenderPipeline\FragmentShaderByteCode.cpp" />
     <ClCompile Include="RenderPipeline\VertexShaderByteCode.cpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="RenderPipeline\CommandBufferCollection.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="Renders\IRenderContext.h" />
-    <ClInclude Include="Renders\RenderColor2D.h" />
+    <ClInclude Include="Renders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
     <ClInclude Include="RenderPipeline\FragmentShaderByteCode.h" />
     <ClInclude Include="RenderPipeline\VertexShaderByteCode.h" />

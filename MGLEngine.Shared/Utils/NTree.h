@@ -15,10 +15,10 @@
 
 	public:
 		
-		NTreeNode(Data Data)
+		NTreeNode(Data data)
 		{
 			_parent = nullptr;
-			_data = Data;
+			_data = data;
 		}
 
 		bool IsChildless()

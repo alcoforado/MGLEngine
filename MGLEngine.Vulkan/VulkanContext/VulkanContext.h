@@ -8,7 +8,7 @@
 #include "VulkanSwapChain.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../Renders/IRenderContext.h"
-#include "../Renders/RenderColor2D.h"
+#include "../Renders/ShaderColor2D.h"
 #include "Utils/opointer.h"
 struct GLFWwindow;
 
@@ -23,7 +23,7 @@ private:
 	
 private:
 	
-	RenderColor2D *render;
+	ShaderColor2D *render;
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;

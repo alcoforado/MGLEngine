@@ -1,9 +1,9 @@
-#include "RenderColor2D.h"
+#include "ShaderColor2D.h"
 #include <vector>
 #include "IRenderContext.h"
 #include "../shaders/shaders_bytecode.h"
 
-RenderColor2D::RenderColor2D(IRenderContext& renderContext)
+ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
 	VertexShaderByteCode vertexByteCode(renderContext.GetLogicalDevice(),canvas2D_vert,sizeof(canvas2D_vert));
 	FragmentShaderByteCode fragShaderCode(renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
@@ -46,12 +46,12 @@ RenderColor2D::RenderColor2D(IRenderContext& renderContext)
 
 }
 
-RenderColor2D::~RenderColor2D()
+ShaderColor2D::~ShaderColor2D()
 {
 	
 }
 
-void RenderColor2D::OnSwapChange()
+void ShaderColor2D::OnSwapChange()
 {
 	_pPipeline.if_free();
 	for (auto pc : _commands)
@@ -61,7 +61,7 @@ void RenderColor2D::OnSwapChange()
 	_commands.clear();
 }
 
-const VulkanSemaphore& RenderColor2D::Draw(const VulkanSemaphore& wait)
+const VulkanSemaphore& ShaderColor2D::Draw(const VulkanSemaphore& wait)
 {
 	uint32_t index = _pPipeline->GetSwapChain().GetCurrentImageIndex();
 	return _commands[index]->SubmitPipelineAsync(wait,VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
