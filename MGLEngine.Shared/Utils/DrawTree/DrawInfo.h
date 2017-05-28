@@ -57,6 +57,14 @@ public:
 		else
 			throw new Exception("DrawInfo Node is not a shape");
 	}
+	static DrawInfo<VerticeData> CreateShape(ITopology2D *top,IRender2D<VerticeData> *render)
+	{
+		DrawInfo<VerticeData> info;
+		info.DrawInfoType = Shape;
+		info._shape.Topology = top;
+		info._shape.Render = render;
+	}
+
 
 	static DrawInfo<VerticeData> CreateRoot()
 	{
