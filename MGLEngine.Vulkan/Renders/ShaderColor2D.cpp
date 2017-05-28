@@ -10,6 +10,12 @@ ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 
 	_pPipeline = new VulkanPipeline(renderContext.GetSwapChain(), vertexByteCode, fragShaderCode);
 	
+	_pPipeline->VertexInputInfo
+		.CreateBinding<Color2D>()
+		.AddField(0, &Color2D::Position)
+		.AddField(1, &Color2D::Color);
+
+
 	VkAttachmentDescription colorAttachment = {};
 	colorAttachment.format = renderContext.GetSwapChain().GetImageFormat();
 	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;

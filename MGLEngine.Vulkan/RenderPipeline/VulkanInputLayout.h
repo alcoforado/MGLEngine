@@ -10,7 +10,7 @@ template<class VerticeData>
 class InputBinding
 {
 	std::vector<VkVertexInputAttributeDescription> *_attributes;
-
+public:
 	InputBinding(std::vector<VkVertexInputAttributeDescription> *v)
 	{
 		_attributes = v;
@@ -22,18 +22,22 @@ class InputBinding
 		{
 			return VK_FORMAT_R32G32_SFLOAT; 
 		}
-		throw new Exception("Can't get Vulkan Format from type %s", typeid(T).name);
+		if (typeid(T) == typeid(glm::vec3))
+		{
+			return VK_FORMAT_R32G32B32_SFLOAT;
+		}
+		throw new Exception("Can't get Vulkan Format from type %s", typeid(T).name());
 	}
 	template<class FieldType>
-	InputBinding& AddField(uint32_t loc,FieldType VerticeData::*member)
+	InputBinding<VerticeData>& AddField(uint32_t loc,FieldType VerticeData::*member)
 	{
 		VkVertexInputAttributeDescription attr = {};
 		VerticeData v;
 		attr.binding = 0;
 		attr.location = loc;
 		attr.format = TypeToVulkanFormat<FieldType>();
-		attr.offset = static_cast<void*>(&(v.*member)) - static_cast<void*>(&v);
-		v->push_back(attr);
+		attr.offset = static_cast<uint32_t>(reinterpret_cast<char*>(&(v.*member)) - reinterpret_cast<char*>(&v));
+		_attributes->push_back(attr);
 		return *this;
 	}
 };
@@ -62,9 +66,9 @@ public:
 	VkPipelineVertexInputStateCreateInfo* GetPipelineInputAssmeblyStateCreateInfo()
 	{
 		VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		VertexInputInfo.vertexBindingDescriptionCount = _vBindings.size();
+		VertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(_vBindings.size());
 		VertexInputInfo.pVertexBindingDescriptions =  _vBindings.data(); // Optional
-		VertexInputInfo.vertexAttributeDescriptionCount = _vAttributes.size();
+		VertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(_vAttributes.size());
 		VertexInputInfo.pVertexAttributeDescriptions = _vAttributes.data(); // Optional
 		return &VertexInputInfo;
 	}
