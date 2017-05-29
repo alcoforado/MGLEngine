@@ -76,6 +76,15 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysical
 	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, _queueFamilyProperties.data());
 	vkGetPhysicalDeviceMemoryProperties(_handler, &_memoryProperties);
 	vkGetPhysicalDeviceProperties(_handler, &_graphicProperties);
+	
+	for(int i=0;i<_memoryProperties.memoryTypeCount;i++)
+	{
+		_memProperties.push_back(
+			VulkanMemoryProperties(
+				_memoryProperties.memoryTypes[i].propertyFlags,
+				_memoryProperties.memoryHeaps[_memoryProperties.memoryTypes[i].heapIndex]));
+	}
+	
 	_layerProperties = this->GetAvailableLayerProperties();
 	vkGetPhysicalDeviceFeatures(_handler, &_features);
 

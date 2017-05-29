@@ -4,6 +4,7 @@
 #include "VulkanLayerProperties.h"
 #include "VulkanLogicalDevice.h"
 #include <glfw/glfw3.h>
+#include "../VulkanMemoryProperties.h"
 
 class VulkanInstance;
 
@@ -17,6 +18,7 @@ class VulkanPhysicalDevice {
 	std::vector<VkQueueFamilyProperties> _queueFamilyProperties;
 	VkPhysicalDeviceFeatures _features;
 	VkPhysicalDeviceMemoryProperties _memoryProperties;
+	std::vector<VulkanMemoryProperties> _memProperties;
 	VkPhysicalDeviceProperties _graphicProperties;
 	std::vector<VulkanLayerProperties> _layerProperties;
 
@@ -28,7 +30,7 @@ public:
 	VulkanLogicalDevice CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
 
-
+	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
 	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
 
 	uint32_t FindGraphicsQueueIndex() const { return FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);}
