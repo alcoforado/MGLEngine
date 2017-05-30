@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="RenderPipeline\CommandBufferCollection.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp" />
     <ClCompile Include="Renders\IRenderContext.cpp" />
     <ClCompile Include="Renders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="RenderPipeline\CommandBufferCollection.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
+    <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
     <ClInclude Include="Renders\IRenderContext.h" />
     <ClInclude Include="Renders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />

@@ -84,7 +84,6 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysical
 				_memoryProperties.memoryTypes[i].propertyFlags,
 				_memoryProperties.memoryHeaps[_memoryProperties.memoryTypes[i].heapIndex]));
 	}
-	
 	_layerProperties = this->GetAvailableLayerProperties();
 	vkGetPhysicalDeviceFeatures(_handler, &_features);
 

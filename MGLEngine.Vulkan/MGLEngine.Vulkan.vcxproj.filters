@@ -99,6 +99,9 @@
     <ClCompile Include="VulkanMemoryProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VulkanMemoryProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

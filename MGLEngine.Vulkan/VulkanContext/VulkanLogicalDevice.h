@@ -4,7 +4,7 @@
 #include <string>
 #include "VulkanAllocatedQueue.h"
 #include "VulkanSurface.h"
-class VulkanPhysicalDevice;
+#include "VulkanPhysicalDevice.h"
 struct GLFWwindow;
 class VulkanLogicalDevice
 {
