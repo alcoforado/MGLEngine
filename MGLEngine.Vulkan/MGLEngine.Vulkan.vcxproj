@@ -173,6 +173,7 @@
     <ClCompile Include="RenderPipeline\VulkanFramebuffer.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
+    <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="RenderPipeline\VulkanFramebuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
+    <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />

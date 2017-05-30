@@ -7,6 +7,7 @@
 void VulkanStagingBuffer::AllocBuffer(VulkanLogicalDevice &device, long size)
 {
 	_size = size;
+	_data = nullptr;
 	VkBufferCreateInfo bufferInfo = {};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 	bufferInfo.size = size;
@@ -66,12 +67,23 @@ void VulkanStagingBuffer::clear()
 	vkDestroyBuffer(_device.GetHandle(), _handle, nullptr);
 	vkFreeMemory(_device.GetHandle(), _memoryHandle, nullptr);
 	_size = 0;
+	_data = nullptr;
 }
 
 void VulkanStagingBuffer::resize(size_t size)
 {
 	clear();
 	AllocBuffer(_device, size);
+}
+
+void VulkanStagingBuffer::Sync()
+{
+	if (_data == nullptr)
+	{
+		throw new Exception("Memory already synced");
+	}
+	vkUnmapMemory(_device.GetHandle(), _memoryHandle);
+	_data = nullptr;
 }
 
 
