@@ -1,9 +1,7 @@
 #include "VulkanPhysicalDevice.h"
 #include "../VulkanUtils.h"
 #include <cassert>
-
-
-
+#include "Utils/Exception.h"
 
 
 std::vector<VulkanLayerProperties> VulkanPhysicalDevice::GetAvailableLayerProperties()
@@ -102,6 +100,25 @@ std::vector<VkQueueFamilyProperties> VulkanPhysicalDevice::FindQueuesWithType(Vk
 	return result;
 }
 
+
+uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(uint32_t allowedMemoryTypes, std::vector<enum VkMemoryPropertyFlagBits> flags) const
+{
+	VkFlags and = 0;
+	for (auto fl : flags)
+	{
+		and = and | fl;
+	}
+	
+	for (size_t i=0;i<this->_memProperties.size();i++)
+	{
+		if ( (allowedMemoryTypes & (1 << i) ) && (_memProperties[i].MemType & flags == flags))
+		{
+			return i;
+		}
+	}
+	throw new Exception("Device Memory with specified requirements not found.");
+
+}
 
 uint32_t VulkanPhysicalDevice::FindQueueFamilyIndexWithType(VkFlags flags) const
 {

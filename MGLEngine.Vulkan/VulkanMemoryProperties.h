@@ -10,8 +10,8 @@ class Heap
 
 class VulkanMemoryProperties
 {
-	uint32_t memType;
 public:
+	uint32_t MemType;
 	bool DeviceLocal;
 	bool HostVisible;
 	bool HostCoherent;

@@ -148,7 +148,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MemoryManager\VulkanMemoryChunk.cpp" />
     <ClCompile Include="RenderPipeline\CommandBufferCollection.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp" />
@@ -175,13 +174,11 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
-    <ClCompile Include="VulkanMemoryBlock.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MemoryManager\VulkanMemoryChunk.h" />
     <ClInclude Include="RenderPipeline\CommandBufferCollection.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
@@ -208,7 +205,6 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
-    <ClInclude Include="VulkanMemoryBlock.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />

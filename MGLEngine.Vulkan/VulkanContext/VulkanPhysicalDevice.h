@@ -31,6 +31,7 @@ public:
 	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
 
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
+	uint32_t FindMemoryPropertyIndex(uint32_t allowedMemoryTypes, std::vector<enum VkMemoryPropertyFlagBits> flags) const;
 	uint32_t FindQueueFamilyIndexWithType(VkFlags flags) const;
 
 	uint32_t FindGraphicsQueueIndex() const { return FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);}

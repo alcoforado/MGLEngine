@@ -21,19 +21,9 @@ void VulkanStagingBuffer::AllocBuffer(VulkanLogicalDevice &device, long size)
 	VkMemoryRequirements memRequirements;
 	vkGetBufferMemoryRequirements(device.GetHandle(), _handle, &memRequirements);
 
-	auto memProperties = device.GetPhysicalDevice().GetMemoryProperties();
-	VulkanMemoryProperties *pMem = nullptr;
-	uint32_t i;
-	for (i = 0; i < memProperties.size(); i++) {
-		if ((memRequirements.memoryTypeBits & (1 << i)) && (memProperties[i].HostCoherent && memProperties[i].HostVisible)) {
-			pMem = &memProperties[i];
-			break;
-		}
-	}
-	if (pMem == nullptr)
-	{
-		throw new Exception("No memory for vertex buffer was found");
-	}
+	uint32_t i = device.GetPhysicalDevice().FindMemoryPropertyIndex(
+		memRequirements.memoryTypeBits, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
+	
 	VkMemoryAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	allocInfo.allocationSize = memRequirements.size;

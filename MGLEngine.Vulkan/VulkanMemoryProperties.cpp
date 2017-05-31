@@ -6,7 +6,7 @@
 
 VulkanMemoryProperties::VulkanMemoryProperties(VkFlags flags, VkMemoryHeap heap)
 {
-	memType = flags;
+	MemType = flags;
 	DeviceLocal = (flags&VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) != 0;
 	HostVisible = (flags&VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0;
 	HostCoherent= (flags&VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) != 0;
