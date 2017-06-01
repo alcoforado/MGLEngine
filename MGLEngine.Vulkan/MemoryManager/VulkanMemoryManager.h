@@ -22,10 +22,7 @@ class VulkanMemoryBlock
 	uint64_t AlignmentOffset;
 	VulkanMemoryChunk *_chunk;
 
-
-public:
-
-	VulkanMemoryBlock(VulkanMemoryChunk *chunk,uint64_t lOff, uint64_t lSize)
+	VulkanMemoryBlock(VulkanMemoryChunk *chunk, uint64_t lOff, uint64_t lSize)
 	{
 		this->Off = lOff;
 		this->AlignedOff = this->Off;
@@ -35,16 +32,23 @@ public:
 		this->AlignmentOffset = 0;
 		this->IsFree = true;
 	};
+
+
+public:
+	void Map();
+
+	
 	
 	
 	//IBinding Resource;
 };
 
-typedef VulkanMemoryBlock MemoryHandle;
+typedef VulkanMemoryBlock* MemoryHandle;
 
 class VulkanMemoryManager;
 class VulkanMemoryChunk
 {
+	friend class VulkanMemoryBlock;
 	friend class VulkanMemoryManager;
 	uint64_t _totalFree;
 	uint64_t _size;
@@ -53,13 +57,14 @@ class VulkanMemoryChunk
 	std::list<VulkanMemoryBlock*> _blocks;
 	VkMemoryAllocateInfo _allocInfo;
 	VkDeviceMemory _memoryHandle;
-
+	bool _isMapped;
 	VulkanMemoryManager *_parent;
 
 
 	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
 	void ComputeFreeBlocksSize();
-	bool TryToAllocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size);
+	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size);
+	void Map();
 };
 
 
@@ -72,6 +77,6 @@ public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
 	~VulkanMemoryManager();
 	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
-	void Allocate(uint32_t memoryIndex, uint32_t alignment, uint64_t size);
+	MemoryHandle Allocate(uint32_t memoryIndex, uint32_t alignment, uint64_t size);
 };
 

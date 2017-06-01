@@ -23,7 +23,7 @@ VulkanMemoryChunk::VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memor
 
 	_pBiggestBlock = new VulkanMemoryBlock(this, 0,size);
 	_blocks.push_back(_pBiggestBlock);
-
+	_isMapped = false;
 }
 
 void VulkanMemoryChunk::ComputeFreeBlocksSize()
@@ -59,7 +59,7 @@ void VulkanMemoryChunk::ComputeFreeBlocksSize()
 	}
 }
 
-bool VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint32_t alignment,uint64_t size)
+MemoryHandle VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint32_t alignment,uint64_t size)
 {
 	for (auto it=_blocks.begin();it!=_blocks.end();it++)
 	{
@@ -78,15 +78,16 @@ bool VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint32_t alignment,u
 			block->Size = size;
 			block->TotalSize = size + rest;
 			block->AlignmentOffset = rest;
+			this->_totalFree -= block->TotalSize;
 			if (block == _pBiggestBlock)
 			{
 				this->ComputeFreeBlocksSize();
 			}
-			return true;
+			return block;
 		}
 
 	}
-	return false;
+	return nullptr;
 }
 
 VulkanMemoryManager::VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB)
@@ -100,25 +101,31 @@ VulkanMemoryManager::~VulkanMemoryManager()
 {
 }
 
-void VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size)
+MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size)
 {
+	MemoryHandle result;
 	assert(memoryTypeIndex < _device.GetPhysicalDevice().GetMemoryProperties().size());
 	for (VulkanMemoryChunk *chunk : _chunks)
 	{
 		if (size <= chunk->_maxBlockSize && chunk->_allocInfo.memoryTypeIndex == memoryTypeIndex)
 		{
-			if (chunk->TryToAllocate(memoryTypeIndex, alignment, size))
+			result = chunk->TryToAllocate(memoryTypeIndex, alignment, size);
+			if (result)
 			{
-				return;
+				return result;;
 			}
 		}
 	}
 
 	//
 	_chunks.push_back(new VulkanMemoryChunk(this,memoryTypeIndex,std::max(_blockSize, size)));
-	if (!_chunks.back()->TryToAllocate(memoryTypeIndex, alignment, size));
+	result = _chunks.back()->TryToAllocate(memoryTypeIndex, alignment, size);
+	if (result)
 	{
-		throw new Exception("alghorithm problem, new allocated chunk should always be allocable to the request");
+		return result;
 	}
+	else
+		throw new Exception("alghorithm problem, new allocated chunk should always be allocable to the request");
+
 
 }
