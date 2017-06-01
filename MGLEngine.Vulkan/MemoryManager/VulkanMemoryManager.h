@@ -6,25 +6,41 @@ class IBinding
 {
 	VkBuffer _buffer;
 };
+class VulkanMemoryChunk;
+
+
 
 class VulkanMemoryBlock
 {
-public:
+	friend class VulkanMemoryChunk;
+
 	uint64_t Off;
 	uint64_t AlignedOff;
+	uint64_t TotalSize;
 	uint64_t Size;
 	bool IsFree;
-	VulkanMemoryBlock(uint64_t lOff, uint64_t lAlignedOff, uint64_t lSize, bool lIsFree)
+	uint64_t AlignmentOffset;
+	VulkanMemoryChunk *_chunk;
+
+
+public:
+
+	VulkanMemoryBlock(VulkanMemoryChunk *chunk,uint64_t lOff, uint64_t lSize)
 	{
 		this->Off = lOff;
-		this->AlignedOff = lAlignedOff;
+		this->AlignedOff = this->Off;
 		this->Size = lSize;
-		this->IsFree = lIsFree;
+		this->_chunk = chunk;
+		this->TotalSize = lSize;
+		this->AlignmentOffset = 0;
+		this->IsFree = true;
 	};
 	
 	
 	//IBinding Resource;
 };
+
+typedef VulkanMemoryBlock MemoryHandle;
 
 class VulkanMemoryManager;
 class VulkanMemoryChunk
@@ -35,9 +51,15 @@ class VulkanMemoryChunk
 	uint64_t _maxBlockSize;
 	VulkanMemoryBlock *_pBiggestBlock;
 	std::list<VulkanMemoryBlock*> _blocks;
-	uint32_t MemoryTypeIndex;
-	explicit VulkanMemoryChunk(uint32_t memoryTypeIndex,uint64_t size);
-	bool TryToAllocate(uint32_t memoryIndex, uint32_t alignment, uint64_t size);
+	VkMemoryAllocateInfo _allocInfo;
+	VkDeviceMemory _memoryHandle;
+
+	VulkanMemoryManager *_parent;
+
+
+	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
+	void ComputeFreeBlocksSize();
+	bool TryToAllocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size);
 };
 
 
@@ -45,10 +67,11 @@ class VulkanMemoryManager
 {
 	uint64_t _blockSize;
 	std::list<VulkanMemoryChunk*> _chunks;
-	VulkanLogicalDevice &_device;
+	const VulkanLogicalDevice &_device;
 public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
 	~VulkanMemoryManager();
+	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
 	void Allocate(uint32_t memoryIndex, uint32_t alignment, uint64_t size);
 };
 
