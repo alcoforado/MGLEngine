@@ -16,6 +16,7 @@ protected:
 public:
 	IArray(OfType *p,size_t size)
 	{
+		_ptr = p;
 		_size = size;
 		_capacity = size;
 	}
@@ -23,9 +24,13 @@ public:
 	IArray(OfType *p, size_t size,size_t capacity)
 	{
 		assert(size <= capacity);
+		_ptr = p;
 		_size = size;
 		_capacity = capacity;
 	}
+
+
+
 
 	OfType& operator[](size_t i)
 	{

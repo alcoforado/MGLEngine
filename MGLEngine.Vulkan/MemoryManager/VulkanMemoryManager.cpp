@@ -90,6 +90,15 @@ MemoryHandle VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint32_t ali
 	return nullptr;
 }
 
+void VulkanMemoryChunk::Map()
+{
+	if (!_isMapped)
+	{
+		VkResult err = vkMapMemory(_parent->GetLogicalDevice().GetHandle(), _memoryHandle,0, _size, 0, &_data);
+		AssertVulkanSuccess(err);
+	}
+}
+
 VulkanMemoryManager::VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB)
 :_device(device)
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "../RenderPipeline/CommandBufferCollection.h"
 #include <list>
+#include "Utils/Arrays/IArray.h"
 
 class IBinding
 {
@@ -35,8 +36,15 @@ class VulkanMemoryBlock
 
 
 public:
-	void Map();
-
+	template<class T>
+	IArray<T> Map()
+	{
+		assert(!IsFree);
+		_chunk->Map();
+		
+		assert(Size % sizeof(T) == 0);
+		return IArray<T>(reinterpret_cast<T*>(_chunk->_data + AlignedOff),Size/sizeof(T));
+	}
 	
 	
 	
@@ -58,6 +66,7 @@ class VulkanMemoryChunk
 	VkMemoryAllocateInfo _allocInfo;
 	VkDeviceMemory _memoryHandle;
 	bool _isMapped;
+	void *_data;
 	VulkanMemoryManager *_parent;
 
 
