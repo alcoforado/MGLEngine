@@ -4,6 +4,21 @@
 #include "Utils/Exception.h"
 
 
+void VulkanMemoryBlock::BindBuffer(VkBuffer bhandle) const
+{
+	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, 0);
+
+}
+
+void VulkanMemoryBlock::Free()
+{
+	IsFree = true;
+	AlignedOff = Off;
+	Size = TotalSize;
+	AlignedOff = 0;
+	this->_chunk->ComputeFreeBlocksSize();
+}
+
 VulkanMemoryChunk::VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex,uint64_t size)
 {
 	_parent = parent;
@@ -59,7 +74,7 @@ void VulkanMemoryChunk::ComputeFreeBlocksSize()
 	}
 }
 
-MemoryHandle VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint32_t alignment,uint64_t size)
+MemoryHandle VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint64_t alignment,uint64_t size)
 {
 	for (auto it=_blocks.begin();it!=_blocks.end();it++)
 	{
@@ -110,7 +125,7 @@ VulkanMemoryManager::~VulkanMemoryManager()
 {
 }
 
-MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size)
+MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size)
 {
 	MemoryHandle result;
 	assert(memoryTypeIndex < _device.GetPhysicalDevice().GetMemoryProperties().size());

@@ -75,7 +75,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysical
 	vkGetPhysicalDeviceMemoryProperties(_handler, &_memoryProperties);
 	vkGetPhysicalDeviceProperties(_handler, &_graphicProperties);
 	
-	for(int i=0;i<_memoryProperties.memoryTypeCount;i++)
+	for(uint32_t i=0;i<_memoryProperties.memoryTypeCount;i++)
 	{
 		_memProperties.push_back(
 			VulkanMemoryProperties(
@@ -109,14 +109,15 @@ uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(uint32_t allowedMemoryTyp
 		and = and | fl;
 	}
 	
-	for (size_t i=0;i<this->_memProperties.size();i++)
+	for (uint32_t i=0;i<this->_memProperties.size();i++)
 	{
-		if ( (allowedMemoryTypes & (1 << i) ) && (_memProperties[i].MemType & flags == flags))
+		if ( ((allowedMemoryTypes & (1 << i))!=0 ) && ((_memProperties[i].MemType & and) == and))
 		{
 			return i;
 		}
 	}
 	throw new Exception("Device Memory with specified requirements not found.");
+
 
 }
 

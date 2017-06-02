@@ -45,9 +45,10 @@ public:
 		assert(Size % sizeof(T) == 0);
 		return IArray<T>(reinterpret_cast<T*>(_chunk->_data + AlignedOff),Size/sizeof(T));
 	}
-	
-	
-	
+
+	void BindBuffer(VkBuffer uint64) const;
+	void Free();
+
 	//IBinding Resource;
 };
 
@@ -72,13 +73,14 @@ class VulkanMemoryChunk
 
 	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
 	void ComputeFreeBlocksSize();
-	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint32_t alignment, uint64_t size);
+	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 	void Map();
 };
 
 
 class VulkanMemoryManager
 {
+	
 	uint64_t _blockSize;
 	std::list<VulkanMemoryChunk*> _chunks;
 	const VulkanLogicalDevice &_device;
@@ -86,6 +88,6 @@ public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
 	~VulkanMemoryManager();
 	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
-	MemoryHandle Allocate(uint32_t memoryIndex, uint32_t alignment, uint64_t size);
+	MemoryHandle Allocate(uint32_t memoryIndex, uint64_t alignment, uint64_t size);
 };
 

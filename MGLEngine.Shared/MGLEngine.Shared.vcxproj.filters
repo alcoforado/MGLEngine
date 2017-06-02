@@ -104,12 +104,6 @@
     <ClCompile Include="RenderPipeline\ICompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\DrawTree\DrawTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\DrawTree\DrawInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shapes\IShape3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

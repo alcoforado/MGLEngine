@@ -3,8 +3,9 @@
 #include "../VulkanContext/VulkanLogicalDevice.h"
 #include "Utils/Exception.h"
 #include "../VulkanUtils.h"
+#include "../MemoryManager/VulkanMemoryManager.h"
 
-void VulkanStagingBuffer::AllocBuffer(VulkanLogicalDevice &device, long size)
+void VulkanStagingBuffer::AllocBuffer(VulkanMemoryManager *mngr, uint64_t size)
 {
 	_size = size;
 	_data = nullptr;
@@ -13,32 +14,27 @@ void VulkanStagingBuffer::AllocBuffer(VulkanLogicalDevice &device, long size)
 	bufferInfo.size = size;
 	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-	auto err = vkCreateBuffer(device.GetHandle(), &bufferInfo, nullptr, &_handle);
+	auto err = vkCreateBuffer(mngr->GetLogicalDevice().GetHandle(), &bufferInfo, nullptr, &_handle);
 	AssertVulkanSuccess(err);
 
 	//Allocate buffer
 
 	VkMemoryRequirements memRequirements;
-	vkGetBufferMemoryRequirements(device.GetHandle(), _handle, &memRequirements);
+	vkGetBufferMemoryRequirements(mngr->GetLogicalDevice().GetHandle(), _handle, &memRequirements);
 
-	uint32_t i = device.GetPhysicalDevice().FindMemoryPropertyIndex(
+	uint32_t i = mngr->GetLogicalDevice().GetPhysicalDevice().FindMemoryPropertyIndex(
 		memRequirements.memoryTypeBits, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
 	
-	VkMemoryAllocateInfo allocInfo = {};
-	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-	allocInfo.allocationSize = memRequirements.size;
-	allocInfo.memoryTypeIndex = i;
+	_memHandle=mngr->Allocate(i, memRequirements.alignment, memRequirements.size);
 
-	err = vkAllocateMemory(device.GetHandle(), &allocInfo, nullptr, &_memoryHandle);
-	AssertVulkanSuccess(err);
-
-	vkBindBufferMemory(device.GetHandle(), _handle, _memoryHandle, 0);
+	_memHandle->BindBuffer(_handle);
 }
 
-VulkanStagingBuffer::VulkanStagingBuffer(VulkanLogicalDevice &device,long size)
-	:_device(device)
+VulkanStagingBuffer::VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size)
+:_memMngr(mngr)
 {
-	AllocBuffer(device,size);
+	assert(size > 0);
+	AllocBuffer(mngr,size);
 
 
 
@@ -54,26 +50,16 @@ VulkanStagingBuffer::~VulkanStagingBuffer()
 
 void VulkanStagingBuffer::clear()
 {
-	vkDestroyBuffer(_device.GetHandle(), _handle, nullptr);
-	vkFreeMemory(_device.GetHandle(), _memoryHandle, nullptr);
+	assert(_size != 0); //Trying to delete empty buffer
+	vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
+	_memHandle->Free();
 	_size = 0;
 	_data = nullptr;
 }
 
-void VulkanStagingBuffer::resize(size_t size)
+void VulkanStagingBuffer::resize(uint64_t size)
 {
 	clear();
-	AllocBuffer(_device, size);
+	AllocBuffer(_memMngr, size);
 }
-
-void VulkanStagingBuffer::Sync()
-{
-	if (_data == nullptr)
-	{
-		throw new Exception("Memory already synced");
-	}
-	vkUnmapMemory(_device.GetHandle(), _memoryHandle);
-	_data = nullptr;
-}
-
 

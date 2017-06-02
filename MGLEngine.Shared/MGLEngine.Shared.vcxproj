@@ -169,8 +169,6 @@
     <ClCompile Include="Shapes\ITopology3D.cpp" />
     <ClCompile Include="Shapes\Shape2D.cpp" />
     <ClCompile Include="Shapes\IShape3D.cpp" />
-    <ClCompile Include="Utils\DrawTree\DrawInfo.cpp" />
-    <ClCompile Include="Utils\DrawTree\DrawTree.cpp" />
     <ClCompile Include="RenderPipeline\ICompiler.cpp" />
     <ClCompile Include="Utils\Exception.cpp" />
     <ClCompile Include="Utils\Path.cpp" />

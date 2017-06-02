@@ -1,31 +1,25 @@
 #pragma once
 #include "CommandBufferCollection.h"
 #include "Utils/Arrays/IArray.h"
+#include "../MemoryManager/VulkanMemoryManager.h"
+class VulkanMemoryManager;
 class VulkanLogicalDevice;
 
 class VulkanStagingBuffer
 {
-	VkDeviceMemory _memoryHandle;
-	VulkanLogicalDevice&  _device;
+	VulkanMemoryManager* _memMngr;
+	MemoryHandle _memHandle;
 	VkBuffer _handle;
-	long _size;
+	uint64_t _size;
 	void *_data;
-	void AllocBuffer(VulkanLogicalDevice &device, long size);
-public:
-	VulkanStagingBuffer(VulkanLogicalDevice &device,long size);
-	~VulkanStagingBuffer();
+	void AllocBuffer(VulkanMemoryManager *mngr, uint64_t size);
 	void clear();
-	void resize(size_t size);
+public:
+	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size);
+	~VulkanStagingBuffer();
+	void resize(uint64_t size);
 	
-	template<class T>
-	IArray<T> GetArray()
-	{
-		if (_data==nullptr)
-		{
-			vkMapMemory(_device.GetHandle(), _memoryHandle, 0, _size, 0, &_data);
-		}
-		return IArray<T>(reinterpret_cast<T*>(_data), _size);
-	}
+	
 	
 	void Sync();
 
