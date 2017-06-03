@@ -93,6 +93,9 @@
     <ClInclude Include="Shapes\IRender2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Topologies\Triangle2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Arrays\ArraySelect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Topologies\Triangle2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

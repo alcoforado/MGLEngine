@@ -12,16 +12,21 @@ class VulkanStagingBuffer
 	VkBuffer _handle;
 	uint64_t _size;
 	void *_data;
-	void AllocBuffer(VulkanMemoryManager *mngr, uint64_t size);
+	void AllocBuffer(VulkanMemoryManager *mngr, uint64_t sizeInBytes);
 	void clear();
 public:
-	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size);
+	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t sizeInBytes);
 	~VulkanStagingBuffer();
 	void resize(uint64_t size);
 	
+	template<class T>
+	IArray<T> ToArray()
+	{
+		return _memHandle->Map<T>();
+	}
 	
 	
-	void Sync();
+	void Sync(); 
 
 
 };

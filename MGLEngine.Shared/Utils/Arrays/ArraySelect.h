@@ -8,7 +8,7 @@
 template<class MemberType>
 class ArraySelect
 {
-	void *_data;
+	char *_data;
 	int _size;
 	int _type_off;
 	int _member_off;
@@ -22,7 +22,7 @@ public:
 		assert(v.size() > 0);
 		assert(off + size <= v.size());
 		static_assert(sizeof(ClassType) % 4 == 0, "Type can only have 4 bytes alignment");
-		_data = &(v.data()+off);
+		_data = reinterpret_cast<char*>(&(v.data()+off));
 		_size = size;
 		_type_off = sizeof(ClassType);
 		_member_off = static_cast<void*>(&(v[0].*vertice)) - static_cast<void*>(&(v[0]));
