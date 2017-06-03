@@ -1,11 +1,13 @@
 #pragma once
+
+#include "Utils/Arrays/IArray.h"
 template<class VerticeData>
-class IRender3D
+class IRender
 {
 
 public:
-	IRender3D(){}
-	~IRender3D(){}
+	IRender(){}
+	virtual ~IRender(){}
 	virtual void Write(IArray<VerticeData> &array)=0;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Shapes/ITopology2D.h"
-#include "../../Shapes/IRender2D.h"
 #include "../Exception.h"
+#include "../../Shapes/IRender.h"
 struct ArrayLocation
 {
 	size_t OffI;
@@ -17,7 +17,7 @@ class ShapeInfo
 {
 	public:
 		ITopology2D *Topology;
-		IRender2D<VerticeData> *Render;
+		IRender<VerticeData> *Render;
 		void WriteData(IArray<VerticeData> &v,IArray<uint32_t> &i)
 		{
 			assert(Topology != nullptr);
@@ -63,7 +63,7 @@ public:
 		else
 			throw new Exception("DrawInfo Node is not a shape");
 	}
-	static DrawInfo<VerticeData> CreateShape(ITopology2D *top,IRender2D<VerticeData> *render)
+	static DrawInfo<VerticeData> CreateShape(ITopology2D *top,IRender<VerticeData> *render)
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;

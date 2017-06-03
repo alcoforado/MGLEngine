@@ -158,7 +158,7 @@ public:
 
 
 	}
-	void Add(ITopology2D *topology,IRender2D<VerticeData> *render)
+	void Add(ITopology2D *topology,IRender<VerticeData> *render)
 	{
 		auto node = new NTreeNode<VerticeData>(DrawInfo<VerticeData>(topology, render));
 		_root.AppendChild(node);

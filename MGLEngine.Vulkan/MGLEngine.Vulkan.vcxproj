@@ -151,8 +151,8 @@
     <ClCompile Include="RenderPipeline\CommandBufferCollection.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp" />
-    <ClCompile Include="Renders\IRenderContext.cpp" />
-    <ClCompile Include="Renders\ShaderColor2D.cpp" />
+    <ClCompile Include="Shaders\IRenderContext.cpp" />
+    <ClCompile Include="Shaders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
     <ClCompile Include="RenderPipeline\FragmentShaderByteCode.cpp" />
     <ClCompile Include="RenderPipeline\VertexShaderByteCode.cpp" />
@@ -182,8 +182,8 @@
     <ClInclude Include="RenderPipeline\CommandBufferCollection.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
-    <ClInclude Include="Renders\IRenderContext.h" />
-    <ClInclude Include="Renders\ShaderColor2D.h" />
+    <ClInclude Include="Shaders\IRenderContext.h" />
+    <ClInclude Include="Shaders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
     <ClInclude Include="RenderPipeline\FragmentShaderByteCode.h" />
     <ClInclude Include="RenderPipeline\VertexShaderByteCode.h" />
@@ -215,22 +215,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <GLSLShader Include="shaders\canvas2D.vert" />
-    <GLSLShader Include="shaders\canvas2D.frag" />
+    <GLSLShader Include="SPIR-V\canvas2D.vert" />
+    <GLSLShader Include="SPIR-V\canvas2D.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="shaders\shaders_bytecode.h">
+  <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="SPIR-V\shaders_bytecode.h">
     <PropertyGroup>
       <OriginalFileName>%(GLSLShader.Filename)%(GLSLShader.Extension)</OriginalFileName>
     </PropertyGroup>
     <Message Condition="'$(VULKAN_SDK)'==''" Text="Error, cant find environment variable VULKAN_SDK, Make sure that the  Lunar  Vulkan SDK is installed" />
     <Message Condition="'$(VULKAN_SDK)'!=''" Text="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" />
-    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\shaders" />
-    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\shaders" />
-    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="type %(GLSLShader.Filename)%(GLSLShader.Extension).h &gt;&gt; shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\shaders" />
-    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\shaders" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="type %(GLSLShader.Filename)%(GLSLShader.Extension).h &gt;&gt; shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
+    <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
     <!--<MSBuild Projects="./shaders/compileGLSL.proj" Targets="Build" />-->
   </Target>
   <Target Name="ConcatenateHeaders">

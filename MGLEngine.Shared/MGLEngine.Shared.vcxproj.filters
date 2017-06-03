@@ -81,19 +81,19 @@
     <ClInclude Include="Shapes\Shape2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shapes\IRender3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Arrays\ArraySelect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Arrays\IArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shapes\IRender2D.h">
+    <ClInclude Include="Topologies\Triangle2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Topologies\Triangle2D.h">
+    <ClInclude Include="Shapes\IRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\CyclicColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -137,10 +137,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shapes\IRender2D.h" />
+    <ClInclude Include="Renders\CyclicColor.h" />
     <ClInclude Include="Topologies\Triangle2D.h" />
     <ClInclude Include="Utils\Arrays\ArraySelect.h" />
-    <ClInclude Include="Shapes\IRender3D.h" />
+    <ClInclude Include="Shapes\IRender.h" />
     <ClInclude Include="Shapes\ITopology2D.h" />
     <ClInclude Include="Shapes\ITopology3D.h" />
     <ClInclude Include="Shapes\Shape2D.h" />

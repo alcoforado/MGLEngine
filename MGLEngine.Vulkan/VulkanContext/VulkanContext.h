@@ -7,8 +7,8 @@
 #include "VulkanInstance.h"
 #include "VulkanSwapChain.h"
 #include "../RenderPipeline/VulkanPipeline.h"
-#include "../Renders/IRenderContext.h"
-#include "../Renders/ShaderColor2D.h"
+#include "../Shaders/IRenderContext.h"
+#include "../Shaders/ShaderColor2D.h"
 #include "Utils/opointer.h"
 struct GLFWwindow;
 

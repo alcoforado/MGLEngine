@@ -1,7 +1,7 @@
 #include "ShaderColor2D.h"
 #include <vector>
 #include "IRenderContext.h"
-#include "../shaders/shaders_bytecode.h"
+#include "../SPIR-V/shaders_bytecode.h"
 
 ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
