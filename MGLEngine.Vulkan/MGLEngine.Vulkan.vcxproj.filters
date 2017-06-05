@@ -105,7 +105,7 @@
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanDrawTreeParser.cpp">
+    <ClCompile Include="RenderPipeline\VulkanDrawTreeParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,7 +197,7 @@
     <ClInclude Include="RenderPipeline\VulkanCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VulkanDrawTreeParser.h">
+    <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

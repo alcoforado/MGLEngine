@@ -73,6 +73,7 @@ void ShaderColor2D::OnSwapChange()
 	_commands.clear();
 }
 
+
 void ShaderColor2D::CreateCommands(IRenderContext& renderContext)
 {
 	for (auto cmds : _commands)

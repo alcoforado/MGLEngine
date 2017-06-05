@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanDrawTreeParser.cpp" />
     <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp" />
     <ClCompile Include="Shaders\IRenderContext.cpp" />
     <ClCompile Include="Shaders\ShaderColor2D.cpp" />
@@ -174,13 +175,13 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
-    <ClCompile Include="VulkanDrawTreeParser.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
+    <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
     <ClInclude Include="Shaders\IRenderContext.h" />
     <ClInclude Include="Shaders\ShaderColor2D.h" />
@@ -206,7 +207,6 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
-    <ClInclude Include="VulkanDrawTreeParser.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
