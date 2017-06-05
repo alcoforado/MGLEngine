@@ -89,7 +89,7 @@ void ShaderColor2D::CreateCommands(IRenderContext& renderContext)
 		comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
 		comm->BindPipeline(_pPipeline);
 		comm->BindVertexBuffer(*_buffer);
-		comm->Draw(GetVertices().size(), 1, 0, 0);
+		//comm->Draw(GetVertices().size(), 1, 0, 0);
 		comm->EndRenderPass();
 		comm->End();
 		_commands.push_back(comm);
