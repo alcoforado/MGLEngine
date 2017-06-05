@@ -1,23 +1,11 @@
 #include "VulkanMemoryManager.h"
+#include "../VulkanContext/VulkanLogicalDevice.h"
 #include <algorithm>
 #include "../VulkanUtils.h"
 #include "Utils/Exception.h"
 
+const int _MB = 1048576;
 
-void VulkanMemoryBlock::BindBuffer(VkBuffer bhandle) const
-{
-	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, 0);
-
-}
-
-void VulkanMemoryBlock::Free()
-{
-	IsFree = true;
-	AlignedOff = Off;
-	Size = TotalSize;
-	AlignedOff = 0;
-	this->_chunk->ComputeFreeBlocksSize();
-}
 
 VulkanMemoryChunk::VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex,uint64_t size)
 {
@@ -152,4 +140,25 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 		throw new Exception("alghorithm problem, new allocated chunk should always be allocable to the request");
 
 
+}
+
+
+void VulkanMemoryBlock::BindBuffer(VkBuffer bhandle) const
+{
+	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, 0);
+
+}
+
+void VulkanMemoryBlock::Free()
+{
+	IsFree = true;
+	AlignedOff = Off;
+	Size = TotalSize;
+	AlignedOff = 0;
+	this->_chunk->ComputeFreeBlocksSize();
+}
+
+uint64_t VulkanMemoryBlock::GetOffset() const
+{
+	return AlignedOff;
 }

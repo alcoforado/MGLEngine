@@ -57,9 +57,14 @@ void VulkanStagingBuffer::clear()
 	_data = nullptr;
 }
 
-void VulkanStagingBuffer::resize(uint64_t size)
+
+VkBuffer VulkanStagingBuffer::GetHandle() const
 {
-	clear();
-	AllocBuffer(_memMngr, size);
+	return _handle;
+}
+
+VkDeviceSize VulkanStagingBuffer::GetOff() const
+{
+	return _memHandle->GetOffset();
 }
 

@@ -1,12 +1,12 @@
 #pragma once
-#include "CommandBufferCollection.h"
 #include "Utils/Arrays/IArray.h"
 #include "../MemoryManager/VulkanMemoryManager.h"
-class VulkanMemoryManager;
+#include <vulkan/vulkan.h>
 class VulkanLogicalDevice;
 
 class VulkanStagingBuffer
 {
+
 	VulkanMemoryManager* _memMngr;
 	MemoryHandle _memHandle;
 	VkBuffer _handle;
@@ -26,8 +26,8 @@ public:
 	}
 	
 	
-	void Sync(); 
-
-
+	void Sync();
+	VkBuffer GetHandle() const;
+	VkDeviceSize GetOff() const;
 };
 

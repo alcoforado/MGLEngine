@@ -8,8 +8,6 @@ template<class VerticeData>
 class DrawTree
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
-	std::vector<VerticeData> vertices;
-	std::vector<uint32_t> indices;
 	
 	
 public:
@@ -20,6 +18,10 @@ public:
 		
 		
 	}
+
+
+
+
 
 	void ComputeSizes()
 	{
@@ -69,40 +71,26 @@ public:
 				info.Future.OffV = 0;
 			}
 		});
-
-
-
 	}
 
-	void WriteVerticeData()
+	
+
+	void UpdateVerticeData(IArray<VerticeData> &vertices, IArray<unsigned> &indices)
 	{
 		
 		if (!_root.GetData().NeedRedraw)
 			return;
 		
-		ComputeSizes();
-		std::vector<uint32_t> dstI, *pDstI;
-		std::vector<VerticeData> dstV,*pDstV;
 		/*
-		 * If the vertices, indices have to be expanded allocate another vector.
-		 * The shapes that need redraw, will write to these new vectors, the other shapes will have their data copied over.
+		 * If the vertices, indices have to be expanded beyond their maximum capacity  throw exception.
+		 * In this case we need to use  the other  UpdateVerticeData  or the  full  sync.
 		 */
 		if (_root.GetData().Future.SizeI > indices.capacity() || _root.GetData().Future.SizeV > vertices.capacity())
 		{
-			dstI.reserve(_root.GetData().Future.SizeI + _root.GetData().Future.SizeI / 5);
-			dstI.resize(_root.GetData().Future.SizeI);
-			dstV.reserve(_root.GetData().Future.SizeV + _root.GetData().Future.SizeV / 5);
-			dstV.resize(_root.GetData().Future.SizeV);
-			pDstI = &dstI;
-			pDstV = &dstV;
+			throw new Exception("Error, the vertices and/or indices need to be expanded  beyond their capacity.\n Use FullRewrite method or the update vertices overload where you pass another vertice/indices vector pair with the right size")
+			
 		}
-		else
-		{
-			//Destine vectors and src are one and the same.
-			pDstI = &indices;
-			pDstV = &vertices;
-		}
-
+		
 		//To contain which regions we should copy to dst vector
 		std::vector<CopyRegion> copiesV,copiesI;
 
@@ -113,8 +101,8 @@ public:
 				if (info.IsShape())
 				{
 					assert(pDstV->size() >= info.Future.OffV+info.Future.SizeV);
-					IArray<VerticeData> arrayV(pDstV->data()+info.Future.OffV,info.Future.SizeV );
-					IArray<uint32_t> arrayI(pDstI->data() + info.Future.OffI, info.Future.SizeI);
+					IArray<VerticeData> arrayV(vertices.GetPointer()+info.Future.OffV,info.Future.SizeV );
+					IArray<uint32_t> arrayI(indices.GetPointer() + info.Future.OffI, info.Future.SizeI);
 					info.GetShape().WriteData(arrayV, arrayI);
 
 				}
@@ -140,24 +128,80 @@ public:
 				return false;
 			}
 		});
-		
+
 		DefragArray<VerticeData> defrag;
-		if (dstV.size() !=0)
-		{
-			//Src and destiny does not share the same vector.
-			defrag.ReorganizeArray(vertices, dstV, copiesV);
-			defrag.ReorganizeArray(indices, dstI, copiesI);
-			dstV.swap(vertices);
-			dstI.swap(indices);
-		}
-		else
-		{
-			defrag.ReorganizeArray(vertices, copiesV);
-			defrag.ReorganizeArray(indices, copiesI);
-		}
-
-
+		defrag.ReorganizeArray(vertices, copiesV);
+		defrag.ReorganizeArray(indices, copiesI);
 	}
+
+
+	void UpdateVerticeData(
+		IArray<VerticeData> &vertices , IArray<unsigned>  &indices,
+		IArray<VerticeData> &oVertices, IArray<unsigned>  &oIndices)
+	{
+
+		if (!_root.GetData().NeedRedraw)
+			return;
+
+		/*
+		* If the vertices, indices have to be expanded allocate another vector.
+		* The shapes that need redraw, will write to these new vectors, the other shapes will have their data copied over.
+		*/
+		if (_root.GetData().Future.SizeI > oIndices.capacity() || _root.GetData().Future.SizeV > oVertices.capacity())
+		{
+			throw new Exception("The vertices/indices arrays don't have enough capacity to redraw. Call updateverticesdata with an extra pair of vertices/indices vectors to contain the new vertices, arrays");
+		}
+		
+		//To contain which regions we should copy to dst vector
+		std::vector<CopyRegion> copiesV, copiesI;
+
+		_root.ForAllPreOrderControlDescent([](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
+			DrawInfo<VerticeData>& info = pNode->GetData();
+			if (info.NeedRedraw)
+			{
+				if (info.IsShape())
+				{
+					assert(vertices.size() >= info.Future.OffV + info.Future.SizeV);
+					IArray<VerticeData> arrayV(oVertices.GetPointer() + info.Future.OffV, info.Future.SizeV);
+					IArray<uint32_t> arrayI(oIndices.GetPointer() + info.Future.OffI, info.Future.SizeI);
+					info.GetShape().WriteData(arrayV, arrayI);
+				}
+				//For all nodes	
+				info.NeedRedraw = false; //Set this node as processed
+				info.Current = info.Future;//Past Dimensions are update with the Current Dimension
+				return true; //descend to the childs if they exist.
+			}
+			else
+			{
+				//Node needs to have its data copied
+				copiesV.push_back(CopyRegion(
+					ArrayRegion(info.Current.OffV, info.Current.SizeV),
+					ArrayRegion(info.Future.OffV, info.Future.SizeV)
+				));
+				copiesI.push_back(CopyRegion(
+					ArrayRegion(info.Current.OffI, info.Current.SizeI),
+					ArrayRegion(info.Future.OffI, info.Future.SizeI)
+				));
+				//Remember, when we set the NeedRedraw=true of a node, the draw tree set the needdraw=true to all its parents.
+				//If the node does not need redraw, neither does any of its childs.
+				//Don't need to go deeper in the tree.
+				return false;
+			}
+		});
+
+		DefragArray<VerticeData> defrag;
+		defrag.ReorganizeArray(vertices,oVertices, copiesV);
+		defrag.ReorganizeArray(indices, oIndices,copiesI);
+	}
+
+
+
+
+
+
+
+
+
 	void Add(ITopology2D *topology,IRender<VerticeData> *render)
 	{
 		auto node = new NTreeNode<VerticeData>(DrawInfo<VerticeData>(topology, render));

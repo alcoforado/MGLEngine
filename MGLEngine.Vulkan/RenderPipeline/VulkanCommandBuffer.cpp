@@ -137,3 +137,11 @@ VulkanCommandBuffer::~VulkanCommandBuffer()
 
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(const VulkanStagingBuffer& buff)
+{
+	auto hb = buff.GetHandle();
+	VkDeviceSize off = buff.GetOff();
+	vkCmdBindVertexBuffers(_vkCommandBuffer, 0, 1, &hb,&off);
+	return *this;
+}
+

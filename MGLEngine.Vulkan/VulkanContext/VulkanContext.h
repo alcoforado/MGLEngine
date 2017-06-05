@@ -28,7 +28,7 @@ private:
 	VulkanLogicalDevice _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanCommandPool _commandPool;
-	
+	VulkanMemoryManager _memoryMngr;
 
 public:
 	VulkanContext(GLFWwindow* window);
@@ -44,5 +44,6 @@ public:
 	virtual const VulkanLogicalDevice& GetLogicalDevice() const override { return _vkLogicalDevice; }
 	void Draw();
 	virtual const VulkanCommandPool* GetCommandPool() const override { return &_commandPool; }
+	virtual VulkanMemoryManager* GetMemoryManager() override { return &_memoryMngr; }
 };
 

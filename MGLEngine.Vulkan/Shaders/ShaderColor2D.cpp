@@ -2,6 +2,7 @@
 #include <vector>
 #include "IRenderContext.h"
 #include "../SPIR-V/shaders_bytecode.h"
+#include "../RenderPipeline/VulkanStagingBuffer.h"
 
 ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
@@ -35,7 +36,11 @@ ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 	_pPipeline->Load();
 	
 	
+	_buffer = new VulkanStagingBuffer(renderContext.GetMemoryManager(), sizeof(ShaderColor2D)*100);
 	auto framebuffers = _pPipeline->GetVulkanSwapChainFramebuffers();
+
+	
+	
 	glm::vec4 color(0, 0, 0, 1.0);
 	for (int i=0;i<framebuffers->Size();i++)
 	{
@@ -43,6 +48,7 @@ ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 		VulkanCommandBuffer* comm = new VulkanCommandBuffer(renderContext.GetCommandPool());
 		comm->BeginRenderPass(framebuffer,glm::vec4(0,0,0,0));
 		comm->BindPipeline(_pPipeline);
+		comm->BindVertexBuffer(*_buffer);
 		comm->Draw(3, 1, 0, 0);
 		comm->EndRenderPass();
 		comm->End();
@@ -65,6 +71,30 @@ void ShaderColor2D::OnSwapChange()
 		delete pc;
 	}
 	_commands.clear();
+}
+
+void ShaderColor2D::CreateCommands(IRenderContext& renderContext)
+{
+	for (auto cmds : _commands)
+	{
+		delete cmds;
+	}
+	_commands.clear();
+	auto framebuffers = _pPipeline->GetVulkanSwapChainFramebuffers();
+	glm::vec4 color(0, 0, 0, 1.0);
+	for (int i = 0; i<framebuffers->Size(); i++)
+	{
+		auto framebuffer = framebuffers->GetFramebuffer(i);
+		VulkanCommandBuffer* comm = new VulkanCommandBuffer(renderContext.GetCommandPool());
+		comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
+		comm->BindPipeline(_pPipeline);
+		comm->BindVertexBuffer(*_buffer);
+		comm->Draw(GetVertices().size(), 1, 0, 0);
+		comm->EndRenderPass();
+		comm->End();
+		_commands.push_back(comm);
+	}
+
 }
 
 const VulkanSemaphore& ShaderColor2D::Draw(const VulkanSemaphore& wait)

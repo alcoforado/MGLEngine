@@ -38,7 +38,7 @@ public:
 		return _ptr[i];
 	}
 	size_t size() { return _size; }
-
+	size_t capacity() { return _capacity; }
 	OfType* GetPointer() { return _ptr; }
 
 	void Resize(size_t size)

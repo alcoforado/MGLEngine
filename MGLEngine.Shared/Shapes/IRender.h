@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utils/Arrays/IArray.h"
+#include "../Arrays/IArray.h"
 template<class VerticeData>
 class IRender
 {

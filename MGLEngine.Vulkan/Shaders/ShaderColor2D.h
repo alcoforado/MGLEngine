@@ -7,6 +7,7 @@
 #include "../RenderPipeline/VulkanCommandBuffer.h"
 #include <glm/glm.hpp>
 #include "Utils/DrawTree/DrawTree.h"
+#include "../RenderPipeline/VulkanStagingBuffer.h"
 class IRenderContext;
 
 struct Color2D
@@ -19,7 +20,8 @@ class ShaderColor2D :DrawTree<Color2D>
 {
 	OPointer<VulkanPipeline> _pPipeline;
 	std::vector<VulkanCommandBuffer*> _commands;
-	
+	OPointer<VulkanStagingBuffer>_buffer;
+	void CreateCommands(IRenderContext& renderContext);
 	public:
 	explicit ShaderColor2D(IRenderContext& renderContext);
 	~ShaderColor2D();

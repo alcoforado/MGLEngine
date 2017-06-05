@@ -22,8 +22,8 @@ void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
 
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
-	_commandPool(_vkLogicalDevice)
-
+	_commandPool(_vkLogicalDevice),
+	_memoryMngr(_vkLogicalDevice,2*_MB)
 {
 	glfwSetWindowUserPointer(window, this);
 	glfwSetWindowSizeCallback(window, OnWindowResized);

@@ -1,13 +1,50 @@
 #pragma once
-#include "../RenderPipeline/CommandBufferCollection.h"
 #include <list>
 #include "Utils/Arrays/IArray.h"
+#include <vulkan/vulkan.h>
 
-class IBinding
-{
-	VkBuffer _buffer;
-};
+class VulkanMemoryBlock;
 class VulkanMemoryChunk;
+class VulkanLogicalDevice;
+typedef VulkanMemoryBlock* MemoryHandle;
+
+class VulkanMemoryManager
+{
+
+	uint64_t _blockSize;
+	std::list<VulkanMemoryChunk*> _chunks;
+	const VulkanLogicalDevice &_device;
+public:
+	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
+	~VulkanMemoryManager();
+	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
+	MemoryHandle Allocate(uint32_t memoryIndex, uint64_t alignment, uint64_t size);
+};
+
+
+
+class VulkanMemoryChunk
+{
+	friend class VulkanMemoryBlock;
+	friend class VulkanMemoryManager;
+	uint64_t _totalFree;
+	uint64_t _size;
+	uint64_t _maxBlockSize;
+	VulkanMemoryBlock *_pBiggestBlock;
+	std::list<VulkanMemoryBlock*> _blocks;
+	VkMemoryAllocateInfo _allocInfo;
+	VkDeviceMemory _memoryHandle;
+	bool _isMapped;
+	void *_data;
+	VulkanMemoryManager *_parent;
+
+
+	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
+	void ComputeFreeBlocksSize();
+	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
+	void Map();
+};
+
 
 
 
@@ -48,46 +85,12 @@ public:
 
 	void BindBuffer(VkBuffer uint64) const;
 	void Free();
+	uint64_t GetOffset() const;
 
 	//IBinding Resource;
 };
 
-typedef VulkanMemoryBlock* MemoryHandle;
 
-class VulkanMemoryManager;
-class VulkanMemoryChunk
-{
-	friend class VulkanMemoryBlock;
-	friend class VulkanMemoryManager;
-	uint64_t _totalFree;
-	uint64_t _size;
-	uint64_t _maxBlockSize;
-	VulkanMemoryBlock *_pBiggestBlock;
-	std::list<VulkanMemoryBlock*> _blocks;
-	VkMemoryAllocateInfo _allocInfo;
-	VkDeviceMemory _memoryHandle;
-	bool _isMapped;
-	void *_data;
-	VulkanMemoryManager *_parent;
+extern const int _MB; 
 
-
-	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
-	void ComputeFreeBlocksSize();
-	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
-	void Map();
-};
-
-
-class VulkanMemoryManager
-{
-	
-	uint64_t _blockSize;
-	std::list<VulkanMemoryChunk*> _chunks;
-	const VulkanLogicalDevice &_device;
-public:
-	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
-	~VulkanMemoryManager();
-	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
-	MemoryHandle Allocate(uint32_t memoryIndex, uint64_t alignment, uint64_t size);
-};
 
