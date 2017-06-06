@@ -8,19 +8,22 @@ template<class VerticeData>
 class DrawTree
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
-	
-	
+
+
 public:
 
 	DrawTree()
 		:_root(DrawInfo<VerticeData>::CreateRoot())
 	{
-		
-		
+
+
 	}
 
-
-
+	bool NeedRedraw()
+	{
+		return _root.GetData().NeedRedraw;
+	}
+	NTreeNode<DrawInfo<VerticeData>>* GetRoot() { return &_root; }
 
 
 	void ComputeSizes()

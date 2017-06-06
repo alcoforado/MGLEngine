@@ -40,7 +40,8 @@ public:
 	VkPipeline GetHandle() const { return _vkPipeline; }
 
 	void Load();
-	const VulkanSwapChain& GetSwapChain() const { return _swapChain; };
+	const VulkanSwapChain& GetSwapChain() const { return _swapChain; }
+	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
 	
 

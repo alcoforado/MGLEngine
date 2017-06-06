@@ -25,6 +25,13 @@ public:
 		return _memHandle->Map<T>();
 	}
 	
+	template<class T>
+	IArray<T> ToArray(int size)
+	{
+		auto result = _memHandle->Map<T>();
+		result.Resize(size);
+	}
+
 	
 	void Sync();
 	VkBuffer GetHandle() const;
