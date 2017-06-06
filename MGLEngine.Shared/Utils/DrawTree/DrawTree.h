@@ -8,7 +8,23 @@ template<class VerticeData>
 class DrawTree
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
+	
+	void AddOffset(IArray<unsigned> &indices, unsigned off)
+	{
+		for (int i = 0; i<indices.size(); i++)
+		{
+			indices[i] += off;
+		}
+	}
 
+	void AddOffset(IArray<unsigned> &indices, unsigned offO, unsigned offD)
+	{
+		for (int i = 0; i<indices.size(); i++)
+		{
+			indices[i] -= offO;
+			indices[i] += offD;
+		}
+	}
 
 public:
 
@@ -107,7 +123,7 @@ public:
 					IArray<VerticeData> arrayV(vertices.GetPointer()+info.Future.OffV,info.Future.SizeV );
 					IArray<uint32_t> arrayI(indices.GetPointer() + info.Future.OffI, info.Future.SizeI);
 					info.GetShape().WriteData(arrayV, arrayI);
-
+					AddOffset(arrayI, info.Future.OffI);
 				}
 				//For all nodes	
 				info.NeedRedraw = false; //Set this node as processed
@@ -116,6 +132,13 @@ public:
 			}
 			else
 			{
+
+				//if the alghorithm reached a non changed shape, it means one of its siblings shapes changed.
+				//In this case update the offsets. 
+				//If it is a batch we also have to update all offsets of all the indices in the batch
+				IArray<uint32_t> vI(indices.GetPointer() + info.Current.OffI, info.Current.SizeI);
+				AdjustArray(vI, info.Current.OffI, info.Future.OffI);
+
 				//Node needs to have its data copied
 				copiesV.push_back(CopyRegion(
 					ArrayRegion(info.Current.OffV, info.Current.SizeV),
@@ -168,6 +191,7 @@ public:
 					IArray<VerticeData> arrayV(oVertices.GetPointer() + info.Future.OffV, info.Future.SizeV);
 					IArray<uint32_t> arrayI(oIndices.GetPointer() + info.Future.OffI, info.Future.SizeI);
 					info.GetShape().WriteData(arrayV, arrayI);
+					AddOffset(arrayI, info.Future.OffI);
 				}
 				//For all nodes	
 				info.NeedRedraw = false; //Set this node as processed
@@ -176,6 +200,15 @@ public:
 			}
 			else
 			{
+				
+					//if the alghorithm reached a non changed shape, it means one of its siblings shapes changed.
+					//In this case update the offsets. 
+					//If it is a batch we also have to update all offsets of all the indices in the batch
+					IArray<uint32_t> vI(oIndices.GetPointer() + info.Current.OffI, info.Current.SizeI);
+					AdjustArray(vI, info.Current.OffI, info.Future.OffI);
+				
+
+
 				//Node needs to have its data copied
 				copiesV.push_back(CopyRegion(
 					ArrayRegion(info.Current.OffV, info.Current.SizeV),
@@ -185,6 +218,9 @@ public:
 					ArrayRegion(info.Current.OffI, info.Current.SizeI),
 					ArrayRegion(info.Future.OffI, info.Future.SizeI)
 				));
+				//Fix the Offset
+
+
 				//Remember, when we set the NeedRedraw=true of a node, the draw tree set the needdraw=true to all its parents.
 				//If the node does not need redraw, neither does any of its childs.
 				//Don't need to go deeper in the tree.
