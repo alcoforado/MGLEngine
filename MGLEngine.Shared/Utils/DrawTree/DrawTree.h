@@ -9,7 +9,7 @@ class DrawTree
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
 	
-	void AddOffset(IArray<unsigned> &indices, unsigned off)
+	void AddOffset(IArray<unsigned> &indices, uint32_t off)
 	{
 		for (int i = 0; i<indices.size(); i++)
 		{
@@ -17,7 +17,7 @@ class DrawTree
 		}
 	}
 
-	void AddOffset(IArray<unsigned> &indices, unsigned offO, unsigned offD)
+	void AdjustArray(IArray<unsigned> &indices, unsigned offO, unsigned offD)
 	{
 		for (int i = 0; i<indices.size(); i++)
 		{
@@ -181,13 +181,13 @@ public:
 		//To contain which regions we should copy to dst vector
 		std::vector<CopyRegion> copiesV, copiesI;
 
-		_root.ForAllPreOrderControlDescent([](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
+		_root.ForAllPreOrderControlDescent([&](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
 			DrawInfo<VerticeData>& info = pNode->GetData();
 			if (info.NeedRedraw)
 			{
 				if (info.IsShape())
 				{
-					assert(vertices.size() >= info.Future.OffV + info.Future.SizeV);
+					assert(vertices.size() >= (info.Future.OffV + info.Future.SizeV));
 					IArray<VerticeData> arrayV(oVertices.GetPointer() + info.Future.OffV, info.Future.SizeV);
 					IArray<uint32_t> arrayI(oIndices.GetPointer() + info.Future.OffI, info.Future.SizeI);
 					info.GetShape().WriteData(arrayV, arrayI);

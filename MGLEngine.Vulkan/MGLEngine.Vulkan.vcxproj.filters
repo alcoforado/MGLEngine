@@ -90,9 +90,6 @@
     <ClCompile Include="VulkanMemoryProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

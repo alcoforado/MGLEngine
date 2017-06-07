@@ -150,7 +150,6 @@
   <ItemGroup>
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="RenderPipeline\VulkanDrawTreeParser.cpp" />
-    <ClCompile Include="RenderPipeline\VulkanStagingBuffer.cpp" />
     <ClCompile Include="Shaders\IRenderContext.cpp" />
     <ClCompile Include="Shaders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />

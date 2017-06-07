@@ -6,18 +6,19 @@ class IRenderContext;
 template<class T>
 class VulkanDrawTreeParser
 {
-	IRenderContext& _context;
 	DrawTree<T> &_tree;
 	VulkanPipeline& _pipeline;
-	VulkanStagingBuffer* _pVerticesBuffer;
+	VulkanStagingBuffer<T>* _pVerticesBuffer;
 	std::vector<VulkanCommandBuffer*> _commands;
+	IRenderContext& _context;
 public:
-	VulkanDrawTreeParser(IRenderContext& context, VulkanPipeline& pipeline,DrawTree<T>& tree)
+	VulkanDrawTreeParser(IRenderContext& context,  VulkanPipeline& pipeline,DrawTree<T>& tree)
 		:_context(context),_pipeline(pipeline),	_tree(tree)
 	{
 		_pVerticesBuffer = nullptr;
 		assert(pipeline.IsLoaded());
-		_pVerticesBuffer = new VulkanStagingBuffer(_context.GetMemoryManager(), 100 * sizeof(T));
+		_pVerticesBuffer = new VulkanStagingBuffer<T>(context.GetMemoryManager(), 0,100);
+		_pVerticesBuffer->Resize(0);
 	}
 	
 	void clearCommandsBuffers()
@@ -29,30 +30,36 @@ public:
 
 	}
 
-	void CreateCommands()
+	
+	void ExecuteTree()
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
-		IArray<T> vertices = _pVerticesBuffer->ToArray<T>();
-		vertices.Resize(root->GetData().Current.SizeV);
-		_tree.ComputeSize();
-		std::vector<unsigned> indices1(100);
-		IArray<unsigned> is1(indices.data(),root->GetData().Current.SizeI);
-		std::vector<unsigned> indices2(100);
-		IArray<unsigned> is2(indices.data(), root->GetData().Future.SizeI);
-
-		
-		
+		_tree.ComputeSizes();
 		if (!_tree.NeedRedraw())
 			return;
-		if (root->GetData().Future.SizeV>vertices.capacity())
+		
+		//If draw tree changed, Update Vertice Data 
+		std::vector<unsigned> indices1(100);
+		IArray<unsigned> is1(indices1.data(),root->GetData().Current.SizeI,100);
+		std::vector<unsigned> indices2(100);
+		IArray<unsigned> is2(indices2.data(), root->GetData().Future.SizeI,100);
+		
+		if (root->GetData().Future.SizeV>_pVerticesBuffer->capacity())
 		{
-			VulkanStagingBuffer *newBuff = new VulkanStagingBuffer(_context.GetMemoryManager(), root->GetData().Future.SizeV);
-			IArray<T> newVertices = newBuff->ToArray<T>(root->GetData().Future.SizeV);
-			
+			VulkanStagingBuffer<T> *newBuff = new VulkanStagingBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
+			_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
 
-			_tree.UpdateVerticeData(newVertices)
-		}st
+			delete _pVerticesBuffer;
+			_pVerticesBuffer = newBuff;
+			is1.swap(is2);
+		}
+		else
+		{
 
+			_tree.UpdateVerticeData(*_pVerticesBuffer,is1);
+		}
+
+		//Redo the commands
 		clearCommandsBuffers();
 		auto framebuffers = _pipeline.GetVulkanSwapChainFramebuffers();
 		glm::vec4 color(0, 0, 0, 1.0);
@@ -62,29 +69,22 @@ public:
 			VulkanCommandBuffer* comm = new VulkanCommandBuffer(_context.GetCommandPool());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
 			comm->BindPipeline(&_pipeline);
-			
-			//Allocate vertex buffer
-			
-			
-			if ()
-			
-			comm->BindVertexBuffer(*_buffer);
-			comm->Draw(GetVertices().size(), 1, 0, 0);
+			comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
+			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();
 			_commands.push_back(comm);
 		}
-
-
-		
 	}
 
 
 	~VulkanDrawTreeParser()
 	{}
 
-
-
-
+	VulkanCommandBuffer* GetCommandForFrame(uint32_t index)
+	{
+		assert(index < _commands.size());
+		return _commands[index];
+	}
 };
 

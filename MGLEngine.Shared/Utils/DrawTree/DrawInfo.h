@@ -4,10 +4,15 @@
 #include "../../Shapes/IRender.h"
 struct ArrayLocation
 {
-	size_t OffI;
-	size_t SizeI;
-	size_t OffV;
-	size_t SizeV;
+	uint32_t OffI;
+	uint32_t SizeI;
+	uint32_t OffV;
+	uint32_t SizeV;
+	
+	ArrayLocation()
+	{
+		OffI = SizeI = OffV = SizeV = 0;
+	}
 };
 
 
@@ -41,15 +46,17 @@ class DrawInfo
 	
 
 public:
-	
-	DrawInfo(const DrawInfo<VerticeData>& data)
-	{
-		*this = data;
-	}
 	ArrayLocation Current;
 	ArrayLocation Future;
 	DrawInfoType DrawInfoType;
 	bool NeedRedraw;
+
+
+	DrawInfo(const DrawInfo<VerticeData>& data)
+	{
+		*this = data;
+	}
+	
 	
 	bool IsRoot() const { return DrawInfoType == Root; }
 	bool IsBatch() const  { return DrawInfoType == Batch; }

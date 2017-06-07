@@ -29,7 +29,12 @@ public:
 		_capacity = capacity;
 	}
 
-
+	void swap(IArray<OfType>& a)
+	{
+		IArray<T> aux = a;
+		a = *this;
+		*this = aux;
+	}
 
 
 	OfType& operator[](size_t i)
@@ -43,7 +48,7 @@ public:
 
 	void Resize(size_t size)
 	{
-		assert(size <= capacity);
+		assert(size <= _capacity);
 		_size = size;
 	}
 };

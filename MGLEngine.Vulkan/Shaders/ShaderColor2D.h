@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include "Utils/DrawTree/DrawTree.h"
 #include "../RenderPipeline/VulkanStagingBuffer.h"
+#include "../RenderPipeline/VulkanDrawTreeParser.h"
 class IRenderContext;
 
 struct Color2D
@@ -16,11 +17,11 @@ struct Color2D
 	glm::vec3 Color;
 };
 
-class ShaderColor2D :DrawTree<Color2D>
+class ShaderColor2D : public DrawTree<Color2D>
 {
+	OPointer<VulkanDrawTreeParser<Color2D>> _treeParser;
 	OPointer<VulkanPipeline> _pPipeline;
 	std::vector<VulkanCommandBuffer*> _commands;
-	OPointer<VulkanStagingBuffer>_buffer;
 	void CreateCommands(IRenderContext& renderContext);
 	public:
 	explicit ShaderColor2D(IRenderContext& renderContext);

@@ -145,8 +145,7 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 
 void VulkanMemoryBlock::BindBuffer(VkBuffer bhandle) const
 {
-	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, 0);
-
+	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, this->AlignedOff);
 }
 
 void VulkanMemoryBlock::Free()

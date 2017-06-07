@@ -27,7 +27,7 @@ public:
 
 	VulkanCommandBuffer& BindPipeline(const VulkanPipeline* pipeline);
 
-	VulkanCommandBuffer& BindVertexBuffer(const VulkanStagingBuffer& vulkan_staging_buffer);
+	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);
 	
 	void End();
 	void EndRenderPass();
