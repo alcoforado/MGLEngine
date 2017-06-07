@@ -2,6 +2,7 @@
 #include "../../Shapes/ITopology2D.h"
 #include "../Exception.h"
 #include "../../Shapes/IRender.h"
+#include <assert.h>
 struct ArrayLocation
 {
 	uint32_t OffI;
@@ -23,7 +24,7 @@ class ShapeInfo
 	public:
 		ITopology2D *Topology;
 		IRender<VerticeData> *Render;
-		void WriteData(IArray<VerticeData> &v,IArray<uint32_t> &i)
+		void WriteData(IArray<VerticeData> &v,Indices &i)
 		{
 			assert(Topology != nullptr);
 			assert(Render != nullptr);
@@ -70,6 +71,22 @@ public:
 		else
 			throw new Exception("DrawInfo Node is not a shape");
 	}
+
+	void RedrawShape(IArray<VerticeData> &vertices, Indices &indices)
+	{
+		assert(IsShape());
+		assert(vertices.size() >= Future.OffV+Future.SizeV);
+		IArray<VerticeData> arrayV(vertices.data()+Future.OffV,Future.SizeV );
+		Indices arrayI(indices.GetPointer() + Future.OffI, this->Future.SizeI);
+		GetShape().WriteData(arrayV, arrayI);
+		for (long unsigned i = 0; i < arrayI.size(); i++)
+		{
+			arrayI[i] += this->Future.OffI;
+		}
+		
+	}
+
+
 	static DrawInfo<VerticeData> CreateShape(ITopology2D *top,IRender<VerticeData> *render)
 	{
 		DrawInfo<VerticeData> info;

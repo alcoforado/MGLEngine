@@ -15,16 +15,13 @@ class VulkanStagingBuffer : public IArray<T>
 	VulkanMemoryManager* _memMngr;
 	MemoryHandle _memHandle;
 	VkBuffer _handle;
-	uint64_t _size;
 private:
 
 	void AllocBuffer(VulkanMemoryManager* mngr, uint64_t sizeInBytes)
 	{
-		_size = size;
-		_data = nullptr;
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-		bufferInfo.size = size;
+		bufferInfo.size = sizeInBytes;
 		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		auto err = vkCreateBuffer(mngr->GetLogicalDevice().GetHandle(), &bufferInfo, nullptr, &_handle);
@@ -49,7 +46,7 @@ private:
 		vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
 		_memHandle->Free();
 		_size = 0;
-		_data = nullptr;
+		_ptr = nullptr;
 	}
 
 public:

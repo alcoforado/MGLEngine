@@ -1,7 +1,7 @@
 #include "Triangle2D.h"
 
 
-void Triangle2D::WriteTopology(ArraySelect<glm::vec2>& array, IArray<int>& indices)
+void Triangle2D::WriteTopology(ArraySelect<glm::vec2>& array, Indices& indices)
 {
 	array[0] = V0;
 	array[1] = V1;

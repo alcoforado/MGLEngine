@@ -46,7 +46,7 @@ public:
 	{
 		int offI = 0;
 		int offV = 0;
-		_root.ForAllInOrder([](NTreeNode<DrawInfo<VerticeData>>* pNode) {
+		_root.ForAllInOrder([&](NTreeNode<DrawInfo<VerticeData>>* pNode) {
 		
 			DrawInfo<VerticeData>& info = pNode->GetData();
 			info.Current = info.Future;
@@ -54,8 +54,8 @@ public:
 			{
 				
 				ShapeInfo<VerticeData> &shape = info.GetShape();
-				info.Future.SizeI = shape.Topology.NIndices();
-				info.Future.SizeV = shape.Topology.NVertices();
+				info.Future.SizeI = shape.Topology->NIndices();
+				info.Future.SizeV = shape.Topology->NVertices();
 				info.Future.OffI = offI;
 				info.Future.OffV = offV;
 				
@@ -74,8 +74,8 @@ public:
 				}
 				if (pNode->GetChilds().size() != 0)
 				{
-					info.OffV= pNode->GetChilds().front().GetData().Future.OffV;
-					info.OffI= pNode->GetChilds().front().GetData().Future.OffI;
+					info.Future.OffV= pNode->GetChilds().front()->GetData().Future.OffV;
+					info.Future.OffI= pNode->GetChilds().front()->GetData().Future.OffI;
 				}
 			}
 			if (info.IsRoot())
@@ -94,7 +94,7 @@ public:
 
 	
 
-	void UpdateVerticeData(IArray<VerticeData> &vertices, IArray<unsigned> &indices)
+	void UpdateVerticeData(IArray<VerticeData> &vertices, Indices &indices)
 	{
 		
 		if (!_root.GetData().NeedRedraw)
@@ -106,29 +106,30 @@ public:
 		 */
 		if (_root.GetData().Future.SizeI > indices.capacity() || _root.GetData().Future.SizeV > vertices.capacity())
 		{
-			throw new Exception("Error, the vertices and/or indices need to be expanded  beyond their capacity.\n Use FullRewrite method or the update vertices overload where you pass another vertice/indices vector pair with the right size")
-			
+			throw new Exception("Error, the vertices and/or indices need to be expanded  beyond their capacity.\n Use FullRewrite method or the update vertices overload where you pass another vertice/indices vector pair with the right size");
 		}
 		
-		//To contain which regions we should copy to dst vector
-		std::vector<CopyRegion> copiesV,copiesI;
 
-		_root.ForAllPreOrderControlDescent([](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
+
+		//To contain which regions we should copy
+		std::vector<CopyRegion> copiesV,copiesI;
+		std::list<DrawInfo<VerticeData>*> shapesToRedraw;
+		_root.ForAllPreOrderControlDescent([&](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
 			DrawInfo<VerticeData>& info = pNode->GetData();
 			if (info.NeedRedraw)
 			{
 				if (info.IsShape())
 				{
-					assert(pDstV->size() >= info.Future.OffV+info.Future.SizeV);
-					IArray<VerticeData> arrayV(vertices.GetPointer()+info.Future.OffV,info.Future.SizeV );
-					IArray<uint32_t> arrayI(indices.GetPointer() + info.Future.OffI, info.Future.SizeI);
-					info.GetShape().WriteData(arrayV, arrayI);
-					AddOffset(arrayI, info.Future.OffI);
+					shapesToRedraw.push_back(&info);
+					
+					return true;
 				}
-				//For all nodes	
-				info.NeedRedraw = false; //Set this node as processed
-				info.Current = info.Future;//Past Dimensions are update with the Current Dimension
-				return true; //descend to the childs if they exist.
+				else {
+					//For all nodes	
+					info.NeedRedraw = false; //Set this node as processed
+					info.Current = info.Future;//Past Dimensions are update with the Current Dimension
+					return true; //descend to the childs if they exist.
+				}
 			}
 			else
 			{
@@ -155,15 +156,24 @@ public:
 			}
 		});
 
-		DefragArray<VerticeData> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(vertices, copiesV);
 		defrag.ReorganizeArray(indices, copiesI);
+
+		//All the copies are done, redraw the pending shapes
+		for (auto info : shapesToRedraw)
+		{
+			info->RedrawShape(vertices,indices);
+			info->NeedRedraw = false; //Set this node as processed
+			info->Current = info->Future;//Past Dimensions are update with the Current Dimension
+		}
+
 	}
 
 
 	void UpdateVerticeData(
-		IArray<VerticeData> &vertices , IArray<unsigned>  &indices,
-		IArray<VerticeData> &oVertices, IArray<unsigned>  &oIndices)
+		IArray<VerticeData> &vertices , Indices  &indices,
+		IArray<VerticeData> &oVertices, Indices  &oIndices)
 	{
 
 		if (!_root.GetData().NeedRedraw)
@@ -187,11 +197,7 @@ public:
 			{
 				if (info.IsShape())
 				{
-					assert(vertices.size() >= (info.Future.OffV + info.Future.SizeV));
-					IArray<VerticeData> arrayV(oVertices.GetPointer() + info.Future.OffV, info.Future.SizeV);
-					IArray<uint32_t> arrayI(oIndices.GetPointer() + info.Future.OffI, info.Future.SizeI);
-					info.GetShape().WriteData(arrayV, arrayI);
-					AddOffset(arrayI, info.Future.OffI);
+					info.RedrawShape(oVertices,oIndices);
 				}
 				//For all nodes	
 				info.NeedRedraw = false; //Set this node as processed
@@ -228,7 +234,7 @@ public:
 			}
 		});
 
-		DefragArray<VerticeData> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(vertices,oVertices, copiesV);
 		defrag.ReorganizeArray(indices, oIndices,copiesI);
 	}

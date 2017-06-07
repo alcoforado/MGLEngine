@@ -35,7 +35,7 @@ class VulkanMemoryChunk
 	VkMemoryAllocateInfo _allocInfo;
 	VkDeviceMemory _memoryHandle;
 	bool _isMapped;
-	void *_data;
+	char* _data;
 	VulkanMemoryManager *_parent;
 
 

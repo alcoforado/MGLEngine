@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/detail/type_vec2.hpp>
+#include "../Utils/Arrays/Indices.h"
 #include "../Shapes/ITopology2D.h"
 
 class Triangle2D : public ITopology2D
@@ -12,7 +13,7 @@ public:
 		return 3;
 	}
 
-	virtual void WriteTopology(ArraySelect<glm::vec2>& array, IArray<int>& indices) override;
+	virtual void WriteTopology(ArraySelect<glm::vec2>& array, Indices& indices) override;
 
 	glm::vec2 V0, V1, V2;
 

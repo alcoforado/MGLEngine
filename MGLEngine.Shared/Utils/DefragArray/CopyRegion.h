@@ -2,6 +2,7 @@
 #include "ArrayRegion.h"
 #include <vector>
 #include <cassert>
+#include "../Arrays/IArray.h"
 class CopyRegion
 {
 public:
@@ -29,17 +30,20 @@ public:
 	}
 
 	template<class T>
-	void Execute(std::vector<T> &src)
+	void Execute(IArray<T> &src)
 	{
 		assert(Orig.LastIndex() < src.size());
 		assert(Dst.LastIndex() < src.size());
 		assert(Dst.size == Orig.size);
 		auto p = src.data();
-		memcpy(src.data() + Dst.offI, src.data() + Orig.offI, Dst.size*sizeof(T));
+		memmove(src.data() + Dst.offI, src.data() + Orig.offI, Dst.size*sizeof(T));
 	}
+	
 	template<class T>
-	void Execute(const std::vector<T> &src, std::vector<T> &dst)
+	void Execute(IArray<T>&src, IArray<T> &dst)
 	{
+		//Assert non overlapping
+		assert(!src.overlaps(dst));
 		assert(Orig.LastIndex() < src.size());
 		assert(Dst.LastIndex() < dst.size());
 		assert(Dst.size == Orig.size);

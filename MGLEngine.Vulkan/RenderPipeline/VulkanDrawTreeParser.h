@@ -40,9 +40,9 @@ public:
 		
 		//If draw tree changed, Update Vertice Data 
 		std::vector<unsigned> indices1(100);
-		IArray<unsigned> is1(indices1.data(),root->GetData().Current.SizeI,100);
+		Indices is1(indices1.data(),root->GetData().Current.SizeI,100);
 		std::vector<unsigned> indices2(100);
-		IArray<unsigned> is2(indices2.data(), root->GetData().Future.SizeI,100);
+		Indices is2(indices2.data(), root->GetData().Future.SizeI,100);
 		
 		if (root->GetData().Future.SizeV>_pVerticesBuffer->capacity())
 		{

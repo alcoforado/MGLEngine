@@ -4,8 +4,8 @@
 #include <vector>
 #include <list>
 #include "CopyPlanSequenceDetail.h"
+#include <algorithm>
 
-template<class T>
 class DefragArray
 {
 public:
@@ -60,10 +60,10 @@ public:
 	}
 	*/
 
-
-	void ReorganizeArray(const std::vector<T> &src, std::vector<T> &dst,std::vector<CopyRegion> &plan)
+	template<class T>
+	void ReorganizeArray(IArray<T> &src, IArray<T> &dst, std::vector<CopyRegion> &pPlan)
 	{
-		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(plan);
+		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(pPlan);
 
 		std::vector<CopyRegion> &plan = *optPlan;
 
@@ -71,14 +71,9 @@ public:
 		{
 			cp.Execute(src, dst);
 		}
-
-
-
-		
 	}
-
-
-	void ReorganizeArray(std::vector<T> &src, std::vector<CopyRegion> &plan)
+	template<class T>
+	void ReorganizeArray(IArray<T> &src, std::vector<CopyRegion> &plan)
 	{
 		OPointer<std::vector<CopyRegion>> optPlan = OptimizePlan(plan);
 
@@ -137,5 +132,14 @@ public:
 			backupElem->ApplyBackup(src);
 			delete backupElem;
 		}
+	}
+
+	
+	template<class T>
+	void ReorganizeArray(std::vector<T> &src, std::vector<CopyRegion> &plan)
+	{
+		IArray<T> asrc(src);
+		this->ReorganizeArray(asrc, plan);
+
 	}
 };

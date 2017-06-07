@@ -52,7 +52,7 @@ TEST_CASE("Array Defragmentation")
 		vInsertion.push_back(CopyRegion(ArrayRegion(2, 2), ArrayRegion(6, 2)));
 		vInsertion.push_back(CopyRegion(ArrayRegion(7, 2), ArrayRegion(8, 2)));
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vInsertion);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);
@@ -72,7 +72,7 @@ TEST_CASE("Array Defragmentation")
 		vInsertion.push_back(CopyRegion(ArrayRegion(4, 3), ArrayRegion(2, 3)));
 		vInsertion.push_back(CopyRegion(ArrayRegion(7, 2), ArrayRegion(6, 2)));
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vInsertion);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);
@@ -98,7 +98,7 @@ TEST_CASE("Array Defragmentation")
 		vInsertion.push_back(CopyRegion(ArrayRegion(4, 3), ArrayRegion(7, 3)));
 		vInsertion.push_back(CopyRegion(ArrayRegion(7, 2), ArrayRegion(10, 2)));
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vInsertion);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);
@@ -122,7 +122,7 @@ TEST_CASE("Array Defragmentation")
 		vInsertion.push_back(CopyRegion(ArrayRegion(4, 3), ArrayRegion(9, 3)));
 		vInsertion.push_back(CopyRegion(ArrayRegion(7, 2), ArrayRegion(12, 2)));
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vInsertion);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);
@@ -145,7 +145,7 @@ TEST_CASE("Array Defragmentation")
 		vDeletion.push_back(CopyRegion(ArrayRegion(7, 2), ArrayRegion(5, 2)));
 
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vDeletion);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);
@@ -165,7 +165,7 @@ TEST_CASE("Array Defragmentation")
 		vDeletion2.push_back(CopyRegion(ArrayRegion(10, 2), ArrayRegion(7, 2)));
 		vDeletion2.push_back(CopyRegion(ArrayRegion(12, 1), ArrayRegion(9, 1)));
 
-		DefragArray<int> defrag;
+		DefragArray defrag;
 		defrag.ReorganizeArray(s, vDeletion2);
 		REQUIRE(s[0] == 0);
 		REQUIRE(s[1] == 1);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <vector>
 #ifndef IARRAY_H
 #define IARRAY_H
 #include<assert.h>
@@ -20,6 +21,13 @@ public:
 		_size = size;
 		_capacity = size;
 	}
+	
+	explicit IArray(std::vector<OfType>& src)
+	{
+		_capacity = _size = src.size();
+		_ptr = src.data();
+	}
+
 
 	IArray(OfType *p, size_t size,size_t capacity)
 	{
@@ -29,9 +37,16 @@ public:
 		_capacity = capacity;
 	}
 
+
+
+	bool overlaps(IArray<OfType> &a)
+	{
+		return ((a._ptr + a._size - 1) < _ptr) || ((_ptr + _size - 1) < a._ptr);
+	}
+
 	void swap(IArray<OfType>& a)
 	{
-		IArray<T> aux = a;
+		IArray<OfType> aux = a;
 		a = *this;
 		*this = aux;
 	}
@@ -50,6 +65,11 @@ public:
 	{
 		assert(size <= _capacity);
 		_size = size;
+	}
+
+	OfType* data()
+	{
+		return _ptr;
 	}
 };
 

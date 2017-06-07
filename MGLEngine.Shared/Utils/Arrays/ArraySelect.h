@@ -33,10 +33,10 @@ public:
 	ArraySelect(IArray<ClassType> &data, MemberType ClassType::*vertice)
 	{
 		static_assert(sizeof(ClassType) % 4 == 0, "Type can only have 4 bytes alignment");
-		_data = &(data[0]);
+		_data = reinterpret_cast<char*>(&(data[0]));
 		_size = data.size();
 		_type_off = sizeof(ClassType);
-		_member_off = static_cast<void*>(&data[0].*vertice) - static_cast<void*>(&(data[0]));
+		_member_off = reinterpret_cast<char*>(&(data[0].*vertice)) - reinterpret_cast<char*>(&(data[0]));
 	}
 
 

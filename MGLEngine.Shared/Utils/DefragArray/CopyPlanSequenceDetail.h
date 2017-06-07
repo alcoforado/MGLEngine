@@ -21,13 +21,14 @@ public:
 		Copy = copy;
 	}
 
-	void ApplyBackup(std::vector<T>& defragArray)
+	void ApplyBackup(IArray<T>& defragArray)
 	{
 		assert(Backup.size() != 0);
+		assert(Backup.size() == Copy.Dst.size);
 		assert(Copy.Dst.offI + Copy.Dst.size <= defragArray.size());
 		memcpy(defragArray.data()+Copy.Dst.offI, Backup.data(),Backup.size() * sizeof(T));
 	}
-	void CreateBackup(std::vector<T>&  defragArray)
+	void CreateBackup(IArray<T>&  defragArray)
 	{
 		Backup.resize(Copy.Orig.size);
 		memcpy(Backup.data(), defragArray.data() + Copy.Orig.offI, sizeof(T)*Backup.size());
