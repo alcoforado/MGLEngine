@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Shapes/ITopology2D.h"
+#include "../../Shapes/ITopology3D.h"
 #include "../Exception.h"
 #include "../../Shapes/IRender.h"
 #include <assert.h>
@@ -19,26 +20,56 @@ struct ArrayLocation
 
 
 enum DrawInfoType {Root,Shape,Batch};
-template <class VerticeData>
+
+template <class VerticeData,int dim>
 class ShapeInfo
 {
 	public:
-		ITopology2D *Topology;
-		IRender<VerticeData> *Render;
-		void WriteData(IArray<VerticeData> &v,Indices &i)
-		{
-			assert(Topology != nullptr);
-			assert(Render != nullptr);
-			ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
-			Topology->WriteTopology(sV, i);
-			Render->Write(v);
-		}
+	
 };
 
+
 template<class VerticeData>
+class ShapeInfo<VerticeData,2>
+{
+public:
+	ITopology2D *Topology;
+	IRender<VerticeData> *Render;
+	void WriteData(IArray<VerticeData> &v, Indices &i)
+	{
+		assert(Topology != nullptr);
+		assert(Render != nullptr);
+		ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
+		Topology->WriteTopology(sV, i);
+		Render->Write(v);
+	}
+};
+
+
+template<class VerticeData>
+class ShapeInfo<VerticeData, 3>
+{
+public:
+	ITopology3D *Topology;
+	IRender<VerticeData> *Render;
+	void WriteData(IArray<VerticeData> &v, Indices &i)
+	{
+		assert(Topology != nullptr);
+		assert(Render != nullptr);
+		ArraySelect<glm::vec3> sV(v, &VerticeData::Position);
+		Topology->WriteTopology(sV, i);
+		Render->Write(v);
+	}
+};
+
+
+
+
+
+template<class VerticeData,int dim>
 class DrawInfo
 {
-	ShapeInfo<VerticeData> _shape;
+	ShapeInfo<VerticeData,dim> _shape;
 	DrawInfo()
 	{
 		NeedRedraw = false;
@@ -54,7 +85,7 @@ public:
 	bool NeedRedraw;
 
 
-	DrawInfo(const DrawInfo<VerticeData>& data)
+	DrawInfo(const DrawInfo<VerticeData,dim>& data)
 	{
 		*this = data;
 	}
@@ -65,7 +96,7 @@ public:
 	bool IsShape() const { return DrawInfoType == Shape; }
 
 
-	ShapeInfo<VerticeData>& GetShape()
+	ShapeInfo<VerticeData,dim>& GetShape()
 	{
 		if (DrawInfoType==Shape)  
 			return _shape;
@@ -88,18 +119,18 @@ public:
 	}
 
 
-	static DrawInfo<VerticeData> CreateShape(ITopology2D *top,IRender<VerticeData> *render)
+	static DrawInfo<VerticeData,dim> CreateShape(ITopology2D *top,IRender<VerticeData> *render)
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,dim> info;
 		info.DrawInfoType = Shape;
 		info._shape.Topology = top;
 		info._shape.Render = render;
 	}
 
 
-	static DrawInfo<VerticeData> CreateRoot()
+	static DrawInfo<VerticeData,dim> CreateRoot()
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,dim> info;
 		info.DrawInfoType = Root;
 		return info;
 	}

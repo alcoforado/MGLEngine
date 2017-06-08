@@ -122,7 +122,7 @@ public:
 				//if the alghorithm reached a non changed shape, it means one of its siblings shapes changed.
 				//In this case update the offsets. 
 				//If it is a batch we also have to update all offsets of all the indices in the batch
-				Indices vI(indices.GetPointer() + info.Current.OffI, info.Current.SizeI);
+				Indices> vI(indices.GetPointer() + info.Current.OffI, info.Current.SizeI);
 				vI.AdjustArray(info.Current.OffI, info.Future.OffI);
 
 				//Node needs to have its data copied
