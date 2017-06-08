@@ -131,8 +131,5 @@
     <ClCompile Include="Utils\Arrays\Indices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="INDICES.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

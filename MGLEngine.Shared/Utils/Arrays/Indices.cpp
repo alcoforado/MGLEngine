@@ -14,3 +14,20 @@ Indices::Indices(std::vector<uint32_t>& src)
 Indices::~Indices()
 {
 }
+
+void Indices::AdjustArray(Index offO, Index offD)
+{
+	for (size_t i = 0; i < _size; i++)
+	{
+		_ptr[i] -= offO;
+		_ptr[i] += offD;
+	}
+}
+
+void Indices::AddOffset(Index off)
+{
+	for (size_t i = 0; i < _size; i++)
+	{
+		_ptr[i] += off;
+	}
+}

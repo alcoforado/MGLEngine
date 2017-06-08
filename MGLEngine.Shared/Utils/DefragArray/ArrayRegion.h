@@ -1,9 +1,12 @@
 #pragma once
+
+#include "../Arrays/Indices.h"
+
 class ArrayRegion
 {
 public:
-	int offI;
-	int size;
+	Index offI;
+	Index size;
 public:
 	ArrayRegion(){}
 	~ArrayRegion(){}
@@ -13,7 +16,7 @@ public:
 		size = s;
 			
 	}
-	int LastIndex()
+	Index LastIndex() const
 	{
 		return offI + size - 1;
 	}

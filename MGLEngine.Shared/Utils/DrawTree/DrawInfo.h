@@ -5,14 +5,15 @@
 #include <assert.h>
 struct ArrayLocation
 {
-	uint32_t OffI;
-	uint32_t SizeI;
-	uint32_t OffV;
-	uint32_t SizeV;
+	Index OffI;
+	Index SizeI;
+	Index OffV;
+	Index SizeV;
 	
 	ArrayLocation()
 	{
-		OffI = SizeI = OffV = SizeV = 0;
+		OffI = OffV = 0;
+		SizeI = SizeV = 0;
 	}
 };
 

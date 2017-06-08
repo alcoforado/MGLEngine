@@ -5,13 +5,14 @@
 
 #include <vector>
 #include "IArray.h"
+#include "Indices.h"
 template<class MemberType>
 class ArraySelect
 {
 	char *_data;
-	int _size;
-	int _type_off;
-	int _member_off;
+	size_t _size;
+	Index _type_off;
+	Index _member_off;
 
 
 public:
@@ -36,13 +37,13 @@ public:
 		_data = reinterpret_cast<char*>(&(data[0]));
 		_size = data.size();
 		_type_off = sizeof(ClassType);
-		_member_off = reinterpret_cast<char*>(&(data[0].*vertice)) - reinterpret_cast<char*>(&(data[0]));
+		_member_off = static_cast<Index>(reinterpret_cast<char*>(&(data[0].*vertice)) - reinterpret_cast<char*>(&(data[0])));
 	}
 
 
 	int size() { return _size; }
 
-	MemberType& operator[](int i) {
+	MemberType& operator[](Index i) {
 		assert(i<_size);
 		return *((MemberType*)(_data + (i*_type_off + _member_off)));
 	}

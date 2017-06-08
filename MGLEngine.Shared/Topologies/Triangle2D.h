@@ -6,10 +6,10 @@
 class Triangle2D : public ITopology2D
 {
 public:
-	virtual size_t NVertices() {
+	virtual Index NVertices() override{
 		return 3;
 	};
-	virtual size_t NIndices() {
+	virtual Index NIndices() override  {
 		return 3;
 	}
 

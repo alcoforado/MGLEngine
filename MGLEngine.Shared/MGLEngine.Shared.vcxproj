@@ -166,7 +166,6 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="INDICES.CPP" />
     <ClCompile Include="Utils\Arrays\Indices.cpp" />
     <ClCompile Include="Topologies\Triangle2D.cpp" />
     <ClCompile Include="Utils\Arrays\ArraySelect.cpp" />
