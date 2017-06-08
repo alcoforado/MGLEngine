@@ -9,22 +9,7 @@ class DrawTree
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
 	
-	void AddOffset(IArray<unsigned> &indices, uint32_t off)
-	{
-		for (int i = 0; i<indices.size(); i++)
-		{
-			indices[i] += off;
-		}
-	}
-
-	void AdjustArray(IArray<unsigned> &indices, unsigned offO, unsigned offD)
-	{
-		for (int i = 0; i<indices.size(); i++)
-		{
-			indices[i] -= offO;
-			indices[i] += offD;
-		}
-	}
+	
 
 public:
 
@@ -137,8 +122,8 @@ public:
 				//if the alghorithm reached a non changed shape, it means one of its siblings shapes changed.
 				//In this case update the offsets. 
 				//If it is a batch we also have to update all offsets of all the indices in the batch
-				IArray<uint32_t> vI(indices.GetPointer() + info.Current.OffI, info.Current.SizeI);
-				AdjustArray(vI, info.Current.OffI, info.Future.OffI);
+				Indices vI(indices.GetPointer() + info.Current.OffI, info.Current.SizeI);
+				vI.AdjustArray(info.Current.OffI, info.Future.OffI);
 
 				//Node needs to have its data copied
 				copiesV.push_back(CopyRegion(
