@@ -10,7 +10,7 @@ struct ArrayLocation
 	Index SizeI;
 	Index OffV;
 	Index SizeV;
-	
+
 	ArrayLocation()
 	{
 		OffI = OffV = 0;
@@ -19,64 +19,56 @@ struct ArrayLocation
 };
 
 
-enum DrawInfoType {Root,Shape,Batch};
+enum DrawInfoType { Root, Shape, Batch };
 
-template <class VerticeData,int dim>
+
+
+template<class VerticeData>
 class ShapeInfo
 {
-	public:
+	ITopology2D *_topology2D;
+	IRender<VerticeData> *_render;
+public:
+
 	
+	void WriteData(IArray<VerticeData> &v, Indices &i)
+	{
+		assert(_topology2D != nullptr);
+		assert(_render != nullptr);
+
+
+			ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
+			_topology2D->WriteTopology(sV, i);
+			_render->Write(v);
+	}
+
+	Index NVertices()
+	{
+		return _topology2D->NVertices();
+	}
+	Index NIndices()
+	{
+		return _topology2D->NIndices();
+	}
+
 };
+
+
+
+
 
 
 template<class VerticeData>
-class ShapeInfo<VerticeData,2>
-{
-public:
-	ITopology2D *Topology;
-	IRender<VerticeData> *Render;
-	void WriteData(IArray<VerticeData> &v, Indices &i)
-	{
-		assert(Topology != nullptr);
-		assert(Render != nullptr);
-		ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
-		Topology->WriteTopology(sV, i);
-		Render->Write(v);
-	}
-};
-
-
-template<class VerticeData>
-class ShapeInfo<VerticeData, 3>
-{
-public:
-	ITopology3D *Topology;
-	IRender<VerticeData> *Render;
-	void WriteData(IArray<VerticeData> &v, Indices &i)
-	{
-		assert(Topology != nullptr);
-		assert(Render != nullptr);
-		ArraySelect<glm::vec3> sV(v, &VerticeData::Position);
-		Topology->WriteTopology(sV, i);
-		Render->Write(v);
-	}
-};
-
-
-
-
-
-template<class VerticeData,int dim>
 class DrawInfo
 {
-	ShapeInfo<VerticeData,dim> _shape;
+	ShapeInfo<VerticeData> _shape;
 	DrawInfo()
 	{
 		NeedRedraw = false;
 		DrawInfoType = Root;
 	}
 
-	
+
 
 public:
 	ArrayLocation Current;
@@ -85,20 +77,20 @@ public:
 	bool NeedRedraw;
 
 
-	DrawInfo(const DrawInfo<VerticeData,dim>& data)
+	DrawInfo(const DrawInfo<VerticeData>& data)
 	{
 		*this = data;
 	}
-	
-	
+
+
 	bool IsRoot() const { return DrawInfoType == Root; }
-	bool IsBatch() const  { return DrawInfoType == Batch; }
+	bool IsBatch() const { return DrawInfoType == Batch; }
 	bool IsShape() const { return DrawInfoType == Shape; }
 
 
-	ShapeInfo<VerticeData,dim>& GetShape()
+	ShapeInfo<VerticeData>& GetShape()
 	{
-		if (DrawInfoType==Shape)  
+		if (DrawInfoType == Shape)
 			return _shape;
 		else
 			throw new Exception("DrawInfo Node is not a shape");
@@ -107,34 +99,34 @@ public:
 	void RedrawShape(IArray<VerticeData> &vertices, Indices &indices)
 	{
 		assert(IsShape());
-		assert(vertices.size() >= Future.OffV+Future.SizeV);
-		IArray<VerticeData> arrayV(vertices.data()+Future.OffV,Future.SizeV );
+		assert(vertices.size() >= Future.OffV + Future.SizeV);
+		IArray<VerticeData> arrayV(vertices.data() + Future.OffV, Future.SizeV);
 		Indices arrayI(indices.GetPointer() + Future.OffI, this->Future.SizeI);
 		GetShape().WriteData(arrayV, arrayI);
 		for (long unsigned i = 0; i < arrayI.size(); i++)
 		{
 			arrayI[i] += this->Future.OffI;
 		}
-		
+
 	}
 
 
-	static DrawInfo<VerticeData,dim> CreateShape(ITopology2D *top,IRender<VerticeData> *render)
+	static DrawInfo<VerticeData> CreateShape(ITopology2D *top, IRender<VerticeData> *render)
 	{
-		DrawInfo<VerticeData,dim> info;
+		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;
 		info._shape.Topology = top;
-		info._shape.Render = render;
+		info._shape._render = render;
 	}
 
 
-	static DrawInfo<VerticeData,dim> CreateRoot()
+	static DrawInfo<VerticeData> CreateRoot()
 	{
-		DrawInfo<VerticeData,dim> info;
+		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Root;
 		return info;
 	}
-	
+
 	~DrawInfo() {}
 
 };
