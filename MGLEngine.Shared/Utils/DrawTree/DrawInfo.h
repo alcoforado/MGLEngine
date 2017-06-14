@@ -3,6 +3,7 @@
 #include "../../Shapes/ITopology3D.h"
 #include "../Exception.h"
 #include "../../Shapes/IRender.h"
+#include <type_traits>
 #include <assert.h>
 struct ArrayLocation
 {
@@ -26,7 +27,7 @@ enum DrawInfoType { Root, Shape, Batch };
 template<class VerticeData>
 class ShapeInfo
 {
-	ITopology2D *_topology2D;
+	typename std::conditional<std::is_same<decltype(VerticeData::Position),glm::vec3>::value,ITopology3D,ITopology2D>::type *_topology2D;
 	IRender<VerticeData> *_render;
 public:
 
@@ -37,9 +38,9 @@ public:
 		assert(_render != nullptr);
 
 
-			ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
-			_topology2D->WriteTopology(sV, i);
-			_render->Write(v);
+		ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
+		_topology2D->WriteTopology(sV, i);
+		_render->Write(v);
 	}
 
 	Index NVertices()
