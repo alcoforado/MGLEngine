@@ -27,29 +27,44 @@ enum DrawInfoType { Root, Shape, Batch };
 template<class VerticeData>
 class ShapeInfo
 {
-	typename std::conditional<std::is_same<decltype(VerticeData::Position),glm::vec3>::value,ITopology3D,ITopology2D>::type *_topology2D;
+	static constexpr const unsigned bool Is3D = std::is_same<decltype(VerticeData::Position), glm::vec3>::value;
+	typename std::conditional<Is3D,ITopology3D,ITopology2D>::type *_topology;
+
 	IRender<VerticeData> *_render;
 public:
 
-	
-	void WriteData(IArray<VerticeData> &v, Indices &i)
+	template<class T=VerticeData>
+	typename std::enable_if<!std::is_same<decltype(T::Position), glm::vec3>::value,void>::type WriteData(IArray<VerticeData> &v, Indices &i)
 	{
-		assert(_topology2D != nullptr);
+		assert(_topology != nullptr);
 		assert(_render != nullptr);
 
 
 		ArraySelect<glm::vec2> sV(v, &VerticeData::Position);
-		_topology2D->WriteTopology(sV, i);
+		_topology->WriteTopology(sV, i);
 		_render->Write(v);
 	}
 
+	template<class T = VerticeData>
+	typename std::enable_if<std::is_same<decltype(T::Position), glm::vec3>::value, void>::type WriteData(IArray<VerticeData> &v, Indices &i)
+	{
+		assert(_topology != nullptr);
+		assert(_render != nullptr);
+
+
+		ArraySelect<glm::vec3> sV(v, &VerticeData::Position);
+		_topology->WriteTopology(sV, i);
+		_render->Write(v);
+	}
+
+
 	Index NVertices()
 	{
-		return _topology2D->NVertices();
+		return _topology->NVertices();
 	}
 	Index NIndices()
 	{
-		return _topology2D->NIndices();
+		return _topology->NIndices();
 	}
 
 };
