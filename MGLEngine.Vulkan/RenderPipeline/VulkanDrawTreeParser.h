@@ -79,7 +79,12 @@ public:
 
 
 	~VulkanDrawTreeParser()
-	{}
+	{
+		if (_pVerticesBuffer)
+		{
+			delete _pVerticesBuffer;
+		}
+	}
 
 	VulkanCommandBuffer* GetCommandForFrame(uint32_t index)
 	{
