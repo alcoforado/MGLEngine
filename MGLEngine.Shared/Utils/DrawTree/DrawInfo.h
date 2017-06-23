@@ -27,7 +27,7 @@ enum DrawInfoType { Root, Shape, Batch };
 template<class VerticeData>
 class ShapeInfo
 {
-	static constexpr const unsigned bool Is3D = std::is_same<decltype(VerticeData::Position), glm::vec3>::value;
+	static constexpr const bool Is3D = std::is_same<decltype(VerticeData::Position), glm::vec3>::value;
 	typename std::conditional<Is3D,ITopology3D,ITopology2D>::type *_topology;
 
 	IRender<VerticeData> *_render;
