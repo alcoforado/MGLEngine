@@ -13,6 +13,8 @@ class DrawTree
 
 public:
 
+	typedef VerticeData VerticeType;
+
 	DrawTree()
 		:_root(DrawInfo<VerticeData>::CreateRoot())
 	{

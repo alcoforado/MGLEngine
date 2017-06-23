@@ -80,7 +80,7 @@ class DrawInfo
 	ShapeInfo<VerticeData> _shape;
 	DrawInfo()
 	{
-		NeedRedraw = false;
+		NeedRedraw = true;
 		DrawInfoType = Root;
 	}
 

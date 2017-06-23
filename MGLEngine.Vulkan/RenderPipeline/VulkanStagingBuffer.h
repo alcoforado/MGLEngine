@@ -52,7 +52,7 @@ private:
 public:
 	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size,uint64_t capacity)
 	{
-		assert(size > 0);
+		assert(size <= capacity);
 		AllocBuffer(mngr, capacity*sizeof(T));
 		auto a = _memHandle->Map<T>();
 		a.swap(*this);

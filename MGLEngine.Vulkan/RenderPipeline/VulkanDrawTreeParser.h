@@ -18,7 +18,7 @@ public:
 		_pVerticesBuffer = nullptr;
 		assert(pipeline.IsLoaded());
 		_pVerticesBuffer = new VulkanStagingBuffer<T>(context.GetMemoryManager(), 0,100);
-		_pVerticesBuffer->Resize(0);
+		
 	}
 	
 	void clearCommandsBuffers()
@@ -84,6 +84,7 @@ public:
 		{
 			delete _pVerticesBuffer;
 		}
+		clearCommandsBuffers();
 	}
 
 	VulkanCommandBuffer* GetCommandForFrame(uint32_t index)

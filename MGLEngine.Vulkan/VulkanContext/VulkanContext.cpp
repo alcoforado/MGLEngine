@@ -10,8 +10,8 @@
 #include <fstream>
 #include "../VulkanUtils.h"
 #include "../Shaders/ShaderColor2D.h"
-
-
+#include <Topologies/Triangle2D.h>
+#include <Renders/CyclicColor.h>
 void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
 	if (width == 0 || height == 0) return;
 
@@ -29,7 +29,20 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	glfwSetWindowSizeCallback(window, OnWindowResized);
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
-	render = new ShaderColor2D(*this);
+	_render = new ShaderColor2D(*this);
+
+	auto tria = new Triangle2D(
+		glm::vec2(0, 0),
+		glm::vec2(1, 0),
+		glm::vec2(0, 1)
+	);
+
+
+	std::vector<glm::vec3> colors;
+	colors.push_back(glm::vec3(0, 1, 0));
+	auto painter = new CyclicColor<ShaderColor2D::VerticeType>(colors);
+
+	_render->Add(tria,painter);
 
 
 }
@@ -41,18 +54,18 @@ void VulkanContext::OnResize(GLFWwindow *window)
 {
 	_vkLogicalDevice.WaitToBeIdle();
 
-	delete render;
+	delete _render;
 	_pSwapChain.if_free();
 	_vkLogicalDevice.OnResizeWindow(window);
 
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
-	render = new ShaderColor2D(*this);
+	_render = new ShaderColor2D(*this);
 }
 
 
 VulkanContext::~VulkanContext()
 {
-	delete render;
+	delete _render;
 	_pSwapChain.if_free();
 }
 
@@ -73,7 +86,7 @@ std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& 
 void VulkanContext::Draw()
 {
 	auto &s1 = _pSwapChain->NextImagePipelineAsync();
-	auto &s2 = render->Draw(s1);
+	auto &s2 = _render->Draw(s1);
 	_pSwapChain->Present(s2);
 	
 

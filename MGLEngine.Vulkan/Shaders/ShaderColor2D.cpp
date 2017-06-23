@@ -6,11 +6,37 @@
 
 ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
-	VertexShaderByteCode vertexByteCode(renderContext.GetLogicalDevice(),canvas2D_vert,sizeof(canvas2D_vert));
+	this->Resize(renderContext);
+}
+
+
+
+
+ShaderColor2D::~ShaderColor2D()
+{
+	
+}
+
+void ShaderColor2D::OnSwapChange()
+{
+	_pPipeline.if_free();
+	for (auto pc : _commands)
+	{
+		delete pc;
+	}
+	_commands.clear();
+}
+
+void ShaderColor2D::Resize(IRenderContext & renderContext)
+{
+	_pPipeline.if_free();
+	_treeParser.if_free();
+	
+	VertexShaderByteCode vertexByteCode(renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert));
 	FragmentShaderByteCode fragShaderCode(renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
 
 	_pPipeline = new VulkanPipeline(renderContext.GetSwapChain(), vertexByteCode, fragShaderCode);
-	
+
 	_pPipeline->VertexInputInfo
 		.CreateBinding<Color2D>()
 		.AddField(0, &Color2D::Position)
@@ -26,34 +52,18 @@ ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-	 
-	
+
+
 	_pPipeline->RenderPass.AddColorDescription("color", colorAttachment);
 	_pPipeline->RenderPass
 		.AddGraphicSubpass("pass1")
-	    .RefColorAttachement("color", VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-	
+		.RefColorAttachement("color", VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+
 	_pPipeline->Load();
-	
-	
-	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext,*_pPipeline, *this);
-	
 
-}
 
-ShaderColor2D::~ShaderColor2D()
-{
-	
-}
+	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this);
 
-void ShaderColor2D::OnSwapChange()
-{
-	_pPipeline.if_free();
-	for (auto pc : _commands)
-	{
-		delete pc;
-	}
-	_commands.clear();
 }
 
 
