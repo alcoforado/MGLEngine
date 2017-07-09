@@ -6,18 +6,20 @@
 class VulkanMemoryBlock;
 class VulkanMemoryChunk;
 class VulkanLogicalDevice;
+
 //typedef const VulkanMemoryBlock* MemoryHandle;
 
 class MemoryHandle
 {
+	friend class VulkanMemoryManager;
 	VulkanMemoryBlock *_block;
+	void BindBuffer(VkBuffer buff) const;
 
 public:
 	MemoryHandle(VulkanMemoryBlock *block=nullptr)
 	{
 		_block = block;
 	}
-	void BindBuffer(VkBuffer buff) const;
 	void Free();
 	uint64_t GetOffset() const;
 	

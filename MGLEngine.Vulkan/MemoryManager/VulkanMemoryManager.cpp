@@ -173,7 +173,7 @@ MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkM
 	MemoryHandle memHandle = this->Allocate(memoryTypeIndex, memRequirements.alignment, memRequirements.size);
 	memHandle.BindBuffer(buffer);
 
-
+	return memHandle;
 
 }
 
