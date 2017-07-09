@@ -15,7 +15,6 @@ class MemoryHandle
 public:
 	MemoryHandle(VulkanMemoryBlock *block=nullptr)
 	{
-		assert(block);
 		_block = block;
 	}
 	void BindBuffer(VkBuffer buff) const;

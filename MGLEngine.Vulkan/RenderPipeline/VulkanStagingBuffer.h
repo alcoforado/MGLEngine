@@ -29,7 +29,7 @@ private:
 
 		//Allocate buffer
 		_memHandle = mngr->Allocate(_handle, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
-		_memHandle.BindBuffer(_handle);
+		
 	}
 
 	
