@@ -37,6 +37,7 @@ private:
 public:
 	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size,uint64_t capacity)
 	{
+		_memMngr = mngr;
 		assert(capacity > 0);
 		AllocBuffer(mngr, capacity*sizeof(T));
 		auto a = _memHandle.Map<T>(size);

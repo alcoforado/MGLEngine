@@ -180,5 +180,22 @@ TEST_CASE("Array Defragmentation")
 
 	}
 
+	SECTION("Empy copy regions should not change array") {
+		//0 1 | 2 3 | 4 5 6 | 7 8 | 9 | 10 11| 12 => 0 1 | 4 5 6 | 7 8
+		std::vector<CopyRegion> vDeletion2;
+		
+
+		DefragArray defrag;
+		defrag.ReorganizeArray(s, vDeletion2);
+		for (int i=0;i<s.size();i++)
+		{
+			REQUIRE(s[i]==i);
+		}
+		
+	
+
+	}
+
+
 
 }
