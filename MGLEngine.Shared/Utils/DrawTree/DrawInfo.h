@@ -30,8 +30,23 @@ class ShapeInfo
 	static constexpr const bool Is3D = std::is_same<decltype(VerticeData::Position), glm::vec3>::value;
 	typename std::conditional<Is3D,ITopology3D,ITopology2D>::type *_topology;
 
+	typedef typename std::conditional<Is3D, ITopology3D, ITopology2D>::type TopologyType;
+
+
 	IRender<VerticeData> *_render;
 public:
+
+	ShapeInfo(TopologyType *topology,IRender<VerticeData> *render)
+	{
+		_topology = topology;
+		_render = render;
+	}
+
+	ShapeInfo()
+	{
+		_topology = nullptr;
+		_render = nullptr;
+	}
 
 	template<class T=VerticeData>
 	typename std::enable_if<!std::is_same<decltype(T::Position), glm::vec3>::value,void>::type WriteData(IArray<VerticeData> &v, Indices &i)
@@ -98,6 +113,7 @@ public:
 		*this = data;
 	}
 
+	
 
 	bool IsRoot() const { return DrawInfoType == Root; }
 	bool IsBatch() const { return DrawInfoType == Batch; }
@@ -131,8 +147,8 @@ public:
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;
-		info._shape.Topology = top;
-		info._shape._render = render;
+		info._shape = ShapeInfo<VerticeData>(top,render);
+		return info;
 	}
 
 

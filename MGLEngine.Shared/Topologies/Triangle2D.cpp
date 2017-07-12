@@ -11,7 +11,7 @@ void Triangle2D::WriteTopology(ArraySelect<glm::vec2>& array, Indices& indices)
 	indices[2] = 2;
 }
 
-inline Triangle2D::Triangle2D(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2)
+Triangle2D::Triangle2D(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2)
 {
 	V0 = v0;
 	V1 = v1;

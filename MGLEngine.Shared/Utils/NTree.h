@@ -35,7 +35,7 @@
 		void AppendChild(NTreeNode<Data> *child)
 		{
 			_childs.push_back(child);
-			child._parent = this;
+			child->_parent = this;
 		}
 
 
