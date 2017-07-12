@@ -13,6 +13,8 @@ class DrawTree
 
 public:
 
+	typedef VerticeData VerticeType;
+
 	DrawTree()
 		:_root(DrawInfo<VerticeData>::CreateRoot())
 	{
@@ -234,7 +236,8 @@ public:
 
 	void Add(ITopology2D *topology,IRender<VerticeData> *render)
 	{
-		auto node = new NTreeNode<VerticeData>(DrawInfo<VerticeData>(topology, render));
+		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
+		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
 		_root.AppendChild(node);
 	}
 

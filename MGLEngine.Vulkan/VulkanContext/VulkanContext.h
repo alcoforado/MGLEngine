@@ -23,7 +23,7 @@ private:
 	
 private:
 	
-	ShaderColor2D *render;
+	ShaderColor2D *_render;
 	VulkanInstance _vkInstance;
 	VulkanLogicalDevice _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;
