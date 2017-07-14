@@ -11,7 +11,9 @@ class DefragArray
 public:
 	std::vector<CopyRegion>* OptimizePlan(std::vector<CopyRegion> &p)
 	{
-		
+		if (p.empty())
+			return new std::vector<CopyRegion>();
+
 		std::sort(p.begin(), p.end(), [](const CopyRegion &a, const CopyRegion &b)->bool
 		{
 			return a.Orig.offI < b.Orig.offI;

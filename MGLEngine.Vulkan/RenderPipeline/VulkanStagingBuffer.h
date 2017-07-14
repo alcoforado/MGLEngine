@@ -28,38 +28,26 @@ private:
 		AssertVulkanSuccess(err);
 
 		//Allocate buffer
-
-		VkMemoryRequirements memRequirements;
-		vkGetBufferMemoryRequirements(mngr->GetLogicalDevice().GetHandle(), _handle, &memRequirements);
-
-		uint32_t i = mngr->GetLogicalDevice().GetPhysicalDevice().FindMemoryPropertyIndex(
-			memRequirements.memoryTypeBits, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
-
-		_memHandle = mngr->Allocate(i, memRequirements.alignment, memRequirements.size);
-
-		_memHandle->BindBuffer(_handle);
+		_memHandle = mngr->Allocate(_handle, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
+		
 	}
 
-	void clear()
-	{
-		assert(_size != 0); //Trying to delete empty buffer
-		vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
-		_memHandle->Free();
-		_size = 0;
-		_ptr = nullptr;
-	}
+	
 
 public:
 	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size,uint64_t capacity)
 	{
-		assert(size <= capacity);
+		_memMngr = mngr;
+		assert(capacity > 0);
 		AllocBuffer(mngr, capacity*sizeof(T));
-		auto a = _memHandle->Map<T>();
+		auto a = _memHandle.Map<T>(size);
 		a.swap(*this);
 		this->Resize(size);
 	}
 	~VulkanStagingBuffer()
 	{
+		vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
+		_memHandle.Free();
 		this->clear();
 	}
 	

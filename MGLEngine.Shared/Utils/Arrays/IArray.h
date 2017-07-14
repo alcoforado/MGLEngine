@@ -71,6 +71,12 @@ public:
 	{
 		return _ptr;
 	}
+
+	void clear()
+	{
+		_size = 0;
+		_ptr = nullptr;
+	}
 };
 
 #endif // IARRAY_H

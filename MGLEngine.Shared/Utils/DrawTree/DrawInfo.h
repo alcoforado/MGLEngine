@@ -156,6 +156,8 @@ public:
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Root;
+		info.NeedRedraw = true;
+
 		return info;
 	}
 

@@ -62,7 +62,7 @@ void VulkanMemoryChunk::ComputeFreeBlocksSize()
 	}
 }
 
-MemoryHandle VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint64_t alignment,uint64_t size)
+VulkanMemoryBlock* VulkanMemoryChunk::TryToAllocate(uint32_t memoryIndex, uint64_t alignment,uint64_t size)
 {
 	for (auto it=_blocks.begin();it!=_blocks.end();it++)
 	{
@@ -114,9 +114,25 @@ VulkanMemoryManager::~VulkanMemoryManager()
 {
 }
 
+void MemoryHandle::BindBuffer(VkBuffer buff) const
+{
+	_block->BindBuffer(buff);
+}
+
+void MemoryHandle::Free()
+{
+	_block->Free();
+}
+
+uint64_t MemoryHandle::GetOffset() const
+{
+	return _block->GetOffset();
+}
+
+
 MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size)
 {
-	MemoryHandle result;
+	VulkanMemoryBlock* result;
 	assert(memoryTypeIndex < _device.GetPhysicalDevice().GetMemoryProperties().size());
 	for (VulkanMemoryChunk *chunk : _chunks)
 	{
@@ -131,7 +147,7 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 	}
 
 	//
-	_chunks.push_back(new VulkanMemoryChunk(this,memoryTypeIndex,std::max(_blockSize, size)));
+	_chunks.push_back(new VulkanMemoryChunk(this, memoryTypeIndex, std::max(_blockSize, size)));
 	result = _chunks.back()->TryToAllocate(memoryTypeIndex, alignment, size);
 	if (result)
 	{
@@ -140,6 +156,24 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 	else
 		throw new Exception("alghorithm problem, new allocated chunk should always be allocable to the request");
 
+
+}
+
+
+MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags)
+{
+	VkMemoryRequirements memRequirements;
+	vkGetBufferMemoryRequirements(this->GetLogicalDevice().GetHandle(), buffer, &memRequirements);
+
+	uint32_t memoryTypeIndex = this->GetLogicalDevice().GetPhysicalDevice().FindMemoryPropertyIndex(
+		memRequirements.memoryTypeBits, flags);
+
+
+
+	MemoryHandle memHandle = this->Allocate(memoryTypeIndex, memRequirements.alignment, memRequirements.size);
+	memHandle.BindBuffer(buffer);
+
+	return memHandle;
 
 }
 

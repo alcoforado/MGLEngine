@@ -6,7 +6,31 @@
 class VulkanMemoryBlock;
 class VulkanMemoryChunk;
 class VulkanLogicalDevice;
-typedef VulkanMemoryBlock* MemoryHandle;
+
+//typedef const VulkanMemoryBlock* MemoryHandle;
+
+class MemoryHandle
+{
+	friend class VulkanMemoryManager;
+	VulkanMemoryBlock *_block;
+	void BindBuffer(VkBuffer buff) const;
+
+public:
+	MemoryHandle(VulkanMemoryBlock *block=nullptr)
+	{
+		_block = block;
+	}
+	void Free();
+	uint64_t GetOffset() const;
+	
+	template<class T>
+	IArray<T> Map(uint64_t nElems)
+	{
+		return _block->Map<T>(nElems);
+	}
+
+};
+
 
 class VulkanMemoryManager
 {
@@ -14,12 +38,15 @@ class VulkanMemoryManager
 	uint64_t _blockSize;
 	std::list<VulkanMemoryChunk*> _chunks;
 	const VulkanLogicalDevice &_device;
+	MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
 	~VulkanMemoryManager();
 	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
-	MemoryHandle Allocate(uint32_t memoryIndex, uint64_t alignment, uint64_t size);
+	MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags);
 };
+
+
 
 
 
@@ -41,7 +68,7 @@ class VulkanMemoryChunk
 
 	explicit VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex, uint64_t size);
 	void ComputeFreeBlocksSize();
-	MemoryHandle TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
+	VulkanMemoryBlock* TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 	void Map();
 };
 
@@ -74,13 +101,12 @@ class VulkanMemoryBlock
 
 public:
 	template<class T>
-	IArray<T> Map()
+	IArray<T> Map(uint64_t nElems)
 	{
 		assert(!IsFree);
 		_chunk->Map();
-		
-		assert(Size % sizeof(T) == 0);
-		return IArray<T>(reinterpret_cast<T*>(_chunk->_data + AlignedOff),Size/sizeof(T));
+		assert(nElems <= Size / sizeof(T));
+		return IArray<T>(reinterpret_cast<T*>(_chunk->_data + AlignedOff),nElems,Size/sizeof(T));
 	}
 
 	void BindBuffer(VkBuffer uint64) const;
