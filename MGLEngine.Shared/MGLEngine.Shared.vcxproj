@@ -137,6 +137,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />
     <ClInclude Include="Renders\CyclicColor.h" />
     <ClInclude Include="Topologies\Triangle2D.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Utils\Observable.cpp" />
     <ClCompile Include="Utils\Arrays\Indices.cpp" />
     <ClCompile Include="Topologies\Triangle2D.cpp" />
     <ClCompile Include="Utils\Arrays\ArraySelect.cpp" />
