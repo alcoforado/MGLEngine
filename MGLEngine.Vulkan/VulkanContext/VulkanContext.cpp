@@ -85,6 +85,7 @@ std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& 
 
 void VulkanContext::Draw()
 {
+	_
 	auto &s1 = _pSwapChain->NextImagePipelineAsync();
 	auto &s2 = _render->Draw(s1);
 	_pSwapChain->Present(s2);

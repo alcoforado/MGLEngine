@@ -9,6 +9,7 @@
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../Shaders/IRenderContext.h"
 #include "../Shaders/ShaderColor2D.h"
+#include "IDrawContext.h"
 #include "Utils/opointer.h"
 struct GLFWwindow;
 
@@ -29,7 +30,7 @@ private:
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanCommandPool _commandPool;
 	VulkanMemoryManager _memoryMngr;
-
+	DrawContext _drawContext;
 public:
 	VulkanContext(GLFWwindow* window);
 	void OnResize(GLFWwindow* window);

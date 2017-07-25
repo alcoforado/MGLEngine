@@ -194,5 +194,8 @@
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VulkanContext\IDrawContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

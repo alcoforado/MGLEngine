@@ -7,8 +7,8 @@ TEST_CASE("Observables")
 	
 	Observable<int> obs,obs2;
 	int a = 1, b = 3;
-	Listener<int> lst1([&a](int &e) {a += e; });
-	Listener<int> lst2([&b](int &e) {b += e; });
+	Listener<int> lst1([&a](int e) {a += e; });
+	Listener<int> lst2([&b](int e) {b += e; });
 	lst1.Listen(&obs);
 	lst2.Listen(&obs);
 	lst1.Listen(&obs2);

@@ -189,6 +189,7 @@
     <ClInclude Include="RenderPipeline\VulkanRenderPass.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
+    <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h" />
     <ClInclude Include="MGLContainer.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />

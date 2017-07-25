@@ -10,11 +10,11 @@
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
 	:_swapChain(swapChain),
-	RenderPass(swapChain.GetLogicalDevice())
+RenderPass(swapChain.GetLogicalDevice())
 {
 	_isLoaded = false;
-	pipelineInfo.sType= VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-	
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
 
 
 
@@ -29,12 +29,12 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	FragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 	FragShaderStageInfo.module = fragment.GetHandle();
 	FragShaderStageInfo.pName = "main";
-	
+
 	ShaderStages.push_back(VertShaderStageInfo);
 	ShaderStages.push_back(FragShaderStageInfo);
 
 
-	
+
 
 	InputAssembly = {};
 	InputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -42,18 +42,18 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	InputAssembly.primitiveRestartEnable = VK_FALSE;
 
 	//Set Viewport
-	 
+
 	Viewport.x = 0.0f;
 	Viewport.y = 0.0f;
-	Viewport.width =static_cast<float>(swapChain.GetExtent().width);
+	Viewport.width = static_cast<float>(swapChain.GetExtent().width);
 	Viewport.height = static_cast<float>(swapChain.GetExtent().height);
 	Viewport.minDepth = 0.0f;
 	Viewport.maxDepth = 1.0f;
-	
+
 	Scissor = {};
 	Scissor.offset = { 0, 0 };
 	Scissor.extent = swapChain.GetExtent();
-	
+
 
 
 	Rasterizer = {};
@@ -99,7 +99,7 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 	ColorBlending.blendConstants[2] = 0.0f; // Optional
 	ColorBlending.blendConstants[3] = 0.0f; // Optional
 
-	
+
 	PipelineLayoutInfo = {};
 	PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	PipelineLayoutInfo.setLayoutCount = 0; // Optional
@@ -109,7 +109,21 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByt
 
 
 
+	onResize.SetHandler([this](VulkanSwapChain *swapChain) 
+	{
+		this->Dispose();
 
+		this->Viewport.width = static_cast<float>(swapChain->GetExtent().width);
+		this->Viewport.height = static_cast<float>(swapChain->GetExtent().height);
+
+		Scissor.extent = swapChain->GetExtent();
+
+
+		if (_isLoaded)
+		{
+
+		}
+	});
 	
 
 }
@@ -127,13 +141,13 @@ void VulkanPipeline::Load()
 	pipelineInfo.pInputAssemblyState = &InputAssembly;
 	
 	
-	VkPipelineViewportStateCreateInfo viewportState = {};
-	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-	viewportState.viewportCount = 1;
-	viewportState.pViewports = &Viewport;
-	viewportState.scissorCount = 1;
-	viewportState.pScissors = &Scissor;
-	pipelineInfo.pViewportState = &viewportState;
+	ViewportState = {};
+	ViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	ViewportState.viewportCount = 1;
+	ViewportState.pViewports = &Viewport;
+	ViewportState.scissorCount = 1;
+	ViewportState.pScissors = &Scissor;
+	pipelineInfo.pViewportState = &ViewportState;
 	pipelineInfo.pRasterizationState = &Rasterizer;
 	pipelineInfo.pMultisampleState = &Multisampling;
 	pipelineInfo.pDepthStencilState = nullptr;
@@ -164,14 +178,20 @@ void VulkanPipeline::Load()
 
 
 
-VulkanPipeline::~VulkanPipeline()
+void VulkanPipeline::Dispose()
 {
 	if (_isLoaded)
 	{
 		_pFramebuffers.if_free();
 		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
 		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
-		
+		_isLoaded = false;
 	}
+
+}
+
+VulkanPipeline::~VulkanPipeline()
+{
+	this->Dispose();
 }
 

@@ -6,32 +6,6 @@
 
 ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
-	this->Resize(renderContext);
-}
-
-
-
-
-ShaderColor2D::~ShaderColor2D()
-{
-	
-}
-
-void ShaderColor2D::OnSwapChange()
-{
-	_pPipeline.if_free();
-	for (auto pc : _commands)
-	{
-		delete pc;
-	}
-	_commands.clear();
-}
-
-void ShaderColor2D::Resize(IRenderContext & renderContext)
-{
-	_pPipeline.if_free();
-	_treeParser.if_free();
-	
 	VertexShaderByteCode vertexByteCode(renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert));
 	FragmentShaderByteCode fragShaderCode(renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
 
@@ -64,7 +38,27 @@ void ShaderColor2D::Resize(IRenderContext & renderContext)
 
 	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this);
 
+
 }
+
+
+
+
+ShaderColor2D::~ShaderColor2D()
+{
+	
+}
+
+void ShaderColor2D::OnSwapChange()
+{
+	_pPipeline.if_free();
+	for (auto pc : _commands)
+	{
+		delete pc;
+	}
+	_commands.clear();
+}
+
 
 
 

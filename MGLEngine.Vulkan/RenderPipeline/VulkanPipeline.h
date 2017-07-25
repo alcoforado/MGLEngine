@@ -3,6 +3,7 @@
 #include "VulkanRenderPass.h"
 #include "VulkanSwapChainFramebuffers.h"
 #include "Utils/opointer.h"
+#include "Utils/observable.h"
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
@@ -31,8 +32,10 @@ public:
 	VulkanRenderPass RenderPass;
 	VkGraphicsPipelineCreateInfo pipelineInfo;
 	std::vector<VkDynamicState>  DynamicStates;
-
+	Listener<VulkanSwapChain*> onResize;
 	VkViewport Viewport;
+	VkPipelineViewportStateCreateInfo ViewportState;
+
 	VkRect2D Scissor;
 	OPointer<VulkanSwapChainFramebuffers> _pFramebuffers;
 
@@ -43,7 +46,7 @@ public:
 	const VulkanSwapChain& GetSwapChain() const { return _swapChain; }
 	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
-	
+	void Dispose();
 
 	
 	~VulkanPipeline();

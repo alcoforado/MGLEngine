@@ -43,15 +43,28 @@ template<class T>
 class Listener
 {
 	std::list<Observable<T>*> _list;
-	std::function<void(T& t)> _handler;
+	std::function<void(T t)> _handler;
 public:
-	Listener(std::function<void(T& t)> handler)
+	Listener(std::function<void(T t)> handler)
 	{
 		_handler = handler;
 	}
-	void Execute(T& t)
+
+	void SetHandler(std::function<void(T t)> handler)
 	{
-		_handler(t);
+		_handler = handler;
+	}
+
+	Listener()
+	{
+		_handler = nullptr;
+	}
+
+
+	void Execute(T t)
+	{
+		if (_handler)
+			_handler(t);
 	}
 	
 	~Listener()
