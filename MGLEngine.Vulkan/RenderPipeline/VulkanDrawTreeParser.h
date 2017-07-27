@@ -2,6 +2,7 @@
 #include "Utils/DrawTree/DrawTree.h"
 #include "../Shaders/IRenderContext.h"
 #include "../RenderPipeline/VulkanPipeline.h"
+#include "../VulkanContext/IDrawContext.h"
 class IRenderContext;
 template<class T>
 class VulkanDrawTreeParser
@@ -31,34 +32,37 @@ public:
 	}
 
 	
-	void ExecuteTree()
+	void ExecuteTree(IDrawContext *drawContext)
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();
-		if (!_tree.NeedRedraw())
-			return;
-		
-		//If draw tree changed, Update Vertice Data 
-		std::vector<unsigned> indices1(100);
-		Indices is1(indices1.data(),root->GetData().Current.SizeI,100);
-		std::vector<unsigned> indices2(100);
-		Indices is2(indices2.data(), root->GetData().Future.SizeI,100);
-		
-		if (root->GetData().Future.SizeV>_pVerticesBuffer->capacity())
-		{
-			VulkanStagingBuffer<T> *newBuff = new VulkanStagingBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
-			_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
-
-			delete _pVerticesBuffer;
-			_pVerticesBuffer = newBuff;
-			is1.swap(is2);
-		}
-		else
+		if (_tree.NeedRedraw())
 		{
 
-			_tree.UpdateVerticeData(*_pVerticesBuffer,is1);
+			//If draw tree changed, Update Vertice Data 
+			std::vector<unsigned> indices1(100);
+			Indices is1(indices1.data(), root->GetData().Current.SizeI, 100);
+			std::vector<unsigned> indices2(100);
+			Indices is2(indices2.data(), root->GetData().Future.SizeI, 100);
+
+			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
+			{
+				VulkanStagingBuffer<T> *newBuff = new VulkanStagingBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
+				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
+
+				delete _pVerticesBuffer;
+				_pVerticesBuffer = newBuff;
+				is1.swap(is2);
+			}
+			else
+			{
+
+				_tree.UpdateVerticeData(*_pVerticesBuffer, is1);
+			}
 		}
 
+		if (_tree.NeedRedraw() || drawContext->IsWindowResized())
+		{
 		//Redo the commands
 		clearCommandsBuffers();
 		auto framebuffers = _pipeline.GetVulkanSwapChainFramebuffers();
