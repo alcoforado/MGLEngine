@@ -5,7 +5,7 @@
 
 
 VulkanSemaphore::VulkanSemaphore(const VulkanLogicalDevice &logicalDevice)
-	:_logicalDevice(logicalDevice)
+	:_logicalDevice(&logicalDevice)
 {
 	VkSemaphoreCreateInfo semaphoreInfo = {};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -16,5 +16,5 @@ VulkanSemaphore::VulkanSemaphore(const VulkanLogicalDevice &logicalDevice)
 
 VulkanSemaphore::~VulkanSemaphore()
 {
-	vkDestroySemaphore(_logicalDevice.GetHandle(),_vkSemaphore,nullptr);
+	vkDestroySemaphore(_logicalDevice->GetHandle(),_vkSemaphore,nullptr);
 }

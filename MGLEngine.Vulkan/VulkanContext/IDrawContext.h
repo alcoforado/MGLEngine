@@ -13,7 +13,7 @@ class DrawContext : public IDrawContext
 {
 public:
 	bool WindowResized;
-	VulkanSemaphore *CurrentSemaphore;
+	VulkanSemaphore CurrentSemaphore;
 	IRenderContext  *RenderContext;
 
 	DrawContext() {}
@@ -21,7 +21,7 @@ public:
 	bool  IsWindowResized() override { return WindowResized; }
 	
 	VulkanSemaphore GetSemaphore() override {
-		return *CurrentSemaphore;
+		return CurrentSemaphore;
 	}
 
 	IRenderContext * GetRenderContext() override { return RenderContext; }

@@ -1,7 +1,6 @@
 #include "MWindow.h"
 #include <Utils/Exception.h>
 #include <cassert>
-
 #include <vulkan/vulkan.h>
 #include <glfw/glfw3.h>
 #include "../VulkanContext/VulkanContext.h"

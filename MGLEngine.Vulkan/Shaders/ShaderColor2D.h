@@ -27,6 +27,6 @@ class ShaderColor2D : public DrawTree<Color2D>
 	explicit ShaderColor2D(IRenderContext& renderContext);
 	~ShaderColor2D();
 	void OnSwapChange();
-	const VulkanSemaphore& Draw(const VulkanSemaphore& wait);
+	VulkanSemaphore Draw(IDrawContext *pDrawContext);
 };
 

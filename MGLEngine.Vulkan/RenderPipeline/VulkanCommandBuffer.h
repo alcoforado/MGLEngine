@@ -32,7 +32,7 @@ public:
 	void End();
 	void EndRenderPass();
 	
-	const VulkanSemaphore&  SubmitPipelineAsync(const VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
+	const VulkanSemaphore&  SubmitPipelineAsync(VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
 
 	~VulkanCommandBuffer();
 };

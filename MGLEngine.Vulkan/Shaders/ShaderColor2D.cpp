@@ -63,9 +63,8 @@ void ShaderColor2D::OnSwapChange()
 
 
 
-const VulkanSemaphore& ShaderColor2D::Draw(const VulkanSemaphore& wait)
+VulkanSemaphore ShaderColor2D::Draw(IDrawContext *pDrawContext)
 {
-	_treeParser->ExecuteTree();
-	uint32_t index = _pPipeline->GetSwapChain().GetCurrentImageIndex();
-	return _treeParser->GetCommandForFrame(index)->SubmitPipelineAsync(wait,VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+	return _treeParser->ExecuteTree(pDrawContext);
+	
 }

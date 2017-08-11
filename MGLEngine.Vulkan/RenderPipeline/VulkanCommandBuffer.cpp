@@ -95,7 +95,7 @@ void VulkanCommandBuffer::EndRenderPass()
 }
 
 
-const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(const VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
+const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait.GetHandle();
 	VkPipelineStageFlags waitStages[] = { static_cast<VkFlags>(pipelineStage) };
