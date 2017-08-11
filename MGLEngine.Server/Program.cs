@@ -16,12 +16,6 @@ namespace MGLEngine.Server
         {
             var w = new Window();
             w.SetSize(500, 700);
-            System.Diagnostics.Trace.WriteLine("Hello World");
-            System.Diagnostics.Trace.WriteLine("Hello World");
-            System.Diagnostics.Trace.WriteLine("Hello World");
-            System.Diagnostics.Trace.WriteLine("Hello World");
-            System.Diagnostics.Trace.WriteLine("Hello World");
-            System.Diagnostics.Trace.WriteLine("Hello World");
             w.PsychoRun();
         }
     }

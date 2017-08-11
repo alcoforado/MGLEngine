@@ -16,6 +16,8 @@ namespace MGL {
 		Window();
 		virtual ~Window();
 
+		VulkanContext* GetVulkanContext() const { return _vkContext; }
+
 		// Inherited via IWindow
 		virtual void SetSize(int width, int height) override;
 		virtual void EasyRun() override;

@@ -40,6 +40,7 @@ MGL::Window::Window()
 }
 
 
+
 MGL::Window::~Window()
 {
 }

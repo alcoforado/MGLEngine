@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\..\References\include;$(ProjectDir)\..\MGLEngine.Shared;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\..\;$(ProjectDir)\..\References\include;$(ProjectDir)\..\MGLEngine.Shared;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\..\References\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
