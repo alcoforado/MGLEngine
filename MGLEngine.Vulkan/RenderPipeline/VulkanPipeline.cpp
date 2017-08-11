@@ -110,7 +110,7 @@ RenderPass(swapChain.GetLogicalDevice())
 
 	onResize.SetHandler([this](VulkanSwapChain *swapChain) 
 	{
-		
+		this->OnSwapChainResize();
 	});
 	
 
@@ -178,10 +178,9 @@ void VulkanPipeline::Dispose()
 
 }
 
-void VulkanPipeline::SwapChainResizeHandler()
+void VulkanPipeline::OnSwapChainResize()
 {
 	this->Dispose();
-
 	this->Viewport.width = static_cast<float>(_swapChain.GetExtent().width);
 	this->Viewport.height = static_cast<float>(_swapChain.GetExtent().height);
 	Scissor.extent = _swapChain.GetExtent();

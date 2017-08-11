@@ -61,6 +61,8 @@ public:
 				_tree.UpdateVerticeData(*_pVerticesBuffer, is1);
 			}
 		}
+		if (drawContext->IsWindowResized())
+			_pipeline.OnSwapChainResize();
 
 		if (_tree.NeedRedraw() || drawContext->IsWindowResized())
 		{

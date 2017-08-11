@@ -49,7 +49,7 @@ public:
 	void Dispose();
 
 	
-	void SwapChainResizeHandler();
+	void OnSwapChainResize();
 	
 
 	~VulkanPipeline();
