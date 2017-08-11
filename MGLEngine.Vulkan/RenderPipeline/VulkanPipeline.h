@@ -49,6 +49,9 @@ public:
 	void Dispose();
 
 	
+	void SwapChainResizeHandler();
+	
+
 	~VulkanPipeline();
 };
 

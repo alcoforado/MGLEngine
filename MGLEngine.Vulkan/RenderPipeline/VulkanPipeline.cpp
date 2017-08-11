@@ -5,7 +5,6 @@
 #include "../VulkanUtils.h"
 #include <cassert>
 #include "Utils/Exception.h"
-#include "VulkanCommandBuffer.h"
 
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
@@ -105,24 +104,13 @@ RenderPass(swapChain.GetLogicalDevice())
 	PipelineLayoutInfo.setLayoutCount = 0; // Optional
 	PipelineLayoutInfo.pSetLayouts = nullptr; // Optional
 	PipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-	PipelineLayoutInfo.pPushConstantRanges = 0; // Optional
+	PipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
 
 
 	onResize.SetHandler([this](VulkanSwapChain *swapChain) 
 	{
-		this->Dispose();
-
-		this->Viewport.width = static_cast<float>(swapChain->GetExtent().width);
-		this->Viewport.height = static_cast<float>(swapChain->GetExtent().height);
-
-		Scissor.extent = swapChain->GetExtent();
-
-
-		if (_isLoaded)
-		{
-
-		}
+		
 	});
 	
 
@@ -188,6 +176,16 @@ void VulkanPipeline::Dispose()
 		_isLoaded = false;
 	}
 
+}
+
+void VulkanPipeline::SwapChainResizeHandler()
+{
+	this->Dispose();
+
+	this->Viewport.width = static_cast<float>(_swapChain.GetExtent().width);
+	this->Viewport.height = static_cast<float>(_swapChain.GetExtent().height);
+	Scissor.extent = _swapChain.GetExtent();
+	this->Load();
 }
 
 VulkanPipeline::~VulkanPipeline()
