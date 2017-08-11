@@ -1,5 +1,5 @@
 #pragma once
-#include <Window/IWindow.h>
+#include <MGLEngine.Shared/Window/IWindow.h>
 class VulkanContext;
 struct GLFWwindow;
 

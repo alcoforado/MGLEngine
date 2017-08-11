@@ -162,10 +162,14 @@
     <ClCompile Include="TestDefragArray.cpp" />
     <ClCompile Include="MGLEngine.Test.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Vulkan\VulkanContextTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MGLEngine.Shared\MGLEngine.Shared.vcxproj">
       <Project>{e055e8e7-749c-4e20-ad45-1145bbf3b21c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MGLEngine.Vulkan\MGLEngine.Vulkan.vcxproj">
+      <Project>{a21b7bd2-0b50-41e4-995b-7a153d66be90}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
