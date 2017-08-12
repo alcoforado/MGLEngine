@@ -3,7 +3,7 @@
 
 TEST_CASE("Vulkan Tests")
 {
-	auto window = new MGL::Window();
+	MGL::Window window;
 
 	SECTION("Create and close a window should work")
 	{

@@ -19,6 +19,9 @@ class VulkanCommandBuffer
 	VulkanSemaphore _lock;
 
 public:
+
+
+
 	VulkanCommandBuffer(const VulkanCommandPool* pool);
 
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
@@ -32,7 +35,7 @@ public:
 	void End();
 	void EndRenderPass();
 	
-	const VulkanSemaphore&  SubmitPipelineAsync(VulkanSemaphore& wait, VkPipelineStageFlagBits pipelineStage);
+	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 
 	~VulkanCommandBuffer();
 };

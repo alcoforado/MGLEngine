@@ -6,8 +6,8 @@
 
 ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 {
-	VertexShaderByteCode vertexByteCode(renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert));
-	FragmentShaderByteCode fragShaderCode(renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
+	VertexShaderByteCode vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert));
+	FragmentShaderByteCode fragShaderCode(*renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
 
 	_pPipeline = new VulkanPipeline(renderContext.GetSwapChain(), vertexByteCode, fragShaderCode);
 
@@ -63,7 +63,7 @@ void ShaderColor2D::OnSwapChange()
 
 
 
-VulkanSemaphore ShaderColor2D::Draw(IDrawContext *pDrawContext)
+VulkanSemaphore* ShaderColor2D::Draw(IDrawContext *pDrawContext)
 {
 	return _treeParser->ExecuteTree(pDrawContext);
 	

@@ -27,7 +27,7 @@ public:
 	const VulkanInstance& GetVulkanInstance() const { return _vulkanInstance; }
 	VkPhysicalDevice GetHandle() const  { return _handler; }
 	std::vector<VkQueueFamilyProperties> GetFamilyProperties() const { return _queueFamilyProperties; }
-	VulkanLogicalDevice CreateLogicalDevice(GLFWwindow *window) const;
+	VulkanLogicalDevice* CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VkQueueFamilyProperties> FindQueuesWithType(VkFlags flags) const;
 
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }

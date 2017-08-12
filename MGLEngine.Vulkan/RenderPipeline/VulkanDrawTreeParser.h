@@ -33,7 +33,7 @@ public:
 	}
 
 
-	VulkanSemaphore ExecuteTree(IDrawContext *drawContext)
+	VulkanSemaphore* ExecuteTree(IDrawContext *drawContext)
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();

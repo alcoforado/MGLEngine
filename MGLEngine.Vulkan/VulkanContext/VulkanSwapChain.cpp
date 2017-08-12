@@ -98,10 +98,10 @@ VulkanSwapChain::~VulkanSwapChain()
 	vkDestroySwapchainKHR(_logicalDevice.GetHandle(),_handle,nullptr);
 }
 
-VulkanSemaphore& VulkanSwapChain::NextImagePipelineAsync()
+VulkanSemaphore* VulkanSwapChain::NextImagePipelineAsync()
 {
 	vkAcquireNextImageKHR(_logicalDevice.GetHandle(), _handle, std::numeric_limits<uint64_t>::max(), _nextImageSemaphore.GetHandle(), VK_NULL_HANDLE, &_nextImageIndex);
-	return _nextImageSemaphore;
+	return &_nextImageSemaphore;
 }
 
 void VulkanSwapChain::Present(const VulkanSemaphore& lock)

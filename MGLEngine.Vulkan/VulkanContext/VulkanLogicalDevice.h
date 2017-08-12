@@ -22,6 +22,11 @@ private:
 	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
 	
 public:
+
+	VulkanLogicalDevice & operator=(const VulkanLogicalDevice&) = delete;
+	VulkanLogicalDevice(const VulkanLogicalDevice&) = delete;
+	
+
 	~VulkanLogicalDevice();
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanSurface& GetSurface() const { return _surface; }

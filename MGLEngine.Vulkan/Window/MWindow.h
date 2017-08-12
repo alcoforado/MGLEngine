@@ -1,5 +1,6 @@
 #pragma once
 #include <MGLEngine.Shared/Window/IWindow.h>
+#include <MGLEngine.Shared/Utils/opointer.h>
 class VulkanContext;
 struct GLFWwindow;
 
@@ -8,7 +9,7 @@ namespace MGL {
 	{
 	private :
 		GLFWwindow *_window;
-		VulkanContext *_vkContext;
+		OPointer<VulkanContext> _vkContext;
 		static bool isGLFWInitialized;
 		int _width;
 		int _height;

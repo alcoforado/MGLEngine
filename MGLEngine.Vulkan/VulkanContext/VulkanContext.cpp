@@ -22,13 +22,13 @@ void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
 
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
-	_commandPool(_vkLogicalDevice),
-	_memoryMngr(_vkLogicalDevice,2*_MB)
+	_commandPool(*_vkLogicalDevice),
+	_memoryMngr(*_vkLogicalDevice,2*_MB)
 {
 	glfwSetWindowUserPointer(window, this);
 	glfwSetWindowSizeCallback(window, OnWindowResized);
 	//Set Swap Chain
-	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
+	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice->GetSurface(), *_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
 
 	auto tria = new Triangle2D(
@@ -52,13 +52,13 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 
 void VulkanContext::OnResize(GLFWwindow *window)
 {
-	_vkLogicalDevice.WaitToBeIdle();
+	_vkLogicalDevice->WaitToBeIdle();
 
 	delete _render;
 	_pSwapChain.if_free();
-	_vkLogicalDevice.OnResizeWindow(window);
+	_vkLogicalDevice->OnResizeWindow(window);
 
-	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice.GetSurface(), _vkLogicalDevice);
+	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice->GetSurface(), *_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
 }
 
@@ -90,7 +90,7 @@ void VulkanContext::Draw()
 	_context.RenderContext = this;
 	_context.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync(); 
 	_context.CurrentSemaphore = _render->Draw(&_context);
-	_pSwapChain->Present(_context.CurrentSemaphore);
+	_pSwapChain->Present(*_context.CurrentSemaphore);
 	
 
 

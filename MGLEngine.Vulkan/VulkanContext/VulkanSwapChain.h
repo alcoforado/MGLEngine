@@ -19,13 +19,13 @@ class VulkanSwapChain
 	
 	
 	public:
-	VulkanSwapChain(const VulkanSurface &surface,const  VulkanLogicalDevice &device);
+	VulkanSwapChain(const VulkanSurface &surface, const  VulkanLogicalDevice &device);
 	const VulkanLogicalDevice& GetLogicalDevice()const { return _logicalDevice; }
 	VkExtent2D GetExtent() const { return _dims; }
 	~VulkanSwapChain();
 	VkFormat GetImageFormat() const { return _imageFormat; }
 	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
-	VulkanSemaphore& NextImagePipelineAsync();
+	VulkanSemaphore* NextImagePipelineAsync();
 	VkSwapchainKHR GetHandle() { return _handle; }
 	void Present(const VulkanSemaphore& lock);
 	uint32_t GetCurrentImageIndex() const { return _nextImageIndex; }

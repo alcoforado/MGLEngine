@@ -95,9 +95,9 @@ void VulkanCommandBuffer::EndRenderPass()
 }
 
 
-const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore &wait, VkPipelineStageFlagBits pipelineStage)
+ VulkanSemaphore* VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore *wait, VkPipelineStageFlagBits pipelineStage)
 {
-	auto hw = wait.GetHandle();
+	auto hw = wait->GetHandle();
 	VkPipelineStageFlags waitStages[] = { static_cast<VkFlags>(pipelineStage) };
 	VkSemaphore signalSemaphores[] = { _lock.GetHandle() };
 	if (_pSubmitInfoCache == nullptr)
@@ -125,7 +125,7 @@ const VulkanSemaphore& VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore 
 	auto err = vkQueueSubmit(_pipeline->GetSwapChain().GetLogicalDevice().GetGraphicQueue().GetHandle(), 1,_pSubmitInfoCache, VK_NULL_HANDLE);
 	AssertVulkanSuccess(err);
 
-	return _lock;
+	return &_lock;
 
 }
 

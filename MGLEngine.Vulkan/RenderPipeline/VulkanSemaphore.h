@@ -10,12 +10,10 @@ class VulkanSemaphore
 	const VulkanLogicalDevice* _logicalDevice;
 public:
 	VulkanSemaphore(const VulkanLogicalDevice & logicalDevice);
-	VulkanSemaphore()
-	{
-		_logicalDevice = nullptr;
-		_vkSemaphore = VK_NULL_HANDLE;
+	
+	VulkanSemaphore & operator=(const VulkanSemaphore&) = delete;
+	VulkanSemaphore(const VulkanSemaphore&) = delete;
 
-	}
 	~VulkanSemaphore();
 	VkSemaphore GetHandle() const { assert(_logicalDevice); return _vkSemaphore; }
 };

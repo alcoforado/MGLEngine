@@ -134,9 +134,9 @@ uint32_t VulkanPhysicalDevice::FindQueueFamilyIndexWithType(VkFlags flags) const
 }
 
 
-VulkanLogicalDevice VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const
+VulkanLogicalDevice* VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const
 {
-	return VulkanLogicalDevice(window, *this);
+	return new VulkanLogicalDevice(window, *this);
 }
 
 
