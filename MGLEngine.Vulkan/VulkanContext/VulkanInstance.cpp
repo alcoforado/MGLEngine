@@ -7,7 +7,11 @@
     (((major) << 22) | ((minor) << 12) | (patch))
 #define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
-static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType, uint64_t srcObject,
+int VulkanInstance::nErrors = 0;
+int VulkanInstance::nWarning = 0;
+
+
+VkBool32 __stdcall VulkanInstance::DbgCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType, uint64_t srcObject,
 	size_t location, int32_t msgCode, const char *pLayerPrefix, const char *pMsg,
 	void *pUserData) {
 	size_t size = strlen(pMsg);
@@ -18,9 +22,11 @@ static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectType
 
 	if (msgFlags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
 		sprintf_s(message, size, "ERROR: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
+		VulkanInstance::nErrors++;
 	}
 	else if (msgFlags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
 		sprintf_s(message, size, "WARNING: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
+		VulkanInstance::nWarning++;
 	}
 	else if (msgFlags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) {
 		sprintf_s(message, size, "INFO: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);

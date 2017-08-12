@@ -35,6 +35,10 @@ private:
 	
 
 public:
+
+	VulkanStagingBuffer & operator=(const VulkanStagingBuffer&) = delete;
+	VulkanStagingBuffer(const VulkanStagingBuffer&) = delete;
+
 	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size,uint64_t capacity)
 	{
 		_memMngr = mngr;
