@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+
 class VulkanLogicalDevice;
 class VulkanAllocatedQueue
 {

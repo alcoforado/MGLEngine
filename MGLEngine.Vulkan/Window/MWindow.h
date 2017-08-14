@@ -1,6 +1,7 @@
 #pragma once
 #include <MGLEngine.Shared/Window/IWindow.h>
 #include <MGLEngine.Shared/Utils/opointer.h>
+#include "MGLEngine.Vulkan/VulkanContext/VulkanInstance.h"
 class VulkanContext;
 struct GLFWwindow;
 
@@ -23,6 +24,7 @@ namespace MGL {
 		virtual void SetSize(int width, int height) override;
 		virtual void EasyRun() override;
 		virtual void PsychoRun() override;
+		
 	};
 
 }
