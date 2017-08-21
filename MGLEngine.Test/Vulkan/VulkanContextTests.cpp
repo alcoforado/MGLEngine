@@ -26,20 +26,13 @@ TEST_CASE("Vulkan Buffers Tests")
 {
 	MGL::Window window;
 
-	SECTION("a windows staging buffer allocation should allocate")
+	SECTION("a windows staging buffer allocation should have  correct size capacity")
 	{
 		VulkanStagingBuffer<double> vb(window.GetVulkanContext()->GetMemoryManager(), 20, 30);
 		REQUIRE(vb.size() == 20);
-
+		REQUIRE(vb.capacity() == 30);
 	}
 
-	SECTION("Close  a window should not cause vulkan errorswork")
-	{
-		{
-			MGL::Window window;
-		}
-		REQUIRE(!VulkanInstance::HasErrors());
-	}
 
 
 }
