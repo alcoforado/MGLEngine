@@ -10,7 +10,7 @@
 #include "../Shaders/IRenderContext.h"
 #include "../Shaders/ShaderColor2D.h"
 #include "IDrawContext.h"
-#include "Utils/opointer.h"
+#include <MGLEngine.Shared/Utils/opointer.h>
 struct GLFWwindow;
 
 

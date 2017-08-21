@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "Utils/Arrays/IArray.h"
+#include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 #include <vulkan/vulkan.h>
 
 class VulkanMemoryBlock;

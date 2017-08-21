@@ -1,9 +1,9 @@
 #pragma once
-#include "Utils/Arrays/IArray.h"
+#include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 #include "../MemoryManager/VulkanMemoryManager.h"
 #include <vulkan/vulkan.h>
 #include "../VulkanContext/VulkanLogicalDevice.h"
-#include "Utils/Exception.h"
+#include <MGLEngine.Shared/Utils/Exception.h>
 #include "../VulkanUtils.h"
 #include "../MemoryManager/VulkanMemoryManager.h"
 class VulkanLogicalDevice;

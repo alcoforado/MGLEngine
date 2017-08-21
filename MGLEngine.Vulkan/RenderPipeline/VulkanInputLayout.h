@@ -3,7 +3,7 @@
 #include <vector>
 #include <glm/detail/type_vec2.hpp>
 #include <typeinfo>
-#include "Utils/Exception.h"
+#include <MGLEngine.Shared/Utils/Exception.h>
 class VulkanInputLayout;
 
 template<class VerticeData>

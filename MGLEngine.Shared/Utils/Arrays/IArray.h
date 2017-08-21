@@ -57,8 +57,8 @@ public:
 		assert(i<_size);
 		return _ptr[i];
 	}
-	size_t size() { return _size; }
-	size_t capacity() { return _capacity; }
+	size_t size() const { return _size; }
+	size_t capacity() const { return _capacity; }
 	OfType* GetPointer() { return _ptr; }
 
 	void Resize(size_t size)

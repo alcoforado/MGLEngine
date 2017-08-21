@@ -3,10 +3,10 @@
 #include "../RenderPipeline/FragmentShaderByteCode.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include <memory>
-#include <Utils/opointer.h>
+#include <MGLEngine.Shared/Utils/opointer.h>
 #include "../RenderPipeline/VulkanCommandBuffer.h"
 #include <glm/glm.hpp>
-#include "Utils/DrawTree/DrawTree.h"
+#include <MGLEngine.Shared/Utils/DrawTree/DrawTree.h>
 #include "../RenderPipeline/VulkanStagingBuffer.h"
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
 class IRenderContext;

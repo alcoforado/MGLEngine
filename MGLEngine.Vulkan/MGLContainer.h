@@ -1,7 +1,7 @@
 #pragma once
 #include "MGLContainer.h"
-#include <IMGLContainer.h>
-#include <Window/IWindow.h>
+#include <MGLEngine.Shared/IMGLContainer.h>
+#include <MGLEngine.Shared/Window/IWindow.h>
 class Window;
 class MGLContainer :public  IMGLContainer
 {

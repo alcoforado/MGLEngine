@@ -2,8 +2,8 @@
 #include <vector>
 #include "VulkanRenderPass.h"
 #include "VulkanSwapChainFramebuffers.h"
-#include "Utils/opointer.h"
-#include "Utils/observable.h"
+#include <MGLEngine.Shared/Utils/opointer.h>
+#include <MGLEngine.Shared/Utils/observable.h>
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
