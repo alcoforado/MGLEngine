@@ -97,8 +97,11 @@ void VulkanMemoryChunk::Map()
 {
 	if (!_isMapped)
 	{
-		void *p = _data;
+		void *p = nullptr;
 		VkResult err = vkMapMemory(_parent->GetLogicalDevice().GetHandle(), _memoryHandle,0, _size, 0, &p);
+		_data = static_cast<char*>(p);
+		_isMapped = true;
+
 		AssertVulkanSuccess(err);
 	}
 }
