@@ -143,6 +143,14 @@ public:
 			}
 		});
 
+		
+		//remember IArray resize don't allocate more memory.
+		//It can only grow up to capacity of the array
+		//the old contents of the array are still present
+		vertices.Resize(_root.GetData().Future.SizeV);
+		indices.Resize(_root.GetData().Future.SizeI);
+
+
 		DefragArray defrag;
 		defrag.ReorganizeArray(vertices, copiesV);
 		defrag.ReorganizeArray(indices, copiesI);

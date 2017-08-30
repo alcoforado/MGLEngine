@@ -23,7 +23,12 @@ MGL::Window::Window()
 			throw new Exception("Could not initialize GLFW Window");
 		}
 		isGLFWInitialized = true;
-		
+
+	}
+
+
+
+
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		_window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 		if (!_window)
@@ -35,14 +40,14 @@ MGL::Window::Window()
 
 		//Initialize Vulkan
 		_vkContext = new VulkanContext(_window);
-
-	}
 }
 
 
 
 MGL::Window::~Window()
 {
+	this->isGLFWInitialized = false;
+	glfwTerminate();
 }
 
 void MGL::Window::SetSize(int width, int height)
