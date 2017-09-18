@@ -10,6 +10,16 @@ bool MGL::Window::isGLFWInitialized = false;
     (((major) << 22) | ((minor) << 12) | (patch))
 #define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
+void window_size_callback(GLFWwindow* window, int width, int height)
+{
+	auto This = static_cast<MGL::Window*>(glfwGetWindowUserPointer(window));
+	
+	This->OnResize(width, height);
+
+}
+
+
+
 MGL::Window::Window()
 {
 	_width = 800;
@@ -31,6 +41,7 @@ MGL::Window::Window()
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		_window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+		glfwSetWindowUserPointer(_window, this);
 		if (!_window)
 		{
 			throw new Exception("Create Window failed");
@@ -40,6 +51,9 @@ MGL::Window::Window()
 
 		//Initialize Vulkan
 		_vkContext = new VulkanContext(_window);
+
+		//Register resize event
+		glfwSetWindowSizeCallback(_window, window_size_callback);
 }
 
 
@@ -50,10 +64,20 @@ MGL::Window::~Window()
 	glfwTerminate();
 }
 
+void MGL::Window::OnResize(int width, int height)
+{
+	_width = width;
+	_height = height;
+	_vkContext->OnResize(_window);
+
+}
+
+
 void MGL::Window::SetSize(int width, int height)
 {
 	_width = width;
 	_height = height;
+	glfwSetWindowSize(_window, _width, _height);
 }
 
 void MGL::Window::EasyRun()

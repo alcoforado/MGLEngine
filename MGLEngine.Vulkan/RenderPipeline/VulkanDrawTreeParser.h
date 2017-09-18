@@ -37,9 +37,10 @@ public:
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();
+		bool needRedraw = false;
 		if (_tree.NeedRedraw())
 		{
-
+			needRedraw = true;
 			//If draw tree changed, Update Vertice Data 
 			std::vector<unsigned> indices1(100);
 			Indices is1(indices1.data(), root->GetData().Current.SizeI, 100);
@@ -64,7 +65,7 @@ public:
 		if (drawContext->IsWindowResized())
 			_pipeline.OnSwapChainResize();
 
-		if (_tree.NeedRedraw() || drawContext->IsWindowResized())
+		if (needRedraw || drawContext->IsWindowResized())
 		{
 			//Redo the commands
 			clearCommandsBuffers();

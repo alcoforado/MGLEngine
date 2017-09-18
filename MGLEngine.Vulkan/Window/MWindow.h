@@ -13,8 +13,9 @@ namespace MGL {
 		OPointer<VulkanContext> _vkContext;
 		static bool isGLFWInitialized;
 		int _width;
-		int _height;
+		int _height;		
 	public:
+		void OnResize(int width, int heiight);
 		Window();
 		virtual ~Window();
 

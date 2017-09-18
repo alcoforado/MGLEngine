@@ -53,8 +53,6 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 void VulkanContext::OnResize(GLFWwindow *window)
 {
 	_vkLogicalDevice->WaitToBeIdle();
-
-	delete _render;
 	_pSwapChain.if_free();
 	_vkLogicalDevice->OnResizeWindow(window);
 

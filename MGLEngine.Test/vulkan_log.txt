@@ -8,9 +8,9 @@ INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swa
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json, version "1.0.0"
@@ -21,19 +21,21 @@ INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_sw
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
 INFO: [loader] Code 0 : Found meta layer VK_LAYER_LUNARG_standard_validation, replacing with actual layer group
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
-INFO: [loader] Code 0 : Found ICD manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Located json file "C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_unique_objects (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_unique_objects.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_swapchain (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_swapchain.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_core_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_core_validation.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_object_tracker (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_object_tracker.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_parameter_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_parameter_validation.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_threading (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_threading.dll)
-INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\WINDOWS\system32\.\nvoglv64.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\windows\system32\.\nvoglv64.dll)
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
@@ -44,9 +46,9 @@ INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swa
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
 INFO: [loader] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json, version "1.0.0"
@@ -57,16 +59,56 @@ INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_sw
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
 INFO: [loader] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
 INFO: [loader] Code 0 : Found meta layer VK_LAYER_LUNARG_standard_validation, replacing with actual layer group
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
-INFO: [loader] Code 0 : Found ICD manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Located json file "C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_unique_objects (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_unique_objects.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_swapchain (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_swapchain.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_core_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_core_validation.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_object_tracker (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_object_tracker.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_parameter_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_parameter_validation.dll)
 INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_threading (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_threading.dll)
-INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\WINDOWS\system32\.\nvoglv64.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\windows\system32\.\nvoglv64.dll)
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_object_tracker.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_parameter_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_screenshot.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swapchain.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_object_tracker.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_parameter_validation.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_screenshot.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swapchain.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
+INFO: [loader] Code 0 : Found meta layer VK_LAYER_LUNARG_standard_validation, replacing with actual layer group
+INFO: [loader] Code 0 : Located json file "C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Located json file "C:\windows\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\System32\DriverStore\FileRepository\ki120906.inf_amd64_79254710d372a32e\igvk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Found ICD manifest file C:\windows\system32\nv-vk64.json, version "1.0.0"
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_unique_objects (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_unique_objects.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_swapchain (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_swapchain.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_core_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_core_validation.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_object_tracker (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_object_tracker.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_LUNARG_parameter_validation (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_parameter_validation.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_GOOGLE_threading (C:\VulkanSDK\1.0.46.0\Bin\.\VkLayer_threading.dll)
+INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\windows\system32\.\nvoglv64.dll)

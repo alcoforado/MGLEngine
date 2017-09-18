@@ -15,7 +15,6 @@ namespace MGLEngine.Server
         static void Main()
         {
             var w = new Window();
-            w.SetSize(500, 700);
             w.PsychoRun();
         }
     }

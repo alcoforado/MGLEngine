@@ -1,5 +1,6 @@
 #include "VulkanSwapChain.h"
 #include "../VulkanUtils.h"
+#include <vulkan/vulkan.h>
 
 
 VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogicalDevice& device)
