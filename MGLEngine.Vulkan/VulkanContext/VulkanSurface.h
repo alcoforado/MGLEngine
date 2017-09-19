@@ -23,7 +23,7 @@ class VulkanSurface
 	
 public:
 	VulkanSurface(const VulkanPhysicalDevice& device,GLFWwindow* window);
-	void UpdateWindowDims(GLFWwindow *window);
+	void UpdateWindowDims(int width, int height);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
 	bool SupportsFormat(VkFormat format, VkColorSpaceKHR colorSpace)const;
@@ -32,7 +32,6 @@ public:
 	VkExtent2D GetExtent() const;
 	std::vector<uint32_t> FindQueueFamilyIndicesThatSupportPresentation() const;
 	PresentationGraphicsFamilyIndices GetPresentationAndGraphicsQueusFamilyIndices() const;
-	void CreateSwapChain();
 	VkSurfaceCapabilitiesKHR GetCapabilities() const { return _capabilities; }
 };
 

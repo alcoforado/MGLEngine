@@ -20,7 +20,6 @@ class VulkanContext : public IRenderContext
 {
 	//static public
 private:
-	static void OnWindowResized(GLFWwindow* window, int width, int height);
 	
 private:
 	
@@ -33,7 +32,7 @@ private:
 	DrawContext _drawContext;
 public:
 	VulkanContext(GLFWwindow* window);
-	void OnResize(GLFWwindow* window);
+	void OnResize(GLFWwindow *window, int newWidth, int newHeight);
 	~VulkanContext();
 	void Initialize(GLFWwindow* window);
 	

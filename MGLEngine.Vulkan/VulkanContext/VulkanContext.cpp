@@ -12,12 +12,6 @@
 #include "../Shaders/ShaderColor2D.h"
 #include <Topologies/Triangle2D.h>
 #include <Renders/CyclicColor.h>
-void VulkanContext::OnWindowResized(GLFWwindow* window, int width, int height) {
-	if (width == 0 || height == 0) return;
-
-	VulkanContext *ctx = reinterpret_cast<VulkanContext*>(glfwGetWindowUserPointer(window));
-	ctx->OnResize(window);
-}
 
 
 VulkanContext::VulkanContext(GLFWwindow * window)
@@ -25,8 +19,6 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	_commandPool(*_vkLogicalDevice),
 	_memoryMngr(*_vkLogicalDevice,2*_MB)
 {
-	glfwSetWindowUserPointer(window, this);
-	glfwSetWindowSizeCallback(window, OnWindowResized);
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice->GetSurface(), *_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
@@ -50,14 +42,13 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 
 
 
-void VulkanContext::OnResize(GLFWwindow *window)
+void VulkanContext::OnResize(GLFWwindow *window, int newWidth,int newHeight)
 {
 	_vkLogicalDevice->WaitToBeIdle();
 	_pSwapChain.if_free();
-	_vkLogicalDevice->OnResizeWindow(window);
-
+	_vkLogicalDevice->GetSurface().UpdateWindowDims(newWidth,newHeight);
 	_pSwapChain = new VulkanSwapChain(_vkLogicalDevice->GetSurface(), *_vkLogicalDevice);
-	_render = new ShaderColor2D(*this);
+
 }
 
 

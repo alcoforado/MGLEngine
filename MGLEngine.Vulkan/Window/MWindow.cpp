@@ -68,7 +68,7 @@ void MGL::Window::OnResize(int width, int height)
 {
 	_width = width;
 	_height = height;
-	_vkContext->OnResize(_window);
+	_vkContext->OnResize(_window,width,height);
 
 }
 

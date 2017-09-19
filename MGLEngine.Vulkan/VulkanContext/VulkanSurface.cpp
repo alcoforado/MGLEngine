@@ -31,16 +31,19 @@ VulkanSurface::VulkanSurface(const VulkanPhysicalDevice& device, GLFWwindow* win
 		vkGetPhysicalDeviceSurfacePresentModesKHR(device.GetHandle(), _vkSurface, &presentModeCount, _presentModes.data());
 	}
 
-	this->UpdateWindowDims(window);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_physicalDevice.GetHandle(), _vkSurface, &_capabilities);
 
+
+
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	UpdateWindowDims(width, height);
 
 }
 
-void VulkanSurface::UpdateWindowDims(GLFWwindow* window)
+void VulkanSurface::UpdateWindowDims(int width, int height)
 {
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_physicalDevice.GetHandle(), _vkSurface, &_capabilities);
+
 	_windowHeight = static_cast<uint32_t>(height);
 	_windowWidth = static_cast<uint32_t>(width);
 }

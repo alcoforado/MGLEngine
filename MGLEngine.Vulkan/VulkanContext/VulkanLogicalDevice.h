@@ -29,7 +29,7 @@ public:
 
 	~VulkanLogicalDevice();
 	VkDevice GetHandle() const { return _vkDevice; }
-	const VulkanSurface& GetSurface() const { return _surface; }
+	VulkanSurface& GetSurface() { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanAllocatedQueue& GetGraphicQueue() const;
 	void WaitToBeIdle();
