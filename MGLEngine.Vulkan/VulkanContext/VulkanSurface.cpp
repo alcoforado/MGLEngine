@@ -79,10 +79,10 @@ VkExtent2D VulkanSurface::GetExtent() const
 {
 	VkExtent2D extent; 
 	
-	extent.height = std::min(_windowHeight,_capabilities.currentExtent.height);
+	extent.height = std::min(_windowHeight,_capabilities.maxImageExtent.height);
 	extent.height = std::max(extent.height, _capabilities.minImageExtent.height);
 
-	extent.width = std::min(_windowWidth, _capabilities.currentExtent.width);
+	extent.width = std::min(_windowWidth, _capabilities.maxImageExtent.width);
 	extent.width = std::max(extent.width, _capabilities.minImageExtent.width);
 
 	return _capabilities.currentExtent;
