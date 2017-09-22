@@ -27,7 +27,7 @@ public:
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
 	bool SupportsFormat(VkFormat format, VkColorSpaceKHR colorSpace)const;
-	bool SupportsPresentation(VkPresentModeKHR present) const;
+	bool SupportsPresentation(enum VkPresentModeKHR present) const;
 	bool SupportsImageCount(uint32_t i) const;
 	VkExtent2D GetExtent() const;
 	std::vector<uint32_t> FindQueueFamilyIndicesThatSupportPresentation() const;
