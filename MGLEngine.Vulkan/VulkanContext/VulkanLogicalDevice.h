@@ -32,6 +32,6 @@ public:
 	VulkanSurface& GetSurface() { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanAllocatedQueue& GetGraphicQueue() const;
-	void WaitToBeIdle();
+	void WaitToBeIdle() const;
 };
 

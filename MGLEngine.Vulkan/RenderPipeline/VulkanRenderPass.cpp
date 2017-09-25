@@ -66,6 +66,10 @@ void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescrip
 
 VkRenderPass VulkanRenderPass::Load()
 {
+	if (_isLoaded)
+	{
+		vkDestroyRenderPass(_logicalDevice.GetHandle(), _renderPass, nullptr);
+	}
 
 	//Create subpasses structures.
 	std::vector<VkSubpassDescription> subpasses;

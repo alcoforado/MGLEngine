@@ -63,7 +63,7 @@ public:
 			}
 		}
 		if (drawContext->IsWindowResized())
-			_pipeline.OnSwapChainResize();
+			_pipeline.OnSwapChainReload(&(drawContext->GetRenderContext()->GetSwapChain()));
 
 		if (needRedraw || drawContext->IsWindowResized())
 		{

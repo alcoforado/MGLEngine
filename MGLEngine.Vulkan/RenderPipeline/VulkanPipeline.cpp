@@ -7,9 +7,11 @@
 #include "Utils/Exception.h"
 
 
-VulkanPipeline::VulkanPipeline(const VulkanSwapChain &swapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
-	:_swapChain(swapChain),
-RenderPass(swapChain.GetLogicalDevice())
+VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
+	:_swapChain(pSwapChain),
+	RenderPass(pSwapChain->GetLogicalDevice()),
+	_pLogicalDevice(&(pSwapChain->GetLogicalDevice()))
+
 {
 	_isLoaded = false;
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -44,14 +46,14 @@ RenderPass(swapChain.GetLogicalDevice())
 
 	Viewport.x = 0.0f;
 	Viewport.y = 0.0f;
-	Viewport.width = static_cast<float>(swapChain.GetExtent().width);
-	Viewport.height = static_cast<float>(swapChain.GetExtent().height);
+	Viewport.width = static_cast<float>(pSwapChain->GetExtent().width);
+	Viewport.height = static_cast<float>(pSwapChain->GetExtent().height);
 	Viewport.minDepth = 0.0f;
 	Viewport.maxDepth = 1.0f;
 
 	Scissor = {};
 	Scissor.offset = { 0, 0 };
-	Scissor.extent = swapChain.GetExtent();
+	Scissor.extent = pSwapChain->GetExtent();
 
 
 
@@ -108,9 +110,9 @@ RenderPass(swapChain.GetLogicalDevice())
 
 
 
-	onResize.SetHandler([this](VulkanSwapChain *swapChain) 
+	onResize.SetHandler([this](VulkanSwapChain *pSwapChain) 
 	{
-		this->OnSwapChainResize();
+		this->OnSwapChainReload(pSwapChain);
 	});
 	
 
@@ -143,7 +145,7 @@ void VulkanPipeline::Load()
 	pipelineInfo.pDynamicState = nullptr;
 
 
-	auto err = vkCreatePipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
+	auto err = vkCreatePipelineLayout(GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
 	pipelineInfo.layout = _vkPipelineLayout;
@@ -155,11 +157,11 @@ void VulkanPipeline::Load()
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
-	err = vkCreateGraphicsPipelines(_swapChain.GetLogicalDevice().GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
+	err = vkCreateGraphicsPipelines(GetLogicalDevice().GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
 	AssertVulkanSuccess(err);
 
 
-	_pFramebuffers = new VulkanSwapChainFramebuffers(RenderPass,_swapChain);
+	_pFramebuffers = new VulkanSwapChainFramebuffers(RenderPass,*_swapChain);
 
 	_isLoaded = true;
 }
@@ -171,19 +173,20 @@ void VulkanPipeline::Dispose()
 	if (_isLoaded)
 	{
 		_pFramebuffers.if_free();
-		vkDestroyPipeline(_swapChain.GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
-		vkDestroyPipelineLayout(_swapChain.GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
+		vkDestroyPipeline(GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
+		vkDestroyPipelineLayout(GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
 		_isLoaded = false;
 	}
 
 }
 
-void VulkanPipeline::OnSwapChainResize()
+void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 {
 	this->Dispose();
-	this->Viewport.width = static_cast<float>(_swapChain.GetExtent().width);
-	this->Viewport.height = static_cast<float>(_swapChain.GetExtent().height);
-	Scissor.extent = _swapChain.GetExtent();
+	_swapChain = pNewSwapChain;
+	this->Viewport.width = static_cast<float>(_swapChain->GetExtent().width);
+	this->Viewport.height = static_cast<float>(_swapChain->GetExtent().height);
+	Scissor.extent = _swapChain->GetExtent();
 	this->Load();
 }
 

@@ -9,7 +9,7 @@ ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
 	VertexShaderByteCode vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert));
 	FragmentShaderByteCode fragShaderCode(*renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag));
 
-	_pPipeline = new VulkanPipeline(renderContext.GetSwapChain(), vertexByteCode, fragShaderCode);
+	_pPipeline = new VulkanPipeline(&renderContext.GetSwapChain(), vertexByteCode, fragShaderCode);
 
 	_pPipeline->VertexInputInfo
 		.CreateBinding<Color2D>()

@@ -57,7 +57,7 @@ public:
 	{
 		VkMemoryRequirements memRequirements;
 		vkGetBufferMemoryRequirements(_memMngr->GetLogicalDevice().GetHandle(), _handle, &memRequirements);
-		return memRequirements.alignment;
+		return static_cast<int>(memRequirements.alignment);
 
 	}
 

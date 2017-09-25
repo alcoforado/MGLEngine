@@ -14,8 +14,9 @@ class FragmentShaderByteCode;
 #include <vulkan/vulkan.h>
 class VulkanPipeline
 {
-	const VulkanSwapChain &_swapChain;
+	const VulkanSwapChain *_swapChain;
 	VkPipelineLayout _vkPipelineLayout;
+	const VulkanLogicalDevice *_pLogicalDevice;
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
 public:
@@ -39,17 +40,18 @@ public:
 	VkRect2D Scissor;
 	OPointer<VulkanSwapChainFramebuffers> _pFramebuffers;
 
-	VulkanPipeline(const VulkanSwapChain &swapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
+	VulkanPipeline(const VulkanSwapChain *pSwapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
 	VkPipeline GetHandle() const { return _vkPipeline; }
 
 	void Load();
-	const VulkanSwapChain& GetSwapChain() const { return _swapChain; }
+	const VulkanLogicalDevice& GetLogicalDevice() const { return *_pLogicalDevice; }
+	const VulkanSwapChain& GetSwapChain() const { return *_swapChain; }
 	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
 	void Dispose();
 
 	
-	void OnSwapChainResize();
+	void OnSwapChainReload(const VulkanSwapChain *pNewSwapChaing);
 	
 
 	~VulkanPipeline();

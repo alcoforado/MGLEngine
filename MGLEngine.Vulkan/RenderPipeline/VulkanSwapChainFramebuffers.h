@@ -9,6 +9,7 @@ class VulkanSwapChainFramebuffers
 	const VulkanSwapChain& _swapChain;
 	const VulkanRenderPass& _renderPass;
 	std::vector<VkFramebuffer> _framebuffers;
+	const VulkanLogicalDevice& _logicalDevice;
 public:
 	VulkanSwapChainFramebuffers(const VulkanRenderPass& renderPass, const VulkanSwapChain& swapChain);
 	~VulkanSwapChainFramebuffers();

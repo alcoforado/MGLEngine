@@ -64,11 +64,18 @@ MGL::Window::~Window()
 	glfwTerminate();
 }
 
+
+
+
 void MGL::Window::OnResize(int width, int height)
 {
 	_width = width;
 	_height = height;
-	_vkContext->OnResize(_window,width,height);
+
+	//We cannot set the vulkan context here. Resize can be called outside the thread that is really
+	//calling vulkan drawing controls.
+	//just flag that the resize ocurred to be processed in the event loop
+	_resizeOcurred = true;
 
 }
 
@@ -87,6 +94,7 @@ void MGL::Window::EasyRun()
 	{
 		glfwWaitEvents();
 		_vkContext->Draw();
+
 	}
 	
 }
@@ -98,7 +106,17 @@ void MGL::Window::PsychoRun()
 	while (!glfwWindowShouldClose(_window))
 	{
 		glfwPollEvents();
-		_vkContext->Draw();
+		if (_resizeOcurred)
+		{
+			_vkContext->GetLogicalDevice()->WaitToBeIdle();
+			_vkContext->OnResize(_window, _width, _height);
+			_vkContext->Draw();
+			_resizeOcurred = false;
+		}
+		else
+		{
+			_vkContext->Draw();
+		}
 	}
 	
 }

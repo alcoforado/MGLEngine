@@ -12,6 +12,7 @@ namespace MGL {
 		GLFWwindow *_window;
 		OPointer<VulkanContext> _vkContext;
 		static bool isGLFWInitialized;
+		bool _resizeOcurred;
 		int _width;
 		int _height;		
 	public:

@@ -99,7 +99,7 @@ const VulkanAllocatedQueue& VulkanLogicalDevice::GetGraphicQueue() const
 
 }
 
-void VulkanLogicalDevice::WaitToBeIdle()
+void VulkanLogicalDevice::WaitToBeIdle() const
 {
 	vkDeviceWaitIdle(_vkDevice);
 }

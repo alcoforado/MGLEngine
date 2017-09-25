@@ -36,7 +36,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 
 	_render->Add(tria,painter);
 
-
+	_drawContext.RenderContext = this;
 }
 
 
@@ -74,13 +74,12 @@ std::vector<VulkanPhysicalDevice> VulkanContext::GetPhysicalDevices(VkInstance& 
 
 void VulkanContext::Draw()
 {
-	DrawContext _context;
-	_context.WindowResized = false;
-	_context.RenderContext = this;
-	_context.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync(); 
-	_context.CurrentSemaphore = _render->Draw(&_context);
-	_pSwapChain->Present(*_context.CurrentSemaphore);
-	_context.WindowResized = false;
+	
+	_drawContext.RenderContext = this;
+	_drawContext.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync(); 
+	_drawContext.CurrentSemaphore = _render->Draw(&_drawContext);
+	_pSwapChain->Present(*_drawContext.CurrentSemaphore);
+	_drawContext.WindowResized = false;
 
 
 }
