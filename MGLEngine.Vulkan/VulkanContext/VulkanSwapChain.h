@@ -19,7 +19,7 @@ class VulkanSwapChain
 	
 	
 	public:
-	VulkanSwapChain(const VulkanSurface &surface, const  VulkanLogicalDevice &device);
+	VulkanSwapChain(VulkanLogicalDevice &device);
 	const VulkanLogicalDevice& GetLogicalDevice()const { return _logicalDevice; }
 	VkExtent2D GetExtent() const { return _dims; }
 	~VulkanSwapChain();

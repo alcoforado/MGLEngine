@@ -3,8 +3,8 @@
 #include <vulkan/vulkan.h>
 
 
-VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogicalDevice& device)
-:_surface(surface),_logicalDevice(device),
+VulkanSwapChain::VulkanSwapChain(VulkanLogicalDevice& device)
+:_surface(device.GetSurface()),_logicalDevice(device),
 _nextImageSemaphore(device)
 {
 	VkSwapchainCreateInfoKHR createInfo = {};
