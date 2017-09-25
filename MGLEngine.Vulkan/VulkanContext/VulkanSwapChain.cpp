@@ -3,9 +3,10 @@
 #include <vulkan/vulkan.h>
 
 
-VulkanSwapChain::VulkanSwapChain(VulkanLogicalDevice& device)
-:_surface(device.GetSurface()),_logicalDevice(device),
-_nextImageSemaphore(device)
+VulkanSwapChain::VulkanSwapChain(GLFWwindow *window,VulkanLogicalDevice& device)
+:_logicalDevice(device),
+_nextImageSemaphore(device),
+_surface(device.GetPhysicalDevice(),window)
 {
 	VkSwapchainCreateInfoKHR createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;

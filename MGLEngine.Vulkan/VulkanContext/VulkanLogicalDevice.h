@@ -11,7 +11,6 @@ class VulkanLogicalDevice
 	friend VulkanPhysicalDevice;
 private:
 	VkDevice _vkDevice;
-	VulkanSurface  _surface;
 	const VulkanPhysicalDevice &_physicalDevice;
 	std::vector<std::string> _enabledExtensions;
 	std::vector<VulkanAllocatedQueue> _queues;
@@ -29,7 +28,6 @@ public:
 
 	~VulkanLogicalDevice();
 	VkDevice GetHandle() const { return _vkDevice; }
-	VulkanSurface& GetSurface() { return _surface; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanAllocatedQueue& GetGraphicQueue() const;
 	void WaitToBeIdle() const;

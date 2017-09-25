@@ -6,7 +6,7 @@
 
 class VulkanSwapChain
 {
-	const VulkanSurface&  _surface;
+	VulkanSurface  _surface;
 	const VulkanLogicalDevice& _logicalDevice;
 	VkSwapchainKHR _handle;
 	VkFormat _imageFormat;  
@@ -19,7 +19,7 @@ class VulkanSwapChain
 	
 	
 	public:
-	VulkanSwapChain(VulkanLogicalDevice &device);
+	VulkanSwapChain(GLFWwindow *window,VulkanLogicalDevice& device);
 	const VulkanLogicalDevice& GetLogicalDevice()const { return _logicalDevice; }
 	VkExtent2D GetExtent() const { return _dims; }
 	~VulkanSwapChain();

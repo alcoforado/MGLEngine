@@ -9,8 +9,7 @@
 
 
 VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice)
-	:_physicalDevice(physicalDevice),
-	 _surface(physicalDevice,window)
+	:_physicalDevice(physicalDevice)
 {
 	//Create Device with the Queues
 	float queue_priorities[1] = { 0.0 };
@@ -23,8 +22,9 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	//Get instance
 	auto instHandle = physicalDevice.GetVulkanInstance().GetHandle();
 
+	VulkanSurface surface(physicalDevice, window);
 	auto familyGraphicsIndex = physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
-	auto presentation_indices= _surface.FindQueueFamilyIndicesThatSupportPresentation();
+	auto presentation_indices= surface.FindQueueFamilyIndicesThatSupportPresentation();
 	auto presentation_index = std::find(presentation_indices.begin(), presentation_indices.end(), familyGraphicsIndex);
 
 	std::vector<VkDeviceQueueCreateInfo> queues;
@@ -38,10 +38,12 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	queue_info.queueFamilyIndex = physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
 	queue_info.flags = 0;
 	queues.push_back(queue_info);
+	//Add presentaion queue if it is different from the graphic queue.
 	if (*presentation_index != familyGraphicsIndex)
 	{
-		queue_info.queueFamilyIndex = *presentation_index;
-		queues.push_back(queue_info);
+		throw new Exception("Graphic queue should be presentation queue");
+		//queue_info.queueFamilyIndex = *presentation_index;
+		//queues.push_back(queue_info);
 	}
 
 	auto enabled_extensions= ConvertToVectorChar(_enabledExtensions);
