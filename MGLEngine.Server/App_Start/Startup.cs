@@ -33,7 +33,7 @@ namespace TestApp.App_Config
             appBuilder.UseWebApi(config);
 
 
-            var fileSystem = new PhysicalFileSystem("../../../content");
+            var fileSystem = new PhysicalFileSystem("../../content");
             var options = new FileServerOptions
             {
                 EnableDirectoryBrowsing = true,
