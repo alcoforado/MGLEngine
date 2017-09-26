@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style type="text/css">
+        @charset "UTF-8";
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+    </style>
+
+
+
+
+
+    <link rel="stylesheet" href="../css/binpack.css">
+
+
+
+
+    <!--<script src="javascript/effects.js"></script>-->
+    <script data-main="../javascript/require_config" src="../javascript/require.js"></script>
+
+
+</head>
+<body ng-controller="Ctrl as controller">
+    <div class="title-panel">
+         Bin Pack Test
+    </div>
+    <br />
+    <br />
+
+      
+
+       
+            <form class="main-form round-panel">
+                <div class="title center-text">
+                    <h1>Rectangles Random Generation</h1>
+                </div>
+                <div class="form-row">
+                    <span class="span-label">Number of Elements:</span> <input ng-model="Data.NumElements" type="number" min="0" max="99999" value="" />
+                </div>
+                <div class="form-row">
+                    <span class="span-label">Number of Runs:</span> <input ng-model="Data.numberOfRuns" type="number" min="1" max="99999" value="" />
+                </div>
+                <div class="form-row">
+                    <span class="span-label">Rotate Rectangles:</span> <input ng-model="Data.rotate" type="checkbox"/>
+                </div>
+
+                <vector-picker></vector-picker>
+
+                <div class="group-form">
+                    <div>Width</div>
+                    <div>   <span>Min </span><input type="number" value="" ng-model="Data.minWidth" /> <span> Max </span><input ng-model="Data.maxWidth" type="number" value="" /></div>
+                </div>
+                <div class="group-form">
+                    <div>Height</div>
+                    <div>   <span>Min </span><input type="number" value="" ng-model="Data.minHeight" /> <span> Max </span><input ng-model="Data.maxHeight" type="number" value="" /></div>
+                </div>
+
+                <div class="center-text" ng-click="controller.Run()">
+                    <div class="round-button">
+                        Run Simulation
+                    </div>
+                </div>
+
+                <div class="center-text" ng-show="Data.rectList.length != 0" ng-click="controller.RunAgain()">
+                    <div class="round-button">
+                        Run Again
+                    </div>
+                </div>
+
+
+            </form>
+
+            <div class="efficiency-graph-container svgplot-empty-graph"></div>
+
+    <!--<div ng-repeat="model in Data.rectList" class="rectangle" style="width:{{model.width}}px;height:{{model.height}}px;background-color: rgb({{model.color[0]}},{{model.color[1]}},{{model.color[2]}})">
+    </div>
+
+
+    <div id="Container"></div>-->
+
+</body>
+</html>

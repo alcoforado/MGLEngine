@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <base href="/">
+    <!--<base href="/">-->
+
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../src/styles.css">
+
+    <!--<script src="javascript/effects.js"></script>-->
+    <script src="../node_modules/core-js/client/shim.min.js"></script>
+    <script src="../node_modules/zone.js/dist/zone.js"></script>
+    <script src="../node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+    <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>-->
+    <script>
+        System.import('src/system_config.js').then(function () {
+            System.import('main');
+        }).catch(console.error.bind(console));
+    </script>
+
+</head>
+
+<body>
+    <!--<div class="title-panel">
+        CAD System
+    </div>-->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <ul class="nav navbar-nav" routerLinkActive="active">
+                <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="about">About</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="courses">Courses</a></li>
+            </ul>
+        </div>
+    </nav>
+    <app-root>
+        <div>Ng content is here</div>
+    </app-root>
+    <br />
+    <br />
+</body>
+
+</html>

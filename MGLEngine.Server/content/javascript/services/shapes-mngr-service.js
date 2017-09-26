@@ -1,0 +1,1 @@
+//# sourceMappingURL=shapes-mngr-service.js.map

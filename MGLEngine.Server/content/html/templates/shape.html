@@ -1,0 +1,6 @@
+﻿<div class="form-header"><img src="../images/shapes.svg" />{{shape.type.typeName}}</div>
+<div class="form-body">
+    <div class="form-row" ng-repeat="field in shape.type.members">
+        {{field.directiveType}} {{field.labelName}}
+    </div>
+</div>
