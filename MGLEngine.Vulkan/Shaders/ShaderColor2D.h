@@ -21,7 +21,11 @@ class ShaderColor2D : public DrawTree<Color2D>
 {
 	OPointer<VulkanDrawTreeParser<Color2D>> _treeParser;
 	OPointer<VulkanPipeline> _pPipeline;
+	VertexShaderByteCode _vertexByteCode; 
+	FragmentShaderByteCode _fragShaderCode;  
 	std::vector<VulkanCommandBuffer*> _commands;
+
+
 	void CreateCommands(IRenderContext& renderContext);
 	public:
 	explicit ShaderColor2D(IRenderContext& renderContext);
