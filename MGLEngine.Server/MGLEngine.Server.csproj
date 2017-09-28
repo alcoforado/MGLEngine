@@ -98,10 +98,17 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\ShapeMngrController.cs" />
+    <Compile Include="Models\TypeViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Interfaces\IAppStore.cs" />
+    <Compile Include="Services\Interfaces\IShapeMngrService.cs" />
+    <Compile Include="Services\Interfaces\IViewModelMapperService.cs" />
     <Compile Include="Services\JsonFileStore.cs" />
+    <Compile Include="Services\Models\ShapeUI.cs" />
+    <Compile Include="Services\ShapeMngrService.cs" />
+    <Compile Include="Services\ViewModelMapperService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -131,7 +138,12 @@
       <Project>{92c6b967-93ff-4817-8fbe-30c51c6278ba}</Project>
       <Name>MGLEngine.CLR</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MUtils\MUtils.csproj">
+      <Project>{5baf97c5-781b-41a3-87fb-8a9759fcabfc}</Project>
+      <Name>MUtils</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
