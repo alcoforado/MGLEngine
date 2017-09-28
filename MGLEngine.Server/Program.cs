@@ -18,6 +18,7 @@ namespace MGLEngine.Server
         [STAThread]
         static void Main()
         {
+            
             var Container = new UnityContainer();
             string baseAddress = "http://localhost:9000/";
             Startup.Container = Container;
