@@ -5,7 +5,7 @@ using namespace GlmNet;
 
 
 namespace MGLEngineCLR {
-	namespace Model {
+	namespace Models {
 		namespace Topologies {
 			public value struct Triangle2D
 			{

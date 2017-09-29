@@ -15,7 +15,7 @@ namespace MGLEngine.Server.Services
 {
     public class ShapeMngrService : IShapeMngrService
     {
-        private Dictionary<string, Type> _shapeTypes;
+        private Dictionary<string, Type> _topologyTypes;
         private Dictionary<string, Type> _renderTypes;
 
         private int _idCounter = 0;
@@ -24,7 +24,7 @@ namespace MGLEngine.Server.Services
         public ShapeMngrService()
         {
             _shapeCollection = new Dictionary<string, ShapeUI>();
-            _shapeTypes = new Dictionary<string, Type>();
+            _topologyTypes = new Dictionary<string, Type>();
             _renderTypes = new Dictionary<string, Type>();
 
             var assembly = Assembly.Load(new AssemblyName("MGLEngine.CLR"));
@@ -33,35 +33,38 @@ namespace MGLEngine.Server.Services
             var shapesT = assembly.GetTypesInNamespace("MGLEngineCLR.Models.Topologies");
             foreach (var type in shapesT)
             {
-                _shapeTypes.Add(type.Name, type);
+                _topologyTypes.Add(type.Name, type);
             }
 
-            
-            
-            
+            var rendersT = assembly.GetTypesInNamespace("MGLEngineCLR.Models.Renders");
+            foreach (var type in rendersT)
+            {
+                _renderTypes.Add(type.Name, type);
+            }
+
+
         }
-        /*
-        public RenderBase CreateRender(string renderType)
-        {
-            var result = (RenderBase)Activator.CreateInstance(_renderTypes[renderType]);
-            _renderCollection.Add(result.Id,result);
-            return result;
-        }
-        */
+        
+        //public RenderBase CreateRender(string renderType)
+        //{
+        //    var result = (RenderBase)Activator.CreateInstance(_renderTypes[renderType]);
+        //    _renderCollection.Add(result.Id,result);
+        //    return result;
+        //}
+        
 
 
 
 
         public Dictionary<string, Type> GetShapeTypes()
         {
-            return _shapeTypes;
+            return _topologyTypes;
         }
 
         public Dictionary<string, Type> GetRenderTypes()
         {
             return _renderTypes;
         }
-
         public ShapeUI GetShape(string id)
         {
             return _shapeCollection[id];
@@ -72,10 +75,22 @@ namespace MGLEngine.Server.Services
             return _shapeCollection;
         }
 
-        //public List<RenderBase> GetRenders()
-        //{
-        //    return _renderCollection.Select(x => x.Value).ToList();
-        //}
+        public void UpdateShape(ShapeUI shape)
+        {
+            if (String.IsNullOrEmpty(shape.Id))
+            {
+                throw new Exception("Invalid Id");
+            }
+            if (shape.Painter == null)
+            {
+                throw new Exception("No Render provided");
+            }
+            if (shape.Topology == null)
+            {
+                throw new Exception("No Topology Provided");
+            }
+           
+        }
 
 
 
@@ -88,40 +103,48 @@ namespace MGLEngine.Server.Services
             return _shapeCollection.ContainsKey(shapeId);
         }
 
-      /*
+        /*
 
-        public void DeleteShape(string id)
+          public void DeleteShape(string id)
+          {
+              if (!_shapeCollection.ContainsKey(id))
+              {
+                  throw new Exception(String.Format("Error, Shape Id {0} not found", id));
+              }
+              else
+              {
+                  var shape = _shapeCollection[id];
+                  shape.DetachFromShader(_dx);
+                  _shapeCollection.Remove(id);
+              }
+
+          }
+          */
+
+        /// <summary>
+        /// Create a shape with a specific topology with blank fields and no render
+        /// In this incomplete state the shape cannot be rendered and is not sent to 
+        /// the shaders. The user needs to update with valid values in order to be able
+        /// to draw it.
+        /// </summary>
+        /// <param name="topologyTypeId"></param>
+        /// <returns></returns>
+        public ShapeUI CreateShape(string topologyTypeId)
         {
-            if (!_shapeCollection.ContainsKey(id))
+            if (!_topologyTypes.ContainsKey(topologyTypeId))
             {
-                throw new Exception(String.Format("Error, Shape Id {0} not found", id));
-            }
-            else
-            {
-                var shape = _shapeCollection[id];
-                shape.DetachFromShader(_dx);
-                _shapeCollection.Remove(id);
+                throw new Exception(String.Format("Error, type {0} not identified", topologyTypeId));
             }
 
+            var result = new ShapeUI();
+            result.Topology = (Object) Activator.CreateInstance(_topologyTypes[topologyTypeId]);
+            result.Painter = null;
+            result.Id = new Guid();
+            result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
+            _shapeCollection.Add(result.Id.ToString(), result);
+            return result;
         }
-
-        public ShapeUIBase CreateShape(string shapeTypeId)
-        {
-            if (!_shapeTypes.ContainsKey(shapeTypeId))
-            {
-                throw new Exception(String.Format("Error, type {0} not identified", shapeTypeId));
-            }
-
-            var shape = (ShapeUIBase)Activator.CreateInstance(_shapeTypes[shapeTypeId]);
-            var render = new SolidColorRender() { Color = SharpDX.Color.Aquamarine };
-
-            shape.SetRender(_dx,render);
-            shape.Id= 
-            shape.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
-            _shapeCollection.Add(shape.Id, shape);
-            return shape;
-        }
-        */
+        
     }
 }
 

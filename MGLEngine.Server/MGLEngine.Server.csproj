@@ -99,7 +99,9 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\ShapeMngrController.cs" />
+    <Compile Include="Models\CreateShapeViewModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />
+    <Compile Include="Models\UpdateShapeViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Interfaces\IAppStore.cs" />

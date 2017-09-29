@@ -5,9 +5,11 @@ using System.Threading;
 using System.Web.Http;
 using MGLEngine.Server.Models;
 using MGLEngine.Server.Services.Interfaces;
+using MGLEngine.Server.Services.Models;
 using MUtils.Reflection;
 using Newtonsoft.Json;
 using TestApp.Services.Interfaces;
+using TestApp.WebApi.Models.ShapeMngr;
 
 namespace TestApp.WebApi.Controllers
 {
@@ -46,12 +48,39 @@ namespace TestApp.WebApi.Controllers
         {
             return _mngrService.GetRenderTypes().Select(pair => _mapper.ToUITypeDto(pair.Key, pair.Value)).ToList();
         }
+
+
+        [HttpPost]
+        [Route("api/shapemngr/shape/{typeId}")]
+        public CreateShapeViewModel Shape(string typeId)
+        {
+            var shape = _mngrService.CreateShape(typeId);
+            return new CreateShapeViewModel(shape);
+        }
+
+        [HttpPost]
+        public void UpdateShape(UpdateShapeViewModel model)
+        {
+            ShapeUI shape = _mngrService.GetShape(model.Id);
+            JsonConvert.PopulateObject(model.ShapeJsonData, shape);
+            if (String.IsNullOrWhiteSpace(model.RenderId))
+            {
+                _mngrService.SetShapeRender(model.ShapeId, null);
+            }
+            else
+            {
+                var render = _mngrService.GetRender(model.RenderId);
+                _mngrService.SetShapeRender(model.ShapeId, render.Value);
+            }
+        }
+
+
         /*
 
         [HttpGet]
-        public List<ShapeViewModel> Shapes()
+        public List<CreateShapeViewModel> Shapes()
         {
-            return _mngrService.GetShapes().Select(x => new ShapeViewModel()
+            return _mngrService.GetShapes().Select(x => new CreateShapeViewModel()
             {
                 TypeName = x.Value.GetShapeName(),
                 ShapeData = x.Value
@@ -72,21 +101,7 @@ namespace TestApp.WebApi.Controllers
             _mngrService.DeleteShape(shapeId);
         }
 
-        [HttpPost]
-        public void UpdateShape(UpdateShapeViewModel model)
-        {
-            ShapeUIBase shape = _mngrService.GetShape(model.ShapeId);
-            JsonConvert.PopulateObject(model.ShapeJsonData, shape);
-            if (String.IsNullOrWhiteSpace(model.RenderId))
-            {
-                _mngrService.SetShapeRender(model.ShapeId, null);
-            }
-            else
-            {
-                var render = _mngrService.GetRender(model.RenderId);
-                _mngrService.SetShapeRender(model.ShapeId, render.Value);
-            }
-        }
+        
 
         [HttpPost]
         public void UpdateRender(UpdateRenderViewModel model)
@@ -96,18 +111,7 @@ namespace TestApp.WebApi.Controllers
             _mngrService.RenderChanged(render);
         }
 
-        [HttpPut]
-        public ShapeViewModel CreateShape(string shapeTypeId)
-        {
-            var shape=_mngrService.CreateShape(shapeTypeId);
         
-            return new ShapeViewModel()
-            {
-                TypeName = shapeTypeId,
-                ShapeData = shape,
-                RenderId = null
-            };
-        }
 
         [HttpPut]
         public RenderViewModel CreateRender(string renderTypeId)

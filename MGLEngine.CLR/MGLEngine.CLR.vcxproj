@@ -140,12 +140,14 @@
     <ClInclude Include="Models\Renders\Renders2D.h" />
     <ClInclude Include="Models\Topologies\Topologies2D.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="UnmanagedFacade.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="MGLEngine.CLR.cpp" />
+    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

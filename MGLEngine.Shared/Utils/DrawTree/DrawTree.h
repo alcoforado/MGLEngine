@@ -4,8 +4,10 @@
 #include "../DefragArray/CopyRegion.h"
 #include "../Arrays/IArray.h"
 #include "../DefragArray/DefragArray.h"
+#include <MGLEngine.Shared/Shaders/IShader.h>
+
 template<class VerticeData>
-class DrawTree
+class DrawTree : IShader<VerticeData>
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
 	

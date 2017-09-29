@@ -33,6 +33,9 @@
     <ClInclude Include="Models\Renders\Renders2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGLEngine.CLR.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnmanagedFacade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

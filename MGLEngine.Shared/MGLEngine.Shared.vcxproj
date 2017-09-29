@@ -137,6 +137,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Shaders\IShader.h" />
     <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />
     <ClInclude Include="Renders\CyclicColor.h" />
