@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MGLEngine.CLR.h" />
+    <ClInclude Include="Models\Renders\Renders2D.h" />
     <ClInclude Include="Models\Topologies\Topologies2D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
