@@ -11,8 +11,8 @@ namespace TestApp.WebApi.Models.ShapeMngr
         public string Id { get; set; }
         public string Name { get; set; }
         public string TopologyType { get; set; }
-        public Object ShapeData { get; set; }
-        public Object RenderData { get; set; }
+        public String TopologyJsonData { get; set; }
+        public String RenderJsonData { get; set; }
         public string RenderType { get; set; }
 
     }

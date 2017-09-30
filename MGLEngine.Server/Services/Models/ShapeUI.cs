@@ -11,7 +11,16 @@ namespace MGLEngine.Server.Services.Models
         public String Id { get; set; }
         public string Name { get; set; }
         public Object Topology { get; set; }
-        public Object Painter { get; set; }
+        public Object Render { get; set; }
 
+        public bool IsDrawn()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

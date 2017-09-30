@@ -81,7 +81,7 @@ namespace MGLEngine.Server.Services
             {
                 throw new Exception("Invalid Id");
             }
-            if (shape.Painter == null)
+            if (shape.Render == null)
             {
                 throw new Exception("No Render provided");
             }
@@ -138,7 +138,7 @@ namespace MGLEngine.Server.Services
 
             var result = new ShapeUI();
             result.Topology = (Object) Activator.CreateInstance(_topologyTypes[topologyTypeId]);
-            result.Painter = null;
+            result.Render = null;
             result.Id = new Guid();
             result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
             _shapeCollection.Add(result.Id.ToString(), result);

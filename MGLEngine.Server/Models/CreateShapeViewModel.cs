@@ -18,8 +18,8 @@ namespace TestApp.WebApi.Models.ShapeMngr
             Id = shape.Id.ToString();
             TopologyType = shape.Topology.GetType().Name;
             ShapeData = shape.Topology;
-            RenderType = shape.Painter?.GetType().Name ?? "";
-            RenderData = shape.Painter;
+            RenderType = shape.Render?.GetType().Name ?? "";
+            RenderData = shape.Render;
         }
 
 
