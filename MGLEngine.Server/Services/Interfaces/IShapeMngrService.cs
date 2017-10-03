@@ -21,5 +21,8 @@ namespace MGLEngine.Server.Services.Interfaces
         /// <param name="topologyTypeId"></param>
         /// <returns></returns>
         ShapeUI CreateShape(string topologyTypeId);
+
+        object CreateTopology(string modelTopologyType);
+        object CreateRender(string modelRenderType);
     }
 }

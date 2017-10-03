@@ -62,8 +62,20 @@ namespace TestApp.WebApi.Controllers
         public void UpdateShape(UpdateShapeViewModel model)
         {
             ShapeUI shape = _mngrService.GetShape(model.Id);
-            JsonConvert.PopulateObject(model.ShapeJsonData, shape);
-            if (String.IsNullOrWhiteSpace(model.RenderId))
+            if (shape == null)
+            {
+                throw new Exception($"Shape {model.Id} {model.Name} not found");
+            }
+            if (shape.IsDrawn())
+            {
+                shape.Dispose();
+            }
+            shape.Topology = _mngrService.CreateTopology(model.TopologyType);
+            shape.Render = _mngrService.CreateRender(model.RenderType);
+            JsonConvert.PopulateObject(model.TopologyJsonData, shape.Topology);
+            JsonConvert.PopulateObject(model.RenderJsonData, shape.Render);
+            
+            if (String.IsNullOrWhiteSpace(modelRenderId))
             {
                 _mngrService.SetShapeRender(model.ShapeId, null);
             }
