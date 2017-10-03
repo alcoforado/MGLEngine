@@ -36,6 +36,15 @@
     <ClInclude Include="ShapeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mapping\Unmanaged.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Renders\IMngRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Topologies\IMngTopology2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGLEngine.CLR.cpp">
@@ -51,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapeManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Topologies\Topologies2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

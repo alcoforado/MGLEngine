@@ -137,6 +137,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IMGLEngine.h" />
     <ClInclude Include="Shaders\IShader.h" />
     <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Utils\Path.h" />
     <ClInclude Include="Utils\shared_global.h" />
     <ClInclude Include="Utils\tree.hpp" />
+    <ClInclude Include="VerticeData\Color2D.h" />
     <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <ItemGroup>

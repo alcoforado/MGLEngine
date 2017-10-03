@@ -1,7 +1,6 @@
 #pragma once
-#include "..\Shapes\IT
-#include "MGLEngine.Shared/Shapes/IRender.h"
-
+#include <MGLEngine.Shared/Shapes/IRender.h>
+#include <MGLEngine.Shared/Shapes/ITopology2D.h>
 template<class VerticeData>
 class IShader
 {

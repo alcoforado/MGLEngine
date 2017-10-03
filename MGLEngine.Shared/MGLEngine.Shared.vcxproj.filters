@@ -105,6 +105,12 @@
     <ClInclude Include="Shaders\IShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VerticeData\Color2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGLEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">

@@ -1,10 +1,10 @@
 #include "ShaderColor2D.h"
 #include <vector>
-#include "IRenderContext.h"
+#include "IVulkanRenderContext.h"
 #include "../SPIR-V/shaders_bytecode.h"
 #include "../RenderPipeline/VulkanStagingBuffer.h"
 
-ShaderColor2D::ShaderColor2D(IRenderContext& renderContext)
+ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
  :_vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
   _fragShaderCode(*renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag))
 {

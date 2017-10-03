@@ -7,7 +7,7 @@
 #include <MGLEngine.Shared/Shaders/IShader.h>
 
 template<class VerticeData>
-class DrawTree : IShader<VerticeData>
+class DrawTree : public  IShader<VerticeData>
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
 	
@@ -244,7 +244,7 @@ public:
 
 
 
-	void Add(ITopology2D *topology,IRender<VerticeData> *render)
+	virtual void Add(ITopology2D *topology,IRender<VerticeData> *render) override 
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);

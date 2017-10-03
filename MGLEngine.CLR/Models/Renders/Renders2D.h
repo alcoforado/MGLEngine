@@ -7,12 +7,11 @@ namespace MGLEngineCLR
 {
 	namespace Models {
 		namespace Renders {
-
 			public ref class CyclicColor
 			{
 			public:
 				List<vec3> Colors;
-				void Render(IManagedTopology ^topology)
+				void Render(Object^ Topology);
 			};
 		}
 	}

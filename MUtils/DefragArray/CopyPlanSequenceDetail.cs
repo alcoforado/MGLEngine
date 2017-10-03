@@ -23,7 +23,7 @@ namespace MUtils.DefragArray
             this.Backup = null;
         }
 
-        internal void ApplyBackup<T>(T[] src)
+        internal void ApplyBackup(T[] src)
         {
             System.Diagnostics.Debug.Assert(Backup != null);
             Array.Copy(Backup, 0, src, this.Copy.Dst.offI, this.Copy.Dst.size);

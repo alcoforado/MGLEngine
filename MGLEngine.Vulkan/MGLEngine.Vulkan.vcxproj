@@ -148,8 +148,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MGLEngineVulkan.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
-    <ClCompile Include="Shaders\IRenderContext.cpp" />
+    <ClCompile Include="Shaders\IVulkanRenderContext.cpp" />
     <ClCompile Include="Shaders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
     <ClCompile Include="RenderPipeline\FragmentShaderByteCode.cpp" />
@@ -178,10 +179,11 @@
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
-    <ClInclude Include="Shaders\IRenderContext.h" />
+    <ClInclude Include="Shaders\IVulkanRenderContext.h" />
     <ClInclude Include="Shaders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
     <ClInclude Include="RenderPipeline\FragmentShaderByteCode.h" />

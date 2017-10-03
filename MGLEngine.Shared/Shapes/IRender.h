@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Arrays/IArray.h"
+#include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 template<class VerticeData>
 class IRender
 {

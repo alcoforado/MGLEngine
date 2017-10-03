@@ -7,15 +7,12 @@
 #include "../RenderPipeline/VulkanCommandBuffer.h"
 #include <glm/glm.hpp>
 #include <MGLEngine.Shared/Utils/DrawTree/DrawTree.h>
+#include <MGLEngine.Shared/VerticeData/Color2D.h>
 #include "../RenderPipeline/VulkanStagingBuffer.h"
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
-class IRenderContext;
+class IVulkanRenderContext;
 
-struct Color2D
-{
-	glm::vec2 Position;
-	glm::vec3 Color;
-};
+
 
 class ShaderColor2D : public DrawTree<Color2D>
 {
@@ -26,9 +23,9 @@ class ShaderColor2D : public DrawTree<Color2D>
 	std::vector<VulkanCommandBuffer*> _commands;
 
 
-	void CreateCommands(IRenderContext& renderContext);
+	void CreateCommands(IVulkanRenderContext& renderContext);
 	public:
-	explicit ShaderColor2D(IRenderContext& renderContext);
+	explicit ShaderColor2D(IVulkanRenderContext& renderContext);
 	~ShaderColor2D();
 	void OnSwapChange();
 	VulkanSemaphore* Draw(IDrawContext *pDrawContext);

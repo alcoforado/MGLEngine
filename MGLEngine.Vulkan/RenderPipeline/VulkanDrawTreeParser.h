@@ -1,9 +1,9 @@
 #pragma once
 #include <MGLEngine.Shared/Utils/DrawTree/DrawTree.h>
-#include "../Shaders/IRenderContext.h"
+#include "../Shaders/IVulkanRenderContext.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../VulkanContext/IDrawContext.h"
-class IRenderContext;
+class IVulkanRenderContext;
 
 template<class T>
 class VulkanDrawTreeParser
@@ -12,9 +12,9 @@ class VulkanDrawTreeParser
 	VulkanPipeline& _pipeline;
 	VulkanStagingBuffer<T>* _pVerticesBuffer;
 	std::vector<VulkanCommandBuffer*> _commands;
-	IRenderContext& _context;
+	IVulkanRenderContext& _context;
 public:
-	VulkanDrawTreeParser(IRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree)
+	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree)
 		:_context(context), _pipeline(pipeline), _tree(tree)
 	{
 		_pVerticesBuffer = nullptr;

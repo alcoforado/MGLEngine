@@ -1,12 +1,12 @@
 #pragma once
 #include  "../RenderPipeline/VulkanSemaphore.h"
-#include "../Shaders/IRenderContext.h"
+#include "../Shaders/IVulkanRenderContext.h"
 class IDrawContext
 {
 public:
 	virtual bool IsWindowResized()=0;
 	virtual  VulkanSemaphore* GetSemaphore() = 0;
-	virtual  IRenderContext* GetRenderContext() = 0;
+	virtual  IVulkanRenderContext* GetRenderContext() = 0;
 };
 
 class DrawContext : public IDrawContext
@@ -14,7 +14,7 @@ class DrawContext : public IDrawContext
 public:
 	bool WindowResized;
 	VulkanSemaphore *CurrentSemaphore;
-	IRenderContext  *RenderContext;
+	IVulkanRenderContext  *RenderContext;
 
 	DrawContext() {}
 
@@ -24,7 +24,7 @@ public:
 		return CurrentSemaphore;
 	}
 
-	IRenderContext * GetRenderContext() override { return RenderContext; }
+	IVulkanRenderContext * GetRenderContext() override { return RenderContext; }
 
 
 

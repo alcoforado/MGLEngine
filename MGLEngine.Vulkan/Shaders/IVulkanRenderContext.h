@@ -3,11 +3,11 @@
 #include "../RenderPipeline/VulkanCommandPool.h"
 #include "../MemoryManager/VulkanMemoryManager.h"
 
-class  IRenderContext
+class  IVulkanRenderContext
 {
 public:
-	IRenderContext();
-	virtual ~IRenderContext();
+	IVulkanRenderContext();
+	virtual ~IVulkanRenderContext();
 	virtual const VulkanSwapChain& GetSwapChain() const = 0;
 	virtual const VulkanLogicalDevice* GetLogicalDevice() const = 0;
 	virtual const VulkanCommandPool* GetCommandPool() const =0;

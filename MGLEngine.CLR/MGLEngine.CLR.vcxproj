@@ -77,7 +77,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\;$(ProjectDir)\..\MGLEngine.Shared;$(ProjectDir)\..\MGLEngine.Vulkan;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../;$(ProjectDir)/../References/include;$(ProjectDir)/../MGLEngine.Shared;$(ProjectDir)/../MGLEngine.Vulkan;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../References/lib/x64/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -102,7 +102,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;glfw3.lib</AdditionalDependencies>
@@ -136,6 +136,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Mapping\Unmanaged.h" />
+    <ClInclude Include="Models\Renders\IMngRender.h" />
+    <ClInclude Include="Models\Topologies\IMngTopology2D.h" />
     <ClInclude Include="MGLEngine.CLR.h" />
     <ClInclude Include="Models\Renders\Renders2D.h" />
     <ClInclude Include="Models\Topologies\Topologies2D.h" />
@@ -147,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="MGLEngine.CLR.cpp" />
+    <ClCompile Include="Models\Topologies\Topologies2D.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

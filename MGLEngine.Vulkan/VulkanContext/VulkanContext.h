@@ -7,7 +7,7 @@
 #include "VulkanInstance.h"
 #include "VulkanSwapChain.h"
 #include "../RenderPipeline/VulkanPipeline.h"
-#include "../Shaders/IRenderContext.h"
+#include "../Shaders/IVulkanRenderContext.h"
 #include "../Shaders/ShaderColor2D.h"
 #include "IDrawContext.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
@@ -16,7 +16,7 @@ struct GLFWwindow;
 
 
 
-class VulkanContext : public IRenderContext
+class VulkanContext : public IVulkanRenderContext
 {
 	//static public
 private:
@@ -45,5 +45,8 @@ public:
 	void Draw();
 	virtual const VulkanCommandPool* GetCommandPool() const override { return &_commandPool; }
 	virtual VulkanMemoryManager* GetMemoryManager() override { return &_memoryMngr; }
+
+	ShaderColor2D* GetShaderColor2D() { return _render; }
+
 };
 
