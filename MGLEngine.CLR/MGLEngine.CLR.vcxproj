@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Models\Topologies\IMngTopology3D.h" />
     <ClInclude Include="Mapping\Unmanaged.h" />
     <ClInclude Include="Models\Renders\IMngRender.h" />
     <ClInclude Include="Models\Topologies\IMngTopology2D.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="IMngTopology3D.cpp" />
     <ClCompile Include="MGLEngine.CLR.cpp" />
     <ClCompile Include="Models\Topologies\Topologies2D.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
