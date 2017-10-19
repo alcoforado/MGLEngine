@@ -57,7 +57,7 @@ namespace TestApp.WebApi.Controllers
             var shape = _mngrService.CreateShape(typeId);
             return new CreateShapeViewModel(shape);
         }
-
+        /*
         [HttpPost]
         public void UpdateShape(UpdateShapeViewModel model)
         {

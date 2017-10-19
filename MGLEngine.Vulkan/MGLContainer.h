@@ -1,5 +1,4 @@
 #pragma once
-#include "MGLContainer.h"
 #include <MGLEngine.Shared/IMGLContainer.h>
 #include <MGLEngine.Shared/Window/IWindow.h>
 #include <MGLEngine.Shared/IMGLEngine.h>

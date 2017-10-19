@@ -139,7 +139,7 @@ namespace MGLEngine.Server.Services
             var result = new ShapeUI();
             result.Topology = (Object) Activator.CreateInstance(_topologyTypes[topologyTypeId]);
             result.Render = null;
-            result.Id = new Guid();
+            result.Id = new Guid().ToString();
             result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
             _shapeCollection.Add(result.Id.ToString(), result);
             return result;

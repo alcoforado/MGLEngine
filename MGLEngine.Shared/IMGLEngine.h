@@ -1,6 +1,6 @@
 #pragma once
 #include "Shaders/IShader.h"
-#include "MGLEngine.Vulkan/Shaders/ShaderColor2D.h"
+#include "VerticeData/Color2D.h"
 
 class IMGLEngine
 {

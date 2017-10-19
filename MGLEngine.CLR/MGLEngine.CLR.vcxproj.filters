@@ -27,25 +27,16 @@
     <ClInclude Include="UnmanagedFacade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Topologies\Topologies2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\Renders\Renders2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShapeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mapping\Unmanaged.h">
+    <ClInclude Include="Mappers\Topology2DMapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Renders\IMngRender.h">
+    <ClInclude Include="Mappers\BasicTypesMapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Topologies\IMngTopology2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\Topologies\IMngTopology3D.h">
+    <ClInclude Include="Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,10 +56,10 @@
     <ClCompile Include="ShapeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Topologies\Topologies2D.cpp">
+    <ClCompile Include="Mappers\Topology2DMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IMngTopology3D.cpp">
+    <ClCompile Include="Canvas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,5 +75,9 @@
     <Image Include="app.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NetLibs\GlmNet.dll" />
+    <None Include="NetLibs\GlmNet.pdb" />
   </ItemGroup>
 </Project>

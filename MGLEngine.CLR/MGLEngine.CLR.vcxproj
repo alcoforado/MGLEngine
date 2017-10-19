@@ -136,23 +136,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Models\Topologies\IMngTopology3D.h" />
-    <ClInclude Include="Mapping\Unmanaged.h" />
-    <ClInclude Include="Models\Renders\IMngRender.h" />
-    <ClInclude Include="Models\Topologies\IMngTopology2D.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="Mappers\BasicTypesMapper.h" />
     <ClInclude Include="MGLEngine.CLR.h" />
-    <ClInclude Include="Models\Renders\Renders2D.h" />
-    <ClInclude Include="Models\Topologies\Topologies2D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Mappers\Topology2DMapper.h" />
     <ClInclude Include="UnmanagedFacade.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="IMngTopology3D.cpp" />
+    <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="MGLEngine.CLR.cpp" />
-    <ClCompile Include="Models\Topologies\Topologies2D.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -160,6 +156,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Mappers\Topology2DMapper.cpp" />
     <ClCompile Include="UnmanagedFacade.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +169,16 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MGLEngine.Managed\MGLEngine.Managed.csproj">
+      <Project>{63a43a26-7d6a-48f7-80c0-413c515d0878}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MGLEngine.Vulkan\MGLEngine.Vulkan.vcxproj">
       <Project>{a21b7bd2-0b50-41e4-995b-7a153d66be90}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NetLibs\GlmNet.dll" />
+    <None Include="NetLibs\GlmNet.pdb" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
