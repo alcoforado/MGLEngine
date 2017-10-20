@@ -21,9 +21,6 @@
     <ClCompile Include="Window\MWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MGLContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VulkanContext\VulkanContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,12 +102,12 @@
     <ClCompile Include="MGLEngineVulkan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MGLContainerVulkan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MGLContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VulkanContext\VulkanContext.h">
@@ -201,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MGLEngineVulkan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MGLContainerVulkan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

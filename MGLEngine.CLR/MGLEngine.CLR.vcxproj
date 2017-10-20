@@ -138,7 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Mappers\BasicTypesMapper.h" />
-    <ClInclude Include="MGLEngine.CLR.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Stdafx.h" />
@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Canvas.cpp" />
-    <ClCompile Include="MGLEngine.CLR.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -6,21 +6,23 @@ using namespace System;
 using namespace System::Reflection;
 
 class ITopology2D;
-private ref class Topology2DMapper : BasicTypesMapper
-{
-	static Dictionary<String^, MethodInfo^> ^dictionary = gcnew Dictionary<String^, MethodInfo^>();
 
-public:
+namespace MGLEngineCLR {
+	ref class Topology2DMapper : BasicTypesMapper
+	{
+		static Dictionary<String^, MethodInfo^> ^dictionary = gcnew Dictionary<String^, MethodInfo^>();
 
-	Topology2DMapper();
-	~Topology2DMapper();
+	public:
 
-	ITopology2D* Map(MGLEngine::Managed::Topologies::IMngTopology2D^  obj);
+		Topology2DMapper();
+		~Topology2DMapper();
 
-	ITopology2D* Convert(MGLEngine::Managed::Topologies::Triangle2D^ obj);
-	
+		ITopology2D* Map(MGLEngine::Managed::Topologies::IMngTopology2D^  obj);
 
-};
-
+		ITopology2D* Convert(MGLEngine::Managed::Topologies::Triangle2D^ obj);
 
 
+	};
+
+
+}

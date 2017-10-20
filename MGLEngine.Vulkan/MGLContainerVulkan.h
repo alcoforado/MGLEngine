@@ -3,12 +3,12 @@
 #include <MGLEngine.Shared/Window/IWindow.h>
 #include <MGLEngine.Shared/IMGLEngine.h>
 class Window;
-class MGLContainer :public  IMGLContainer
+class MGLContainerVulkan :public  IMGLContainer
 {
 
 public:
 
-	MGLContainer()
+	MGLContainerVulkan()
 	{
 	}
 
@@ -16,7 +16,7 @@ public:
 	virtual IMGLEngine* CreateMGLEngine(IWindow *win);
 
 
-	~MGLContainer()
+	~MGLContainerVulkan()
 	{
 	}
 };

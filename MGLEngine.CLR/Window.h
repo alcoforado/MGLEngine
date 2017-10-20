@@ -1,24 +1,24 @@
 // MGLEngine.CLR.h
 #include <Window/IWindow.h>
 #include "UnmanagedFacade.h"
-#include "Canvas.h"
 #pragma once
 
 using namespace System;
 
+class IMGLEngine;
+
 namespace MGLEngineCLR {
+	ref class Canvas;
+	
 
 	public ref class Window
 	{
 		Canvas^ _canvas;
+		IMGLEngine *_engine;
 		IWindow *_window;
-	public:
-		Window()
-		{
-			_window = UnmanagedFacade::GetContainer()->CreateWindow();
-			_canvas = gcnew Canvas();
-		}
 
+	public:
+		Window();
 		Canvas^ GetCanvas() { return _canvas; }
 
 		void SetSize(int width, int height)

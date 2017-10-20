@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UnmanagedFacade.h"
-#include <MGLContainer.h>
+#include <MGLContainerVulkan.h>
 
 UnmanagedFacade::UnmanagedFacade()
 {
@@ -9,5 +9,5 @@ UnmanagedFacade::UnmanagedFacade()
 
 IMGLContainer* UnmanagedFacade::GetContainer()
 {
-	return new MGLContainer();
+	return new MGLContainerVulkan();
 }

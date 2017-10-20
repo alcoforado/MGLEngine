@@ -159,7 +159,7 @@
     <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp" />
     <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp" />
-    <ClCompile Include="MGLContainer.cpp" />
+    <ClCompile Include="MGLContainerVulkan.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
     <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="VulkanContext\VulkanLayerProperties.cpp" />
@@ -193,7 +193,7 @@
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h" />
-    <ClInclude Include="MGLContainer.h" />
+    <ClInclude Include="MGLContainerVulkan.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />
     <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />
     <ClInclude Include="VulkanContext\VulkanLayerProperties.h" />
