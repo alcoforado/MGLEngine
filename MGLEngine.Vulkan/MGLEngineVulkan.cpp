@@ -1,7 +1,7 @@
 #include "MGLEngineVulkan.h"
-
+#include "Window/MWindow.h"
 #include <MGLEngine.Vulkan\VulkanContext\VulkanContext.h>
-
+#include <MGLEngine.Shared/Window/IWindow.h>
 
 
 MGLEngineVulkan::MGLEngineVulkan(IWindow* win)

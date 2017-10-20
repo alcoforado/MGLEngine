@@ -16,6 +16,8 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 		.AddField(0, &Color2D::Position)
 		.AddField(1, &Color2D::Color);
 
+	_pPipeline->Rasterizer.cullMode= VK_CULL_MODE_NONE;
+
 
 	VkAttachmentDescription colorAttachment = {};
 	colorAttachment.format = renderContext.GetSwapChain().GetImageFormat();

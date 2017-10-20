@@ -249,6 +249,10 @@ public:
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
 		_root.AppendChild(node);
+		
+		node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
+			pNode->GetData().NeedRedraw = true;
+		});
 	}
 
 	~DrawTree(){}

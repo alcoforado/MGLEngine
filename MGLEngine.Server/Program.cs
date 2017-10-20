@@ -33,7 +33,7 @@ namespace MGLEngine.Server
             tria.P3 = new vec2(1, 1);
 
             var render = new CyclicColor2D();
-            render.Colors.Add(new vec3(0.25f,0.0f,1.0f));
+            render.Colors.Add(new vec3(1.0f,1.0f,1.0f));
 
 
 

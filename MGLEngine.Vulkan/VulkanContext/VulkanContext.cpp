@@ -23,18 +23,10 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	_pSwapChain = new VulkanSwapChain(window,*_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
 
-	auto tria = new Triangle2D(
-		glm::vec2(0, 0),
-		glm::vec2(1, 0),
-		glm::vec2(0, 1)
-	);
+	
 
 
-	std::vector<glm::vec3> colors;
-	colors.push_back(glm::vec3(0, 1, 0));
-	auto painter = new CyclicColor<ShaderColor2D::VerticeType>(colors);
-
-	_render->Add(tria,painter);
+	
 
 	_drawContext.RenderContext = this;
 }

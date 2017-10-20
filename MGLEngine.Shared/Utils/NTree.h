@@ -68,7 +68,7 @@
 			{
 				action(ptr);
 				ptr = next;
-				next = ptr._parent;
+				next = ptr->_parent;
 			}
 			action(ptr);
 		}
