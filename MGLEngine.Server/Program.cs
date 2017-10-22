@@ -38,7 +38,7 @@ namespace MGLEngine.Server
 
 
             w.GetCanvas().Render(tria,render);
-            w.PsychoRun();
+            w.EasyRun();
         }
     }
 }
