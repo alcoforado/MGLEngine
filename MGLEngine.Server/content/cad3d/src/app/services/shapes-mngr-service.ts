@@ -39,7 +39,7 @@ export class ShapesMngrService {
 
     getRenderTypes(): Observable<Array<UIType>> {
         if (this.RenderTypes == null) {
-            this.RenderTypes = this.$http.get("/api/shapemngr/rendertypes")
+            this.RenderTypes = <Observable<Array<UIType>>>this.$http.get("/api/shapemngr/rendertypes")
                 .map(this.extractData)
 
         }
@@ -47,7 +47,7 @@ export class ShapesMngrService {
     }
     getTypes(): Observable<{ [typeName: string]: UIType }> {
         if (this.Types == null) {
-            this.Types = this.$http.get("/api/shapemngr/shapetypes").map(this.extractData)
+            this.Types = <Observable<Array<UIType>>>this.$http.get("/api/shapemngr/shapetypes").map(this.extractData)
             this.TypesHash = this.Types.map((c: Array<UIType>) => {
                 let typeHash: { [typeName: string]: UIType } = {};
                 c.forEach((elem) => {

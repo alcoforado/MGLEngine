@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using MGLEngine.Managed.Renders;
+using MGLEngine.Managed.Topologies;
 using MGLEngine.Server.Services.Interfaces;
 using MGLEngine.Server.Services.Models;
 using MUtils.Reflection;
@@ -27,16 +29,16 @@ namespace MGLEngine.Server.Services
             _topologyTypes = new Dictionary<string, Type>();
             _renderTypes = new Dictionary<string, Type>();
 
-            var assembly = Assembly.Load(new AssemblyName("MGLEngine.CLR"));
+            var assembly = Assembly.Load(new AssemblyName("MGLEngine.Managed"));
 
 
-            var shapesT = assembly.GetTypesInNamespace("MGLEngineCLR.Models.Topologies");
+            var shapesT = typeof(IMngTopology2D).GetImplementationsInAssembly(assembly);
             foreach (var type in shapesT)
             {
                 _topologyTypes.Add(type.Name, type);
             }
 
-            var rendersT = assembly.GetTypesInNamespace("MGLEngineCLR.Models.Renders");
+            var rendersT = typeof(IRender2D).GetImplementationsInAssembly(assembly);
             foreach (var type in rendersT)
             {
                 _renderTypes.Add(type.Name, type);

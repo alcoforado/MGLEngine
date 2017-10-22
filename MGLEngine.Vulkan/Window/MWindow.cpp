@@ -93,7 +93,18 @@ void MGL::Window::EasyRun()
 	while (!glfwWindowShouldClose(_window))
 	{
 		glfwWaitEvents();
-		_vkContext->Draw();
+		if (_resizeOcurred)
+		{
+			_vkContext->GetLogicalDevice()->WaitToBeIdle();
+			_vkContext->OnResize(_window, _width, _height);
+			_vkContext->Draw();
+			_resizeOcurred = false;
+		}
+		else
+		{
+			_vkContext->Draw();
+		}
+		
 
 	}
 	

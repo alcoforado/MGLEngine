@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using MGLEngine.Server;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Practices.Unity;
@@ -29,6 +30,9 @@ namespace TestApp.App_Config
             );
             config.Formatters.JsonFormatter.SupportedMediaTypes
                 .Add(new MediaTypeHeaderValue("text/html"));
+            
+            UnityConfig.Config(Container);
+
             config.DependencyResolver = new UnityDependencyResolver(Container);
             appBuilder.UseWebApi(config);
 

@@ -47,6 +47,21 @@ namespace MUtils.Reflection
             return result;
         }
 
+        public static List<Type> GetImplementationsInAssembly(this Type type,Assembly assembly)
+        {
+
+            var result = new List<Type>();
+            foreach (var t in assembly.GetTypes())
+            {
+                if (!t.IsAbstract && !t.IsInterface && type.IsAssignableFrom(t))
+                {
+                    result.Add(t);
+                }
+            }
+            return result;
+        }
+
+
         public static List<Type> GetTypesInNamespace(this Assembly assembly,string nameSpace)
         {
 
