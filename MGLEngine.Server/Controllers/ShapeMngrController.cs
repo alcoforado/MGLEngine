@@ -16,7 +16,6 @@ namespace TestApp.WebApi.Controllers
     public class ShapeMngrController : ApiController
     {
         
-        private int _idCounter = 0;
        // private IShapesMngrMapper _mapper;
         private IShapeMngrService _mngrService;
 
@@ -57,7 +56,10 @@ namespace TestApp.WebApi.Controllers
             var shape = _mngrService.CreateShape(typeId);
             return new CreateShapeViewModel(shape);
         }
-        /*
+
+
+
+        
         [HttpPost]
         public void UpdateShape(UpdateShapeViewModel model)
         {
@@ -70,20 +72,16 @@ namespace TestApp.WebApi.Controllers
             {
                 shape.Dispose();
             }
-            shape.Topology = _mngrService.CreateTopology(model.TopologyType);
-            shape.Render = _mngrService.CreateRender(model.RenderType);
+            if (shape.Topology.GetType().Name != model.TopologyType)
+            {
+                throw new Exception($"Shape {model.Id} {model.Name} type mismatch, expect {shape.Topology.GetType().Name} but got {model.TopologyType}");
+            }
+
             JsonConvert.PopulateObject(model.TopologyJsonData, shape.Topology);
+            shape.Render = _mngrService.CreateRender(model.RenderType);
             JsonConvert.PopulateObject(model.RenderJsonData, shape.Render);
-            
-            if (String.IsNullOrWhiteSpace(modelRenderId))
-            {
-                _mngrService.SetShapeRender(model.ShapeId, null);
-            }
-            else
-            {
-                var render = _mngrService.GetRender(model.RenderId);
-                _mngrService.SetShapeRender(model.ShapeId, render.Value);
-            }
+
+            _mngrService.DrawShape(shape)
         }
 
 

@@ -146,7 +146,16 @@ namespace MGLEngine.Server.Services
             _shapeCollection.Add(result.Id.ToString(), result);
             return result;
         }
-        
+
+        public object CreateRender(string modelRenderType)
+        {
+            if (!_renderTypes.ContainsKey(modelRenderType))
+            {
+                throw new Exception(String.Format("Error, Render type {0} not identified", modelRenderType));
+            }
+           return (Object)Activator.CreateInstance(_renderTypes[modelRenderType]);
+
+        }
     }
 }
 

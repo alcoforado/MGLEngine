@@ -15,7 +15,7 @@ namespace MGLEngine.Server.Services.Models
 
         public bool IsDrawn()
         {
-            throw new NotImplementedException();
+            return Render != null;
         }
 
         public void Dispose()
