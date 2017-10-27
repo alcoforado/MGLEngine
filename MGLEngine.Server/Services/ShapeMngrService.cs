@@ -133,13 +133,8 @@ namespace MGLEngine.Server.Services
         /// <returns></returns>
         public ShapeUI CreateShape(string topologyTypeId)
         {
-            if (!_topologyTypes.ContainsKey(topologyTypeId))
-            {
-                throw new Exception(String.Format("Error, type {0} not identified", topologyTypeId));
-            }
-
             var result = new ShapeUI();
-            result.Topology = (Object) Activator.CreateInstance(_topologyTypes[topologyTypeId]);
+            result.Topology = (Object) CreateTopology(topologyTypeId);
             result.Render = null;
             result.Id = new Guid().ToString();
             result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
@@ -155,6 +150,20 @@ namespace MGLEngine.Server.Services
             }
            return (Object)Activator.CreateInstance(_renderTypes[modelRenderType]);
 
+        }
+
+        public object CreateTopology(string modelTopologyType)
+        {
+            if (!_topologyTypes.ContainsKey(modelTopologyType))
+            {
+                throw new Exception(String.Format("Error, Render type {0} not identified", modelTopologyType));
+            }
+            return (Object)Activator.CreateInstance(_topologyTypes[modelTopologyType]);
+        }
+
+        public void UpdateShape(string modelId, object topology, object render)
+        {
+           
         }
     }
 }

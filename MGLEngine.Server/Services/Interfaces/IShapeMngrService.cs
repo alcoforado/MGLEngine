@@ -24,5 +24,7 @@ namespace MGLEngine.Server.Services.Interfaces
 
 
         object CreateRender(string modelRenderType);
+        object CreateTopology(string modelTopologyType);
+        void UpdateShape(string modelId, object topology, object render);
     }
 }

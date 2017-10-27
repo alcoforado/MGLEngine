@@ -63,25 +63,13 @@ namespace TestApp.WebApi.Controllers
         [HttpPost]
         public void UpdateShape(UpdateShapeViewModel model)
         {
-            ShapeUI shape = _mngrService.GetShape(model.Id);
-            if (shape == null)
-            {
-                throw new Exception($"Shape {model.Id} {model.Name} not found");
-            }
-            if (shape.IsDrawn())
-            {
-                shape.Dispose();
-            }
-            if (shape.Topology.GetType().Name != model.TopologyType)
-            {
-                throw new Exception($"Shape {model.Id} {model.Name} type mismatch, expect {shape.Topology.GetType().Name} but got {model.TopologyType}");
-            }
+            var render = _mngrService.CreateRender(model.RenderType);
+            var topology = _mngrService.CreateTopology(model.TopologyType);
+            JsonConvert.PopulateObject(model.TopologyJsonData, topology);
+            JsonConvert.PopulateObject(model.RenderJsonData, render);
+            
+            _mngrService.UpdateShape(model.Id,topology,render);
 
-            JsonConvert.PopulateObject(model.TopologyJsonData, shape.Topology);
-            shape.Render = _mngrService.CreateRender(model.RenderType);
-            JsonConvert.PopulateObject(model.RenderJsonData, shape.Render);
-
-            _mngrService.DrawShape(shape)
         }
 
 
