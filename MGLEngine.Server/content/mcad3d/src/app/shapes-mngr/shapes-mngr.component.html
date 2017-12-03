@@ -1,0 +1,52 @@
+<section>Manage Shapes</section>
+<processing-animation></processing-animation>
+<span class="round-button" (click)="enableAddShapeDialog()"><img src="/src/images/add.svg"/> Add</span>
+<div>
+  <form *ngFor="let sh of shapes;let id=index" class="main-form" [formGroup]="shapeForms[id].getRoot()">
+
+    <div class="form-header">
+      <img src="/src/images/shapes.svg" />{{sh.Type.TypeName}}
+    </div>
+    <div [ngSwitch]="sh.Type.TypeName" class="form-body container">
+      <app-triangle2d *ngSwitchCase="Triangle2D"></app-triangle2d>
+
+      <div *ngSwitchDefault>
+        <div *ngFor="let member of sh.Type.Members" class="form-input row">
+          <span class="span-label col">
+                {{member.LabelName}}: 
+            </span>
+          <span class="col">
+                   <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
+                  </span>
+        </div>
+      </div>
+    </div>
+
+    <app-drop-box [items]="RenderTypes | async" fieldName="TypeLabel"></app-drop-box>
+
+
+  </form>
+</div>
+
+
+
+<div class="modal" [class.show]="showAddShapeDialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="disableAddShapeDialog()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Shape</h4>
+      </div>
+      <div class="modal-body">
+        <app-list-view [items]="shapesListView" [defaultImage]="'/src/images/shapes.svg'" (itemSelected)="createShape($event)"></app-list-view>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="disableAddShapeDialog()">Cancel</button>
+        <button type="button" class="btn btn-primary">Ok</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

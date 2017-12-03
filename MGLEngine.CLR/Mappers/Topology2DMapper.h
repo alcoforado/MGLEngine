@@ -21,6 +21,7 @@ namespace MGLEngineCLR {
 
 		ITopology2D* Convert(MGLEngine::Managed::Topologies::Triangle2D^ obj);
 
+	
 
 	};
 

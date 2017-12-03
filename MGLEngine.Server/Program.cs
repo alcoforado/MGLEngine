@@ -24,20 +24,24 @@ namespace MGLEngine.Server
             var Container = new UnityContainer();
             string baseAddress = "http://localhost:9000/";
             Startup.Container = Container;
-            WebApp.Start<Startup>(url: baseAddress);
             var w = new Window();
-
-            var tria = new Triangle2D();
-            tria.P1 = new vec2(0,0);
-            tria.P2 = new vec2(0,1);
-            tria.P3 = new vec2(1, 1);
-
-            var render = new CyclicColor2D();
-            render.Colors.Add(new vec3(1.0f,1.0f,1.0f));
+            Container.RegisterType<Window>(new InjectionFactory((c) => { return w; }));
 
 
+            WebApp.Start<Startup>(url: baseAddress);
 
-            w.GetCanvas().Render(tria,render);
+
+            //var tria = new Triangle2D();
+            //tria.P1 = new vec2(0,0);
+            //tria.P2 = new vec2(0,1);
+            //tria.P3 = new vec2(1, 1);
+
+            //var render = new CyclicColor2D();
+            //render.Colors.Add(new vec3(1.0f,1.0f,1.0f));
+
+
+
+            //w.GetCanvas().Render(tria,render);
             w.EasyRun();
         }
     }

@@ -73,18 +73,14 @@ namespace TestApp.WebApi.Controllers
         }
 
 
-        /*
+        
 
         [HttpGet]
         public List<CreateShapeViewModel> Shapes()
         {
-            return _mngrService.GetShapes().Select(x => new CreateShapeViewModel()
-            {
-                TypeName = x.Value.GetShapeName(),
-                ShapeData = x.Value
-            }).ToList();
+            return _mngrService.GetShapes().Select(x => new CreateShapeViewModel(x.Value)).ToList();
         }
-
+        /*
         [HttpGet]
         public List<RenderBase> Renders()
         {

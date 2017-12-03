@@ -10,6 +10,7 @@ using MGLEngine.Managed.Renders;
 using MGLEngine.Managed.Topologies;
 using MGLEngine.Server.Services.Interfaces;
 using MGLEngine.Server.Services.Models;
+using MGLEngineCLR;
 using MUtils.Reflection;
 
 
@@ -17,14 +18,16 @@ namespace MGLEngine.Server.Services
 {
     public class ShapeMngrService : IShapeMngrService
     {
+        private readonly Window _w;
         private Dictionary<string, Type> _topologyTypes;
         private Dictionary<string, Type> _renderTypes;
 
         private int _idCounter = 0;
         private Dictionary<string, ShapeUI> _shapeCollection;
        
-        public ShapeMngrService()
+        public ShapeMngrService(Window w)
         {
+            _w = w;
             _shapeCollection = new Dictionary<string, ShapeUI>();
             _topologyTypes = new Dictionary<string, Type>();
             _renderTypes = new Dictionary<string, Type>();
