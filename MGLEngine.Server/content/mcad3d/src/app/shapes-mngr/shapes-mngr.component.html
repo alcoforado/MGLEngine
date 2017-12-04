@@ -1,23 +1,24 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
-<span class="round-button" (click)="enableAddShapeDialog()"><img src="/src/images/add.svg"/> Add</span>
+<span class="round-button" (click)="enableAddShapeDialog()">
+  <img src="/src/images/add.svg" /> Add</span>
 <div>
   <form *ngFor="let sh of shapes;let id=index" class="main-form" [formGroup]="shapeForms[id].getRoot()">
 
     <div class="form-header">
-      <img src="/src/images/shapes.svg" />{{sh.Type.TypeName}}
+      <img src="/src/images/shapes.svg" />{{sh.TopologyTypeName}}
     </div>
-    <div [ngSwitch]="sh.Type.TypeName" class="form-body container">
-      <app-triangle2d *ngSwitchCase="Triangle2D"></app-triangle2d>
+    <div [ngSwitch]="sh.TopologyTypeName" class="form-body container">
+      <app-triangle2d *ngSwitchCase="'Triangle2D'"></app-triangle2d>
 
       <div *ngSwitchDefault>
-        <div *ngFor="let member of sh.Type.Members" class="form-input row">
+        <div *ngFor="let member of sh.TopologyType.Members" class="form-input row">
           <span class="span-label col">
-                {{member.LabelName}}: 
-            </span>
+            {{member.LabelName}}:
+          </span>
           <span class="col">
-                   <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
-                  </span>
+            <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
+          </span>
         </div>
       </div>
     </div>
@@ -34,7 +35,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" (click)="disableAddShapeDialog()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" (click)="disableAddShapeDialog()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <h4 class="modal-title">Add Shape</h4>
       </div>
       <div class="modal-body">

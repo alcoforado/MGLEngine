@@ -9,9 +9,13 @@ import { TypeMember, UIType } from '../modules/mform/mformmodel'
 
 export class ShapeUI {
     constructor(
-        public TypeName: string,
+        public Id: string,
         public ShapeData: any,
-        public Type: UIType
+        public TopologyType: UIType,
+        public RenderData: any,
+        public RenderType: UIType,
+        public TopologyTypeName: string,
+        public RenderTypeName: string
     ) {
     }
 }
@@ -32,7 +36,6 @@ export class ShapesMngrService {
 
 
     constructor(private $http: Http) {
-
 
     }
 
@@ -78,7 +81,8 @@ export class ShapesMngrService {
                 .map(this.extractData)
                 .map((shapes: Array<ShapeUI>) => {
                     shapes.forEach((elem) => {
-                        elem.Type = types[elem.TypeName];
+                        elem.TopologyType = types[elem.TopologyTypeName];
+                        elem.RenderType = null;
                     });
                     return shapes;
                 });
@@ -86,12 +90,13 @@ export class ShapesMngrService {
 
     }
     createShape(UIType: string): Observable<ShapeUI> {
-        return this.$http.put(`/api/shapemngr/createshape?ShapeTypeId=${UIType}`, "")
+        return this.$http.post(`/api/shapemngr/shape/${UIType}`, "")
             .map(this.extractData)
             .mergeMap((sh: ShapeUI) => {
                 return this.getTypes()
                     .map(x => {
-                        sh.Type = x[sh.TypeName];
+                        sh.TopologyType = x[sh.TopologyTypeName];
+                        sh.RenderData = null;
                         return sh;
                     })
             });

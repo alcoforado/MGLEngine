@@ -13,10 +13,14 @@ var http_1 = require("@angular/http");
 require("rxjs/Rx");
 var core_1 = require("@angular/core");
 var ShapeUI = (function () {
-    function ShapeUI(TypeName, ShapeData, Type) {
-        this.TypeName = TypeName;
+    function ShapeUI(Id, ShapeData, TopologyType, RenderData, RenderType, TopologyTypeName, RenderTypeName) {
+        this.Id = Id;
         this.ShapeData = ShapeData;
-        this.Type = Type;
+        this.TopologyType = TopologyType;
+        this.RenderData = RenderData;
+        this.RenderType = RenderType;
+        this.TopologyTypeName = TopologyTypeName;
+        this.RenderTypeName = RenderTypeName;
     }
     return ShapeUI;
 }());
@@ -70,7 +74,8 @@ var ShapesMngrService = (function () {
                 .map(_this.extractData)
                 .map(function (shapes) {
                 shapes.forEach(function (elem) {
-                    elem.Type = types[elem.TypeName];
+                    elem.TopologyType = types[elem.TopologyTypeName];
+                    elem.RenderType = null;
                 });
                 return shapes;
             });
@@ -78,12 +83,13 @@ var ShapesMngrService = (function () {
     };
     ShapesMngrService.prototype.createShape = function (UIType) {
         var _this = this;
-        return this.$http.put("/api/shapemngr/createshape?ShapeTypeId=" + UIType, "")
+        return this.$http.post("/api/shapemngr/shape/" + UIType, "")
             .map(this.extractData)
             .mergeMap(function (sh) {
             return _this.getTypes()
                 .map(function (x) {
-                sh.Type = x[sh.TypeName];
+                sh.TopologyType = x[sh.TopologyTypeName];
+                sh.RenderData = null;
                 return sh;
             });
         });
