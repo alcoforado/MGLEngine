@@ -24,6 +24,22 @@ div {
     cursor: default;
 }
 
+.iphone-input
+{
+    border: 0px;
+    border-bottom: 1px solid #3a67e2;
+    // background-color: #464646;
+    padding: 2px 0px 0px 2px;
+}
+
+.comma-separator
+{
+    display:inline-block;
+    margin-bottom: -5px;
+    margin-left: -2px;
+    vertical-align:bottom;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -207,13 +223,17 @@ section {
 }
 
 
-.span-label {
+.col-label {
     display:inline-block;
-    width: 100px;
     text-align:left;
+
 }
 
-
+.col-value {
+    display:inline-block;
+    position:relative;
+    top:-3px;
+}
 
 .span-col2
 {
@@ -529,3 +549,4 @@ bootstrap
 
 
 @import "processing-animation.less";
+@import "vec2.less";

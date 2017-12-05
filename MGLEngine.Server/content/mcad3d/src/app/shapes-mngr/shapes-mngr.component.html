@@ -9,14 +9,14 @@
       <img src="/src/images/shapes.svg" />{{sh.TopologyTypeName}}
     </div>
     <div [ngSwitch]="sh.TopologyTypeName" class="form-body container">
-      <app-triangle2d *ngSwitchCase="'Triangle2D'"></app-triangle2d>
+      <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
 
       <div *ngSwitchDefault>
-        <div *ngFor="let member of sh.TopologyType.Members" class="form-input row">
-          <span class="span-label col">
+        <div *ngFor="let member of sh.TopologyType.Members" class="form-input row  {{sh.TopologyTypeName.toLowerCase()}}">
+          <span class="col-label">
             {{member.LabelName}}:
           </span>
-          <span class="col">
+          <span class="col-value">
             <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
           </span>
         </div>

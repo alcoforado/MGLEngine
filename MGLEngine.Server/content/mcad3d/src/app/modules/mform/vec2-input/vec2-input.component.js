@@ -10,16 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var mformmodel_1 = require("./../mformmodel");
+var forms_1 = require("@angular/forms");
 var Vec2InputComponent = (function () {
     function Vec2InputComponent() {
     }
     Vec2InputComponent.prototype.ngOnInit = function () {
+        this.formComponent.setAsGroupValue(new forms_1.FormGroup({ x: new forms_1.FormControl(0), y: new forms_1.FormControl(0) }));
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", mformmodel_1.MFormComponent)
+    ], Vec2InputComponent.prototype, "formComponent", void 0);
     Vec2InputComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'app-vec2-input',
             templateUrl: './vec2-input.component.html',
-            styleUrls: ['./vec2-input.component.css']
         }),
         __metadata("design:paramtypes", [])
     ], Vec2InputComponent);

@@ -5,8 +5,9 @@ import { HttpModule } from '@angular/http';
 import { NumberInputComponent } from './number-input/number-input.component';
 import { DynamicInputComponent } from './dynamic-input/dynamic-input.component'
 import { TextInputComponent } from './text-input/text-input.component';
-import { DropBoxComponent } from './drop-box/drop-box.componen;
-import { Vec2InputComponent } from './vec2-input/vec2-input.component't'
+import { DropBoxComponent } from './drop-box/drop-box.component';
+import { Vec2InputComponent } from './vec2-input/vec2-input.component'
+
 
 
 @NgModule({
@@ -14,8 +15,8 @@ import { Vec2InputComponent } from './vec2-input/vec2-input.component't'
     NumberInputComponent,
     TextInputComponent,
     DropBoxComponent,
-    DynamicInputCompone,
-    Vec2InputComponentnt
+    DynamicInputComponent,
+    Vec2InputComponent
   ],
   imports: [
     ReactiveFormsModule,

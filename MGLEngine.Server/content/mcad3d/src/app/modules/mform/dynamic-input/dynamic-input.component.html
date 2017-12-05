@@ -1,5 +1,6 @@
 <span [ngSwitch]="directiveType.toLowerCase()">
-  <app-number-input *ngSwitchCase="'int'"   [formComponent]="mformComponent"></app-number-input>
+  <app-number-input *ngSwitchCase="'int'" [formComponent]="mformComponent"></app-number-input>
   <app-number-input *ngSwitchCase="'float'" [formComponent]="mformComponent"></app-number-input>
-  <app-text-input *ngSwitchCase="'string'"  [formComponent]="mformComponent"></app-text-input>
+  <app-text-input *ngSwitchCase="'string'" [formComponent]="mformComponent"></app-text-input>
+  <app-vec2-input *ngSwitchCase="'vec2'" [formComponent]="mformComponent"></app-vec2-input>
 </span>

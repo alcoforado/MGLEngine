@@ -12,9 +12,8 @@ var forms_1 = require("@angular/forms");
 var number_input_component_1 = require("./number-input/number-input.component");
 var dynamic_input_component_1 = require("./dynamic-input/dynamic-input.component");
 var text_input_component_1 = require("./text-input/text-input.component");
-var drop_box_componen_1 = require("./drop-box/drop-box.componen;");
-t;
-';
+var drop_box_component_1 = require("./drop-box/drop-box.component");
+var vec2_input_component_1 = require("./vec2-input/vec2-input.component");
 var MFormModule = (function () {
     function MFormModule() {
     }
@@ -23,9 +22,9 @@ var MFormModule = (function () {
             declarations: [
                 number_input_component_1.NumberInputComponent,
                 text_input_component_1.TextInputComponent,
-                drop_box_componen_1.DropBoxComponent,
-                DynamicInputCompone,
-                Vec2InputComponentnt
+                drop_box_component_1.DropBoxComponent,
+                dynamic_input_component_1.DynamicInputComponent,
+                vec2_input_component_1.Vec2InputComponent
             ],
             imports: [
                 forms_1.ReactiveFormsModule,
@@ -34,7 +33,7 @@ var MFormModule = (function () {
             exports: [
                 number_input_component_1.NumberInputComponent,
                 text_input_component_1.TextInputComponent,
-                drop_box_componen_1.DropBoxComponent,
+                drop_box_component_1.DropBoxComponent,
                 dynamic_input_component_1.DynamicInputComponent
             ],
             providers: []
