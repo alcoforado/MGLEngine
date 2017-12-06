@@ -12,7 +12,7 @@
       <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
 
       <div *ngSwitchDefault>
-        <div *ngFor="let member of sh.TopologyType.Members" class="form-input row  {{sh.TopologyTypeName.toLowerCase()}}">
+        <div *ngFor="let member of sh.TopologyType.Members" class="form-input  {{sh.TopologyTypeName.toLowerCase()}}">
           <span class="col-label">
             {{member.LabelName}}:
           </span>
@@ -21,14 +21,22 @@
           </span>
         </div>
       </div>
+
+      <div class="link-button float-right margin-top-20" (click)="addRender(sh)">
+        <img src="/src/images/add.svg" /> Add Render</div>
     </div>
 
     <app-drop-box [items]="RenderTypes | async" fieldName="TypeLabel"></app-drop-box>
 
 
+
   </form>
 </div>
 
+
+<app-modal title="Choose a Render" [show]="showRenderDialog" (close)="showRenderDialog=false" showButtons="false">
+  Hello
+</app-modal>
 
 
 <div class="modal" [class.show]="showAddShapeDialog" tabindex="-1" role="dialog">

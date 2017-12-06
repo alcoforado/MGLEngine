@@ -1,0 +1,22 @@
+<div class="modal" [class.show]="show" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="triggerCloseEvent(false)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer" [hidden]="!_showButtons">
+        <button type="button" class="btn btn-default" (click)="triggerCloseEvent(false)">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="triggerCloseEvent(true)">Ok</button>
+      </div>
+      <div class="modal-footer" [hidden]="_showButtons"></div>
+
+
+    </div>
+  </div>
+</div>

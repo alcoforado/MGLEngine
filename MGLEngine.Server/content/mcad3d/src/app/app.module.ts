@@ -12,6 +12,7 @@ import { ListViewComponent } from './list-view/list-view.component'
 import { ProcessingAnimationComponent } from './processing-animation/processing-animation.component'
 import { RouterModule, Routes } from '@angular/router';
 import { Triangle2dComponent } from './shapes/triangle2d/triangle2d.component';
+import { ModalComponent } from './modal/modal.component';
 const appRoutes: Routes = [
     { path: 'shapes', component: ShapesMngrComponent },
     { path: 'src/index_system.html', component: ShapesMngrComponent },
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
         ShapesMngrComponent,
         ListViewComponent,
         ProcessingAnimationComponent,
-        Triangle2dComponent
+        Triangle2dComponent,
+        ModalComponent
     ],
     providers: [
         ShapesMngrService

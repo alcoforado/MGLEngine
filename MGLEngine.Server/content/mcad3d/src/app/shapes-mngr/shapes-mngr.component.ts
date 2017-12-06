@@ -30,6 +30,7 @@ export class ShapesMngrComponent implements OnInit {
     shapeForms: Array<MFormModel>;
     showAddShapeDialog: boolean = false;
     shapesListView: Array<ListViewItem> = [];
+    showRenderDialog: boolean = false;
     ngOnInit() {
         this.shapesMngrService.getTypesAsArray().subscribe(x => {
             this.ShapeTypes = x;
@@ -60,6 +61,17 @@ export class ShapesMngrComponent implements OnInit {
 
         this.showAddShapeDialog = true;
     }
+
+    addRenderSelected(sh: ShapeUI, $event: ListViewItem) {
+        sh.RenderType = this.RenderTypes[$event.itemId];
+        sh.RenderData = {};
+        this.showRenderDialog = false;
+    }
+
+    addRenderClicked() {
+        this.showRenderDialog = true;
+    }
+
 
     createShape($event: ListViewItem) {
         this.shapesMngrService.createShape($event.itemId)

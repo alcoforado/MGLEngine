@@ -27,6 +27,7 @@ var ShapesMngrComponent = (function () {
         this.shapes = [];
         this.showAddShapeDialog = false;
         this.shapesListView = [];
+        this.showRenderDialog = false;
     }
     ShapesMngrComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -52,6 +53,14 @@ var ShapesMngrComponent = (function () {
     };
     ShapesMngrComponent.prototype.enableAddShapeDialog = function () {
         this.showAddShapeDialog = true;
+    };
+    ShapesMngrComponent.prototype.addRenderSelected = function (sh, $event) {
+        sh.RenderType = this.RenderTypes[$event.itemId];
+        sh.RenderData = {};
+        this.showRenderDialog = false;
+    };
+    ShapesMngrComponent.prototype.addRenderClicked = function () {
+        this.showRenderDialog = true;
     };
     ShapesMngrComponent.prototype.createShape = function ($event) {
         var _this = this;
