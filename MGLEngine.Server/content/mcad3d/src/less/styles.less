@@ -53,11 +53,14 @@ div {
     color: @link-text-color;
     font-weight: bold;
     padding: 0px;
+    box-sizing: content-box;
     img {
         height:12px;
+        vertical-align: baseline;
     }
     &:hover {
-        border-bottom: 1px solid @link-text-color;
+       text-decoration:underline;
+       
     }
     cursor: pointer;
 }
