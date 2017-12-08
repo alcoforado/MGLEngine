@@ -27,7 +27,9 @@ var ShapesMngrComponent = (function () {
         this.shapes = [];
         this.showAddShapeDialog = false;
         this.shapesListView = [];
+        this.rendersListView = [];
         this.showRenderDialog = false;
+        this.selectedShape = null;
     }
     ShapesMngrComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -35,7 +37,7 @@ var ShapesMngrComponent = (function () {
             _this.ShapeTypes = x;
             _this.shapesListView = _this.ShapeTypes.map(function (sh) {
                 var result = new list_view_component_1.ListViewItem();
-                result.imageUrl = "/src/images/" + sh.TypeName + ".svg",
+                result.imageUrl = "images/" + sh.TypeName + ".svg",
                     result.itemLabel = sh.TypeName;
                 result.itemId = sh.TypeName;
                 return result;
@@ -47,6 +49,16 @@ var ShapesMngrComponent = (function () {
             window["shapeForms"] = _this.shapeForms;
         });
         this.RenderTypes = this.shapesMngrService.getRenderTypes();
+        this.RenderTypes.subscribe(function (x) {
+            var result = new list_view_component_1.ListViewItem();
+            _this.rendersListView = x.map(function (renderType, index) {
+                var result = new list_view_component_1.ListViewItem();
+                result.imageUrl = "images/" + renderType.TypeName + ".svg",
+                    result.itemLabel = renderType.TypeName;
+                result.index = index;
+                return result;
+            });
+        });
     };
     ShapesMngrComponent.prototype.disableAddShapeDialog = function () {
         this.showAddShapeDialog = false;
@@ -54,13 +66,17 @@ var ShapesMngrComponent = (function () {
     ShapesMngrComponent.prototype.enableAddShapeDialog = function () {
         this.showAddShapeDialog = true;
     };
-    ShapesMngrComponent.prototype.addRenderSelected = function (sh, $event) {
-        sh.RenderType = this.RenderTypes[$event.itemId];
+    ShapesMngrComponent.prototype.renderSelected = function ($event) {
+        if (this.selectedShape == null)
+            throw "Shave not selected to appy render";
+        var sh = this.selectedShape;
+        sh.RenderType = this.RenderTypes[$event.index];
         sh.RenderData = {};
         this.showRenderDialog = false;
     };
-    ShapesMngrComponent.prototype.addRenderClicked = function () {
+    ShapesMngrComponent.prototype.addRender = function (sh) {
         this.showRenderDialog = true;
+        this.selectedShape = sh;
     };
     ShapesMngrComponent.prototype.createShape = function ($event) {
         var _this = this;

@@ -9,6 +9,7 @@ module.exports = {
     files: ["./**/*.{html,htm,js,less}"],
     browser: "chrome",
     server: {
+        routes: { "/images": "src/images" },
         middleware: {
             1: apiProxy
         }

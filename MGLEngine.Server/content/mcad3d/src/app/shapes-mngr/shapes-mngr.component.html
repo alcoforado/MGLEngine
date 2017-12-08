@@ -1,12 +1,12 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
 <span class="round-button" (click)="enableAddShapeDialog()">
-  <img src="/src/images/add.svg" /> Add</span>
+  <img src="images/add.svg" /> Add</span>
 <div>
   <form *ngFor="let sh of shapes;let id=index" class="main-form" [formGroup]="shapeForms[id].getRoot()">
 
     <div class="form-header">
-      <img src="/src/images/shapes.svg" />{{sh.TopologyTypeName}}
+      <img src="images/shapes.svg" />{{sh.TopologyTypeName}}
     </div>
     <div [ngSwitch]="sh.TopologyTypeName" class="form-body container">
       <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
@@ -23,7 +23,7 @@
       </div>
 
       <div class="link-button float-right margin-top-20" (click)="addRender(sh)">
-        <img src="/src/images/add.svg" /> Add Render</div>
+        <img src="images/add.svg" /> Add Render</div>
     </div>
 
     <app-drop-box [items]="RenderTypes | async" fieldName="TypeLabel"></app-drop-box>
@@ -35,7 +35,7 @@
 
 
 <app-modal title="Choose a Render" [show]="showRenderDialog" (close)="showRenderDialog=false" showButtons="false">
-  Hello
+  <app-list-view [items]="rendersListView" [defaultImage]="'/images/shapes.svg'" (itemSelected)="renderSelected($event)"></app-list-view>
 </app-modal>
 
 

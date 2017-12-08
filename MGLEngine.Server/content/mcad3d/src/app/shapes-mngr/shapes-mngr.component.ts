@@ -30,14 +30,16 @@ export class ShapesMngrComponent implements OnInit {
     shapeForms: Array<MFormModel>;
     showAddShapeDialog: boolean = false;
     shapesListView: Array<ListViewItem> = [];
+    rendersListView: Array<ListViewItem> = [];
     showRenderDialog: boolean = false;
+    selectedShape: ShapeUI = null;
     ngOnInit() {
         this.shapesMngrService.getTypesAsArray().subscribe(x => {
             this.ShapeTypes = x;
             this.shapesListView = this.ShapeTypes.map(
                 (sh: UIType) => {
                     let result = new ListViewItem();
-                    result.imageUrl = `/src/images/${sh.TypeName}.svg`,
+                    result.imageUrl = `images/${sh.TypeName}.svg`,
                         result.itemLabel = sh.TypeName;
                     result.itemId = sh.TypeName;
                     return result;
@@ -49,6 +51,16 @@ export class ShapesMngrComponent implements OnInit {
             window["shapeForms"] = this.shapeForms;
         });
         this.RenderTypes = this.shapesMngrService.getRenderTypes();
+        this.RenderTypes.subscribe(x => {
+            let result = new ListViewItem();
+            this.rendersListView = x.map((renderType, index) => {
+                let result = new ListViewItem();
+                result.imageUrl = `images/${renderType.TypeName}.svg`,
+                    result.itemLabel = renderType.TypeName;
+                result.index = index;
+                return result;
+            })
+        })
     }
 
     constructor(private shapesMngrService: ShapesMngrService) { }
@@ -62,19 +74,23 @@ export class ShapesMngrComponent implements OnInit {
         this.showAddShapeDialog = true;
     }
 
-    addRenderSelected(sh: ShapeUI, $event: ListViewItem) {
-        sh.RenderType = this.RenderTypes[$event.itemId];
+    renderSelected($event: ListViewItem) {
+        if (this.selectedShape == null)
+            throw "Shave not selected to appy render";
+        var sh = this.selectedShape;
+        sh.RenderType = this.RenderTypes[$event.index];
         sh.RenderData = {};
         this.showRenderDialog = false;
     }
 
-    addRenderClicked() {
+    addRender(sh: ShapeUI) {
         this.showRenderDialog = true;
+        this.selectedShape = sh;
     }
 
 
     createShape($event: ListViewItem) {
-        this.shapesMngrService.createShape($event.itemId)
+        this.shapesMngrService.createShape(<string>$event.itemId)
             .subscribe(x => {
                 this.shapes.push(x)
                 this.shapeForms.push(new MFormModel(x.ShapeData));

@@ -1,0 +1,1 @@
+{"version":3,"file":"color-render2-d.component.js","sourceRoot":"","sources":["color-render2-d.component.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,sCAAkD;AAOlD;IAEE;IAAgB,CAAC;IAEjB,yCAAQ,GAAR;IACA,CAAC;IALU,sBAAsB;QALlC,gBAAS,CAAC;YACT,QAAQ,EAAE,qBAAqB;YAC/B,WAAW,EAAE,kCAAkC;YAC/C,SAAS,EAAE,CAAC,iCAAiC,CAAC;SAC/C,CAAC;;OACW,sBAAsB,CAOlC;IAAD,6BAAC;CAAA,AAPD,IAOC;AAPY,wDAAsB"}

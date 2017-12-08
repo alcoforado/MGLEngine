@@ -19,6 +19,7 @@ var processing_animation_component_1 = require("./processing-animation/processin
 var router_1 = require("@angular/router");
 var triangle2d_component_1 = require("./shapes/triangle2d/triangle2d.component");
 var modal_component_1 = require("./modal/modal.component");
+var color_render2d_component_1 = require("./renders/color-render2d/color-render2d.component");
 var appRoutes = [
     { path: 'shapes', component: shapes_mngr_component_1.ShapesMngrComponent },
     { path: 'src/index_system.html', component: shapes_mngr_component_1.ShapesMngrComponent },
@@ -42,7 +43,8 @@ var AppModule = (function () {
                 list_view_component_1.ListViewComponent,
                 processing_animation_component_1.ProcessingAnimationComponent,
                 triangle2d_component_1.Triangle2dComponent,
-                modal_component_1.ModalComponent
+                modal_component_1.ModalComponent,
+                color_render2d_component_1.ColorRender2DComponent
             ],
             providers: [
                 shapes_mngr_service_1.ShapesMngrService
