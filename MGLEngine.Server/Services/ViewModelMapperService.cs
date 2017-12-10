@@ -65,6 +65,12 @@ namespace MGLEngine.Server.Services
 
         public string MapTypeWithJavascriptRender(Type propertyType)
         {
+            
+            if (propertyType.Name == "List`1")
+            {
+                return $"List {MapTypeWithJavascriptRender(propertyType.GenericTypeArguments[0])}";
+            }
+
             if (typeMapping.ContainsKey(propertyType.FullName))
                 return typeMapping[propertyType.FullName];
             else

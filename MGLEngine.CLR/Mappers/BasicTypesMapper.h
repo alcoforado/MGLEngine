@@ -5,6 +5,7 @@
 #include <glm/detail/type_vec3.hpp>
 #include <vector>
 using namespace System::Collections::Generic;
+using namespace MGLEngine::Managed::Primitives;
 ref class BasicTypesMapper
 {
 public:
@@ -18,7 +19,11 @@ public:
 		return glm::vec3(o.x, o.y, o.z);
 	}
 	
-	
+	glm::vec3 Map(Color^ c)
+	{
+		return Map(c->toVec3());
+	}
+
 	template<class T,class O>
 	std::vector<O> MapList(List<T>^list)
 	{

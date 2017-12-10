@@ -31,8 +31,7 @@ var ColorInputComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'app-color-input',
-            templateUrl: './color-input.component.html',
-            styleUrls: ['./color-input.component.css']
+            templateUrl: './color-input.component.html'
         }),
         __metadata("design:paramtypes", [])
     ], ColorInputComponent);

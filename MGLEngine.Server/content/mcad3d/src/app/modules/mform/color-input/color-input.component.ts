@@ -5,8 +5,8 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms'
 @Component({
   moduleId: module.id,
   selector: 'app-color-input',
-  templateUrl: './color-input.component.html',
-  styleUrls: ['./color-input.component.css']
+  templateUrl: './color-input.component.html'
+
 })
 export class ColorInputComponent implements OnInit {
   @Input() formComponent: MFormComponent;

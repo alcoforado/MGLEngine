@@ -10,16 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var mformmodel_1 = require("../../modules/mform/mformmodel");
+var forms_1 = require("@angular/forms");
 var ColorRender2DComponent = (function () {
     function ColorRender2DComponent() {
     }
     ColorRender2DComponent.prototype.ngOnInit = function () {
+        this.mformComponent.setAsGroupValue(new forms_1.FormGroup({ colors: new forms_1.FormArray([]) }));
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", mformmodel_1.MFormComponent)
+    ], ColorRender2DComponent.prototype, "mformComponent", void 0);
     ColorRender2DComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'app-color-render2d',
-            templateUrl: './color-render2d.component.html',
-            styleUrls: ['./color-render2d.component.css']
+            templateUrl: './color-render2d.component.html'
         }),
         __metadata("design:paramtypes", [])
     ], ColorRender2DComponent);

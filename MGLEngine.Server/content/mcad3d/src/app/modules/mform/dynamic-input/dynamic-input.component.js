@@ -11,9 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var mformmodel_1 = require("../mformmodel");
+var forms_1 = require("@angular/forms");
 var DynamicInputComponent = (function () {
     function DynamicInputComponent() {
+        this.listType = null;
     }
+    DynamicInputComponent.prototype.ngOnInit = function () {
+        var dt = this.directiveType;
+        if (dt.startsWith("List ") && this.mformComponent) {
+            this.mformComponent.setAsArrayValue(new forms_1.FormArray([]));
+            this.listType = dt.replace("List ", "");
+        }
+    };
+    DynamicInputComponent.prototype.addFormComponent = function () {
+        this.mformComponent.appendFormComponent();
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", String)

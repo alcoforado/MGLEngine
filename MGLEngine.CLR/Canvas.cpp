@@ -16,7 +16,7 @@ namespace MGLEngineCLR {
 	void Canvas::Render(IMngTopology2D^ topology, CyclicColor2D^ render)
 	{
 		ITopology2D* pTop = _mapper->Map(topology);
-		auto colors = _mapper->MapList<GlmNet::vec3,glm::vec3>(render->Colors);
+		auto colors = _mapper->MapList<Color^,glm::vec3>(render->Colors);
 		auto pRender = new CyclicColor<Color2D>(colors);
 		_engine->Color2DShader()->Add(pTop, pRender);
 	}

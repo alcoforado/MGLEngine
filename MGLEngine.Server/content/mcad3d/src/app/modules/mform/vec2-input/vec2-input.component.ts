@@ -9,6 +9,7 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms'
 export class Vec2InputComponent implements OnInit {
   @Input() formComponent: MFormComponent;
 
+
   constructor() { }
 
   ngOnInit() {

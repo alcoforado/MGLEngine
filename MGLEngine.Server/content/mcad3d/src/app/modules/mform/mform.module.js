@@ -13,9 +13,8 @@ var number_input_component_1 = require("./number-input/number-input.component");
 var dynamic_input_component_1 = require("./dynamic-input/dynamic-input.component");
 var text_input_component_1 = require("./text-input/text-input.component");
 var drop_box_component_1 = require("./drop-box/drop-box.component");
-var vec2_array_componen_1 = require("./vec2-array/vec2-array.componen;");
-t;
-'t';
+var vec2_input_component_1 = require("./vec2-input/vec2-input.component");
+var color_input_component_1 = require("./color-input/color-input.component");
 var MFormModule = (function () {
     function MFormModule() {
     }
@@ -26,9 +25,8 @@ var MFormModule = (function () {
                 text_input_component_1.TextInputComponent,
                 drop_box_component_1.DropBoxComponent,
                 dynamic_input_component_1.DynamicInputComponent,
-                Vec2InputCompone,
-                vec2_array_componen_1.Vec2ArrayComponent,
-                ColorInputComponentnt
+                vec2_input_component_1.Vec2InputComponent,
+                color_input_component_1.ColorInputComponent
             ],
             imports: [
                 forms_1.ReactiveFormsModule,

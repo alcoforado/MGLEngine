@@ -1,26 +1,109 @@
-﻿import { FormGroup, FormControl, AbstractControl } from '@angular/forms'
+﻿import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms'
 
 //7274653768
 export class MFormComponent {
     Control: FormControl = null;
     Group: FormGroup = null;
-    constructor(public parent: MFormModel, public name: string) { }
+    Array: FormArray = null;
+    Model: any = null;
+    _formComponentCash: { [id: string]: MFormComponent } = {};
+    private _formComponents: Array<MFormComponent> = [];
+    constructor(public parent: MFormComponent, public field: string | number) { }
 
     setAsGroupValue(g: FormGroup) {
+
+        if (this.parent == null) {
+            throw "A root form is always a  group"
+        }
+
+        if (this.parent.Group == null && this.parent.Array == null) {
+            throw "Parent of a form group must be a group or array"
+        }
         if (this.Control != null)
             throw "FormComponent already set as a primitive type"
         if (this.Group != null)
             throw "MFormComponent already assigned as a group"
         this.Group = g;
-        if (this.parent.model != null && typeof (this.parent.model[this.name]) != "undefined") {
-            if (typeof (this.parent.model[this.name]) != "object")
-                throw `Incosisntency, the MFormModel field ${this.name} is not an object but it was assigned to a group mformcomponent`
-            this.Group.setValue(this.parent.model[this.name]);
+
+
+        if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
+            if (typeof (this.parent.Model[this.field]) != "object")
+                throw `Incosisntency, the MFormModel field ${this.field} is not an object but it was assigned to a group mformcomponent`
+            this.Group.setValue(this.parent.Model[this.field]);
+            this.Model = this.parent.Model[this.field]
         }
-        this.parent.getRoot().addControl(this.name, this.Group)
+        if (this.parent.Group != null)
+            this.parent.Group.addControl(<string>this.field, this.Group)
+        else if (this.parent.Array != null)
+            this.parent.Array.push(this.Group);
+
+
+    }
+    setAsArrayValue(a: FormArray = null) {
+
+        if (a == null)
+            a = new FormArray([]);
+
+        if (this.parent == null) {
+            throw "A form component array cannot be root"
+        }
+
+        if (this.parent.Group == null && this.parent.Array == null) {
+            throw "Parent of a array must be a group or array"
+        }
+        if (this.Control != null)
+            throw "FormComponent already set as a primitive type"
+        if (this.Group != null)
+            throw "MFormComponent is already group and cannot be set to an array"
+        this.Array = a;
+        if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
+            if (this.parent.Model[this.field].constructor !== Array)
+                throw `Incosisntency, the MFormModel field ${this.field} is not an array but it was assigned to an array mformcomponent`
+            this.Array.setValue(this.parent.Model[this.field]);
+            this.Model = this.parent.Model[this.field];
+        }
+        if (this.parent.Group != null)
+            this.parent.Group.addControl(<string>this.field, this.Array)
+        if (this.parent.Array != null)
+            this.parent.Array.setControl(<number>this.field, this.Array)
+    }
+
+    appendFormComponent() {
+        if (this.Array == null)
+            throw "appendFormComponent only work for FormComponents that are arrays"
+        //Allocate a new entry in the array and fill it with a FormGroup just as placeholder.            
+        let index = this.Array.length;
+        this.Array.push(new FormGroup({}));
+        this._formComponents.push(new MFormComponent(this, index));
+    }
+
+    getFormComponentsArray() {
+        if (this.Array == null)
+            throw "getFormComponentsArray can only be called for Array Components"
+        return this._formComponents;
+    }
+
+    getFormComponent(propertyName: string): MFormComponent {
+        if (this.Group == null) {
+            throw "Method getFormComponent(propertyName) can only be called from a group component"
+        }
+        if (typeof (this._formComponentCash[propertyName]) !== "undefined") {
+            return this._formComponentCash[propertyName];
+        }
+        this._formComponentCash[propertyName] = new MFormComponent(this, propertyName);
+        return this._formComponentCash[propertyName];
+    }
+
+    getFormComponentAsGroup(propertyName: string): MFormComponent {
+        var result = this.getFormComponent(propertyName);
+        result.setAsGroupValue(new FormGroup({}));
+        return result;
     }
 
     setAsPrimitiveValue(obj: any) {
+        if (this.parent == null)
+            throw "A form control with primitive value must have a parent "
+
         if (obj == null)
             throw "MFormComponent needs a non null object"
         var type = typeof (obj);
@@ -28,12 +111,15 @@ export class MFormComponent {
             case "string":
             case "number":
             case "boolean":
-                if (this.Group != null) {
-                    throw "The type of value passed to the method setValue does not match the one of preveous call"
+                if (this.Group != null || this.Array != null) {
+                    throw "Form Control is a group or array, cannot set it as primitive."
                 }
                 if (this.Control == null) {
                     this.Control = new FormControl();
-                    this.parent.getRoot().addControl(this.name, this.Control);
+                    if (this.parent.Group != null)
+                        this.parent.Group.addControl(<string>this.field, this.Control);
+                    else if (this.parent.Array != null)
+                        this.parent.Array.setControl(<number>this.field, this.Control);
                 }
                 //Set initial  value of the  control
                 var init = this.getInitialValue();
@@ -44,16 +130,14 @@ export class MFormComponent {
                 }
                 else
                     this.Control.setValue(obj);
-
-                this.Group = this.parent.getRoot();
                 return;
             default:
                 throw "Type is not primitive"
         }
     }
     getInitialValue(): any {
-        if (this.parent.model != null && typeof (this.parent.model[this.name]) != "undefined")
-            return this.parent.model[this.name];
+        if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined")
+            return this.parent.Model[this.field];
         else
             return null;
     }
@@ -82,27 +166,16 @@ export class UIType {
     constructor(
         public TypeName: string,
         public Members: Array<TypeMember>,
-        public TypeLabel: string
+        public TypeLabel: string,
+        public CssTypeName: string
     ) { }
 }
 
 
-export class MFormModel {
-
-    root: FormGroup;
-    _formComponentCash: { [id: string]: MFormComponent } = {};
-    constructor(public model: any, public type: UIType = null) {
-        this.root = new FormGroup({});
-    }
-    getRoot(): FormGroup { return this.root; }
-
-
-    getFormComponent(propertyName: string): MFormComponent {
-        if (typeof (this._formComponentCash[propertyName]) !== "undefined") {
-            return this._formComponentCash[propertyName];
-        }
-        this._formComponentCash[propertyName] = new MFormComponent(this, propertyName);
-        return this._formComponentCash[propertyName];
+export class MFormModel extends MFormComponent {
+    constructor(model: any) {
+        super(null, '');
+        this.Group = new FormGroup({});
     }
 }
 

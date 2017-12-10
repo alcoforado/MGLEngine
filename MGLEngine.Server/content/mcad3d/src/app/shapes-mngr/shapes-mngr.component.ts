@@ -23,7 +23,7 @@ class ShapeRender {
 export class ShapesMngrComponent implements OnInit {
 
     ShapeTypes: Array<UIType> = [];
-    RenderTypes: Observable<Array<UIType>> = null;
+    RenderTypes: Array<UIType> = null;
 
     shapes: Array<ShapeUI> = [];
 
@@ -50,8 +50,8 @@ export class ShapesMngrComponent implements OnInit {
             this.shapeForms = this.shapes.map(sh => new MFormModel(sh.ShapeData));
             window["shapeForms"] = this.shapeForms;
         });
-        this.RenderTypes = this.shapesMngrService.getRenderTypes();
-        this.RenderTypes.subscribe(x => {
+        this.shapesMngrService.getRenderTypes().subscribe(x => {
+            this.RenderTypes = x;
             let result = new ListViewItem();
             this.rendersListView = x.map((renderType, index) => {
                 let result = new ListViewItem();
@@ -77,8 +77,10 @@ export class ShapesMngrComponent implements OnInit {
     renderSelected($event: ListViewItem) {
         if (this.selectedShape == null)
             throw "Shave not selected to appy render";
+
         var sh = this.selectedShape;
         sh.RenderType = this.RenderTypes[$event.index];
+        sh.RenderTypeName = sh.RenderType.TypeName;
         sh.RenderData = {};
         this.showRenderDialog = false;
     }

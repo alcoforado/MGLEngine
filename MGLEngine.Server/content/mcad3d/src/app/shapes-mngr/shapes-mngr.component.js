@@ -48,8 +48,8 @@ var ShapesMngrComponent = (function () {
             _this.shapeForms = _this.shapes.map(function (sh) { return new mformmodel_1.MFormModel(sh.ShapeData); });
             window["shapeForms"] = _this.shapeForms;
         });
-        this.RenderTypes = this.shapesMngrService.getRenderTypes();
-        this.RenderTypes.subscribe(function (x) {
+        this.shapesMngrService.getRenderTypes().subscribe(function (x) {
+            _this.RenderTypes = x;
             var result = new list_view_component_1.ListViewItem();
             _this.rendersListView = x.map(function (renderType, index) {
                 var result = new list_view_component_1.ListViewItem();
@@ -71,6 +71,7 @@ var ShapesMngrComponent = (function () {
             throw "Shave not selected to appy render";
         var sh = this.selectedShape;
         sh.RenderType = this.RenderTypes[$event.index];
+        sh.RenderTypeName = sh.RenderType.TypeName;
         sh.RenderData = {};
         this.showRenderDialog = false;
     };

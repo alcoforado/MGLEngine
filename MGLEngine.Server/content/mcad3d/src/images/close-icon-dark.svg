@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2046"
+   sodipodi:docname="close-icon-dark.svg"
+   viewBox="0 0 180.7887 175.7887"
+   sodipodi:version="0.32"
+   version="1.0"
+   inkscape:version="0.91 r13725"
+   width="180.7887"
+   height="175.7887">
+  <defs
+     id="defs2048" />
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     guidetolerance="10"
+     pagecolor="#ffffff"
+     gridtolerance="10000"
+     inkscape:window-height="1017"
+     inkscape:zoom="1.4"
+     objecttolerance="10"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="301.44039"
+     inkscape:cy="46.442822"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-width="1920"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-96.033403,-376.97055)">
+    <ellipse
+       cy="464.8649"
+       cx="186.42775"
+       style="fill:#560000;fill-opacity:1;fill-rule:evenodd;stroke:#cb0000;stroke-width:6.89873981"
+       id="path2174"
+       rx="86.944977"
+       ry="84.444977" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 211.22325,508.1802 -24.57103,-23.86453 -24.79771,24.08468 -20.25297,-19.67062 24.7977,-24.09569 -24.57103,-23.86452 19.72029,-19.15326 24.57104,23.86452 24.87704,-24.16173 20.26431,19.68163 -24.88838,24.16173 24.57104,23.86453 -19.7203,19.15326"
+       style="opacity:0.73528999;fill:#ffffff"
+       sodipodi:nodetypes="ccccccccccccc"
+       id="text2705" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 211.08725,504.84489 -24.46904,-23.76546 -24.6617,23.95259 -16.88692,-16.41237 24.6617,-23.94157 -24.46903,-23.76546 16.44491,-15.97206 24.4577,23.76546 24.72971,-24.00763 16.88692,16.40136 -24.71837,24.00762 24.4577,23.76546 -16.43358,15.97206"
+       style="fill:#ffffff"
+       id="text2713" />
+  </g>
+  <metadata
+     id="metadata4152">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2006-09-07T17:35:55</dc:date>
+        <dc:description>a red round error or warning icon</dc:description>
+        <dc:source>https://openclipart.org/detail/109/red-round-error-warning-icon-by-molumen</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>molumen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>button</rdf:li>
+            <rdf:li>cancel</rdf:li>
+            <rdf:li>delete</rdf:li>
+            <rdf:li>error</rdf:li>
+            <rdf:li>glossy</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>negative</rdf:li>
+            <rdf:li>red</rdf:li>
+            <rdf:li>round</rdf:li>
+            <rdf:li>stop</rdf:li>
+            <rdf:li>warning</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
