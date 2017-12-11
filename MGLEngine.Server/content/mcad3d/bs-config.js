@@ -6,7 +6,7 @@ var apiProxy = proxy('/api', {
 });
 
 module.exports = {
-    files: ["./**/*.{html,htm,js,less}"],
+    files: ["./**/*.{html,htm,js,css}"],
     browser: "chrome",
     server: {
         routes: { "/images": "src/images" },

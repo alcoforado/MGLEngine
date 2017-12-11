@@ -11,7 +11,7 @@
     <div [ngSwitch]="sh.TopologyTypeName" class="form-body container">
       <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
 
-      <div *ngSwitchDefault>
+      <div *ngSwitchDefault class="shape-container">
         <div *ngFor="let member of sh.TopologyType.Members" class="form-input  {{sh.TopologyTypeName.toLowerCase()}}">
           <div class="row-{{member.FieldName.toLowerCase()}}">
             <span class="col-label">
@@ -25,15 +25,15 @@
       </div>
 
 
-      <div [ngSwitch]="sh.RenderTypeName" class="render-container">
-        <div *ngIf="sh.RenderTypeName !=''" class="render-title">
+      <div [ngSwitch]="sh.RenderTypeName" *ngIf="sh.RenderTypeName !=''" class="render-container">
+        <div class="centerfy padding-small font-big">
           Render: {{sh.RenderTypeName}}
         </div>
         <!-- <app-color-render2d *ngSwitchCase="'CyclicColor2D'" [mformComponent]="shapeForms[id].getFormComponent('RenderData')."></app-color-render2d> -->
         <div *ngSwitchCase="''"></div>
         <div *ngSwitchDefault>
           <div *ngFor="let member of sh.RenderType.Members" class="form-input  {{sh.RenderTypeName.toLowerCase()}}">
-            <div class="row-{{member.DirectiveType.toLowerCase().replace(' ','-')}} {{member.DirectiveType.toLowerCase().startsWith('list') ? 'row-list' : ''}} ">
+            <div class="row-render row-{{member.DirectiveType.toLowerCase().replace(' ','-')}} {{member.DirectiveType.toLowerCase().startsWith('list') ? 'row-list' : ''}} ">
               <span class="col-label">
                 {{member.LabelName}}:
               </span>
@@ -48,7 +48,7 @@
 
 
 
-      <div class="link-button float-right margin-top-20" (click)="addRender(sh)">
+      <div class="link-button float-right padding-right-20 margin-top-20" (click)="addRender(sh)">
         <img src="images/add.svg" /> {{sh.RenderTypeName == '' ? 'Add Render' : 'Change Render'}}</div>
     </div>
 

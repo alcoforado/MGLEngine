@@ -8,7 +8,7 @@ import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/for
 })
 export class DynamicInputComponent implements OnInit {
     @Input() directiveType: string;
-    @Input() mformComponent: MFormComponent;
+    @Input() mformComponent: MFormComponent = null;
     listType = null;
     ngOnInit() {
 
@@ -16,6 +16,11 @@ export class DynamicInputComponent implements OnInit {
         if (dt.startsWith("List ") && this.mformComponent) {
             this.mformComponent.setAsArrayValue(new FormArray([]));
             this.listType = dt.replace("List ", "");
+        }
+    }
+    removeComponentFromList(fc: MFormComponent) {
+        if (this.mformComponent != null) {
+            this.mformComponent.removeFormComponent(fc);
         }
     }
     addFormComponent() {

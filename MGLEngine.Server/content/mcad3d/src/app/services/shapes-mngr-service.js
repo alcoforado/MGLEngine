@@ -36,10 +36,24 @@ var ShapesMngrService = (function () {
         var body = res.json();
         return (body || {});
     };
+    ShapesMngrService.prototype.responseToArrayUIType = function (res) {
+        var body = res.json();
+        var types = (body || {});
+        return types.filter(function (x) {
+            x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
+            return x;
+        });
+    };
     ShapesMngrService.prototype.getRenderTypes = function () {
         if (this.RenderTypes == null) {
             this.RenderTypes = this.$http.get("/api/shapemngr/rendertypes")
-                .map(this.extractData);
+                .map(this.extractData)
+                .map(function (c) {
+                return c.filter(function (x) {
+                    x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
+                    return x;
+                });
+            });
         }
         return this.RenderTypes;
     };

@@ -14,6 +14,7 @@ var mformmodel_1 = require("../mformmodel");
 var forms_1 = require("@angular/forms");
 var DynamicInputComponent = (function () {
     function DynamicInputComponent() {
+        this.mformComponent = null;
         this.listType = null;
     }
     DynamicInputComponent.prototype.ngOnInit = function () {
@@ -21,6 +22,11 @@ var DynamicInputComponent = (function () {
         if (dt.startsWith("List ") && this.mformComponent) {
             this.mformComponent.setAsArrayValue(new forms_1.FormArray([]));
             this.listType = dt.replace("List ", "");
+        }
+    };
+    DynamicInputComponent.prototype.removeComponentFromList = function (fc) {
+        if (this.mformComponent != null) {
+            this.mformComponent.removeFormComponent(fc);
         }
     };
     DynamicInputComponent.prototype.addFormComponent = function () {

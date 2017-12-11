@@ -8,7 +8,18 @@ export class MFormComponent {
     Model: any = null;
     _formComponentCash: { [id: string]: MFormComponent } = {};
     private _formComponents: Array<MFormComponent> = [];
+
     constructor(public parent: MFormComponent, public field: string | number) { }
+
+    private getIndex(): number {
+
+        if (this.parent.Array == null) {
+            throw "Component parent is not an Array, getting a index does not make sense."
+        }
+        else {
+            return <number>this.field;
+        }
+    }
 
     setAsGroupValue(g: FormGroup) {
 
@@ -21,8 +32,11 @@ export class MFormComponent {
         }
         if (this.Control != null)
             throw "FormComponent already set as a primitive type"
-        if (this.Group != null)
+        if (this.Group != null) {
+            debugger;
             throw "MFormComponent already assigned as a group"
+
+        }
         this.Group = g;
 
 
@@ -66,6 +80,26 @@ export class MFormComponent {
             this.parent.Group.addControl(<string>this.field, this.Array)
         if (this.parent.Array != null)
             this.parent.Array.setControl(<number>this.field, this.Array)
+    }
+
+    removeFormComponent(fc: MFormComponent) {
+        if (fc.parent != this) {
+            return "removeFormComponent error, component to be removed is not a child"
+        }
+        if (this.Array == null) {
+            throw "removeFormComponent is only supported for Array";
+        }
+        if (this._formComponents.find(x => x == fc)) {
+            this._formComponents.splice(fc.getIndex(), 1);
+            this.Array.removeAt(fc.getIndex())
+            //Aling indices
+            this._formComponents.filter((fc, index) => {
+                fc.field = index;
+                return fc;
+            });
+        }
+
+
     }
 
     appendFormComponent() {

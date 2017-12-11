@@ -23,6 +23,14 @@ var MFormComponent = (function () {
         this._formComponentCash = {};
         this._formComponents = [];
     }
+    MFormComponent.prototype.getIndex = function () {
+        if (this.parent.Array == null) {
+            throw "Component parent is not an Array, getting a index does not make sense.";
+        }
+        else {
+            return this.field;
+        }
+    };
     MFormComponent.prototype.setAsGroupValue = function (g) {
         if (this.parent == null) {
             throw "A root form is always a  group";
@@ -32,8 +40,10 @@ var MFormComponent = (function () {
         }
         if (this.Control != null)
             throw "FormComponent already set as a primitive type";
-        if (this.Group != null)
+        if (this.Group != null) {
+            debugger;
             throw "MFormComponent already assigned as a group";
+        }
         this.Group = g;
         if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
             if (typeof (this.parent.Model[this.field]) != "object")
@@ -71,6 +81,23 @@ var MFormComponent = (function () {
             this.parent.Group.addControl(this.field, this.Array);
         if (this.parent.Array != null)
             this.parent.Array.setControl(this.field, this.Array);
+    };
+    MFormComponent.prototype.removeFormComponent = function (fc) {
+        if (fc.parent != this) {
+            return "removeFormComponent error, component to be removed is not a child";
+        }
+        if (this.Array == null) {
+            throw "removeFormComponent is only supported for Array";
+        }
+        if (this._formComponents.find(function (x) { return x == fc; })) {
+            this._formComponents.splice(fc.getIndex(), 1);
+            this.Array.removeAt(fc.getIndex());
+            //Aling indices
+            this._formComponents.filter(function (fc, index) {
+                fc.field = index;
+                return fc;
+            });
+        }
     };
     MFormComponent.prototype.appendFormComponent = function () {
         if (this.Array == null)

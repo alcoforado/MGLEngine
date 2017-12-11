@@ -1,15 +1,4 @@
-@background: #252830;
-@focus-input-background: #3c3c3e;
-@line-separator: #43574f;
-@panel-border-color: #434a57;
-@inner-panel-color:#2f3138;
-@panel-color: @background;
-@highlight-color: #D28900;
-@font-color: white;
-@font-size: 15px;
-@font-size-big: 22px;
-@highlight-line-color:  #1385e5;
-@link-text-color: #3a67e2;
+@import "colors.less";
 /* You can add global styles to this file, and also import other style files */
 html,body {
     height: 70%;
@@ -48,6 +37,9 @@ div {
 {
     margin-top:20px;
 }
+
+
+
 
 .link-button {
     display:inline-block;
@@ -123,6 +115,12 @@ input[type="color"] {
     
 }
 
+.centerfy {
+    margin: auto;
+    text-align: center;
+    width:100%;
+
+}
 
 .title-panel {
  
@@ -191,7 +189,7 @@ animation-duration: 0.5s;
 .form-body {
     border: 1px solid @panel-border-color;
     border-width: 1px 6px 6px 6px;
-    padding: 15px 27px 27px 27px;
+    padding: 15px 0px 15px 0px;
     width: 100%;
     color: white;
     border-bottom-left-radius: 27px;
@@ -578,6 +576,21 @@ bootstrap
     }
 }
 
+.padding-right-20 {
+    padding-right: 20px;
+}
+
+.padding-small {
+    padding: 20px 20px;
+}
+
+.font-huge {
+    font-size: 26px;
+}
+
+.font-big {
+    font-size:18px;
+}
 
 @import "processing-animation.less";
 @import "vec2.less";

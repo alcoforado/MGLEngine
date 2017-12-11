@@ -16,11 +16,18 @@ var ColorInputComponent = (function () {
     function ColorInputComponent() {
     }
     ColorInputComponent.prototype.ngOnInit = function () {
-        this.formComponent.setAsGroupValue(new forms_1.FormGroup({ x: new forms_1.FormControl(0), y: new forms_1.FormControl(0), z: new forms_1.FormControl(0) }));
+        var _this = this;
+        this.formComponent.setAsGroupValue(new forms_1.FormGroup({ R: new forms_1.FormControl(0), G: new forms_1.FormControl(0), B: new forms_1.FormControl(0) }));
         this.g = new forms_1.FormGroup({ value: new forms_1.FormControl() });
         this.g.valueChanges.subscribe(function (c) {
-            debugger;
             var str = c.value;
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(str);
+            var parsed = {
+                R: parseInt(result[1], 16) / 255.0,
+                G: parseInt(result[2], 16) / 255.0,
+                B: parseInt(result[3], 16) / 255.0
+            };
+            _this.formComponent.Group.setValue(parsed);
         });
     };
     __decorate([

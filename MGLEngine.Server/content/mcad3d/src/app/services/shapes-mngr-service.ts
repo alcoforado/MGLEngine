@@ -34,6 +34,15 @@ export class ShapesMngrService {
         return <T>(body || {});
     }
 
+    private responseToArrayUIType(res: Response): Array<UIType> {
+        let body = res.json();
+        let types = <Array<UIType>>(body || {});
+        return types.filter(x => {
+
+            x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
+            return x;
+        })
+    }
 
     constructor(private $http: Http) {
 
@@ -43,6 +52,12 @@ export class ShapesMngrService {
         if (this.RenderTypes == null) {
             this.RenderTypes = this.$http.get("/api/shapemngr/rendertypes")
                 .map<Response, Array<UIType>>(this.extractData)
+                .map(c => {
+                    return c.filter(x => {
+                        x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
+                        return x;
+                    })
+                })
 
         }
         return this.RenderTypes;
