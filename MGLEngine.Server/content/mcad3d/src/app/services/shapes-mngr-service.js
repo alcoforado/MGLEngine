@@ -12,8 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
 require("rxjs/Rx");
 var core_1 = require("@angular/core");
+var Result = (function () {
+    function Result() {
+    }
+    return Result;
+}());
+exports.Result = Result;
+var UpdateShapeUI = (function () {
+    function UpdateShapeUI() {
+    }
+    return UpdateShapeUI;
+}());
+exports.UpdateShapeUI = UpdateShapeUI;
 var ShapeUI = (function () {
-    function ShapeUI(Id, ShapeData, TopologyType, RenderData, RenderType, TopologyTypeName, RenderTypeName) {
+    function ShapeUI(Name, Id, ShapeData, TopologyType, RenderData, RenderType, TopologyTypeName, RenderTypeName) {
+        this.Name = Name;
         this.Id = Id;
         this.ShapeData = ShapeData;
         this.TopologyType = TopologyType;
@@ -107,6 +120,18 @@ var ShapesMngrService = (function () {
                 return sh;
             });
         });
+    };
+    ShapesMngrService.prototype.updateShape = function (sh) {
+        var obj = {
+            Id: sh.Id,
+            Name: sh.Name,
+            RenderType: sh.RenderType.TypeName,
+            RenderJsonData: JSON.stringify(sh.RenderData),
+            TopologyType: sh.TopologyType.TypeName,
+            TopologyJsonData: JSON.stringify(sh.ShapeData)
+        };
+        return this.$http.put("/api/shapemngr/shape", obj)
+            .map(this.extractData);
     };
     ShapesMngrService = __decorate([
         core_1.Injectable(),

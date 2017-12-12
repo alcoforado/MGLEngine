@@ -14,7 +14,8 @@ namespace MGL {
 		static bool isGLFWInitialized;
 		bool _resizeOcurred;
 		int _width;
-		int _height;		
+		int _height;
+		bool _isEasyRun;
 	public:
 		void OnResize(int width, int heiight);
 		Window();
@@ -26,7 +27,7 @@ namespace MGL {
 		virtual void SetSize(int width, int height) override;
 		virtual void EasyRun() override;
 		virtual void PsychoRun() override;
-		
+		virtual void Redraw() override;
 	};
 
 }

@@ -8,5 +8,6 @@ namespace MGLEngine.Managed.Topologies
 {
     public interface  IMngTopology2D
     {
+        void Validate();
     }
 }

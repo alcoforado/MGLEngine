@@ -94,7 +94,11 @@ var ShapesMngrComponent = (function () {
         this.selectedShape = sh;
     };
     ShapesMngrComponent.prototype.renderShape = function (shForm) {
-        console.log(shForm.form.Group.value);
+        var formData = shForm.form.Group.value;
+        shForm.shape.RenderData = formData.RenderData;
+        shForm.shape.ShapeData = formData.ShapeData;
+        debugger;
+        this.shapesMngrService.updateShape(shForm.shape).subscribe(function (c) { return console.log(c); });
     };
     ShapesMngrComponent.prototype.createShape = function ($event) {
         var _this = this;

@@ -25,6 +25,7 @@ MGL::Window::Window()
 	_width = 800;
 	_height = 640;
 	_window = NULL;
+	_isEasyRun = false;
 	if (!this->isGLFWInitialized)
 	{
 		int result = glfwInit();
@@ -90,6 +91,8 @@ void MGL::Window::SetSize(int width, int height)
 void MGL::Window::EasyRun()
 {
 	assert(_window);
+	_isEasyRun = true;
+
 	while (!glfwWindowShouldClose(_window))
 	{
 		glfwWaitEvents();
@@ -130,5 +133,10 @@ void MGL::Window::PsychoRun()
 		}
 	}
 	
+}
+
+void MGL::Window::Redraw()
+{
+	glfwPostEmptyEvent();
 }
 

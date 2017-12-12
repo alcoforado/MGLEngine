@@ -5,10 +5,24 @@ import { Injectable } from '@angular/core';
 import { TypeMember, UIType } from '../modules/mform/mformmodel'
 
 
+export class Result {
+    Ok: boolean;
+    Error: string;
+}
+
+export class UpdateShapeUI {
+    Id: string;
+    Name: string;
+    TopologyType: string;
+    TopologyJsonData: string;
+    RenderJsonData: string;
+    RenderType: string;
+}
 
 
 export class ShapeUI {
     constructor(
+        public Name: string,
         public Id: string,
         public ShapeData: any,
         public TopologyType: UIType,
@@ -115,6 +129,23 @@ export class ShapesMngrService {
                         return sh;
                     })
             });
+    }
+
+    updateShape(sh: ShapeUI): Observable<Result> {
+
+        var obj: UpdateShapeUI = {
+            Id: sh.Id,
+            Name: sh.Name,
+            RenderType: sh.RenderType.TypeName,
+            RenderJsonData: JSON.stringify(sh.RenderData),
+            TopologyType: sh.TopologyType.TypeName,
+            TopologyJsonData: JSON.stringify(sh.ShapeData)
+        }
+
+        return this.$http.put(`/api/shapemngr/shape`, obj)
+            .map<Response, Result>(this.extractData)
+
+
     }
 }
 

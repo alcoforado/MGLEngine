@@ -139,9 +139,9 @@ namespace MGLEngine.Server.Services
             var result = new ShapeUI();
             result.Topology = (Object) CreateTopology(topologyTypeId);
             result.Render = null;
-            result.Id = new Guid().ToString();
+            result.Id = Guid.NewGuid().ToString();
             result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
-            _shapeCollection.Add(result.Id.ToString(), result);
+            _shapeCollection.Add(result.Id, result);
             return result;
         }
 
@@ -166,7 +166,28 @@ namespace MGLEngine.Server.Services
 
         public void UpdateShape(string modelId, object topology, object render)
         {
-           
+            var render2d = render as IRender2D;
+            var render3d = render as IRender3D;
+            if (render2d != null)
+            {
+                IMngTopology2D top2D= topology as IMngTopology2D;
+                if (top2D == null)
+                    throw new Exception($"Shape of type {topology.GetType().Name} is not compatible to Render2D");
+
+                top2D.Validate();
+                render2d.Validate();
+
+                _w.GetCanvas().Render(top2D,render2d);
+
+            }
+            else if (render3d != null)
+            {
+
+            }
+            else
+            {
+                throw new Exception("Render object is not IRender2D nor IRender3D");
+            }
         }
     }
 }

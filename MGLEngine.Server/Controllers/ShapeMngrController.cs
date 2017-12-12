@@ -60,8 +60,9 @@ namespace TestApp.WebApi.Controllers
 
 
         
-        [HttpPost]
-        public void UpdateShape(UpdateShapeViewModel model)
+        [HttpPut]
+        [Route("api/shapemngr/shape")]
+        public void UpdateShape( [FromBody] UpdateShapeViewModel model)
         {
             var render = _mngrService.CreateRender(model.RenderType);
             var topology = _mngrService.CreateTopology(model.TopologyType);

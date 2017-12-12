@@ -111,7 +111,11 @@ export class ShapesMngrComponent implements OnInit {
     }
 
     renderShape(shForm: ShapeForm) {
-        console.log(shForm.form.Group.value);
+        var formData: ShapeUI = shForm.form.Group.value;
+        shForm.shape.RenderData = formData.RenderData;
+        shForm.shape.ShapeData = formData.ShapeData;
+        debugger;
+        this.shapesMngrService.updateShape(shForm.shape).subscribe(c => console.log(c));
     }
 
     createShape($event: ListViewItem) {

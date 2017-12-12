@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MGLEngine.Managed.Renders
 {
-    interface IRender3D
+    public interface IRender3D
     {
+        void Validate();
     }
 }
