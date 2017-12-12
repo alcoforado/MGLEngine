@@ -54,7 +54,7 @@ var MFormComponent = (function () {
         if (this.parent.Group != null)
             this.parent.Group.addControl(this.field, this.Group);
         else if (this.parent.Array != null)
-            this.parent.Array.push(this.Group);
+            this.parent.Array.setControl(this.field, this.Group);
     };
     MFormComponent.prototype.setAsArrayValue = function (a) {
         if (a === void 0) { a = null; }
@@ -124,7 +124,8 @@ var MFormComponent = (function () {
     };
     MFormComponent.prototype.getFormComponentAsGroup = function (propertyName) {
         var result = this.getFormComponent(propertyName);
-        result.setAsGroupValue(new forms_1.FormGroup({}));
+        if (result.Group == null)
+            result.setAsGroupValue(new forms_1.FormGroup({}));
         return result;
     };
     MFormComponent.prototype.setAsPrimitiveValue = function (obj) {

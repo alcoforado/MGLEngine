@@ -19,6 +19,19 @@ var ShapeRender = (function () {
     }
     return ShapeRender;
 }());
+var ShapeForm = (function () {
+    function ShapeForm(sh) {
+        this.shape = sh;
+        this.form = new mformmodel_1.MFormModel({});
+    }
+    ShapeForm.prototype.getTopologyForm = function () {
+        return this.form.getFormComponentAsGroup("ShapeData");
+    };
+    ShapeForm.prototype.getRenderForm = function () {
+        return this.form.getFormComponentAsGroup("RenderData");
+    };
+    return ShapeForm;
+}());
 var ShapesMngrComponent = (function () {
     function ShapesMngrComponent(shapesMngrService) {
         this.shapesMngrService = shapesMngrService;
@@ -45,8 +58,9 @@ var ShapesMngrComponent = (function () {
         });
         this.shapesMngrService.getShapes().subscribe(function (x) {
             _this.shapes = x || [];
-            _this.shapeForms = _this.shapes.map(function (sh) { return new mformmodel_1.MFormModel(sh.ShapeData); });
-            window["shapeForms"] = _this.shapeForms;
+            _this.shapeForms = _this.shapes.map(function (sh) {
+                return new ShapeForm(sh);
+            });
         });
         this.shapesMngrService.getRenderTypes().subscribe(function (x) {
             _this.RenderTypes = x;
@@ -69,7 +83,7 @@ var ShapesMngrComponent = (function () {
     ShapesMngrComponent.prototype.renderSelected = function ($event) {
         if (this.selectedShape == null)
             throw "Shave not selected to appy render";
-        var sh = this.selectedShape;
+        var sh = this.selectedShape.shape;
         sh.RenderType = this.RenderTypes[$event.index];
         sh.RenderTypeName = sh.RenderType.TypeName;
         sh.RenderData = {};
@@ -79,12 +93,15 @@ var ShapesMngrComponent = (function () {
         this.showRenderDialog = true;
         this.selectedShape = sh;
     };
+    ShapesMngrComponent.prototype.renderShape = function (shForm) {
+        console.log(shForm.form.Group.value);
+    };
     ShapesMngrComponent.prototype.createShape = function ($event) {
         var _this = this;
         this.shapesMngrService.createShape($event.itemId)
             .subscribe(function (x) {
             _this.shapes.push(x);
-            _this.shapeForms.push(new mformmodel_1.MFormModel(x.ShapeData));
+            _this.shapeForms.push(new ShapeForm(x));
         });
         this.disableAddShapeDialog();
     };

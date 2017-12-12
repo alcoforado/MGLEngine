@@ -1,62 +1,77 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
-<span class="round-button" (click)="enableAddShapeDialog()">
-  <img src="images/add.svg" /> Add</span>
 <div>
-  <form *ngFor="let sh of shapes;let id=index" class="main-form" [formGroup]="shapeForms[id].Group">
+  <span class="round-button" (click)="enableAddShapeDialog()">
+    <img src="images/add.svg" /> Add
+  </span>
+</div>
 
-    <div class="form-header">
-      <img src="images/shapes.svg" />{{sh.TopologyTypeName}}
+<form class="main-form" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
+
+  <div class="form-header">
+    <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
+  </div>
+  <div [ngSwitch]="sform.shape.TopologyTypeName" class="form-body container" [formGroup]="sform.getTopologyForm().Group">
+    <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
+
+    <div *ngSwitchDefault class="shape-container">
+      <div *ngFor="let member of sform.shape.TopologyType.Members" class="form-input  {{sform.shape.TopologyTypeName.toLowerCase()}}">
+        <div class="row-{{member.FieldName.toLowerCase()}}">
+          <span class="col-label">
+            {{member.LabelName}}:
+          </span>
+          <span class="col-value">
+            <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="sform.getTopologyForm().getFormComponent(member.FieldName)"></dynamic-input>
+          </span>
+        </div>
+      </div>
     </div>
-    <div [ngSwitch]="sh.TopologyTypeName" class="form-body container">
-      <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
 
-      <div *ngSwitchDefault class="shape-container">
-        <div *ngFor="let member of sh.TopologyType.Members" class="form-input  {{sh.TopologyTypeName.toLowerCase()}}">
-          <div class="row-{{member.FieldName.toLowerCase()}}">
+
+    <div [ngSwitch]="sform.shape.RenderTypeName" *ngIf="sform.shape.RenderTypeName !=''" class="render-container" [formGroup]="sform.getRenderForm().Group">
+      <div class="centerfy padding-small font-big">
+        Render: {{sform.shape.RenderTypeName}}
+      </div>
+      <!-- <app-color-render2d *ngSwitchCase="'CyclicColor2D'" [mformComponent]="shapeForms[id].getFormComponent('RenderData')."></app-color-render2d> -->
+      <div *ngSwitchCase="''"></div>
+      <div *ngSwitchDefault>
+        <div *ngFor="let member of sform.shape.RenderType.Members" class="form-input  {{sform.shape.RenderTypeName.toLowerCase()}}">
+          <div class="row-render row-{{member.DirectiveType.toLowerCase().replace(' ','-')}} {{member.DirectiveType.toLowerCase().startsWith('list') ? 'row-list' : ''}} ">
             <span class="col-label">
               {{member.LabelName}}:
             </span>
             <span class="col-value">
-              <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
+              <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="sform.getRenderForm().getFormComponent(member.FieldName)"></dynamic-input>
             </span>
           </div>
         </div>
       </div>
 
-
-      <div [ngSwitch]="sh.RenderTypeName" *ngIf="sh.RenderTypeName !=''" class="render-container">
-        <div class="centerfy padding-small font-big">
-          Render: {{sh.RenderTypeName}}
+      <div class="panel-button">
+        <div class="link-button" (click)="addRender(sform.shape)">
+          <img src="images/pencil.svg" /> Change Render
         </div>
-        <!-- <app-color-render2d *ngSwitchCase="'CyclicColor2D'" [mformComponent]="shapeForms[id].getFormComponent('RenderData')."></app-color-render2d> -->
-        <div *ngSwitchCase="''"></div>
-        <div *ngSwitchDefault>
-          <div *ngFor="let member of sh.RenderType.Members" class="form-input  {{sh.RenderTypeName.toLowerCase()}}">
-            <div class="row-render row-{{member.DirectiveType.toLowerCase().replace(' ','-')}} {{member.DirectiveType.toLowerCase().startsWith('list') ? 'row-list' : ''}} ">
-              <span class="col-label">
-                {{member.LabelName}}:
-              </span>
-              <span class="col-value">
-                <dynamic-input directiveType="{{member.DirectiveType}}" [mformComponent]="shapeForms[id].getFormComponent(member.FieldName)"></dynamic-input>
-              </span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-
-
-      <div class="link-button float-right padding-right-20 margin-top-20" (click)="addRender(sh)">
-        <img src="images/add.svg" /> {{sh.RenderTypeName == '' ? 'Add Render' : 'Change Render'}}</div>
     </div>
 
 
 
+    <div class="panel-button" *ngIf="sform.shape.RenderTypeName ==''">
+      <div class="link-button" (click)="addRender(sform)">
+        <img src="images/add.svg" />Add Render
+      </div>
+    </div>
 
-  </form>
-</div>
+
+    <div class="panel-button" *ngIf="sform.shape.RenderTypeName !=''">
+      <div class="btn btn-normal" (click)="renderShape(sform)">
+        Save
+      </div>
+    </div>
+  </div>
+</form>
+
 
 
 <app-modal title="Choose a Render" [show]="showRenderDialog" (close)="showRenderDialog=false" showButtons="false">

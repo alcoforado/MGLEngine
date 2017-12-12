@@ -49,7 +49,7 @@ export class MFormComponent {
         if (this.parent.Group != null)
             this.parent.Group.addControl(<string>this.field, this.Group)
         else if (this.parent.Array != null)
-            this.parent.Array.push(this.Group);
+            this.parent.Array.setControl(<number>this.field, this.Group);
 
 
     }
@@ -130,7 +130,8 @@ export class MFormComponent {
 
     getFormComponentAsGroup(propertyName: string): MFormComponent {
         var result = this.getFormComponent(propertyName);
-        result.setAsGroupValue(new FormGroup({}));
+        if (result.Group == null)
+            result.setAsGroupValue(new FormGroup({}));
         return result;
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShapeUI, ShapesMngrService } from '../services/shapes-mngr-service';
-import { MFormModel, UIType } from '../modules/mform/mformmodel';
+import { MFormModel, MFormComponent, UIType } from '../modules/mform/mformmodel';
 import { ListViewItem } from '../list-view/list-view.component';
 import { Observable } from 'rxjs/Observable'
 
@@ -14,6 +14,25 @@ class ShapeRender {
 
 }
 
+class ShapeForm {
+    shape: ShapeUI;
+    form: MFormModel;
+
+    constructor(sh: ShapeUI) {
+        this.shape = sh;
+        this.form = new MFormModel({});
+    }
+
+    getTopologyForm(): MFormComponent {
+        return this.form.getFormComponentAsGroup("ShapeData");
+    }
+
+    getRenderForm(): MFormComponent {
+        return this.form.getFormComponentAsGroup("RenderData");
+    }
+
+
+}
 
 @Component({
     moduleId: module.id.toString(),
@@ -27,12 +46,12 @@ export class ShapesMngrComponent implements OnInit {
 
     shapes: Array<ShapeUI> = [];
 
-    shapeForms: Array<MFormModel>;
+    shapeForms: Array<ShapeForm>;
     showAddShapeDialog: boolean = false;
     shapesListView: Array<ListViewItem> = [];
     rendersListView: Array<ListViewItem> = [];
     showRenderDialog: boolean = false;
-    selectedShape: ShapeUI = null;
+    selectedShape: ShapeForm = null;
     ngOnInit() {
         this.shapesMngrService.getTypesAsArray().subscribe(x => {
             this.ShapeTypes = x;
@@ -47,8 +66,9 @@ export class ShapesMngrComponent implements OnInit {
         });
         this.shapesMngrService.getShapes().subscribe(x => {
             this.shapes = x || [];
-            this.shapeForms = this.shapes.map(sh => new MFormModel(sh.ShapeData));
-            window["shapeForms"] = this.shapeForms;
+            this.shapeForms = this.shapes.map((sh) => {
+                return new ShapeForm(sh)
+            })
         });
         this.shapesMngrService.getRenderTypes().subscribe(x => {
             this.RenderTypes = x;
@@ -78,24 +98,27 @@ export class ShapesMngrComponent implements OnInit {
         if (this.selectedShape == null)
             throw "Shave not selected to appy render";
 
-        var sh = this.selectedShape;
+        var sh = this.selectedShape.shape;
         sh.RenderType = this.RenderTypes[$event.index];
         sh.RenderTypeName = sh.RenderType.TypeName;
         sh.RenderData = {};
         this.showRenderDialog = false;
     }
 
-    addRender(sh: ShapeUI) {
+    addRender(sh: ShapeForm) {
         this.showRenderDialog = true;
         this.selectedShape = sh;
     }
 
+    renderShape(shForm: ShapeForm) {
+        console.log(shForm.form.Group.value);
+    }
 
     createShape($event: ListViewItem) {
         this.shapesMngrService.createShape(<string>$event.itemId)
             .subscribe(x => {
                 this.shapes.push(x)
-                this.shapeForms.push(new MFormModel(x.ShapeData));
+                this.shapeForms.push(new ShapeForm(x))
             });
         this.disableAddShapeDialog();
     }

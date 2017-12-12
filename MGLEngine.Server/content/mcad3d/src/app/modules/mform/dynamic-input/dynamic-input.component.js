@@ -31,6 +31,7 @@ var DynamicInputComponent = (function () {
     };
     DynamicInputComponent.prototype.addFormComponent = function () {
         this.mformComponent.appendFormComponent();
+        console.log(this.mformComponent);
     };
     __decorate([
         core_1.Input(),

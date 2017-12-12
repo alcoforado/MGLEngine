@@ -25,6 +25,7 @@ export class DynamicInputComponent implements OnInit {
     }
     addFormComponent() {
         this.mformComponent.appendFormComponent();
+        console.log(this.mformComponent)
     }
 }
 
