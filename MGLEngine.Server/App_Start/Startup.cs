@@ -5,7 +5,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using MGLEngine.Server;
+using MGLEngine.Server.App_Start;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Practices.Unity;
@@ -37,6 +39,9 @@ namespace TestApp.App_Config
 
             config.DependencyResolver = new UnityDependencyResolver(Container);
             appBuilder.UseWebApi(config);
+
+            //error handler
+            config.Services.Replace(typeof(IExceptionHandler), new GlobalErrorHandler());
 
 
             var fileSystem = new PhysicalFileSystem("../../../content");
