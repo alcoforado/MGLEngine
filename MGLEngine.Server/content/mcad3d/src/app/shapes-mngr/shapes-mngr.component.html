@@ -12,8 +12,16 @@
     <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
   </div>
   <div [ngSwitch]="sform.shape.TopologyTypeName" class="form-body container" [formGroup]="sform.getTopologyForm().Group">
-    <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
 
+    <!-- Error Message -->
+    <div class="error-panel" *ngIf="sform.errorMessages.length>0">
+      <ul class="error-list" *ngFor="let error of sform.errorMessages">
+        <li>{{error}} </li>
+      </ul>
+    </div>
+
+
+    <app-triangle2d *ngSwitchCase="'Tfsriangle2D'"></app-triangle2d>
     <div *ngSwitchDefault class="shape-container">
       <div *ngFor="let member of sform.shape.TopologyType.Members" class="form-input  {{sform.shape.TopologyTypeName.toLowerCase()}}">
         <div class="row-{{member.FieldName.toLowerCase()}}">

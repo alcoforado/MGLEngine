@@ -1,4 +1,5 @@
 @import "colors.less";
+@import "mixins.less";
 /* You can add global styles to this file, and also import other style files */
 html,body {
     height: 70%;
@@ -609,6 +610,26 @@ bootstrap
         transform: scale(0.9);
     }
 }
+
+.error-panel ul 
+{
+    list-style: none;
+    padding-left: 0px;
+}
+.error-panel li
+{
+    border-radius:5px;
+    padding:10px;
+    background: @error-background-color;
+}
+
+
+.error-panel
+{
+    .margin-left-right-small;
+}
+
+
 
 
 @import "processing-animation.less";

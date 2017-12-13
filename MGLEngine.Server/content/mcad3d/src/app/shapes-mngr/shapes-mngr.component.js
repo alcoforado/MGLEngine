@@ -21,8 +21,10 @@ var ShapeRender = (function () {
 }());
 var ShapeForm = (function () {
     function ShapeForm(sh) {
+        this.errorMessages = [];
         this.shape = sh;
         this.form = new mformmodel_1.MFormModel({});
+        this.errorMessages = ["hello1", "hello2"];
     }
     ShapeForm.prototype.getTopologyForm = function () {
         return this.form.getFormComponentAsGroup("ShapeData");
@@ -38,6 +40,7 @@ var ShapesMngrComponent = (function () {
         this.ShapeTypes = [];
         this.RenderTypes = null;
         this.shapes = [];
+        this.errorMessages = [];
         this.showAddShapeDialog = false;
         this.shapesListView = [];
         this.rendersListView = [];
@@ -97,8 +100,12 @@ var ShapesMngrComponent = (function () {
         var formData = shForm.form.Group.value;
         shForm.shape.RenderData = formData.RenderData;
         shForm.shape.ShapeData = formData.ShapeData;
-        debugger;
-        this.shapesMngrService.updateShape(shForm.shape).subscribe(function (c) { return console.log(c); });
+        shForm.errorMessages = [];
+        var that = this;
+        this.shapesMngrService.updateShape(shForm.shape).subscribe(function (c) { }, function (errors) {
+            debugger;
+            shForm.errorMessages = errors.Errors;
+        });
     };
     ShapesMngrComponent.prototype.createShape = function ($event) {
         var _this = this;

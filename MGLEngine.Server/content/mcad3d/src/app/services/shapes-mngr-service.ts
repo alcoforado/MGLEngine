@@ -5,9 +5,8 @@ import { Injectable } from '@angular/core';
 import { TypeMember, UIType } from '../modules/mform/mformmodel'
 
 
-export class Result {
-    Ok: boolean;
-    Error: string;
+export class ErrorResult {
+    Errors: Array<string>;
 }
 
 export class UpdateShapeUI {
@@ -131,7 +130,7 @@ export class ShapesMngrService {
             });
     }
 
-    updateShape(sh: ShapeUI): Observable<Result> {
+    updateShape(sh: ShapeUI): Observable<{} | Response> {
 
         var obj: UpdateShapeUI = {
             Id: sh.Id,
@@ -143,7 +142,9 @@ export class ShapesMngrService {
         }
 
         return this.$http.put(`/api/shapemngr/shape`, obj)
-            .map<Response, Result>(this.extractData)
+            .catch((r: any) => {
+                return Observable.throw(this.extractData<ErrorResult>(r))
+            });
 
 
     }

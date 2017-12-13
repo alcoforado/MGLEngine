@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShapeUI, ShapesMngrService } from '../services/shapes-mngr-service';
+import { ShapeUI, ShapesMngrService, ErrorResult } from '../services/shapes-mngr-service';
 import { MFormModel, MFormComponent, UIType } from '../modules/mform/mformmodel';
 import { ListViewItem } from '../list-view/list-view.component';
 import { Observable } from 'rxjs/Observable'
@@ -17,10 +17,11 @@ class ShapeRender {
 class ShapeForm {
     shape: ShapeUI;
     form: MFormModel;
-
+    errorMessages = [];
     constructor(sh: ShapeUI) {
         this.shape = sh;
         this.form = new MFormModel({});
+        this.errorMessages = ["hello1", "hello2"];
     }
 
     getTopologyForm(): MFormComponent {
@@ -45,7 +46,7 @@ export class ShapesMngrComponent implements OnInit {
     RenderTypes: Array<UIType> = null;
 
     shapes: Array<ShapeUI> = [];
-
+    errorMessages: Array<string> = [];
     shapeForms: Array<ShapeForm>;
     showAddShapeDialog: boolean = false;
     shapesListView: Array<ListViewItem> = [];
@@ -114,8 +115,12 @@ export class ShapesMngrComponent implements OnInit {
         var formData: ShapeUI = shForm.form.Group.value;
         shForm.shape.RenderData = formData.RenderData;
         shForm.shape.ShapeData = formData.ShapeData;
-        debugger;
-        this.shapesMngrService.updateShape(shForm.shape).subscribe(c => console.log(c));
+        shForm.errorMessages = [];
+        var that = this;
+        this.shapesMngrService.updateShape(shForm.shape).subscribe(c => { }, (errors: ErrorResult) => {
+            debugger;
+            shForm.errorMessages = errors.Errors;
+        });
     }
 
     createShape($event: ListViewItem) {
