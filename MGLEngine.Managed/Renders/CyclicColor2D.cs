@@ -17,10 +17,10 @@ namespace MGLEngine.Managed.Renders
             Colors = new List<Color>();
         }
 
-        public void Validate()
+        public void Validate(List<string> errors)
         {
             if (Colors == null || Colors.Count==0)
-            throw new Exception("Empty Color list supplied");
+                errors.Add("Color list is empty");
         }
     }
 }

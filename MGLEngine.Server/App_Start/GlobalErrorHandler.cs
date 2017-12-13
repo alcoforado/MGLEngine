@@ -20,7 +20,7 @@ namespace MGLEngine.Server.App_Start
 
     class GlobalErrorHandler : ExceptionHandler
     {
-        public override void Handle(ExceptionHandlerContext context)
+        public override void HandleCore(ExceptionHandlerContext context)
         {
             
             var errorResult = new ErrorResult();
@@ -48,8 +48,14 @@ namespace MGLEngine.Server.App_Start
                 new JsonMediaTypeFormatter(), 
                 new MediaTypeHeaderValue("application/json"),
                 context.Request);
-            base.Handle(context);
+            //base.Handle(context);
         }
+/*
+        public override bool ShouldHandle(ExceptionHandlerContext context)
+        {
+            return true;
+        }
+        */
 
     }
 }

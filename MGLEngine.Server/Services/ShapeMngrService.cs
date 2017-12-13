@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MGLEngine.Managed.Renders;
 using MGLEngine.Managed.Topologies;
+using MGLEngine.Server.App_Start;
 using MGLEngine.Server.Services.Interfaces;
 using MGLEngine.Server.Services.Models;
 using MGLEngineCLR;
@@ -173,9 +174,14 @@ namespace MGLEngine.Server.Services
                 IMngTopology2D top2D= topology as IMngTopology2D;
                 if (top2D == null)
                     throw new Exception($"Shape of type {topology.GetType().Name} is not compatible to Render2D");
+                List<string> errors = new List<string>();
+                top2D.Validate(errors);
+                render2d.Validate(errors);
+                if (errors.Any())
+                {
+                    throw new UserException(errors);
+                }
 
-                top2D.Validate();
-                render2d.Validate();
 
                 _w.GetCanvas().Render(top2D,render2d);
 

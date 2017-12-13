@@ -8,6 +8,6 @@ namespace MGLEngine.Managed.Renders
 {
     public interface IRender2D
     {
-        void Validate();
+        void Validate(List<string> errors);
     }
 }

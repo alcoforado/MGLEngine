@@ -10,9 +10,14 @@ namespace MGLEngine.Server.App_Start
     {
         public List<string> Errors { get; private set; }
 
-        UserException()
+        public UserException()
         {
             Errors = new List<string>();
+        }
+
+        public UserException(List<string> errors)
+        {
+            Errors = errors;
         }
 
         UserException AddError(string error)

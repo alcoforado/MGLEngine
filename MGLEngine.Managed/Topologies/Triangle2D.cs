@@ -13,8 +13,9 @@ namespace MGLEngine.Managed.Topologies
         public vec2 P2 { get; set; }
         public vec2 P3 { get; set; }
 
-        public void Validate()
+        public void Validate(List<string> errors)
         {
+            return;
         }
     }
 }
