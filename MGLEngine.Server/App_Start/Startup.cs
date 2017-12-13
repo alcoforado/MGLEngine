@@ -38,10 +38,13 @@ namespace TestApp.App_Config
             UnityConfig.Config(Container);
 
             config.DependencyResolver = new UnityDependencyResolver(Container);
-            appBuilder.UseWebApi(config);
 
             //error handler
             config.Services.Replace(typeof(IExceptionHandler), new GlobalErrorHandler());
+
+            appBuilder.UseWebApi(config);
+
+           
 
 
             var fileSystem = new PhysicalFileSystem("../../../content");

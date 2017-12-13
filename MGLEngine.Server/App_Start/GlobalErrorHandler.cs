@@ -18,9 +18,9 @@ namespace MGLEngine.Server.App_Start
         public List<string> Errors = new List<string>();
     }
 
-    class GlobalErrorHandler : ExceptionHandler
+    public class GlobalErrorHandler : ExceptionHandler
     {
-        public override void HandleCore(ExceptionHandlerContext context)
+        public override void Handle(ExceptionHandlerContext context)
         {
             
             var errorResult = new ErrorResult();
@@ -50,12 +50,6 @@ namespace MGLEngine.Server.App_Start
                 context.Request);
             //base.Handle(context);
         }
-/*
-        public override bool ShouldHandle(ExceptionHandlerContext context)
-        {
-            return true;
-        }
-        */
 
     }
 }
