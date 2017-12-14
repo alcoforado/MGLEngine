@@ -613,14 +613,19 @@ bootstrap
 
 .error-panel ul 
 {
-    list-style: none;
+    
     padding-left: 0px;
+    list-style-position: inside;
+    
 }
 .error-panel li
 {
+    background: @error-background-color;
     border-radius:5px;
     padding:10px;
-    background: @error-background-color;
+    border-radius: 10px;
+    margin-bottom:5px;
+    list-style-image: url('/images/list-error-icon.svg');
 }
 
 

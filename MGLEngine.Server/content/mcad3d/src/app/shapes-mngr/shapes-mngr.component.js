@@ -24,7 +24,7 @@ var ShapeForm = (function () {
         this.errorMessages = [];
         this.shape = sh;
         this.form = new mformmodel_1.MFormModel({});
-        this.errorMessages = ["hello1", "hello2"];
+        this.errorMessages = [];
     }
     ShapeForm.prototype.getTopologyForm = function () {
         return this.form.getFormComponentAsGroup("ShapeData");

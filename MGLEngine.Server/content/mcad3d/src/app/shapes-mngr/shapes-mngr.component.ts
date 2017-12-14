@@ -21,7 +21,7 @@ class ShapeForm {
     constructor(sh: ShapeUI) {
         this.shape = sh;
         this.form = new MFormModel({});
-        this.errorMessages = ["hello1", "hello2"];
+        this.errorMessages = [];
     }
 
     getTopologyForm(): MFormComponent {

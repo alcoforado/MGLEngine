@@ -15,8 +15,8 @@
 
     <!-- Error Message -->
     <div class="error-panel" *ngIf="sform.errorMessages.length>0">
-      <ul class="error-list" *ngFor="let error of sform.errorMessages">
-        <li>{{error}} </li>
+      <ul class="error-list">
+        <li *ngFor="let error of sform.errorMessages">{{error}}</li>
       </ul>
     </div>
 
