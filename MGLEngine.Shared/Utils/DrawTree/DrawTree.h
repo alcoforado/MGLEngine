@@ -6,12 +6,23 @@
 #include "../DefragArray/DefragArray.h"
 #include <MGLEngine.Shared/Shaders/IShader.h>
 
+
+	class IShapeHhandle
+	{
+	public:
+		virtual void Delete() = 0;
+	};
+
+
 template<class VerticeData>
 class DrawTree : public  IShader<VerticeData>
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
-	
-	class ShapeHandle
+;
+
+private:
+
+	class ShapeHandle : public IShapeHandle
 	{
 		NTreeNode<DrawInfo<VerticeData>> *_node;
 	public:
@@ -23,7 +34,7 @@ class DrawTree : public  IShader<VerticeData>
 			_node = node;
 		}
 
-		virtual void Delete()
+		virtual void Delete() override
 		{
 			if (_node == nullptr)
 			{
@@ -40,11 +51,7 @@ class DrawTree : public  IShader<VerticeData>
 
 public:
 	 
-	class IShapeHhandle
-	{
-	public:
-		virtual void Delete() = 0;
-	};
+	
 
 
 
@@ -277,7 +284,7 @@ public:
 
 
 
-	virtual IShapeHandle Add(ITopology2D *topology,IRender<VerticeData> *render) override 
+	virtual void Add(ITopology2D *topology,IRender<VerticeData> *render) override 
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
