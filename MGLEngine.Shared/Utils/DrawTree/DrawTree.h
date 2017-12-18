@@ -11,9 +11,42 @@ class DrawTree : public  IShader<VerticeData>
 {
 	NTreeNode<DrawInfo<VerticeData>> _root;
 	
-	
+	class ShapeHandle
+	{
+		NTreeNode<DrawInfo<VerticeData>> *_node;
+	public:
+
+		ShapeHandle(NTreeNode<DrawInfo<VerticeData>> *node)
+		{
+			assert(node);
+			assert(_node->GetData().IsShape());
+			_node = node;
+		}
+
+		virtual void Delete()
+		{
+			if (_node == nullptr)
+			{
+				throw new Exception("Shape Handle was already deleted");
+			}
+			_node->CutSubTree();
+			delete _node;
+			_node = nullptr;
+		}
+
+
+	};
+
 
 public:
+	 
+	class IShapeHhandle
+	{
+	public:
+		virtual void Delete() = 0;
+	};
+
+
 
 	typedef VerticeData VerticeType;
 
@@ -244,7 +277,7 @@ public:
 
 
 
-	virtual void Add(ITopology2D *topology,IRender<VerticeData> *render) override 
+	virtual IShapeHandle Add(ITopology2D *topology,IRender<VerticeData> *render) override 
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
@@ -253,6 +286,8 @@ public:
 		node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
 			pNode->GetData().NeedRedraw = true;
 		});
+
+
 	}
 
 	~DrawTree(){}
