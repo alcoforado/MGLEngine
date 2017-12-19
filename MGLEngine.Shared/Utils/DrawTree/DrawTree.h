@@ -7,12 +7,7 @@
 #include <MGLEngine.Shared/Shaders/IShader.h>
 
 
-	class IShapeHhandle
-	{
-	public:
-		virtual void Delete() = 0;
-	};
-
+	
 
 template<class VerticeData>
 class DrawTree : public  IShader<VerticeData>
@@ -284,7 +279,7 @@ public:
 
 
 
-	virtual void Add(ITopology2D *topology,IRender<VerticeData> *render) override 
+	virtual IShapeHandle* Add(ITopology2D *topology,IRender<VerticeData> *render) override 
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
@@ -293,7 +288,7 @@ public:
 		node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
 			pNode->GetData().NeedRedraw = true;
 		});
-
+		return new ShapeHandle(node);
 
 	}
 

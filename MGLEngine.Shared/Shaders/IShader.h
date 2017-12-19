@@ -1,11 +1,19 @@
 #pragma once
 #include <MGLEngine.Shared/Shapes/IRender.h>
 #include <MGLEngine.Shared/Shapes/ITopology2D.h>
+
+class IShapeHandle
+{
+public:
+	virtual void Delete() = 0;
+};
+
+
 template<class VerticeData>
 class IShader
 {
 public:
 	virtual ~IShader(){}
-	virtual void Add(ITopology2D *topology, IRender<VerticeData> *render) = 0;
+	virtual IShapeHandle* Add(ITopology2D *topology, IRender<VerticeData> *render) = 0;
 };
 

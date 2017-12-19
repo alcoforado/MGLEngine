@@ -29,7 +29,7 @@
 
 		bool IsRoot()
 		{
-			return _parent == null;
+			return _parent == nullptr;
 		}
 
 		void AppendChild(NTreeNode<Data> *child)
