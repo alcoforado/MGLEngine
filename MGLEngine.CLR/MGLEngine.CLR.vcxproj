@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Mappers\BasicTypesMapper.h" />
+    <ClInclude Include="ShapeHandle.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShapeManager.h" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="ShapeHandle.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">

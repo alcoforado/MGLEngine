@@ -13,12 +13,14 @@ namespace MGLEngineCLR {
 		_engine = engine;
 	}
 
-	void Canvas::Render(IMngTopology2D^ topology, CyclicColor2D^ render)
+	ShapeHandle^ Canvas::Render(IMngTopology2D^ topology, CyclicColor2D^ render)
 	{
 		ITopology2D* pTop = _mapper->Map(topology);
 		auto colors = _mapper->MapList<Color^,glm::vec3>(render->Colors);
 		auto pRender = new CyclicColor<Color2D>(colors);
-		_engine->Color2DShader()->Add(pTop, pRender);
+		auto result = _engine->Color2DShader()->Add(pTop, pRender);
+		return gcnew ShapeHandle(result);
+	
 	}
 
 	Dictionary<String^, MethodInfo^>^ Canvas::GetReflectionDictionary()
@@ -41,7 +43,7 @@ namespace MGLEngineCLR {
 		return this->dictionary;
 	}
 
-	void Canvas::Render(IMngTopology2D^ topology, IRender2D^ render)
+	 ShapeHandle^ Canvas::Render(IMngTopology2D^ topology, IRender2D^ render)
 	{
 		auto dictionary = GetReflectionDictionary();
 		if (!dictionary->ContainsKey(render->GetType()->Name))
@@ -50,7 +52,8 @@ namespace MGLEngineCLR {
 		}
 		array<Object^> ^parameters = { topology,render};
 		auto f = dictionary->default[render->GetType()->Name];
-		f->Invoke(this, parameters);
+		auto result = f->Invoke(this, parameters);
+		return dynamic_cast<ShapeHandle^>(result);
 	}
 
 	

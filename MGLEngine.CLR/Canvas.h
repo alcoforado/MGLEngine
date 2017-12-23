@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ShapeHandle.h"
 
 using namespace MGLEngine::Managed::Renders;
 using namespace MGLEngine::Managed::Topologies;
@@ -20,8 +20,8 @@ namespace MGLEngineCLR {
 		Canvas(IMGLEngine *_engine);
 	
 	public:
-		void Render(IMngTopology2D^ topology, CyclicColor2D^ render);
-		void Render(IMngTopology2D^ topology, IRender2D^ render);
+		ShapeHandle^ Render(IMngTopology2D^ topology, CyclicColor2D^ render);
+		ShapeHandle^ Render(IMngTopology2D^ topology, IRender2D^ render);
 	};
 
 }
