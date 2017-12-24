@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MGLEngineCLR;
 
 namespace MGLEngine.Server.Services.Models
 {
@@ -12,6 +13,7 @@ namespace MGLEngine.Server.Services.Models
         public string Name { get; set; }
         public Object Topology { get; set; }
         public Object Render { get; set; }
+        public ShapeHandle Handle { get; set; }
 
         public bool IsDrawn()
         {

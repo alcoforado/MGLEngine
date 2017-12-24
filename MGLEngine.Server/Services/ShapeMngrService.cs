@@ -181,10 +181,12 @@ namespace MGLEngine.Server.Services
                 {
                     throw new UserException(errors);
                 }
-
-
-                _w.GetCanvas().Render(top2D,render2d);
-
+                ShapeUI shape = GetShapeUI(modelId);
+                if (shape.Handle != null)
+                    shape.Handle.Delete();
+                shape.Handle=_w.GetCanvas().Render(top2D,render2d);
+                shape.Render = render2d;
+                shape.Topology = top2D;
             }
             else if (render3d != null)
             {
@@ -194,6 +196,15 @@ namespace MGLEngine.Server.Services
             {
                 throw new Exception("Render object is not IRender2D nor IRender3D");
             }
+        }
+
+        private ShapeUI GetShapeUI(string modelId)
+        {
+            if (!_shapeCollection.ContainsKey(modelId))
+            {
+                throw new Exception($"Shape {modelId} not found, make sure the shape is created  first");
+            }
+            return _shapeCollection[modelId];
         }
     }
 }
