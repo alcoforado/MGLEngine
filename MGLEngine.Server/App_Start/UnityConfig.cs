@@ -10,7 +10,8 @@ namespace MGLEngine.Server
     {
         static public void Config(IUnityContainer container)
         {
-            container.RegisterType<IShapeMngrService, ShapeMngrService>();
+            container.RegisterType<IShapeMngrService, ShapeMngrService>(new ContainerControlledLifetimeManager());
+
             container.RegisterType<IViewModelMapperService, ViewModelMapperService>();
 
         }

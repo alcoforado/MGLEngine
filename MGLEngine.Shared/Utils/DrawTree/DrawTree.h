@@ -25,7 +25,7 @@ private:
 		ShapeHandle(NTreeNode<DrawInfo<VerticeData>> *node)
 		{
 			assert(node);
-			assert(_node->GetData().IsShape());
+			assert(node->GetData().IsShape());
 			_node = node;
 		}
 
@@ -39,7 +39,8 @@ private:
 			delete _node;
 			_node = nullptr;
 		}
-
+		virtual ~ShapeHandle() {};
+	
 
 	};
 
