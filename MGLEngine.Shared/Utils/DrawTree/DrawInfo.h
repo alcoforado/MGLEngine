@@ -27,16 +27,17 @@ enum DrawInfoType { Root, Shape, Batch };
 template<class VerticeData>
 class ShapeInfo
 {
+
+public:
 	static constexpr const bool Is3D = std::is_same<decltype(VerticeData::Position), glm::vec3>::value;
-	typename std::conditional<Is3D,ITopology3D,ITopology2D>::type *_topology;
-
 	typedef typename std::conditional<Is3D, ITopology3D, ITopology2D>::type TopologyType;
-
-
-	IRender<VerticeData> *_render;
+	
+private:	
+	std::shared_ptr<TopologyType> _topology;
+	std::shared_ptr<IRender<VerticeData>> _render;
 public:
 
-	ShapeInfo(TopologyType *topology,IRender<VerticeData> *render)
+	ShapeInfo(std::shared_ptr<TopologyType> topology,std::shared_ptr<IRender<VerticeData>> render)
 	{
 		_topology = topology;
 		_render = render;
@@ -143,7 +144,7 @@ public:
 	}
 
 
-	static DrawInfo<VerticeData> CreateShape(ITopology2D *top, IRender<VerticeData> *render)
+	static DrawInfo<VerticeData> CreateShape(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType> top, std::shared_ptr<IRender<VerticeData>> render)
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;
@@ -151,6 +152,13 @@ public:
 		return info;
 	}
 
+	static DrawInfo<VerticeData> CreateShape(typename ShapeInfo<VerticeData>::TopologyType *top, IRender<VerticeData> *render)
+	{
+		DrawInfo<VerticeData> info;
+		info.DrawInfoType = Shape;
+		info._shape = ShapeInfo<VerticeData>(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType>(top) , std::shared_ptr<IRender<VerticeData>>(render));
+		return info;
+	}
 
 	static DrawInfo<VerticeData> CreateRoot()
 	{
