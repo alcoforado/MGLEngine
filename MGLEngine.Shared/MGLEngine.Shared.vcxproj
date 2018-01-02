@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="IMGLEngine.h" />
     <ClInclude Include="Shaders\IShader.h" />
+    <ClInclude Include="Utils\DrawTree\IResource.h" />
     <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />
     <ClInclude Include="Renders\CyclicColor.h" />
