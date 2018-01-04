@@ -111,7 +111,7 @@
     <ClInclude Include="IMGLEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\DrawTree\IResource.h">
+    <ClInclude Include="Utils\DrawTree\IRenderResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

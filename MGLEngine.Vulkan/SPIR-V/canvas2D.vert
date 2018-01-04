@@ -8,7 +8,7 @@ layout(location = 0) out vec3 fragColor;
 
 
 layout(binding = 0) uniform UniformBufferObject {
-    mat3 globalTransform;
+    mat3 mGT;
 } ubo;
 
 
@@ -17,7 +17,7 @@ out gl_PerVertex {
 };
 
 void main() {
-	vec3 v=ubo.mat3*vec3(inPosition,1.0);
+	vec3 v=ubo.mGT*vec3(inPosition,1.0);
 	gl_Position = vec4(v[0],v[1],0.0, 1.0);
     fragColor = inColor;
 }

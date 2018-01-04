@@ -1,8 +1,9 @@
 #pragma once
-#include <MGLEngine.Shared/Utils/DrawTree/IResource.h>
+#include <MGLEngine.Shared/Utils/DrawTree/IRenderResource.h>
+#include "MGLEngine.Vulkan/Shaders/IVulkanRenderContext.h"
 
 template<class Data>
-class ConstantBuffer : public IResource
+class ConstantBuffer : public IRenderResource
 {
 	Data _data;
 public:

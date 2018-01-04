@@ -5,6 +5,8 @@
 #include "../../Shapes/IRender.h"
 #include <type_traits>
 #include <assert.h>
+#include <MGLEngine.Shared/Utils/DrawTree/IRenderResource.h>
+
 struct ArrayLocation
 {
 	Index OffI;
@@ -107,7 +109,7 @@ public:
 	ArrayLocation Future;
 	DrawInfoType DrawInfoType;
 	bool NeedRedraw;
-
+	std::list<std::shared_ptr<IRenderResource>> Resources;
 
 	DrawInfo(const DrawInfo<VerticeData>& data)
 	{

@@ -70,3 +70,9 @@ VulkanSemaphore* ShaderColor2D::Draw(IDrawContext *pDrawContext)
 	return _treeParser->ExecuteTree(pDrawContext);
 	
 }
+
+void ShaderColor2D::SetGlobalTransform(glm::mat3 m)
+{
+	_gT.SetData(m);
+	this->GetRoot()->GetData().Resources[0].
+}

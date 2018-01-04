@@ -10,6 +10,7 @@
 #include <MGLEngine.Shared/VerticeData/Color2D.h>
 #include "../RenderPipeline/VulkanStagingBuffer.h"
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
+#include "MGLEngine.Vulkan/RenderResources/ConstantBuffer.h"
 class IVulkanRenderContext;
 
 
@@ -21,7 +22,7 @@ class ShaderColor2D : public DrawTree<Color2D>
 	VertexShaderByteCode _vertexByteCode; 
 	FragmentShaderByteCode _fragShaderCode;  
 	std::vector<VulkanCommandBuffer*> _commands;
-
+	ConstantBuffer<glm::mat3> _gT;
 
 	void CreateCommands(IVulkanRenderContext& renderContext);
 	public:
@@ -29,5 +30,7 @@ class ShaderColor2D : public DrawTree<Color2D>
 	~ShaderColor2D();
 	void OnSwapChange();
 	VulkanSemaphore* Draw(IDrawContext *pDrawContext);
+	void SetGlobalTransform(glm::mat3 mat3);
+
 };
 
