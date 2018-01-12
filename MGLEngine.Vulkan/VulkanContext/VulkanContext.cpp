@@ -16,7 +16,6 @@
 
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
-	_commandPool(*_vkLogicalDevice),
 	_memoryMngr(*_vkLogicalDevice,2*_MB)
 {
 	//Set Swap Chain

@@ -27,7 +27,6 @@ private:
 	VulkanInstance _vkInstance;
 	OPointer<VulkanLogicalDevice> _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;
-	VulkanCommandPool _commandPool;
 	VulkanMemoryManager _memoryMngr;
 	DrawContext _drawContext;
 public:
@@ -41,9 +40,8 @@ public:
 		return *_pSwapChain;
 	}
 
-	virtual const VulkanLogicalDevice* GetLogicalDevice() const override { return _vkLogicalDevice; }
+	virtual VulkanLogicalDevice* GetLogicalDevice() const override { return _vkLogicalDevice; }
 	void Draw();
-	virtual const VulkanCommandPool* GetCommandPool() const override { return &_commandPool; }
 	virtual VulkanMemoryManager* GetMemoryManager() override { return &_memoryMngr; }
 
 	ShaderColor2D* GetShaderColor2D() { return _render; }

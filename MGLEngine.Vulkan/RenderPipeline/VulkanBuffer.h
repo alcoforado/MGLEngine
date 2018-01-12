@@ -15,7 +15,7 @@ class VulkanBuffer : public IArray<T>
 	VulkanMemoryManager* _memMngr;
 	MemoryHandle _memHandle;
 	VkBuffer _handle;
-private:
+	std::vector<VkBufferUsageFlagBits> _bufferUsage;
 
 	
 	
@@ -79,6 +79,17 @@ public:
 	}
 
 	VkBuffer GetHandle() const { return _handle; }
-	
+	MemoryHandle GetMemoryHandle() const { return _memHandle; }
+	VulkanMemoryManager* GetMemoryManager() const { return _memMngr; }
+	std::vector<VkBufferUsageFlagBits> GetBufferUsage() const {
+		return _bufferUsage;
+	}
+	bool IsStaging()
+	{
+		return std::find(_bufferUsage.begin(), _bufferUsage.end(), VK_BUFFER_USAGE_TRANSFER_DST_BIT)!=_bufferUsage.end();
+	}
+
 };
+
+
 

@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MemoryManager\VulkanMappedAutoSyncBuffer.h" />
     <ClCompile Include="MGLEngineVulkan.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
     <ClCompile Include="Shaders\IVulkanRenderContext.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MemoryManager\VulkanGPUBuffer.h" />
     <ClInclude Include="RenderResources\ConstantBuffer.h" />
     <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />

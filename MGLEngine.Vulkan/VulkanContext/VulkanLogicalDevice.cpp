@@ -6,7 +6,7 @@
 #include <glfw\glfw3.h>
 #include <algorithm>
 #include <cassert>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
 
 VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice)
 	:_physicalDevice(physicalDevice)
@@ -99,6 +99,15 @@ const VulkanAllocatedQueue& VulkanLogicalDevice::GetGraphicQueue() const
 	}
 	throw new Exception("No graphic queueu was found");
 
+}
+
+VulkanCommandPool* VulkanLogicalDevice::GetGraphicCommandPool() 
+{
+	if (_pCommandPool == nullptr)
+	{
+		_pCommandPool = new VulkanCommandPool(*this);
+	}
+	return _pCommandPool;
 }
 
 void VulkanLogicalDevice::WaitToBeIdle() const
