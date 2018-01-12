@@ -9,6 +9,7 @@ class VulkanFramebuffer;
 
 class VulkanCommandBuffer
 {
+	friend class VulkanCommandPool;
 	const VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
 	const VulkanPipeline *_pipeline;
@@ -17,12 +18,12 @@ class VulkanCommandBuffer
 	bool _isOpen;
 	void AssertIsOpen();
 	VulkanSemaphore _lock;
+	VulkanCommandBuffer(const VulkanCommandPool* pool);
 
 public:
 
 
 
-	VulkanCommandBuffer(const VulkanCommandPool* pool);
 
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 

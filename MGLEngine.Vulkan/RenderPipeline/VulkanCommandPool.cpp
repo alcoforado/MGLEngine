@@ -2,6 +2,7 @@
 #include <vulkan/vulkan.h>
 #include "../VulkanContext/VulkanLogicalDevice.h"
 #include "../VulkanContext/VulkanPhysicalDevice.h"
+#include "VulkanCommandBuffer.h"
 
 VulkanCommandPool::VulkanCommandPool(const VulkanLogicalDevice& device)
 	:_logicalDevice(device)
@@ -17,4 +18,10 @@ VulkanCommandPool::VulkanCommandPool(const VulkanLogicalDevice& device)
 VulkanCommandPool::~VulkanCommandPool()
 {
 	vkDestroyCommandPool(_logicalDevice.GetHandle(), _vkPool, nullptr);
+}
+
+VulkanCommandBuffer* VulkanCommandPool::CreateCommandBuffer()
+{
+	return new VulkanCommandBuffer(this);
+
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "../VulkanContext/VulkanAllocatedQueue.h"
 class VulkanLogicalDevice;
-
+class VulkanCommandBuffer;
 class VulkanCommandPool 
 {
 	friend class VulkanLogicalDevice;
@@ -15,5 +15,7 @@ public:
 	const VulkanLogicalDevice& GetLogicalDevice() const {
 		return _logicalDevice;
 	}
+
+	VulkanCommandBuffer* CreateCommandBuffer();
 };
 
