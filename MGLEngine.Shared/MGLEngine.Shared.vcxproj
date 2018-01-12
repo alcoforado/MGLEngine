@@ -139,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="IMGLEngine.h" />
     <ClInclude Include="Shaders\IShader.h" />
+    <ClInclude Include="Utils\Arrays\ArrayFunctions.h" />
+    <ClInclude Include="Utils\Arrays\FlagBitVector.h" />
     <ClInclude Include="Utils\DrawTree\IRenderResource.h" />
     <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />

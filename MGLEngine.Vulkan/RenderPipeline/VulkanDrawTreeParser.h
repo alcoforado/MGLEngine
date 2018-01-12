@@ -10,7 +10,7 @@ class VulkanDrawTreeParser
 {
 	DrawTree<T> &_tree;
 	VulkanPipeline& _pipeline;
-	VulkanStagingBuffer<T>* _pVerticesBuffer;
+	VulkanBuffer<T>* _pVerticesBuffer;
 	std::vector<VulkanCommandBuffer*> _commands;
 	IVulkanRenderContext& _context;
 public:
@@ -19,7 +19,7 @@ public:
 	{
 		_pVerticesBuffer = nullptr;
 		assert(pipeline.IsLoaded());
-		_pVerticesBuffer = new VulkanStagingBuffer<T>(context.GetMemoryManager(), 0, 100);
+		_pVerticesBuffer = new VulkanBuffer<T>(context.GetMemoryManager(), 0, 100);
 
 	}
 
@@ -49,7 +49,7 @@ public:
 
 			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
 			{
-				VulkanStagingBuffer<T> *newBuff = new VulkanStagingBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
+				VulkanBuffer<T> *newBuff = new VulkanBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
 				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
 
 				delete _pVerticesBuffer;

@@ -2,7 +2,7 @@
 #include <vector>
 #include "IVulkanRenderContext.h"
 #include "../SPIR-V/shaders_bytecode.h"
-#include "../RenderPipeline/VulkanStagingBuffer.h"
+#include "../RenderPipeline/VulkanBuffer.h"
 
 ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
  :_vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
@@ -73,6 +73,6 @@ VulkanSemaphore* ShaderColor2D::Draw(IDrawContext *pDrawContext)
 
 void ShaderColor2D::SetGlobalTransform(glm::mat3 m)
 {
-	_gT.SetData(m);
-	this->GetRoot()->GetData().Resources[0].
+	_pGT->SetData(m);
+	
 }

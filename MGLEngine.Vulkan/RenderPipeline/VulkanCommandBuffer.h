@@ -2,7 +2,7 @@
 #include "VulkanCommandPool.h"
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanSemaphore.h"
-#include "VulkanStagingBuffer.h"
+#include "VulkanBuffer.h"
 
 class VulkanPipeline;
 class VulkanFramebuffer;

@@ -9,7 +9,7 @@
 class VulkanLogicalDevice;
 
 template<class T>
-class VulkanStagingBuffer : public IArray<T>
+class VulkanBuffer : public IArray<T>
 {
 
 	VulkanMemoryManager* _memMngr;
@@ -22,10 +22,16 @@ private:
 
 public:
 
-	VulkanStagingBuffer & operator=(const VulkanStagingBuffer&) = delete;
-	VulkanStagingBuffer(const VulkanStagingBuffer&) = delete;
+	VulkanBuffer & operator=(const VulkanBuffer&) = delete;
+	VulkanBuffer(const VulkanBuffer&) = delete;
 
-	VulkanStagingBuffer(VulkanMemoryManager *mngr, uint64_t size,uint64_t capacity)
+	VulkanBuffer(
+		VulkanMemoryManager *mngr, 
+		uint64_t size,uint64_t capacity, 
+		std::vector<VkBufferUsageFlagBits> bufferUsage,
+		std::vector<enum VkMemoryPropertyFlagBits> memProperties
+		
+		)
 	{
 		_memMngr = mngr;
 		assert(capacity > 0);
@@ -33,20 +39,26 @@ public:
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferInfo.size = capacity*sizeof(T);
-		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		bufferInfo.usage = FromBitFlagsToInt(bufferUsage);
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		auto err = vkCreateBuffer(mngr->GetLogicalDevice().GetHandle(), &bufferInfo, nullptr, &_handle);
 		AssertVulkanSuccess(err);
 
 		//Allocate buffer
-		_memHandle =  mngr->Allocate(_handle, { VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT });
+		_memHandle =  mngr->Allocate(_handle, memProperties);
 
 		auto a = _memHandle.Map<T>(size);
 		a.swap(*this);
 		this->Resize(size);
 	}
 
-	~VulkanStagingBuffer()
+	VulkanBuffer(VulkanMemoryManager *mngr,	uint64_t size, uint64_t capacity)
+		:VulkanBuffer(mngr,size,capacity,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT},{ VK_MEMORY_PROPERTY_HOST_COHERENT_BIT , VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT})
+	{
+		
+	}
+
+	~VulkanBuffer()
 	{
 		vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
 		_memHandle.Free();

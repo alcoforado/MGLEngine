@@ -183,7 +183,7 @@
     <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
-    <ClInclude Include="RenderPipeline\VulkanStagingBuffer.h" />
+    <ClInclude Include="RenderPipeline\VulkanBuffer.h" />
     <ClInclude Include="Shaders\IVulkanRenderContext.h" />
     <ClInclude Include="Shaders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
