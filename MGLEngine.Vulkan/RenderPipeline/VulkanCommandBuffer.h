@@ -18,7 +18,7 @@ class VulkanCommandBuffer
 	bool _isOpen;
 	void AssertIsOpen();
 	VulkanSemaphore _lock;
-	VulkanCommandBuffer(const VulkanCommandPool* pool);
+	VulkanCommandBuffer(const VulkanCommandPool* pool, std::vector<VkCommandBufferUsageFlagBits> usage);
 
 public:
 

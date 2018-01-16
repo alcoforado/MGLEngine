@@ -17,7 +17,7 @@ VulkanMemoryChunk::VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memor
 	_allocInfo.allocationSize = size;
 	_allocInfo.memoryTypeIndex = memoryTypeIndex;
 
-	VkResult err = vkAllocateMemory(parent->GetLogicalDevice().GetHandle(), &_allocInfo, nullptr, &_memoryHandle);
+	VkResult err = vkAllocateMemory(parent->GetLogicalDevice()->GetHandle(), &_allocInfo, nullptr, &_memoryHandle);
 	AssertVulkanSuccess(err);
 
 	_totalFree = size;
@@ -98,7 +98,7 @@ void VulkanMemoryChunk::Map()
 	if (!_isMapped)
 	{
 		void *p = nullptr;
-		VkResult err = vkMapMemory(_parent->GetLogicalDevice().GetHandle(), _memoryHandle,0, _size, 0, &p);
+		VkResult err = vkMapMemory(_parent->GetLogicalDevice()->GetHandle(), _memoryHandle,0, _size, 0, &p);
 		_data = static_cast<char*>(p);
 		_isMapped = true;
 
@@ -166,9 +166,9 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags)
 {
 	VkMemoryRequirements memRequirements;
-	vkGetBufferMemoryRequirements(this->GetLogicalDevice().GetHandle(), buffer, &memRequirements);
+	vkGetBufferMemoryRequirements(this->GetLogicalDevice()->GetHandle(), buffer, &memRequirements);
 
-	uint32_t memoryTypeIndex = this->GetLogicalDevice().GetPhysicalDevice().FindMemoryPropertyIndex(
+	uint32_t memoryTypeIndex = this->GetLogicalDevice()->GetPhysicalDevice().FindMemoryPropertyIndex(
 		memRequirements.memoryTypeBits, flags);
 
 
@@ -183,7 +183,7 @@ MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkM
 
 void VulkanMemoryBlock::BindBuffer(VkBuffer bhandle) const
 {
-	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice().GetHandle(), bhandle, _chunk->_memoryHandle, this->AlignedOff);
+	vkBindBufferMemory(_chunk->_parent->GetLogicalDevice()->GetHandle(), bhandle, _chunk->_memoryHandle, this->AlignedOff);
 }
 
 void VulkanMemoryBlock::Free()

@@ -41,7 +41,7 @@ public:
 		bufferInfo.size = capacity*sizeof(T);
 		bufferInfo.usage = FromBitFlagsToInt(bufferUsage);
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		auto err = vkCreateBuffer(mngr->GetLogicalDevice().GetHandle(), &bufferInfo, nullptr, &_handle);
+		auto err = vkCreateBuffer(mngr->GetLogicalDevice()->GetHandle(), &bufferInfo, nullptr, &_handle);
 		AssertVulkanSuccess(err);
 
 		//Allocate buffer
@@ -60,7 +60,7 @@ public:
 
 	~VulkanBuffer()
 	{
-		vkDestroyBuffer(_memMngr->GetLogicalDevice().GetHandle(), _handle, nullptr);
+		vkDestroyBuffer(_memMngr->GetLogicalDevice()->GetHandle(), _handle, nullptr);
 		_memHandle.Free();
 		this->clear();
 	}
@@ -68,7 +68,7 @@ public:
 	int GetAlignment()
 	{
 		VkMemoryRequirements memRequirements;
-		vkGetBufferMemoryRequirements(_memMngr->GetLogicalDevice().GetHandle(), _handle, &memRequirements);
+		vkGetBufferMemoryRequirements(_memMngr->GetLogicalDevice()->GetHandle(), _handle, &memRequirements);
 		return static_cast<int>(memRequirements.alignment);
 
 	}

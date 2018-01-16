@@ -1,5 +1,8 @@
 #pragma once
 #include "../VulkanContext/VulkanAllocatedQueue.h"
+#include <vulkan/vulkan.h>
+#include <memory>
+#include <vector>
 class VulkanLogicalDevice;
 class VulkanCommandBuffer;
 class VulkanCommandPool 
@@ -16,6 +19,6 @@ public:
 		return _logicalDevice;
 	}
 
-	VulkanCommandBuffer* CreateCommandBuffer();
+	VulkanCommandBuffer* CreateCommandBuffer(std::vector<VkCommandBufferUsageFlagBits> usage);
 };
 

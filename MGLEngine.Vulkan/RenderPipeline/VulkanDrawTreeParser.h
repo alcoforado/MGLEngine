@@ -74,7 +74,7 @@ public:
 			for (int i = 0; i < framebuffers->Size(); i++)
 			{
 				auto framebuffer = framebuffers->GetFramebuffer(i);
-				VulkanCommandBuffer* comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer();
+				VulkanCommandBuffer* comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer({VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT});
 				comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
 				comm->BindPipeline(&_pipeline);
 				comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());

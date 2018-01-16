@@ -1,7 +1,7 @@
 #pragma once
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
 /*
 * As the name implies, this is a buffer with GPU only access, making this memory the best efficient
 * memory you can have inside the GPU but the CPU cannot access directly. 
@@ -40,7 +40,8 @@
 			{
 				throw new Exception("buffer is not a staging buffer (VK_BUFFER_USAGE_TRANSFER_SRC_BIT)")
 			}
-
+			OPointer<VulkanCommandBuffer> cb = _buffer.GetMemoryManager()->GetLogicalDevice().GetGraphicCommandPool()->CreateCommandBuffer({VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT});
+		
 
 			
 

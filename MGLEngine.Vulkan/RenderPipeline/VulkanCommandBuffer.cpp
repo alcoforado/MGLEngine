@@ -18,7 +18,7 @@ void VulkanCommandBuffer::AssertIsOpen()
 	}
 }
 
-VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
+VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,std::vector<VkCommandBufferUsageFlagBits> usage)
 	:_pPool(pool),
 	_lock(_pPool->GetLogicalDevice())
 {
@@ -35,7 +35,7 @@ VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
 
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+	beginInfo.flags = FromBitFlagsToInt(usage);
 	beginInfo.pInheritanceInfo = nullptr; // Optional
 	vkBeginCommandBuffer(_vkCommandBuffer, &beginInfo);
 

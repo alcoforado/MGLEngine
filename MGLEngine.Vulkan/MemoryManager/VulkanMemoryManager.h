@@ -42,7 +42,7 @@ class VulkanMemoryManager
 public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
 	~VulkanMemoryManager();
-	const VulkanLogicalDevice& GetLogicalDevice() const { return _device; }
+	const VulkanLogicalDevice* GetLogicalDevice() const { return &_device; }
 	MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags);
 };
 
