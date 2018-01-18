@@ -3,6 +3,7 @@
 #include <vulkan/vulkan.h>
 #include <memory>
 #include <vector>
+class VulkanCommandBufferOptions;
 class VulkanLogicalDevice;
 class VulkanCommandBuffer;
 class VulkanCommandPool 
@@ -19,6 +20,6 @@ public:
 		return _logicalDevice;
 	}
 
-	VulkanCommandBuffer* CreateCommandBuffer(std::vector<VkCommandBufferUsageFlagBits> usage);
+	VulkanCommandBuffer* CreateCommandBuffer(VulkanCommandBufferOptions options);
 };
 

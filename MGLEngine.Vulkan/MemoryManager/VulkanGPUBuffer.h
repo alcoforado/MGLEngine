@@ -40,8 +40,8 @@
 			{
 				throw new Exception("buffer is not a staging buffer (VK_BUFFER_USAGE_TRANSFER_SRC_BIT)")
 			}
-			OPointer<VulkanCommandBuffer> cb = _buffer.GetMemoryManager()->GetLogicalDevice().GetGraphicCommandPool()->CreateCommandBuffer({VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT});
-		
+			OPointer<VulkanCommandBuffer> cb = _buffer.GetMemoryManager()->GetLogicalDevice().GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().OneTimeSubmit());
+			cb->
 
 			
 

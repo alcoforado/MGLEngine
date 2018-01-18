@@ -18,7 +18,7 @@ void VulkanCommandBuffer::AssertIsOpen()
 	}
 }
 
-VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,std::vector<VkCommandBufferUsageFlagBits> usage)
+VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,VulkanCommandBufferOptions *options)
 	:_pPool(pool),
 	_lock(_pPool->GetLogicalDevice())
 {
@@ -35,7 +35,7 @@ VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,std::vect
 
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = FromBitFlagsToInt(usage);
+	beginInfo.flags = options->_bufferUsageFlag;
 	beginInfo.pInheritanceInfo = nullptr; // Optional
 	vkBeginCommandBuffer(_vkCommandBuffer, &beginInfo);
 
@@ -95,6 +95,11 @@ void VulkanCommandBuffer::EndRenderPass()
 }
 
 
+
+
+
+
+
  VulkanSemaphore* VulkanCommandBuffer::SubmitPipelineAsync(VulkanSemaphore *wait, VkPipelineStageFlagBits pipelineStage)
 {
 	auto hw = wait->GetHandle();
@@ -141,6 +146,16 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 {
 	VkDeviceSize off = 0;
 	vkCmdBindVertexBuffers(_vkCommandBuffer, 0, 1, &buff,&off);
+	return *this;
+}
+
+VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
+{
+	VkBufferCopy copyRegion = {};
+	copyRegion.srcOffset = 0; // Optional
+	copyRegion.dstOffset = 0; // Optional
+	copyRegion.size = size;
+	vkCmdCopyBuffer( _vkCommandBuffer, src,dst,1, &copyRegion);
 	return *this;
 }
 

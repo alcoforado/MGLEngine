@@ -20,8 +20,8 @@ VulkanCommandPool::~VulkanCommandPool()
 	vkDestroyCommandPool(_logicalDevice.GetHandle(), _vkPool, nullptr);
 }
 
-VulkanCommandBuffer* VulkanCommandPool::CreateCommandBuffer(std::vector<VkCommandBufferUsageFlagBits> usage)
+VulkanCommandBuffer* VulkanCommandPool::CreateCommandBuffer(VulkanCommandBufferOptions options)
 {
-	auto result=new VulkanCommandBuffer(this,usage);
+	auto result=new VulkanCommandBuffer(this,&options);
 	return result;
 }

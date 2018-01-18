@@ -6,6 +6,36 @@
 
 class VulkanPipeline;
 class VulkanFramebuffer;
+class VulkanCommandBuffer;
+
+class VulkanCommandBufferOptions
+{
+	int _bufferUsageFlag;
+public:
+	friend class VulkanCommandBuffer;
+	VulkanCommandBufferOptions()
+	{
+		_bufferUsageFlag = 0;
+	}
+
+	VulkanCommandBufferOptions OneTimeSubmit()
+	{
+		_bufferUsageFlag |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+		return *this;
+	}
+	VulkanCommandBufferOptions RenderPassContinue()
+	{
+		_bufferUsageFlag |= VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
+		return *this;
+
+	}
+	VulkanCommandBufferOptions SimultaneousUse()
+	{
+		_bufferUsageFlag |= VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+		return *this;
+     }
+
+};
 
 class VulkanCommandBuffer
 {
@@ -18,7 +48,7 @@ class VulkanCommandBuffer
 	bool _isOpen;
 	void AssertIsOpen();
 	VulkanSemaphore _lock;
-	VulkanCommandBuffer(const VulkanCommandPool* pool, std::vector<VkCommandBufferUsageFlagBits> usage);
+	VulkanCommandBuffer(const VulkanCommandPool* pool, VulkanCommandBufferOptions* options);
 
 public:
 
@@ -32,6 +62,8 @@ public:
 	VulkanCommandBuffer& BindPipeline(const VulkanPipeline* pipeline);
 
 	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);
+	
+	VulkanCommandBuffer& CopyBuffers(VkBuffer b1, VkBuffer b2, long size);
 	
 	void End();
 	void EndRenderPass();
