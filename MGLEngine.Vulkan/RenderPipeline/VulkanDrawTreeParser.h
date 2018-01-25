@@ -3,6 +3,7 @@
 #include "../Shaders/IVulkanRenderContext.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../VulkanContext/IDrawContext.h"
+#include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
 class IVulkanRenderContext;
 
 template<class T>
@@ -10,7 +11,7 @@ class VulkanDrawTreeParser
 {
 	DrawTree<T> &_tree;
 	VulkanPipeline& _pipeline;
-	VulkanBuffer<T>* _pVerticesBuffer;
+	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
 	std::vector<VulkanCommandBuffer*> _commands;
 	IVulkanRenderContext& _context;
 public:
@@ -19,7 +20,7 @@ public:
 	{
 		_pVerticesBuffer = nullptr;
 		assert(pipeline.IsLoaded());
-		_pVerticesBuffer = new VulkanBuffer<T>(context.GetMemoryManager(), 0, 100);
+		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 
 	}
 
@@ -49,7 +50,7 @@ public:
 
 			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
 			{
-				VulkanBuffer<T> *newBuff = new VulkanBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV);
+				VulkanMappedAutoSyncBuffer<T> *newBuff = new VulkanMappedAutoSyncBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV, {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
 
 				delete _pVerticesBuffer;

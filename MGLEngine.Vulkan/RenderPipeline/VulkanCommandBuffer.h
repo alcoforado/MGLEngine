@@ -63,7 +63,7 @@ public:
 
 	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);
 	
-	VulkanCommandBuffer& CopyBuffers(VkBuffer b1, VkBuffer b2, long size);
+	VulkanCommandBuffer& CopyBuffers(VkBuffer src, VkBuffer dst, long size);
 	
 	void End();
 	void EndRenderPass();
@@ -71,5 +71,6 @@ public:
 	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 
 	~VulkanCommandBuffer();
+	VkCommandBuffer GetHandle() const;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
-
+class VulkanCommandBuffer;
 class VulkanLogicalDevice;
 class VulkanAllocatedQueue
 {
@@ -20,5 +20,9 @@ public:
 	int GetFamilyIndex() const { return _familyIndex; }
 	VkQueue GetHandle() const { return _handle; }
 	int GetQueueIndex() const { return _queueIndex; }
+
+	//Submit command
+	void Submit(VulkanCommandBuffer &cb) const;
+	void WaitIdle() const;
 };
 

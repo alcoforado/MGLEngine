@@ -9,15 +9,15 @@
 class VulkanLogicalDevice;
 
 template<class T>
-class VulkanBuffer : public IArray<T>
+class VulkanBuffer 
 {
 
 	VulkanMemoryManager* _memMngr;
 	MemoryHandle _memHandle;
 	VkBuffer _handle;
 	std::vector<VkBufferUsageFlagBits> _bufferUsage;
-
-	
+	uint64_t _size;
+	uint64_t _sizeInBytes;
 	
 
 public:
@@ -27,18 +27,20 @@ public:
 
 	VulkanBuffer(
 		VulkanMemoryManager *mngr, 
-		uint64_t size,uint64_t capacity, 
+		uint64_t size, 
 		std::vector<VkBufferUsageFlagBits> bufferUsage,
 		std::vector<enum VkMemoryPropertyFlagBits> memProperties
 		
 		)
 	{
+		_size = size;
+		_sizeInBytes= size * sizeof(T);
 		_memMngr = mngr;
-		assert(capacity > 0);
+		assert(size > 0);
 
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-		bufferInfo.size = capacity*sizeof(T);
+		bufferInfo.size = _sizeInBytes;
 		bufferInfo.usage = FromBitFlagsToInt(bufferUsage);
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		auto err = vkCreateBuffer(mngr->GetLogicalDevice()->GetHandle(), &bufferInfo, nullptr, &_handle);
@@ -47,9 +49,12 @@ public:
 		//Allocate buffer
 		_memHandle =  mngr->Allocate(_handle, memProperties);
 
-		auto a = _memHandle.Map<T>(size);
-		a.swap(*this);
-		this->Resize(size);
+		
+	}
+
+	uint64_t GetSize()
+	{
+		return _size;
 	}
 
 	VulkanBuffer(VulkanMemoryManager *mngr,	uint64_t size, uint64_t capacity)
@@ -62,7 +67,6 @@ public:
 	{
 		vkDestroyBuffer(_memMngr->GetLogicalDevice()->GetHandle(), _handle, nullptr);
 		_memHandle.Free();
-		this->clear();
 	}
 	
 	int GetAlignment()

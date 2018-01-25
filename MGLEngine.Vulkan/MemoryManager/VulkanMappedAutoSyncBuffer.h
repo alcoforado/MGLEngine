@@ -14,11 +14,28 @@ public:
 		VulkanMemoryManager *mngr,
 		uint64_t size, uint64_t capacity,
 		std::vector<VkBufferUsageFlagBits> bufferUsage)
-		:_buffer(mngr,size,capacity,bufferUsage,{VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT})
+		:_buffer(mngr,capacity,bufferUsage,{VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT})
 	{
-		auto a = _buffer.GetMemoryHandle().Map<T>(size);
+		assert(capacity >= size);
+		auto a = _buffer.GetMemoryHandle().Map<T>(capacity);
 		a.swap(*this);
 		this->Resize(size);
+	}
+	
+	~VulkanMappedAutoSyncBuffer()
+	{
+		this->clear();
+
+	}
+	
+	int GetAlignment()
+	{
+		return _buffer.GetAlignment();
+	}
+
+	VkBuffer GetHandle()
+	{
+		return _buffer.GetHandle();
 	}
 
 	bool IsStaging()

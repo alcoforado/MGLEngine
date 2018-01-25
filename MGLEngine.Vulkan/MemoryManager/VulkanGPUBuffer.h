@@ -32,19 +32,22 @@
 		 */
 		void Sync(VulkanMappedAutoSyncBuffer<T> &srcBuffer)
 		{
-			if (srcBuffer.size() != _buffer.GetSize())
+			if (srcBuffer.size() != _buffer.size())
 			{
 				throw new Exception("buffers size are not equal");
 			}
 			if(!srcBuffer.IsStaging())
 			{
-				throw new Exception("buffer is not a staging buffer (VK_BUFFER_USAGE_TRANSFER_SRC_BIT)")
+				throw new Exception("buffer is not a staging buffer (VK_BUFFER_USAGE_TRANSFER_SRC_BIT)");
 			}
 			OPointer<VulkanCommandBuffer> cb = _buffer.GetMemoryManager()->GetLogicalDevice().GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().OneTimeSubmit());
-			cb->
-
+			cb->CopyBuffers(srcBuffer.GetVulkanBuffer().GetHandle(), _buffer.GetHandle(), _buffer.SizeInBytes());
+			cb->End();
 			
-
+			const VulkanAllocatedQueue *queue = _buffer.GetMemoryManager()->GetLogicalDevice()->GetGraphicQueue();
+			queue->Submit(cb);
+			queue->WaitIdle();
+			
 
 		}
 

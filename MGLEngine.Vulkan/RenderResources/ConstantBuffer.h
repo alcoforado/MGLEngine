@@ -2,13 +2,17 @@
 #include <MGLEngine.Shared/Utils/DrawTree/IRenderResource.h>
 #include "MGLEngine.Vulkan/Shaders/IVulkanRenderContext.h"
 #include <MGLEngine.Shared/Utils/Arrays/ArrayFunctions.h>
+#include "IVulkanRenderResource.h"
+
 template<class Data>
-class ConstantBuffer : public IRenderResource
+class ConstantBuffer : public IRenderResource,IVulkanRenderResource
 {
 	Data _data;
 	bool _dirty;
 	VkBuffer _buffer;
 	VkDeviceMemory _bufferMemory;
+
+
 public:
 	ConstantBuffer(int binding, std::vector<VkShaderStageFlagBits> stages)
 	{

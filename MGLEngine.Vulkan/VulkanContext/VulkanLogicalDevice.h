@@ -32,7 +32,7 @@ public:
 	~VulkanLogicalDevice();
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
-	const VulkanAllocatedQueue& GetGraphicQueue() const;
+	const VulkanAllocatedQueue* GetGraphicQueue() const;
 
 	VulkanCommandPool* GetGraphicCommandPool();
 	void WaitToBeIdle() const;

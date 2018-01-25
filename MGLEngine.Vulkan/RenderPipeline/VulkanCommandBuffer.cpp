@@ -127,7 +127,7 @@ void VulkanCommandBuffer::EndRenderPass()
 		}
 	}
 	_pSubmitInfoCache->pWaitSemaphores = &hw;
-	auto err = vkQueueSubmit(_pipeline->GetSwapChain().GetLogicalDevice().GetGraphicQueue().GetHandle(), 1,_pSubmitInfoCache, VK_NULL_HANDLE);
+	auto err = vkQueueSubmit(_pipeline->GetSwapChain().GetLogicalDevice().GetGraphicQueue()->GetHandle(), 1,_pSubmitInfoCache, VK_NULL_HANDLE);
 	AssertVulkanSuccess(err);
 
 	return &_lock;
@@ -140,6 +140,11 @@ VulkanCommandBuffer::~VulkanCommandBuffer()
 {
 	vkFreeCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), _pPool->GetHandle(), 1, &_vkCommandBuffer);
 
+}
+
+VkCommandBuffer VulkanCommandBuffer::GetHandle() const
+{
+	return _vkCommandBuffer;
 }
 
 VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
