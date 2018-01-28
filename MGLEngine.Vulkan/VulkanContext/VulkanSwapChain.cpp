@@ -5,7 +5,7 @@
 
 VulkanSwapChain::VulkanSwapChain(GLFWwindow *window,VulkanLogicalDevice& device)
 :_logicalDevice(device),
-_nextImageSemaphore(device),
+_nextImageSemaphore(&device),
 _surface(device.GetPhysicalDevice(),window)
 {
 	VkSwapchainCreateInfoKHR createInfo = {};

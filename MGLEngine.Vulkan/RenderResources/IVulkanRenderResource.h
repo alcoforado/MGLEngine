@@ -9,4 +9,4 @@ class IVulkanRenderResource : public IRenderResource
 {
 	virtual void WriteCommands(VulkanCommandBuffer *cb) = 0;
 	
-}
+};

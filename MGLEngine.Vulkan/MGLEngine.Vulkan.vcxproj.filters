@@ -105,6 +105,9 @@
     <ClCompile Include="MGLContainerVulkan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -213,6 +216,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderResources\IVulkanRenderResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\VulkanRenderResourceLoadContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

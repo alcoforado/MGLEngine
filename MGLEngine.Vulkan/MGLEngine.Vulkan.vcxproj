@@ -160,6 +160,7 @@
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp" />
     <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp" />
     <ClCompile Include="MGLContainerVulkan.cpp" />
+    <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
     <ClCompile Include="VulkanContext\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="VulkanContext\VulkanLayerProperties.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="RenderPipeline\VulkanBuffer.h" />
     <ClInclude Include="RenderResources\IVulkanRenderResource.h" />
+    <ClInclude Include="RenderResources\VulkanRenderResourceLoadContext.h" />
     <ClInclude Include="Shaders\IVulkanRenderContext.h" />
     <ClInclude Include="Shaders\ShaderColor2D.h" />
     <ClInclude Include="RenderPipeline\Compiler.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />
+    <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />
     <ClInclude Include="VulkanContext\VulkanPhysicalDevice.h" />
     <ClInclude Include="VulkanContext\VulkanLayerProperties.h" />

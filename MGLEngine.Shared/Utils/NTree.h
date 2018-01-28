@@ -86,7 +86,7 @@
 					return;
 				for (auto ch : _childs)
 				{
-					ch->ForAllInOrder(visitor);
+					ch->ForAllPreOrderControlDescent(visitor);
 				}
 				
 			}

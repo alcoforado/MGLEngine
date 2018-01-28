@@ -4,6 +4,7 @@
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../VulkanContext/IDrawContext.h"
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
+#include "MGLEngine.Vulkan/RenderResources/VulkanRenderResourceLoadContext.h"
 class IVulkanRenderContext;
 
 template<class T>
@@ -14,6 +15,34 @@ class VulkanDrawTreeParser
 	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
 	std::vector<VulkanCommandBuffer*> _commands;
 	IVulkanRenderContext& _context;
+	OPointer<VulkanSemaphore> _sm;
+	VulkanRenderResourceLoadContext _renderLoadContext;
+
+private:
+	VulkanCommandBuffer* GetRootNodeLoadCommands(DrawInfo<T> *root)
+	{
+		assert(root->DrawInfoType == DrawInfoType::Root);
+
+		if (root->HasDirtyResources())
+		{
+			_renderLoadContext._loadCommandBuffer.if_free();
+
+			_renderLoadContext._loadCommandBuffer = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().OneTimeSubmit());
+
+			for (auto r : root->GetResources())
+			{
+				r->Load(); //Load All resources
+			}
+
+			//Add a memory barrier
+
+			//_renderLoadContext._loadCommandBuffer.PipelineBarrier();
+
+
+		}
+		return nullptr;
+	}
+
 public:
 	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree)
 		:_context(context), _pipeline(pipeline), _tree(tree)
@@ -21,8 +50,11 @@ public:
 		_pVerticesBuffer = nullptr;
 		assert(pipeline.IsLoaded());
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
-
+		_sm = new VulkanSemaphore(context.GetLogicalDevice());
 	}
+
+
+	IVulkanRenderResourceLoadContext* GetRenderLoadContext() { return &_renderLoadContext; }
 
 	void clearCommandsBuffers()
 	{
@@ -32,6 +64,7 @@ public:
 		}
 		_commands.clear();
 	}
+
 
 
 	VulkanSemaphore* ExecuteTree(IDrawContext *drawContext)
@@ -59,13 +92,13 @@ public:
 			}
 			else
 			{
-
 				_tree.UpdateVerticeData(*_pVerticesBuffer, is1);
 			}
 		}
 		if (drawContext->IsWindowResized())
 			_pipeline.OnSwapChainReload(&(drawContext->GetRenderContext()->GetSwapChain()));
 
+		
 		if (needRedraw || drawContext->IsWindowResized())
 		{
 			//Redo the commands
@@ -79,14 +112,28 @@ public:
 				comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
 				comm->BindPipeline(&_pipeline);
 				comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
+				this->ParseTree(comm,&_tree);
 				comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
+				
+				
 				comm->EndRenderPass();
 				comm->End();
 				_commands.push_back(comm);
 			}
 		}
+		
 		uint32_t index = _pipeline.GetSwapChain().GetCurrentImageIndex();
-		return GetCommandForFrame(index)->SubmitPipelineAsync(drawContext->GetSemaphore(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
+		
+		if (rootCmds != nullptr)
+		{
+			_context.GetLogicalDevice()->GetGraphicQueue()->Submit({ GetCommandForFrame(index),rootCmds }, drawContext->GetSemaphore(), drawContext->GetSemaphore(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
+		}
+		else
+		{
+			_context.GetLogicalDevice()->GetGraphicQueue()->Submit({ GetCommandForFrame(index),rootCmds }, drawContext->GetSemaphore(), drawContext->GetSemaphore(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
+		}
+		return drawContext->GetSemaphore();
 	}
 
 
@@ -104,5 +151,23 @@ public:
 		assert(index < _commands.size());
 		return _commands[index];
 	}
+
+
+	void ParseTree(VulkanCommandBuffer* comm, DrawTree<T> *tree)
+	{
+		tree->GetRoot()->ForAllPreOrderControlDescent([&](NTreeNode<DrawInfo<T>>* pNode)->bool {
+			DrawInfo<T> &data = pNode->GetData();
+				if (data.DrawInfoType==DrawInfoType::Root)
+				{
+					return true;
+				}
+		});
+	}
+
+	
+
+
+
+
 };
 

@@ -1,6 +1,10 @@
 #pragma once
 
 #include <vulkan/vulkan.h>
+#include <vector>
+#include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphore.h"
+#include <memory>
+#include "VulkanCommandBatchCollection.h"
 class VulkanCommandBuffer;
 class VulkanLogicalDevice;
 class VulkanAllocatedQueue
@@ -23,6 +27,9 @@ public:
 
 	//Submit command
 	void Submit(VulkanCommandBuffer &cb) const;
+	void Submit(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages) const;
+
+	void Submit(VulkanCommandBatchCollection &cl);
 	void WaitIdle() const;
 };
 

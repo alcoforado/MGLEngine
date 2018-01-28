@@ -47,7 +47,6 @@ class VulkanCommandBuffer
 	
 	bool _isOpen;
 	void AssertIsOpen();
-	VulkanSemaphore _lock;
 	VulkanCommandBuffer(const VulkanCommandPool* pool, VulkanCommandBufferOptions* options);
 
 public:

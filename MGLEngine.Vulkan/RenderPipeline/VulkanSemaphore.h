@@ -9,7 +9,7 @@ class VulkanSemaphore
 	VkSemaphore _vkSemaphore;
 	const VulkanLogicalDevice* _logicalDevice;
 public:
-	VulkanSemaphore(const VulkanLogicalDevice & logicalDevice);
+	VulkanSemaphore(const VulkanLogicalDevice* logicalDevice);
 	
 	VulkanSemaphore & operator=(const VulkanSemaphore&) = delete;
 	VulkanSemaphore(const VulkanSemaphore&) = delete;

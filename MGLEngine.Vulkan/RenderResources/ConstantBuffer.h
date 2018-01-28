@@ -5,7 +5,7 @@
 #include "IVulkanRenderResource.h"
 
 template<class Data>
-class ConstantBuffer : public IRenderResource,IVulkanRenderResource
+class ConstantBuffer : public IVulkanRenderResource
 {
 	Data _data;
 	bool _dirty;

@@ -102,6 +102,7 @@ class DrawInfo
 		DrawInfoType = Root;
 	}
 
+	std::list<std::shared_ptr<IRenderResource>> Resources;
 
 
 public:
@@ -109,13 +110,28 @@ public:
 	ArrayLocation Future;
 	DrawInfoType DrawInfoType;
 	bool NeedRedraw;
-	std::list<std::shared_ptr<IRenderResource>> Resources;
-
+	
 	DrawInfo(const DrawInfo<VerticeData>& data)
 	{
 		*this = data;
 	}
+	const std::list<std::shared_ptr<IRenderResource>>& GetResources()
+	{
+		return Resources;
+	}
 
+
+
+	bool HasDirtyResources()
+	{
+		
+		for(auto r : this->Resources)
+		{
+			if (r->IsDirty())
+				return true;
+		}
+		return false;
+	}
 	
 
 	bool IsRoot() const { return DrawInfoType == Root; }
