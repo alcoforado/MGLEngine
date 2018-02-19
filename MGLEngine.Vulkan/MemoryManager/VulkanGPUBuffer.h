@@ -44,7 +44,7 @@
 			cb->CopyBuffers(srcBuffer.GetVulkanBuffer().GetHandle(), _buffer.GetHandle(), _buffer.SizeInBytes());
 			cb->End();
 			
-			const VulkanAllocatedQueue *queue = _buffer.GetMemoryManager()->GetLogicalDevice()->GetGraphicQueue();
+			const VulkanQueue *queue = _buffer.GetMemoryManager()->GetLogicalDevice()->GetGraphicQueue();
 			queue->Submit(cb);
 			queue->WaitIdle();
 			

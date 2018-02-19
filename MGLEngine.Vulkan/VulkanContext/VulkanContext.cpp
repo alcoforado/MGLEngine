@@ -66,9 +66,10 @@ void VulkanContext::Draw()
 {
 	
 	_drawContext.RenderContext = this;
-	_drawContext.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync(); 
-	_drawContext.CurrentSemaphore = _render->Draw(&_drawContext);
-	_pSwapChain->Present(*_drawContext.CurrentSemaphore);
+	_drawContext.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync();
+	_drawContext.FrameIndex = _pSwapChain->GetCurrentImageIndex();
+	VulkanSemaphore *wait =  _render->Draw(&_drawContext);
+	_pSwapChain->Present(*wait);
 	_drawContext.WindowResized = false;
 
 

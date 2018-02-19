@@ -7,7 +7,7 @@
 #include "VulkanCommandBatchCollection.h"
 class VulkanCommandBuffer;
 class VulkanLogicalDevice;
-class VulkanAllocatedQueue
+class VulkanQueue
 {
 private:
 	const VulkanLogicalDevice& _logicalDevice;
@@ -17,8 +17,8 @@ private:
 public:
 
 
-	VulkanAllocatedQueue(const VulkanLogicalDevice &logicalDevice, int familyIndex, int queueIndex);
-	~VulkanAllocatedQueue();
+	VulkanQueue(const VulkanLogicalDevice &logicalDevice, int familyIndex, int queueIndex);
+	~VulkanQueue();
 
 	//Getters
 	int GetFamilyIndex() const { return _familyIndex; }

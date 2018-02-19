@@ -3,7 +3,7 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 class VulkanCommandBuffer;
-class VulkanAllocatedQueue;
+class VulkanQueue;
 class VulkanSemaphore;
 class BatchInfo
 {
@@ -17,7 +17,7 @@ public:
 
 class VulkanCommandBatchCollection
 {
-	friend class VulkanAllocatedQueue;
+	friend class VulkanQueue;
 
 	
 	public:

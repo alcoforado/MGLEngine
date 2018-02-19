@@ -5,15 +5,26 @@
 #include "../VulkanContext/IDrawContext.h"
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
 #include "MGLEngine.Vulkan/RenderResources/VulkanRenderResourceLoadContext.h"
+
 class IVulkanRenderContext;
+
+
 
 template<class T>
 class VulkanDrawTreeParser
 {
+
 	DrawTree<T> &_tree;
 	VulkanPipeline& _pipeline;
 	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
-	std::vector<VulkanCommandBuffer*> _commands;
+
+	struct PerFrameData
+	{
+		OPointer<VulkanCommandBuffer> CB;
+		bool IsDirty;
+	};
+	std::vector<PerFrameData> _perFrameData;
+	
 	IVulkanRenderContext& _context;
 	OPointer<VulkanSemaphore> _sm;
 	VulkanRenderResourceLoadContext _renderLoadContext;
@@ -51,6 +62,7 @@ public:
 		assert(pipeline.IsLoaded());
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		_sm = new VulkanSemaphore(context.GetLogicalDevice());
+		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers().size(),{});
 	}
 
 
@@ -58,11 +70,10 @@ public:
 
 	void clearCommandsBuffers()
 	{
-		for (auto cmd : _commands)
+		for (auto cmd : _perFrameData)
 		{
-			delete cmd;
+			cmd.IsDirty = true;
 		}
-		_commands.clear();
 	}
 
 
@@ -103,28 +114,32 @@ public:
 		{
 			//Redo the commands
 			clearCommandsBuffers();
-			auto framebuffers = _pipeline.GetVulkanSwapChainFramebuffers();
+		}
+		
+		PerFrameData &frameData = _perFrameData[drawContext->GetFrameIndex()];
+		if (frameData.IsDirty)
+		{
+			auto framebuffer = _pipeline.GetVulkanSwapChainFramebuffers()->GetFramebuffer(drawContext->GetFrameIndex());
 			glm::vec4 color(0, 0, 0, 1.0);
-			for (int i = 0; i < framebuffers->Size(); i++)
-			{
-				auto framebuffer = framebuffers->GetFramebuffer(i);
-				VulkanCommandBuffer* comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
-				comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
-				comm->BindPipeline(&_pipeline);
-				comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
-				this->ParseTree(comm,&_tree);
-				comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
-				
-				
-				comm->EndRenderPass();
-				comm->End();
-				_commands.push_back(comm);
-			}
+
+			frameData.CB.if_free();
+
+			VulkanCommandBuffer *comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
+			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
+			comm->BindPipeline(&_pipeline);
+			comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
+			this->ParseTree(comm,&_tree);
+			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
+			comm->EndRenderPass();
+			comm->End();
+			frameData.CB = comm;
+			frameData.IsDirty = false;
+			
 		}
 		
 		uint32_t index = _pipeline.GetSwapChain().GetCurrentImageIndex();
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
-		
+		VulkanCommandBatchCollection batch();
 		if (rootCmds != nullptr)
 		{
 			_context.GetLogicalDevice()->GetGraphicQueue()->Submit({ GetCommandForFrame(index),rootCmds }, drawContext->GetSemaphore(), drawContext->GetSemaphore(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });

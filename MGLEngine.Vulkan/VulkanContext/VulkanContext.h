@@ -22,13 +22,22 @@ class VulkanContext : public IVulkanRenderContext
 private:
 	
 private:
+	struct PerFrameData
+	{
 	
+		std::vector<VulkanSemaphore*> WaitSemaphoresToPresent;
+		
+	};
+
+
 	ShaderColor2D *_render;
 	VulkanInstance _vkInstance;
 	OPointer<VulkanLogicalDevice> _vkLogicalDevice;
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanMemoryManager _memoryMngr;
 	DrawContext _drawContext;
+	std::vector<PerFrameData> _framesData;
+	
 public:
 	VulkanContext(GLFWwindow* window);
 	void OnResize(GLFWwindow *window, int newWidth, int newHeight);

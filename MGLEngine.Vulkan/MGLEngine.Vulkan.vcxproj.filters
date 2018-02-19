@@ -78,9 +78,6 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,6 +103,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanContext\VulkanQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanFence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,9 +176,6 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -222,6 +225,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanContext\VulkanQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanFence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

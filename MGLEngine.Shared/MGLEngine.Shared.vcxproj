@@ -167,6 +167,7 @@
     <ClInclude Include="Utils\NTree.h" />
     <ClInclude Include="Utils\opointer.h" />
     <ClInclude Include="Utils\Path.h" />
+    <ClInclude Include="Utils\PoolBuffer.h" />
     <ClInclude Include="Utils\shared_global.h" />
     <ClInclude Include="Utils\tree.hpp" />
     <ClInclude Include="VerticeData\Color2D.h" />

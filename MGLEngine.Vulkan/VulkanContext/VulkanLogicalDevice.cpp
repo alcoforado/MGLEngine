@@ -70,7 +70,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	{
 		for (uint32_t queue_index = 0; queue_index < queue.queueCount; queue_index++)
 		{
-			_queues.push_back(VulkanAllocatedQueue(*this, queue.queueFamilyIndex, queue_index));
+			_queues.push_back(VulkanQueue(*this, queue.queueFamilyIndex, queue_index));
 		}
 	}
 
@@ -87,7 +87,7 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
 {
 }
 
-const VulkanAllocatedQueue* VulkanLogicalDevice::GetGraphicQueue() const
+const VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() const
 {
 	auto index=_physicalDevice.FindGraphicsQueueIndex();
 	for (int i=0;i<_queues.size();i++)

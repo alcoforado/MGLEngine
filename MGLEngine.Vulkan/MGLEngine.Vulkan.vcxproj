@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="MGLEngineVulkan.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanFence.cpp" />
     <ClCompile Include="Shaders\IVulkanRenderContext.cpp" />
     <ClCompile Include="Shaders\ShaderColor2D.cpp" />
     <ClCompile Include="RenderPipeline\Compiler.cpp" />
@@ -158,7 +159,7 @@
     <ClCompile Include="RenderPipeline\VulkanRenderPass.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp" />
-    <ClCompile Include="VulkanContext\VulkanAllocatedQueue.cpp" />
+    <ClCompile Include="VulkanContext\VulkanQueue.cpp" />
     <ClCompile Include="MGLContainerVulkan.cpp" />
     <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp" />
     <ClCompile Include="VulkanContext\VulkanContext.cpp" />
@@ -176,12 +177,14 @@
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
     <ClCompile Include="Window\MWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemoryManager\VulkanMappedAutoSyncBuffer.h" />
     <ClInclude Include="MemoryManager\VulkanGPUBuffer.h" />
+    <ClInclude Include="RenderPipeline\VulkanFence.h" />
     <ClInclude Include="RenderResources\ConstantBuffer.h" />
     <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
@@ -198,7 +201,7 @@
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
     <ClInclude Include="VulkanContext\IDrawContext.h" />
-    <ClInclude Include="VulkanContext\VulkanAllocatedQueue.h" />
+    <ClInclude Include="VulkanContext\VulkanQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />
     <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h" />
     <ClInclude Include="VulkanContext\VulkanContext.h" />
@@ -216,6 +219,7 @@
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
+    <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h" />
     <ClInclude Include="VulkanUtils.h" />
     <ClInclude Include="Window\MWindow.h" />
   </ItemGroup>

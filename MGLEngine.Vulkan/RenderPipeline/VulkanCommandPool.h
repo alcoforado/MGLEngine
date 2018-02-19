@@ -1,5 +1,5 @@
 #pragma once
-#include "../VulkanContext/VulkanAllocatedQueue.h"
+#include "../VulkanContext/VulkanQueue.h"
 #include <vulkan/vulkan.h>
 #include <memory>
 #include <vector>

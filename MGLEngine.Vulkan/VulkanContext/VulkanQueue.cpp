@@ -1,18 +1,18 @@
-#include "VulkanAllocatedQueue.h"
+#include "VulkanQueue.h"
 #include "VulkanLogicalDevice.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
 
-VulkanAllocatedQueue::VulkanAllocatedQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
+VulkanQueue::VulkanQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
 	:_logicalDevice(logicalDevice),_familyIndex(familyIndex),_queueIndex(queueIndex)
 {
 	vkGetDeviceQueue(_logicalDevice.GetHandle(), _familyIndex, _queueIndex,&_handle);
 }
 
-VulkanAllocatedQueue::~VulkanAllocatedQueue()
+VulkanQueue::~VulkanQueue()
 {
 }
 
-void VulkanAllocatedQueue::Submit(VulkanCommandBuffer &cb) const
+void VulkanQueue::Submit(VulkanCommandBuffer &cb) const
 {
 	VkSubmitInfo submitInfo = {};
 
@@ -25,7 +25,7 @@ void VulkanAllocatedQueue::Submit(VulkanCommandBuffer &cb) const
 	AssertVulkanSuccess(result);
 }
 
-void VulkanAllocatedQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSemaphore *pSignal, VulkanSemaphore *pWait,const std::vector<VkPipelineStageFlagBits>& waitStages) const
+void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSemaphore *pSignal, VulkanSemaphore *pWait,const std::vector<VkPipelineStageFlagBits>& waitStages) const
 {
 	std::vector<VkCommandBuffer> _vcbH(vcb.size());
 	for (int i=0;i<vcb.size();i++)
@@ -62,13 +62,13 @@ void VulkanAllocatedQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,V
 	AssertVulkanSuccess(result);
 }
 
-void VulkanAllocatedQueue::Submit(VulkanCommandBatchCollection& cl)
+void VulkanQueue::Submit(VulkanCommandBatchCollection& cl)
 {
 	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), VK_NULL_HANDLE);
 	AssertVulkanSuccess(result);
 }
 
-void VulkanAllocatedQueue::WaitIdle() const
+void VulkanQueue::WaitIdle() const
 {
 	VkResult result= vkQueueWaitIdle(_handle);
 	AssertVulkanSuccess(result);
