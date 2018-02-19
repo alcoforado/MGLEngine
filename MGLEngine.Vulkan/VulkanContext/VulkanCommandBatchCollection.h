@@ -30,7 +30,8 @@ public:
 
 
 	void AddBatch(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages);
-	
+	void AddBatch(VulkanCommandBuffer* vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages);
+
 	
 
 	

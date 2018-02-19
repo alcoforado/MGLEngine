@@ -5,6 +5,7 @@
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphore.h"
 #include <memory>
 #include "VulkanCommandBatchCollection.h"
+class VulkanFence;
 class VulkanCommandBuffer;
 class VulkanLogicalDevice;
 class VulkanQueue
@@ -29,7 +30,7 @@ public:
 	void Submit(VulkanCommandBuffer &cb) const;
 	void Submit(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages) const;
 
-	void Submit(VulkanCommandBatchCollection &cl);
+	void Submit(VulkanCommandBatchCollection &cl,VulkanFence *fence=nullptr) const;
 	void WaitIdle() const;
 };
 

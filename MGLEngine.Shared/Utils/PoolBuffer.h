@@ -22,7 +22,7 @@ public:
 	T* GetNext()
 	{
 		
-		if (_i < _pool->size() )
+		if (_i < _pool.size() )
 		{
 			return _pool[_i++];
 		}

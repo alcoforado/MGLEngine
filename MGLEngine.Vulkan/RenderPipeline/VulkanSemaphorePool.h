@@ -2,7 +2,7 @@
 #include <MGLEngine.Shared/Utils/PoolBuffer.h>
 #include "VulkanSemaphore.h"
 
-class VulkanSemaphorePool : PoolBuffer<VulkanSemaphore>
+class VulkanSemaphorePool : public PoolBuffer<VulkanSemaphore>
 {
 	VulkanLogicalDevice *_pDev;
 public:

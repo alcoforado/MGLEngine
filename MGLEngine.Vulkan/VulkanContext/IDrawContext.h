@@ -1,6 +1,8 @@
 #pragma once
 #include  "../RenderPipeline/VulkanSemaphore.h"
 #include "../Shaders/IVulkanRenderContext.h"
+#include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h"
+
 class IDrawContext
 {
 public:
@@ -8,7 +10,7 @@ public:
 	virtual  VulkanSemaphore* GetSwapChainSemaphore() = 0;
 	virtual  IVulkanRenderContext* GetRenderContext() = 0;
 	virtual int GetFrameIndex() = 0;
-
+	virtual VulkanSemaphore* GetAvailableSemaphore()=0;
 };
 
 class DrawContext : public IDrawContext
@@ -17,17 +19,24 @@ public:
 	bool WindowResized;
 	VulkanSemaphore *CurrentSemaphore;
 	IVulkanRenderContext  *RenderContext;
+	VulkanSemaphorePool *Pool;
 	int FrameIndex;
 	DrawContext() {}
 
-	bool  IsWindowResized() override { return WindowResized; }
+	virtual bool  IsWindowResized() override { return WindowResized; }
 	
-	VulkanSemaphore* GetSwapChainSemaphore() override {
+	virtual VulkanSemaphore* GetSwapChainSemaphore() override {
 		return CurrentSemaphore;
 	}
 
-	IVulkanRenderContext * GetRenderContext() override { return RenderContext; }
+	virtual IVulkanRenderContext * GetRenderContext() override { return RenderContext; }
 
-	int GetFrameIndex() override { return FrameIndex; }
+	 virtual int GetFrameIndex() override { return FrameIndex; }
+
+	VulkanSemaphore* GetAvailableSemaphore() override
+	{
+		return Pool->GetNext();
+	}
+	
 
 };

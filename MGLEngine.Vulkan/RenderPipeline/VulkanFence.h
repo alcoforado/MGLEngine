@@ -10,5 +10,6 @@ public:
 	VulkanFence(VulkanLogicalDevice *dev);
 
 	~VulkanFence();
+	VkFence GetHandle() { return _fence; }
 };
 

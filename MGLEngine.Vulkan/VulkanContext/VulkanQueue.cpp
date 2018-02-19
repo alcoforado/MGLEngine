@@ -1,6 +1,7 @@
 #include "VulkanQueue.h"
 #include "VulkanLogicalDevice.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
+#include "MGLEngine.Vulkan/RenderPipeline/VulkanFence.h"
 
 VulkanQueue::VulkanQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
 	:_logicalDevice(logicalDevice),_familyIndex(familyIndex),_queueIndex(queueIndex)
@@ -62,9 +63,9 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 	AssertVulkanSuccess(result);
 }
 
-void VulkanQueue::Submit(VulkanCommandBatchCollection& cl)
+void VulkanQueue::Submit(VulkanCommandBatchCollection& cl,VulkanFence *fence) const
 {
-	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), VK_NULL_HANDLE);
+	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);
 	AssertVulkanSuccess(result);
 }
 

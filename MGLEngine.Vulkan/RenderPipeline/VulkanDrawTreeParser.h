@@ -5,7 +5,7 @@
 #include "../VulkanContext/IDrawContext.h"
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
 #include "MGLEngine.Vulkan/RenderResources/VulkanRenderResourceLoadContext.h"
-
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
 class IVulkanRenderContext;
 
 
@@ -62,7 +62,7 @@ public:
 		assert(pipeline.IsLoaded());
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		_sm = new VulkanSemaphore(context.GetLogicalDevice());
-		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers().size(),{});
+		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
 	}
 
 
@@ -139,16 +139,17 @@ public:
 		
 		uint32_t index = _pipeline.GetSwapChain().GetCurrentImageIndex();
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
-		VulkanCommandBatchCollection batch();
+		VulkanCommandBatchCollection batch;
+		VulkanSemaphore *rootSemaphore = nullptr;
+		VulkanSemaphore *endSemaphore = drawContext->GetAvailableSemaphore();
 		if (rootCmds != nullptr)
 		{
-			_context.GetLogicalDevice()->GetGraphicQueue()->Submit({ GetCommandForFrame(index),rootCmds }, drawContext->GetSemaphore(), drawContext->GetSemaphore(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
+			rootSemaphore = drawContext->GetAvailableSemaphore();
+			batch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
 		}
-		else
-		{
-			_context.GetLogicalDevice()->GetGraphicQueue()->Submit({ GetCommandForFrame(index),rootCmds }, drawContext->GetSemaphore(), drawContext->GetSemaphore(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
-		}
-		return drawContext->GetSemaphore();
+		batch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
+		_pipeline.GetLogicalDevice().GetGraphicQueue()->Submit(batch);
+		return endSemaphore;
 	}
 
 
@@ -176,6 +177,7 @@ public:
 				{
 					return true;
 				}
+				return true;
 		});
 	}
 

@@ -39,4 +39,10 @@ void VulkanCommandBatchCollection::AddBatch(const std::vector<VulkanCommandBuffe
 	_submitInfos.push_back(submitInfo);
 }
 
+void VulkanCommandBatchCollection::AddBatch(VulkanCommandBuffer* vcb, VulkanSemaphore* pSignal, VulkanSemaphore* pWait,
+	const std::vector<VkPipelineStageFlagBits>& waitStages)
+{
+	this->AddBatch(std::vector<VulkanCommandBuffer*>(1,vcb), pSignal, pWait, waitStages);
+}
+
 
