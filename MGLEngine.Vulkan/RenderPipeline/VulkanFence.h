@@ -4,10 +4,10 @@ class VulkanLogicalDevice;
 class VulkanFence
 {
 	VkFence _fence;
-	VulkanLogicalDevice *_dev;
+	const VulkanLogicalDevice *_dev;
 public:
 
-	VulkanFence(VulkanLogicalDevice *dev);
+	VulkanFence(const VulkanLogicalDevice *dev,bool b=false);
 
 	~VulkanFence();
 	VkFence GetHandle() { return _fence; }

@@ -65,9 +65,9 @@ void ShaderColor2D::OnSwapChange()
 
 
 
-VulkanSemaphore* ShaderColor2D::Draw(IDrawContext *pDrawContext)
+void  ShaderColor2D::Draw(IDrawContext *pDrawContext)
 {
-	return _treeParser->ExecuteTree(pDrawContext);
+	_treeParser->ExecuteTree(pDrawContext);
 	
 }
 

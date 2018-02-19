@@ -106,12 +106,12 @@ VulkanSemaphore* VulkanSwapChain::NextImagePipelineAsync()
 	return &_nextImageSemaphore;
 }
 
-void VulkanSwapChain::Present(const VulkanSemaphore& lock)
+void VulkanSwapChain::Present(const VulkanSemaphore* lock)
 {
 	VkPresentInfoKHR presentInfo = {};
 	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
-	auto lh = lock.GetHandle();
+	auto lh = lock->GetHandle();
 	auto h = this->GetHandle();
 
 	presentInfo.waitSemaphoreCount = 1;

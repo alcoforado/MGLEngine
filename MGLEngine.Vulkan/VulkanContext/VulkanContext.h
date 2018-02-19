@@ -26,7 +26,7 @@ private:
 	{
 	
 		std::vector<VulkanSemaphore*> WaitSemaphoresToPresent;
-		
+		VulkanFence *fence;
 	};
 
 

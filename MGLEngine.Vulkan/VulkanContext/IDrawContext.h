@@ -3,6 +3,12 @@
 #include "../Shaders/IVulkanRenderContext.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h"
 
+
+struct Output
+{
+	VulkanCommandBatchCollection CommandBatch;
+	VulkanSemaphore *EndSignalSemaphore;
+};
 class IDrawContext
 {
 public:
@@ -11,6 +17,9 @@ public:
 	virtual  IVulkanRenderContext* GetRenderContext() = 0;
 	virtual int GetFrameIndex() = 0;
 	virtual VulkanSemaphore* GetAvailableSemaphore()=0;
+	Output Out;
+
+	
 };
 
 class DrawContext : public IDrawContext
@@ -21,7 +30,8 @@ public:
 	IVulkanRenderContext  *RenderContext;
 	VulkanSemaphorePool *Pool;
 	int FrameIndex;
-	DrawContext() {}
+	
+	DrawContext(){}
 
 	virtual bool  IsWindowResized() override { return WindowResized; }
 	
@@ -33,7 +43,7 @@ public:
 
 	 virtual int GetFrameIndex() override { return FrameIndex; }
 
-	VulkanSemaphore* GetAvailableSemaphore() override
+	virtual VulkanSemaphore* GetAvailableSemaphore() override
 	{
 		return Pool->GetNext();
 	}

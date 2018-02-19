@@ -27,7 +27,7 @@ class VulkanSwapChain
 	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
 	VulkanSemaphore* NextImagePipelineAsync();
 	VkSwapchainKHR GetHandle() { return _handle; }
-	void Present(const VulkanSemaphore& lock);
+	void Present(const VulkanSemaphore* lock);
 	uint32_t GetCurrentImageIndex() const { return _nextImageIndex; }
 };
 

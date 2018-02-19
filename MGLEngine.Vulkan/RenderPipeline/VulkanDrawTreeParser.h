@@ -78,7 +78,7 @@ public:
 
 
 
-	VulkanSemaphore* ExecuteTree(IDrawContext *drawContext)
+	void ExecuteTree(IDrawContext *drawContext)
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();
@@ -139,17 +139,17 @@ public:
 		
 		uint32_t index = _pipeline.GetSwapChain().GetCurrentImageIndex();
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
-		VulkanCommandBatchCollection batch;
+	
 		VulkanSemaphore *rootSemaphore = nullptr;
 		VulkanSemaphore *endSemaphore = drawContext->GetAvailableSemaphore();
 		if (rootCmds != nullptr)
 		{
 			rootSemaphore = drawContext->GetAvailableSemaphore();
-			batch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
+			drawContext->Out.CommandBatch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
 		}
-		batch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
-		_pipeline.GetLogicalDevice().GetGraphicQueue()->Submit(batch);
-		return endSemaphore;
+		drawContext->Out.CommandBatch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
+		
+		
 	}
 
 

@@ -12,7 +12,7 @@
 #include "../Shaders/ShaderColor2D.h"
 #include <Topologies/Triangle2D.h>
 #include <Renders/CyclicColor.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
@@ -21,13 +21,16 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(window,*_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
-
-	
-
-
-	
-
 	_drawContext.RenderContext = this;
+	
+	
+	for (int i = 0; i < _pSwapChain->GetImageViews().size();i++)
+	{
+		PerFrameData d;
+		d.fence = GetLogicalDevice()->CreateFence(true);
+		_framesData.push_back(d);
+
+	}
 }
 
 
@@ -68,8 +71,19 @@ void VulkanContext::Draw()
 	_drawContext.RenderContext = this;
 	_drawContext.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync();
 	_drawContext.FrameIndex = _pSwapChain->GetCurrentImageIndex();
-	VulkanSemaphore *wait =  _render->Draw(&_drawContext);
-	_pSwapChain->Present(*wait);
+	_drawContext.Out.CommandBatch.Clear();
+	_drawContext.Out.EndSignalSemaphore = nullptr;
+	PerFrameData& frameData = _framesData[_drawContext.FrameIndex];
+	
+	
+	
+	frameData.fence->Wait();
+
+
+	_render->Draw(&_drawContext);
+	GetLogicalDevice()->GetGraphicQueue()->Submit(_drawContext.Out.CommandBatch);
+
+	_pSwapChain->Present(_drawContext.Out.EndSignalSemaphore);
 	_drawContext.WindowResized = false;
 
 

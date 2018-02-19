@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <cassert>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice)
 	:_physicalDevice(physicalDevice)
 {
@@ -113,4 +113,9 @@ VulkanCommandPool* VulkanLogicalDevice::GetGraphicCommandPool()
 void VulkanLogicalDevice::WaitToBeIdle() const
 {
 	vkDeviceWaitIdle(_vkDevice);
+}
+
+VulkanFence* VulkanLogicalDevice::CreateFence(bool b) const
+{
+	return new VulkanFence(this, b);
 }

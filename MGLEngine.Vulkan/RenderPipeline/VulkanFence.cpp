@@ -3,13 +3,13 @@
 #include "VulkanPipeline.h"
 
 
-VulkanFence::VulkanFence(VulkanLogicalDevice *dev)
+VulkanFence::VulkanFence(const VulkanLogicalDevice *dev,bool b)
 {
 	_dev = dev;
 	VkFenceCreateInfo info = {};
 	info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 	info.pNext = nullptr;
-	info.flags = 0;
+	info.flags = b ? VK_FENCE_CREATE_SIGNALED_BIT : 0;
 	auto result=vkCreateFence(_dev->GetHandle(), &info, VK_NULL_HANDLE, &_fence);
 	AssertVulkanSuccess(result);
 }
