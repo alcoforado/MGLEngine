@@ -1,6 +1,7 @@
 #include "VulkanFence.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include "VulkanPipeline.h"
+#include <basetsd.h>
 
 
 VulkanFence::VulkanFence(const VulkanLogicalDevice *dev,bool b)
@@ -19,5 +20,13 @@ VulkanFence::~VulkanFence()
 {
 	vkDestroyFence(_dev->GetHandle(),_fence,VK_NULL_HANDLE);
 }
+
+void VulkanFence::Wait() const 
+{
+	auto result = vkWaitForFences(_dev->GetHandle(), 1, &_fence, VK_TRUE, std::numeric_limits<long unsigned int>::max());
+	AssertVulkanSuccess(result);
+}
+
+
 
 
