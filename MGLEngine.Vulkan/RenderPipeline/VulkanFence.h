@@ -10,7 +10,7 @@ public:
 	VulkanFence(const VulkanLogicalDevice *dev,bool b=false);
 
 	~VulkanFence();
-	VkFence GetHandle() { return _fence; }
+	VkFence GetHandle() const { return _fence; }
 	void Wait() const;
 };
 
