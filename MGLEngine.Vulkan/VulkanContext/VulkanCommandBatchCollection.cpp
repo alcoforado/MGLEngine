@@ -18,6 +18,7 @@ void VulkanCommandBatchCollection::AddBatch(const std::vector<VulkanCommandBuffe
 	{
 		bi->_signals.push_back(pSignal->GetHandle());
 	}
+
 	if (pWait != nullptr)
 	{
 		bi->_waits.push_back(pWait->GetHandle());
@@ -46,3 +47,16 @@ void VulkanCommandBatchCollection::AddBatch(VulkanCommandBuffer* vcb, VulkanSema
 }
 
 
+void VulkanCommandBatchCollection::AddBatch(VulkanCommandBatchCollection *batch)
+{
+	for (auto elem: batch->_submitInfos)
+	{
+		this->_submitInfos.push_back(elem);
+	}	
+
+	for (auto elem : batch->_batchInfos)
+	{
+		this->_batchInfos.push_back(elem);
+	}
+
+}

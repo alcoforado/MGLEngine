@@ -34,9 +34,11 @@ public:
 	void Clear()
 	{
 		_submitInfos.clear();
+		for (auto e: _batchInfos){delete e;}
 		_batchInfos.clear();
 	}
 	
+	void AddBatch(VulkanCommandBatchCollection *batch);
 
 	
 
