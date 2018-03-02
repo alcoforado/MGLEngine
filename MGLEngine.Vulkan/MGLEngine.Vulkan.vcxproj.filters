@@ -236,5 +236,8 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shaders\IVulkanShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

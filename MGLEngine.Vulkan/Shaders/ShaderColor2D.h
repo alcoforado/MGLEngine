@@ -11,11 +11,12 @@
 #include "../RenderPipeline/VulkanBuffer.h"
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
 #include "MGLEngine.Vulkan/RenderResources/ConstantBuffer.h"
+#include "IVulkanShader.h"
 class IVulkanRenderContext;
 
 
 
-class ShaderColor2D : public DrawTree<Color2D>
+class ShaderColor2D : public DrawTree<Color2D>, IVulkanShader
 {
 	OPointer<VulkanDrawTreeParser<Color2D>> _treeParser;
 	OPointer<VulkanPipeline> _pPipeline;
@@ -29,7 +30,7 @@ class ShaderColor2D : public DrawTree<Color2D>
 	explicit ShaderColor2D(IVulkanRenderContext& renderContext);
 	~ShaderColor2D();
 	void OnSwapChange();
-	void Draw(IDrawContext *pDrawContext);
+	virtual void Draw(IDrawContext *pDrawContext);
 	void SetGlobalTransform(glm::mat3 mat3);
 
 };
