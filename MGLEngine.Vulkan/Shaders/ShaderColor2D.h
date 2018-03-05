@@ -16,7 +16,7 @@ class IVulkanRenderContext;
 
 
 
-class ShaderColor2D : public DrawTree<Color2D>, IVulkanShader
+class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 {
 	OPointer<VulkanDrawTreeParser<Color2D>> _treeParser;
 	OPointer<VulkanPipeline> _pPipeline;

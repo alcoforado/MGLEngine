@@ -37,7 +37,7 @@ private:
 	VulkanMemoryManager _memoryMngr;
 	DrawContext _drawContext;
 	std::vector<PerFrameData> _framesData;
-	
+	std::vector<IVulkanShader*> _shaders;
 public:
 	VulkanContext(GLFWwindow* window);
 	void OnResize(GLFWwindow *window, int newWidth, int newHeight);
@@ -50,7 +50,9 @@ public:
 	}
 
 	virtual VulkanLogicalDevice* GetLogicalDevice() const override { return _vkLogicalDevice; }
+	
 	void Draw();
+
 	virtual VulkanMemoryManager* GetMemoryManager() override { return &_memoryMngr; }
 
 	ShaderColor2D* GetShaderColor2D() { return _render; }

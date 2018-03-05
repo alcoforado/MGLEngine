@@ -1,11 +1,10 @@
 #include "VulkanSwapChain.h"
 #include "../VulkanUtils.h"
 #include <vulkan/vulkan.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 
 VulkanSwapChain::VulkanSwapChain(GLFWwindow *window,VulkanLogicalDevice& device)
 :_logicalDevice(device),
-_nextImageSemaphore(&device),
 _surface(device.GetPhysicalDevice(),window)
 {
 	VkSwapchainCreateInfoKHR createInfo = {};
@@ -100,10 +99,14 @@ VulkanSwapChain::~VulkanSwapChain()
 	vkDestroySwapchainKHR(_logicalDevice.GetHandle(),_handle,nullptr);
 }
 
-VulkanSemaphore* VulkanSwapChain::NextImagePipelineAsync()
+void  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal,VulkanFence *fenceToSignal)
 {
-	vkAcquireNextImageKHR(_logicalDevice.GetHandle(), _handle, std::numeric_limits<uint64_t>::max(), _nextImageSemaphore.GetHandle(), VK_NULL_HANDLE, &_nextImageIndex);
-	return &_nextImageSemaphore;
+	vkAcquireNextImageKHR(_logicalDevice.GetHandle(), 
+		_handle, 
+		std::numeric_limits<uint64_t>::max(), 
+		sToSignal == nullptr ? VK_NULL_HANDLE: sToSignal->GetHandle(),
+		fenceToSignal == nullptr ? VK_NULL_HANDLE : fenceToSignal->GetHandle(), 
+		&_nextImageIndex);
 }
 
 void VulkanSwapChain::Present(const VulkanSemaphore* lock)

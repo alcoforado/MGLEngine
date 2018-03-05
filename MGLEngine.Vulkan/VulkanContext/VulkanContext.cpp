@@ -22,7 +22,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	_pSwapChain = new VulkanSwapChain(window,*_vkLogicalDevice);
 	_render = new ShaderColor2D(*this);
 	_drawContext.RenderContext = this;
-	
+	_shaders.push_back(_render);
 	
 	for (int i = 0; i < _pSwapChain->GetImageViews().size();i++)
 	{
@@ -69,11 +69,12 @@ void VulkanContext::Draw()
 {
 	
 	_drawContext.RenderContext = this;
-	_drawContext.CurrentSemaphore = _pSwapChain->NextImagePipelineAsync();
-	_drawContext.FrameIndex = _pSwapChain->GetCurrentImageIndex();
-	_drawContext.Out.CommandBatch.Clear();
-	_drawContext.Out.EndSignalSemaphore = nullptr;
+	
 	PerFrameData& frameData = _framesData[_drawContext.FrameIndex];
+	_pSwapChain->NextImagePipelineAsync(nullptr, frameData.fence);
+	_drawContext.FrameIndex = _pSwapChain->GetCurrentImageIndex();
+
+
 	
 	
 	

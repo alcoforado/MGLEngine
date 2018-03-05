@@ -15,7 +15,6 @@ class VulkanSwapChain
 	std::vector<VkImage> _images;
 	std::vector<VkImageView> _imagesviews;
 	uint32_t _nextImageIndex;
-	VulkanSemaphore _nextImageSemaphore;
 	
 	
 	public:
@@ -25,7 +24,7 @@ class VulkanSwapChain
 	~VulkanSwapChain();
 	VkFormat GetImageFormat() const { return _imageFormat; }
 	std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
-	VulkanSemaphore* NextImagePipelineAsync();
+	void  NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence *fenceToSignal);
 	VkSwapchainKHR GetHandle() { return _handle; }
 	void Present(const VulkanSemaphore* lock);
 	uint32_t GetCurrentImageIndex() const { return _nextImageIndex; }
