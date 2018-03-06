@@ -24,9 +24,14 @@ private:
 private:
 	struct PerFrameData
 	{
-	
-		std::vector<VulkanSemaphore*> WaitSemaphoresToPresent;
-		VulkanFence *fence;
+		VulkanFence *pExecutionFence;
+		VulkanSemaphore *pAcquireImageSemaphore;
+
+		PerFrameData(VulkanLogicalDevice* dev)
+		{
+			pExecutionFence = dev->CreateFence(true);
+			pAcquireImageSemaphore = nullptr;
+		}
 	};
 
 
@@ -36,7 +41,7 @@ private:
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanMemoryManager _memoryMngr;
 	DrawContext _drawContext;
-	std::vector<PerFrameData> _framesData;
+	std::vector<PerFrameData*> _framesData;
 	std::vector<IVulkanShader*> _shaders;
 public:
 	VulkanContext(GLFWwindow* window);

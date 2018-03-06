@@ -141,14 +141,13 @@ public:
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
 	
 		VulkanSemaphore *rootSemaphore = nullptr;
-		VulkanSemaphore *endSemaphore = drawContext->GetAvailableSemaphore();
-		if (rootCmds != nullptr)
+/*		if (rootCmds != nullptr)
 		{
 			rootSemaphore = drawContext->GetAvailableSemaphore();
 			drawContext->Out.CommandBatch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
 		}
 		drawContext->Out.CommandBatch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
-		
+	*/	
 		
 	}
 

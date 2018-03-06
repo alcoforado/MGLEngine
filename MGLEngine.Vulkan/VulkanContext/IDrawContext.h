@@ -16,7 +16,6 @@ public:
 	virtual  VulkanSemaphore* GetSwapChainSemaphore() = 0;
 	virtual  IVulkanRenderContext* GetRenderContext() = 0;
 	virtual int GetFrameIndex() = 0;
-	virtual VulkanSemaphore* GetAvailableSemaphore()=0;
 	Output Out;
 
 	
@@ -43,10 +42,7 @@ public:
 
 	 virtual int GetFrameIndex() override { return FrameIndex; }
 
-	virtual VulkanSemaphore* GetAvailableSemaphore() override
-	{
-		return Pool->GetNext();
-	}
+	
 	
 
 };

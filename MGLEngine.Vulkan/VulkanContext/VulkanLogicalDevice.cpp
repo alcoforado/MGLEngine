@@ -119,3 +119,9 @@ VulkanFence* VulkanLogicalDevice::CreateFence(bool b) const
 {
 	return new VulkanFence(this, b);
 }
+
+VulkanSemaphore* VulkanLogicalDevice::CreateSemaphore() const
+{
+	return new VulkanSemaphore(this);
+
+}

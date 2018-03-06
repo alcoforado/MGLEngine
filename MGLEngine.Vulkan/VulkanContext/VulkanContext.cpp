@@ -26,9 +26,8 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 	
 	for (int i = 0; i < _pSwapChain->GetImageViews().size();i++)
 	{
-		PerFrameData d;
-		d.fence = GetLogicalDevice()->CreateFence(true);
-		_framesData.push_back(d);
+		PerFrameData *pfd = new PerFrameData(GetLogicalDevice());
+		_framesData.push_back(pfd);
 
 	}
 }
@@ -49,6 +48,11 @@ VulkanContext::~VulkanContext()
 {
 	delete _render;
 	_pSwapChain.if_free();
+
+	for(auto fd: _framesData)
+	{
+		delete fd;
+	}
 }
 
 
@@ -70,7 +74,7 @@ void VulkanContext::Draw()
 	
 	_drawContext.RenderContext = this;
 	
-	PerFrameData& frameData = _framesData[_drawContext.FrameIndex];
+/*	PerFrameData& frameData = _framesData[_drawContext.FrameIndex];
 	_pSwapChain->NextImagePipelineAsync(nullptr, frameData.fence);
 	_drawContext.FrameIndex = _pSwapChain->GetCurrentImageIndex();
 
@@ -86,6 +90,6 @@ void VulkanContext::Draw()
 
 	_pSwapChain->Present(_drawContext.Out.EndSignalSemaphore);
 	_drawContext.WindowResized = false;
-
+	*/
 
 }

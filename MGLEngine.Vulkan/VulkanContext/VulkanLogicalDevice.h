@@ -37,5 +37,6 @@ public:
 	VulkanCommandPool* GetGraphicCommandPool();
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;
+	VulkanSemaphore* CreateSemaphore() const;
 };
 

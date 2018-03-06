@@ -1,49 +1,81 @@
 #pragma once
 
 #include <vector>
+#include <list>
+
+template<class T>
+class PoolHandle;
 
 template<class T>
 class PoolBuffer
 {
-	std::vector<T*> _pool;
-	int _i;;
+	friend class PoolHandle<T>;
+	std::vector<T*> _allocated;
+	std::list<PoolHandle<T>*> _handles;
 
-public:
-	
+protected:
 	virtual T* createNew() = 0;
 
+public:
 
-	PoolBuffer()
-	{
-		
-		_i = 0;
-	}
 
-	T* GetNext()
+
+
+
+	PoolHandle<T>* Allocate();
+
+	virtual ~PoolBuffer()
 	{
-		
-		if (_i < _pool.size() )
+		for (auto h : _handles)
 		{
-			return _pool[_i++];
+			delete h;
 		}
-		else
-		{
-			
-			_pool.push_back(createNew());
-			return _pool[_i++];
-		}
-	}
-
-	void ReleaseAll()
-	{
-		_i = 0;
-	}
-
-	~PoolBuffer()
-	{
-		for(T* elem: _pool)
+		for (T* elem : _allocated)
 		{
 			delete elem;
 		}
 	}
 };
+
+template<class T>
+class PoolHandle
+{
+private:
+	T * _data;
+	PoolBuffer<T> *_pool;
+	PoolHandle(PoolBuffer<T> *pool)
+	{
+		_pool = pool;
+		if (_pool->_allocated.size() == 0)
+			_data = _pool.createNew();
+		else
+			_data = _pool->_allocated.pop_back();
+		_pool->_handles.push_back(this);
+	}
+public:
+	T * Get()
+	{
+		return _data;
+	}
+
+	~PoolHandle()
+	{
+		if (_data != nullptr)
+		{
+			_pool->_allocated.push_back(_data);
+			_data = nullptr;
+		}
+		_pool->_handles.remove_if([this](PoolHandle<T>*h) {return h == this; });
+	}
+};
+
+template<class T>
+PoolHandle<T>* PoolBuffer<T>::Allocate()
+{
+	return new PoolBuffer<T>::Handle(this);
+}
+
+
+
+
+
