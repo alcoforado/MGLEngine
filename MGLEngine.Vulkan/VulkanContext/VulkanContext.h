@@ -11,6 +11,7 @@
 #include "../Shaders/ShaderColor2D.h"
 #include "IDrawContext.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h>
 struct GLFWwindow;
 
 
@@ -25,7 +26,7 @@ private:
 	struct PerFrameData
 	{
 		VulkanFence *pExecutionFence;
-		VulkanSemaphore *pAcquireImageSemaphore;
+		VulkanSemaphorePool::Handle *pAcquireImageSemaphore;
 
 		PerFrameData(VulkanLogicalDevice* dev)
 		{
@@ -41,6 +42,7 @@ private:
 	OPointer<VulkanSwapChain> _pSwapChain;
 	VulkanMemoryManager _memoryMngr;
 	DrawContext _drawContext;
+	VulkanSemaphorePool _semaphorePool;
 	std::vector<PerFrameData*> _framesData;
 	std::vector<IVulkanShader*> _shaders;
 public:

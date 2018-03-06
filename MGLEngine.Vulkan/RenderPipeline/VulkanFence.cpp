@@ -27,6 +27,12 @@ void VulkanFence::Wait() const
 	AssertVulkanSuccess(result);
 }
 
+void VulkanFence::Reset() const
+{
+	VkResult r = vkResetFences(_dev->GetHandle(), 1, &_fence);
+	AssertVulkanSuccess(r);
+}
+
 
 
 

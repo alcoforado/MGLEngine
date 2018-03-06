@@ -17,7 +17,7 @@ protected:
 	virtual T* createNew() = 0;
 
 public:
-
+	typedef typename PoolHandle<T> Handle;
 
 
 
@@ -40,6 +40,7 @@ public:
 template<class T>
 class PoolHandle
 {
+	friend class PoolBuffer<T>;
 private:
 	T * _data;
 	PoolBuffer<T> *_pool;
@@ -47,13 +48,16 @@ private:
 	{
 		_pool = pool;
 		if (_pool->_allocated.size() == 0)
-			_data = _pool.createNew();
+			_data = _pool->createNew();
 		else
-			_data = _pool->_allocated.pop_back();
+		{
+			_data = _pool->_allocated.back();
+			_pool->_allocated.pop_back();
+		}
 		_pool->_handles.push_back(this);
 	}
 public:
-	T * Get()
+	T* GetResource()
 	{
 		return _data;
 	}

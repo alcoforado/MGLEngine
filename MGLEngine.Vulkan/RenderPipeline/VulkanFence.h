@@ -12,5 +12,6 @@ public:
 	~VulkanFence();
 	VkFence GetHandle() const { return _fence; }
 	void Wait() const;
+	void Reset() const;
 };
 
