@@ -6,8 +6,7 @@
 
 struct Output
 {
-	VulkanCommandBatchCollection CommandBatch;
-	VulkanSemaphore *EndSignalSemaphore;
+	std::vector<VulkanCommandBuffer*> Commands;
 };
 class IDrawContext
 {

@@ -27,7 +27,7 @@ private:
 	{
 		VulkanFence *pExecutionFence;
 		VulkanSemaphorePool::Handle *pAcquireImageSemaphore;
-
+		std::vector<VulkanCommandBuffer*> Commands;
 		PerFrameData(VulkanLogicalDevice* dev)
 		{
 			pExecutionFence = dev->CreateFence(true);

@@ -26,7 +26,7 @@ void VulkanQueue::Submit(VulkanCommandBuffer &cb) const
 	AssertVulkanSuccess(result);
 }
 
-void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSemaphore *pSignal, VulkanSemaphore *pWait,const std::vector<VkPipelineStageFlagBits>& waitStages) const
+void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSemaphore *pSignal, VulkanSemaphore *pWait,const std::vector<VkPipelineStageFlagBits>& waitStages,	VulkanFence *fence) const
 {
 	std::vector<VkCommandBuffer> _vcbH(vcb.size());
 	for (int i=0;i<vcb.size();i++)
@@ -59,7 +59,7 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 	VkFlags dstStageMask= FromBitFlagsToInt(waitStages);
 	submitInfo.pWaitDstStageMask = &dstStageMask;
 	
-	VkResult result = vkQueueSubmit(_handle, 1, &submitInfo, VK_NULL_HANDLE);
+	VkResult result = vkQueueSubmit(_handle, 1, &submitInfo, fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);
 	AssertVulkanSuccess(result);
 }
 

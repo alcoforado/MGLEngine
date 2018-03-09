@@ -95,23 +95,23 @@ void VulkanContext::Draw()
 	//Store the just used semaphore in the frame to be deallocated the next time we revisit this frame
 	pFrameData->pAcquireImageSemaphore = sAcquireImage;
 	
+	
 	//Start asking the shaders classes to input their command buffers
+	pFrameData->Commands.clear();
 	for(auto sh : _shaders)
 	{
+		_drawContext.Out.Commands.clear();
+		sh->Draw(&_drawContext);
 		
+		for (auto cb : _drawContext.Out.Commands)
+		{
+			pFrameData->Commands.push_back(cb);
+		}
 	}
 
-
+	//Finally submit the commands
+	GetLogicalDevice()->GetGraphicQueue()->Submit(pFrameData->Commands, pFrameData->pAcquireImageSemaphore->GetResource(), nullptr, {}, pFrameData->pExecutionFence);
 	
-	/*
-	frameData.fence->Wait();
-
-
-	_render->Draw(&_drawContext);
-	GetLogicalDevice()->GetGraphicQueue()->Submit(_drawContext.Out.CommandBatch);
-
-	_pSwapChain->Present(_drawContext.Out.EndSignalSemaphore);
-	_drawContext.WindowResized = false;
-	*/
+	
 
 }
