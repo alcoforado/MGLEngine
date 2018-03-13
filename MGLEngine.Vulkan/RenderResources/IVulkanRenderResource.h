@@ -5,8 +5,9 @@
 
 class VulkanCommandBuffer;
 
+
 class IVulkanRenderResource : public IRenderResource
 {
-	virtual void WriteCommands(VulkanCommandBuffer *cb) = 0;
+	virtual void Load(IVulkanResourceLoadContext *context) = 0;
 	
 };

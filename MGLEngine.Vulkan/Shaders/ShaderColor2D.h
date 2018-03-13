@@ -10,7 +10,7 @@
 #include <MGLEngine.Shared/VerticeData/Color2D.h>
 #include "../RenderPipeline/VulkanBuffer.h"
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
-#include "MGLEngine.Vulkan/RenderResources/ConstantBuffer.h"
+#include "MGLEngine.Vulkan/RenderResources/UniformBufferResource.h"
 #include "IVulkanShader.h"
 class IVulkanRenderContext;
 
@@ -23,7 +23,7 @@ class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 	VertexShaderByteCode _vertexByteCode; 
 	FragmentShaderByteCode _fragShaderCode;  
 	std::vector<VulkanCommandBuffer*> _commands;
-	OPointer<ConstantBuffer<glm::mat3>> _pGT;
+	OPointer<UniformBufferResource<glm::mat3>> _pGT;
 
 	void CreateCommands(IVulkanRenderContext& renderContext);
 	public:

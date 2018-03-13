@@ -40,20 +40,25 @@ public:
 class VulkanCommandBuffer
 {
 	friend class VulkanCommandPool;
+public:
+	struct Statistics
+	{
+		int TransferCommands = 0;
+		int ActionCommands = 0;
+		int Total() { return TransferCommands + ActionCommands; }
+	};
+
+private:
 	const VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
-	const VulkanPipeline *_pipeline;
 	VkSubmitInfo *_pSubmitInfoCache;
 	
 	bool _isOpen;
 	void AssertIsOpen();
 	VulkanCommandBuffer(const VulkanCommandPool* pool, VulkanCommandBufferOptions* options);
+	Statistics _statistics;
 
 public:
-
-
-
-
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
@@ -71,5 +76,7 @@ public:
 
 	~VulkanCommandBuffer();
 	VkCommandBuffer GetHandle() const;
+
+	Statistics GetStatistics() const;
 };
 

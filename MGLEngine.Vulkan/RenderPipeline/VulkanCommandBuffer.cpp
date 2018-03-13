@@ -21,7 +21,6 @@ void VulkanCommandBuffer::AssertIsOpen()
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,VulkanCommandBufferOptions *options)
 	:_pPool(pool)
 {
-	_pipeline = nullptr;
 	_pSubmitInfoCache = nullptr;
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -66,6 +65,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	uint32_t firstVertex,
 	uint32_t firstInstance)
 {
+	_statistics.ActionCommands++;
 	AssertIsOpen();
 	vkCmdDraw(_vkCommandBuffer,vertexCount, instanceCount, firstVertex, firstInstance);
 	return *this;
@@ -74,11 +74,8 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline* pipeline)
 {
 	AssertIsOpen();
-	if (_pipeline != nullptr)
-		throw new Exception("CommandBuffer is already assigned to a pipeline");
 	
 	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetHandle());
-	_pipeline = pipeline;
 	return *this;
 }
 
@@ -123,6 +120,8 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 
 VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
 {
+	_statistics.TransferCommands++;
+
 	VkBufferCopy copyRegion = {};
 	copyRegion.srcOffset = 0; // Optional
 	copyRegion.dstOffset = 0; // Optional

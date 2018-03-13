@@ -39,7 +39,7 @@ private:
 
 			for (auto r : root->GetResources())
 			{
-				r->Load(); //Load All resources
+				//r->Load(); //Load All resources
 			}
 
 			//Add a memory barrier

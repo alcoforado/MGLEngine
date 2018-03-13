@@ -40,7 +40,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 
 	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this);
 
-
+	//_pGT = new VulkanCommandBuffer<glm::mat3>()
 }
 
 

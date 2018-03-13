@@ -5,30 +5,32 @@
 #include "IVulkanRenderResource.h"
 
 template<class Data>
-class ConstantBuffer : public IVulkanRenderResource
+class UniformBufferResource : public IVulkanRenderResource
 {
-	Data _data;
+	std::vector<Data> _data;
 	bool _dirty;
 	VkBuffer _buffer;
 	VkDeviceMemory _bufferMemory;
+	GPUMemoryType _memoryType;
 
 
 public:
-	ConstantBuffer(int binding, std::vector<VkShaderStageFlagBits> stages)
+	UniformBufferResource(int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
 	{
+		assert(nElems > 0);
 		VkDescriptorSetLayoutBinding ubo = {};
-		ubo.binding = 0;
+		ubo.binding = binding;
 		ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		ubo.descriptorCount = 1;
 		ubo.pImmutableSamplers = nullptr;
-		
-		int r = ArrayFunctions::FromBitFlagsToInt(stages);
-		ubo.stageFlags = r;
+		ubo.stageFlags = ArrayFunctions::FromBitFlagsToInt(stages);
 
+		_memoryType = memType;
+		_data.resize(1);
 		createBuffer(sizeof(Data), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffer, uniformBufferMemory)
 	}
 
-	virtual ~ConstantBuffer()
+	virtual ~UniformBufferResource()
 	{
 		
 	}
@@ -38,10 +40,21 @@ public:
 	}
 	virtual void SetData(Data data)
 	{
-		this->_data = data;
+		this->_data[0] = data;
 		this->_dirty = true;
 	}
-
+	
+	virtual bool IsDirty() override {
+		return _dirty;
+	}
+	virtual void Clear() override
+	{
+		_dirty = false;
+	}
+	virtual GPUMemoryType MemoryType() override
+	{
+		return _memoryType;
+	}
 
 };
 

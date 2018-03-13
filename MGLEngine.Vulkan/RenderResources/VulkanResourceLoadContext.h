@@ -1,13 +1,12 @@
 #pragma once
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
-
+#include <vulkan/vulkan.h>
 class IVulkanResourceLoadContext
 {
 
-
-
 public:
 	virtual VulkanCommandBuffer* GetLoadCommandBuffer() = 0;
+	
 };
 
 

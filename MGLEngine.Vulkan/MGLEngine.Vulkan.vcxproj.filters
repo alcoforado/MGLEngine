@@ -206,9 +206,6 @@
     <ClInclude Include="MGLContainerVulkan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderResources\ConstantBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -237,6 +234,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderResources\VulkanResourceLoadContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\UniformBufferResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

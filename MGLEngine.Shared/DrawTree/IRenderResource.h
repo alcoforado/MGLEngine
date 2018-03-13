@@ -1,9 +1,12 @@
 #pragma once
+
+enum  GPUMemoryType { GPU_ONLY, MAPPED_MEMORY, AUTO_SYNC_MEMORY };
 class IRenderResource
 {
 public:
-	virtual bool Compatible(IRenderResource *res) = 0;
+	
 	virtual ~IRenderResource() = 0;
 	virtual bool IsDirty() = 0;
-	virtual bool Load()=0;
+	virtual void Clear()=0;
+	virtual GPUMemoryType MemoryType() = 0;
 };
