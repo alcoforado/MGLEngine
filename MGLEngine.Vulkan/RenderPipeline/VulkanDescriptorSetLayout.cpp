@@ -5,7 +5,7 @@
 #include "VulkanPipeline.h"
 
 VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device,
-	std::vector<IVulkanRenderResource*>& v)
+	const std::vector<IVulkanRenderResource*>& v)
 {
 	_dev = device;
 	std::vector<VkDescriptorSetLayoutBinding> vLayout;
@@ -15,7 +15,7 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device
 	}
 	VkDescriptorSetLayoutCreateInfo layoutInfo = {};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	layoutInfo.bindingCount = vLayout.size();
+	layoutInfo.bindingCount = static_cast<uint32_t>(vLayout.size());
 	layoutInfo.pBindings = &(vLayout[0]);
 
 

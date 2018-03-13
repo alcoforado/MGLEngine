@@ -5,7 +5,7 @@
 #include "../VulkanUtils.h"
 #include <cassert>
 #include "Utils/Exception.h"
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanDescriptorSetLayout.h>
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
 	:_swapChain(pSwapChain),
@@ -144,7 +144,14 @@ void VulkanPipeline::Load()
 	pipelineInfo.pColorBlendState = &ColorBlending;
 	pipelineInfo.pDynamicState = nullptr;
 
-
+	//Create Layout
+	std::vector<VkDescriptorSetLayout> vkDescriptorSets;
+	for (auto d : _descriptorSetLayouts)
+	{
+		vkDescriptorSets.push_back(d->GetHandle());
+	}
+	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSets.size());
+	PipelineLayoutInfo.pSetLayouts = vkDescriptorSets.size()>0 ? vkDescriptorSets.data() : nullptr;
 	auto err = vkCreatePipelineLayout(GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
@@ -188,6 +195,11 @@ void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 	this->Viewport.height = static_cast<float>(_swapChain->GetExtent().height);
 	Scissor.extent = _swapChain->GetExtent();
 	this->Load();
+}
+
+void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSetLayout* layout)
+{
+	_descriptorSetLayouts.push_back(layout);
 }
 
 VulkanPipeline::~VulkanPipeline()

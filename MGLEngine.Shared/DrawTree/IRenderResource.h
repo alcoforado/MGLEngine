@@ -5,7 +5,7 @@ class IRenderResource
 {
 public:
 	
-	virtual ~IRenderResource() = 0;
+	virtual ~IRenderResource() {};
 	virtual bool IsDirty() = 0;
 	virtual void Clear()=0;
 	virtual GPUMemoryType MemoryType() = 0;

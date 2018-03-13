@@ -7,6 +7,7 @@
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
+class VulkanDescriptorSetLayout;
 class VulkanCommandPool;
 class VulkanSwapChain;
 class VertexShaderByteCode;
@@ -19,6 +20,8 @@ class VulkanPipeline
 	const VulkanLogicalDevice *_pLogicalDevice;
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
+	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
+	std::vector<VulkanDescriptorSetLayout*> _descriptorSetLayouts;
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
@@ -29,7 +32,6 @@ public:
 	VkPipelineMultisampleStateCreateInfo Multisampling;
 	VkPipelineColorBlendAttachmentState ColorBlendAttachment;
 	VkPipelineColorBlendStateCreateInfo ColorBlending;
-	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
 	VulkanRenderPass RenderPass;
 	VkGraphicsPipelineCreateInfo pipelineInfo;
 	std::vector<VkDynamicState>  DynamicStates;
@@ -53,6 +55,7 @@ public:
 	
 	void OnSwapChainReload(const VulkanSwapChain *pNewSwapChaing);
 	
+	void AddDescriptorSetLayout(VulkanDescriptorSetLayout *layout);
 
 	~VulkanPipeline();
 };

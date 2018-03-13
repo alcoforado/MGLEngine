@@ -3,6 +3,7 @@
 #include "IVulkanRenderContext.h"
 #include "../SPIR-V/shaders_bytecode.h"
 #include "../RenderPipeline/VulkanBuffer.h"
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanDescriptorSetLayout.h>
 
 ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
  :_vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
@@ -40,7 +41,9 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 
 	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this);
 
-	//_pGT = new VulkanCommandBuffer<glm::mat3>()
+	_pGT = new UniformBufferResource<glm::mat3>(0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY);
+
+	_pPipeline->AddDescriptorSetLayout(new VulkanDescriptorSetLayout(renderContext.GetLogicalDevice(), { _pGT }));
 }
 
 
