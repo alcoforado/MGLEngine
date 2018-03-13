@@ -1,11 +1,11 @@
 #pragma once
-#include "../../Shapes/ITopology2D.h"
-#include "../../Shapes/ITopology3D.h"
-#include "../Exception.h"
-#include "../../Shapes/IRender.h"
+#include <MGLEngine.Shared/Shapes/ITopology2D.h>
+#include <MGLEngine.Shared/Shapes/ITopology3D.h>
+#include <MGLEngine.Shared/Utils/Exception.h>
+#include <MGLEngine.Shared/Shapes/IRender.h>
 #include <type_traits>
 #include <assert.h>
-#include <MGLEngine.Shared/Utils/DrawTree/IRenderResource.h>
+#include <MGLEngine.Shared/DrawTree/IRenderResource.h>
 
 struct ArrayLocation
 {

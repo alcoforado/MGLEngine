@@ -1,10 +1,10 @@
 #pragma once
-#include <MGLEngine.Shared/Utils/DrawTree/DrawTree.h>
+#include <MGLEngine.Shared/DrawTree/DrawTree.h>
 #include "../Shaders/IVulkanRenderContext.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../VulkanContext/IDrawContext.h"
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
-#include "MGLEngine.Vulkan/RenderResources/VulkanRenderResourceLoadContext.h"
+#include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
 class IVulkanRenderContext;
 
@@ -36,9 +36,6 @@ private:
 
 		if (root->HasDirtyResources())
 		{
-			_renderLoadContext._loadCommandBuffer.if_free();
-
-			_renderLoadContext._loadCommandBuffer = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().OneTimeSubmit());
 
 			for (auto r : root->GetResources())
 			{
@@ -141,6 +138,7 @@ public:
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
 	
 		VulkanSemaphore *rootSemaphore = nullptr;
+
 /*		if (rootCmds != nullptr)
 		{
 			rootSemaphore = drawContext->GetAvailableSemaphore();

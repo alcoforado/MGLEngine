@@ -1,9 +1,9 @@
 #pragma once
 #include "DrawInfo.h"
-#include "../NTree.h"
-#include "../DefragArray/CopyRegion.h"
-#include "../Arrays/IArray.h"
-#include "../DefragArray/DefragArray.h"
+#include <MGLEngine.Shared/Utils/NTree.h>
+#include <MGLEngine.Shared/Utils/DefragArray/CopyRegion.h>
+#include <MGLEngine.Shared/Utils/Arrays/IArray.h>
+#include <MGLEngine.Shared/Utils/DefragArray/DefragArray.h>
 #include <MGLEngine.Shared/Shaders/IShader.h>
 
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <MGLEngine.Shared/Utils/DrawTree/IRenderResource.h>
+#include <MGLEngine.Shared/DrawTree/IRenderResource.h>
 #include "MGLEngine.Vulkan/Shaders/IVulkanRenderContext.h"
 #include <MGLEngine.Shared/Utils/Arrays/ArrayFunctions.h>
 #include "IVulkanRenderResource.h"

@@ -137,11 +137,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawTree\DrawInfo.h" />
+    <ClInclude Include="DrawTree\DrawTree.h" />
+    <ClInclude Include="DrawTree\IRenderResource.h" />
     <ClInclude Include="IMGLEngine.h" />
     <ClInclude Include="Shaders\IShader.h" />
     <ClInclude Include="Utils\Arrays\ArrayFunctions.h" />
     <ClInclude Include="Utils\Arrays\FlagBitVector.h" />
-    <ClInclude Include="Utils\DrawTree\IRenderResource.h" />
     <ClInclude Include="Utils\Observable.h" />
     <ClInclude Include="Utils\Arrays\Indices.h" />
     <ClInclude Include="Renders\CyclicColor.h" />
@@ -153,8 +155,6 @@
     <ClInclude Include="Shapes\Shape2D.h" />
     <ClInclude Include="Shapes\IShape3D.h" />
     <ClInclude Include="Shapes\IShape2D.h" />
-    <ClInclude Include="Utils\DrawTree\DrawInfo.h" />
-    <ClInclude Include="Utils\DrawTree\DrawTree.h" />
     <ClInclude Include="Utils\DefragArray\DefragArray.h" />
     <ClInclude Include="Utils\DefragArray\CopyPlanSequenceDetail.h" />
     <ClInclude Include="Utils\DefragArray\CopyRegion.h" />
