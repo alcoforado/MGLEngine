@@ -191,7 +191,7 @@
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="RenderPipeline\VulkanBuffer.h" />
     <ClInclude Include="RenderResources\IVulkanRenderResource.h" />
-    <ClInclude Include="RenderResources\VulkanRenderResourceLoadContext.h" />
+    <ClInclude Include="RenderResources\VulkanResourceLoadContext.h" />
     <ClInclude Include="Shaders\IVulkanShader.h" />
     <ClInclude Include="Shaders\IVulkanRenderContext.h" />
     <ClInclude Include="Shaders\ShaderColor2D.h" />

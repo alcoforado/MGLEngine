@@ -1,7 +1,7 @@
 #pragma once
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
 
-class IVulkanRenderResourceLoadContext
+class IVulkanResourceLoadContext
 {
 
 
@@ -11,14 +11,16 @@ public:
 };
 
 
-class VulkanRenderResourceLoadContext : IVulkanRenderResourceLoadContext
+class VulkanRenderResourceLoadContext : IVulkanResourceLoadContext
 {
-public :
 	OPointer<VulkanCommandBuffer> _loadCommandBuffer;
+public :
 
 	virtual  VulkanCommandBuffer* GetLoadCommandBuffer() override
 	{
 		return _loadCommandBuffer;
 	}
+
+
 };
 

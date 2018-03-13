@@ -221,9 +221,6 @@
     <ClInclude Include="RenderResources\IVulkanRenderResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderResources\VulkanRenderResourceLoadContext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -237,6 +234,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shaders\IVulkanShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\VulkanResourceLoadContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

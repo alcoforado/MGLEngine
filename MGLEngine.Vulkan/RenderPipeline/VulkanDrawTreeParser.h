@@ -66,13 +66,13 @@ public:
 	}
 
 
-	IVulkanRenderResourceLoadContext* GetRenderLoadContext() { return &_renderLoadContext; }
+	IVulkanResourceLoadContext* GetRenderLoadContext() { return &_renderLoadContext; }
 
 	void clearCommandsBuffers()
 	{
-		for (auto cmd : _perFrameData)
+		for (auto frameData : _perFrameData)
 		{
-			cmd.IsDirty = true;
+			frameData.IsDirty = true;
 		}
 	}
 
@@ -137,14 +137,14 @@ public:
 			
 		}
 		
-		uint32_t index = _pipeline.GetSwapChain().GetCurrentImageIndex();
+		uint32_t index = drawContext->GetFrameIndex();
 		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
 	
 		VulkanSemaphore *rootSemaphore = nullptr;
 /*		if (rootCmds != nullptr)
 		{
 			rootSemaphore = drawContext->GetAvailableSemaphore();
-			drawContext->Out.CommandBatch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
+			drawContext->Out.Comm+andBatch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
 		}
 		drawContext->Out.CommandBatch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
 	*/	
