@@ -176,6 +176,7 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
+    <ClCompile Include="RenderPipeline\VulkanDescriptorSetLayout.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
+    <ClInclude Include="RenderPipeline\VulkanDescriptorSetLayout.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h" />
     <ClInclude Include="VulkanUtils.h" />

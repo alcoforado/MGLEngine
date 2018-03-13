@@ -12,23 +12,32 @@ class UniformBufferResource : public IVulkanRenderResource
 	VkBuffer _buffer;
 	VkDeviceMemory _bufferMemory;
 	GPUMemoryType _memoryType;
+	VkDescriptorSetLayoutBinding _ubo = {};
 
 
 public:
 	UniformBufferResource(int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
 	{
 		assert(nElems > 0);
-		VkDescriptorSetLayoutBinding ubo = {};
-		ubo.binding = binding;
-		ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		ubo.descriptorCount = 1;
-		ubo.pImmutableSamplers = nullptr;
-		ubo.stageFlags = ArrayFunctions::FromBitFlagsToInt(stages);
+		_ubo.binding = binding;
+		_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		_ubo.descriptorCount = 1;
+		_ubo.pImmutableSamplers = nullptr;
+		_ubo.stageFlags = ArrayFunctions::FromBitFlagsToInt(stages);
 
 		_memoryType = memType;
 		_data.resize(1);
 		createBuffer(sizeof(Data), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffer, uniformBufferMemory)
 	}
+
+	virtual void Load(IVulkanResourceLoadContext *context) override {
+		
+	}
+	virtual VkDescriptorSetLayoutBinding GetVulkanDescriptor() const override
+	{
+		return _ubo;
+	}
+
 
 	virtual ~UniformBufferResource()
 	{
