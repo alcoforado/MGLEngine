@@ -55,7 +55,11 @@ public:
 	
 	void OnSwapChainReload(const VulkanSwapChain *pNewSwapChaing);
 	
+
+	//The Descriptor Sets binded to the pipeline
 	void AddDescriptorSetLayout(VulkanDescriptorSetLayout *layout);
+	std::vector<VulkanDescriptorSetLayout*> GetDescriptorSetLayouts() const { return _descriptorSetLayouts; }
+
 
 	~VulkanPipeline();
 };
