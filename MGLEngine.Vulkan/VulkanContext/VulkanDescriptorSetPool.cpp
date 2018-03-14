@@ -1,6 +1,8 @@
 #include "VulkanDescriptorSetPool.h"
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
+#include "MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h"
+
 VulkanDescriptorSetPool::VulkanDescriptorSetPool(VulkanLogicalDevice *dev,PoolAllocation alloc)
 {
 	std::vector<VkDescriptorPoolSize> v;
@@ -16,12 +18,12 @@ VulkanDescriptorSetPool::VulkanDescriptorSetPool(VulkanLogicalDevice *dev,PoolAl
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 	poolInfo.poolSizeCount = static_cast<uint32_t>(v.size());
 	poolInfo.pPoolSizes = v.data();
-	
 	VkResult r = vkCreateDescriptorPool(_dev->GetHandle(), &poolInfo, nullptr,&_handle);
+	AssertVulkanSuccess(r);
 
 }
 
 VulkanDescriptorSetPool::~VulkanDescriptorSetPool()
 {
-
+	vkDestroyDescriptorPool(_dev->GetHandle(), _handle, nullptr);
 }

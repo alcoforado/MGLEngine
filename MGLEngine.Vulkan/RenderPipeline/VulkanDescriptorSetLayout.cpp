@@ -27,4 +27,5 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device
 VulkanDescriptorSetLayout::~VulkanDescriptorSetLayout()
 {
 	vkDestroyDescriptorSetLayout(_dev->GetHandle(), _handle,nullptr);
+
 }
