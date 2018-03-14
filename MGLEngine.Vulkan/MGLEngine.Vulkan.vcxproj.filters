@@ -117,6 +117,9 @@
     <ClCompile Include="RenderPipeline\VulkanDescriptorSetLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanContext\VulkanDescriptorSetPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -243,6 +246,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanDescriptorSetLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanContext\VulkanDescriptorSetPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
