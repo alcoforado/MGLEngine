@@ -150,7 +150,8 @@
   <ItemGroup>
     <ClCompile Include="MGLEngineVulkan.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp" />
-    <ClCompile Include="VulkanContext\VulkanDescriptorSetPool.cpp" />
+    <ClCompile Include="RenderResources\VulkanDescriptorSet.cpp" />
+    <ClCompile Include="RenderResources\VulkanDescriptorSetPool.cpp" />
     <ClCompile Include="RenderPipeline\VulkanFence.cpp" />
     <ClCompile Include="Shaders\IVulkanRenderContext.cpp" />
     <ClCompile Include="Shaders\ShaderColor2D.cpp" />
@@ -177,7 +178,6 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
-    <ClCompile Include="RenderPipeline\VulkanDescriptorSetLayout.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
@@ -186,11 +186,12 @@
   <ItemGroup>
     <ClInclude Include="MemoryManager\VulkanMappedAutoSyncBuffer.h" />
     <ClInclude Include="MemoryManager\VulkanGPUBuffer.h" />
-    <ClInclude Include="VulkanContext\VulkanDescriptorSetPool.h" />
+    <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
+    <ClInclude Include="RenderResources\VulkanDescriptorSet.h" />
+    <ClInclude Include="RenderResources\VulkanDescriptorSetPool.h" />
     <ClInclude Include="RenderPipeline\VulkanFence.h" />
     <ClInclude Include="RenderResources\UniformBufferResource.h" />
     <ClInclude Include="MGLEngineVulkan.h" />
-    <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="RenderPipeline\VulkanBuffer.h" />
     <ClInclude Include="RenderResources\IVulkanRenderResource.h" />
@@ -222,7 +223,6 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
-    <ClInclude Include="RenderPipeline\VulkanDescriptorSetLayout.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h" />
     <ClInclude Include="VulkanUtils.h" />

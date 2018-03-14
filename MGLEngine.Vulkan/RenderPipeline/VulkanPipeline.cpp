@@ -5,7 +5,7 @@
 #include "../VulkanUtils.h"
 #include <cassert>
 #include "Utils/Exception.h"
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanDescriptorSetLayout.h>
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
 	:_swapChain(pSwapChain),
@@ -145,13 +145,13 @@ void VulkanPipeline::Load()
 	pipelineInfo.pDynamicState = nullptr;
 
 	//Create Layout
-	std::vector<VkDescriptorSetLayout> vkDescriptorSets;
-	for (auto d : _descriptorSetLayouts)
+	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
+	for (auto d : _descriptorSets)
 	{
-		vkDescriptorSets.push_back(d->GetHandle());
+		vkDescriptorSetsLayout.push_back(d->GetLayoutHandle());
 	}
-	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSets.size());
-	PipelineLayoutInfo.pSetLayouts = vkDescriptorSets.size()>0 ? vkDescriptorSets.data() : nullptr;
+	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetsLayout.size());
+	PipelineLayoutInfo.pSetLayouts = vkDescriptorSetsLayout.size()>0 ? vkDescriptorSetsLayout.data() : nullptr;
 	auto err = vkCreatePipelineLayout(GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
@@ -197,9 +197,9 @@ void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 	this->Load();
 }
 
-void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSetLayout* layout)
+void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSet* layout)
 {
-	_descriptorSetLayouts.push_back(layout);
+	_descriptorSets.push_back(layout);
 }
 
 VulkanPipeline::~VulkanPipeline()

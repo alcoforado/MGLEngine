@@ -63,9 +63,6 @@
     <ClCompile Include="RenderPipeline\VulkanRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderPipeline\VulkanSwapChainFramebuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,10 +111,13 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderPipeline\VulkanDescriptorSetLayout.cpp">
+    <ClCompile Include="RenderResources\VulkanDescriptorSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VulkanContext\VulkanDescriptorSetPool.cpp">
+    <ClCompile Include="RenderPipeline\VulkanCommandPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\VulkanDescriptorSetPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,9 +165,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanRenderPass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderPipeline\VulkanCommandPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderPipeline\VulkanSwapChainFramebuffers.h">
@@ -245,10 +242,13 @@
     <ClInclude Include="RenderResources\UniformBufferResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderPipeline\VulkanDescriptorSetLayout.h">
+    <ClInclude Include="RenderResources\VulkanDescriptorSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VulkanContext\VulkanDescriptorSetPool.h">
+    <ClInclude Include="RenderPipeline\VulkanCommandPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\VulkanDescriptorSetPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

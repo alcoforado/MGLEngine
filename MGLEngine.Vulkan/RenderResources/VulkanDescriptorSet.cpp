@@ -1,10 +1,9 @@
-#include "VulkanDescriptorSetLayout.h"
-#include "VulkanInputLayout.h"
+#include "VulkanDescriptorSet.h"
 #include <MGLEngine.Vulkan/RenderResources/IVulkanRenderResource.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
-#include "VulkanPipeline.h"
+#include  <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
 
-VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device,
+VulkanDescriptorSet::VulkanDescriptorSet(VulkanLogicalDevice* device,
 	const std::vector<IVulkanRenderResource*>& v)
 {
 	_dev = device;
@@ -24,8 +23,7 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device
 
 }
 
-VulkanDescriptorSetLayout::~VulkanDescriptorSetLayout()
+VulkanDescriptorSet::~VulkanDescriptorSet()
 {
 	vkDestroyDescriptorSetLayout(_dev->GetHandle(), _handle,nullptr);
-
 }

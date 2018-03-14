@@ -3,7 +3,7 @@
 #include "IVulkanRenderContext.h"
 #include "../SPIR-V/shaders_bytecode.h"
 #include "../RenderPipeline/VulkanBuffer.h"
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanDescriptorSetLayout.h>
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 
 ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
  :_vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
@@ -43,7 +43,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 
 	_pGT = new UniformBufferResource<glm::mat3>(0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY);
 
-	_pPipeline->AddDescriptorSetLayout(new VulkanDescriptorSetLayout(renderContext.GetLogicalDevice(), { _pGT }));
+	_pPipeline->AddDescriptorSetLayout(new VulkanDescriptorSet(renderContext.GetLogicalDevice(), { _pGT }));
 }
 
 
