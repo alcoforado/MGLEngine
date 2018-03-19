@@ -186,14 +186,15 @@
   <ItemGroup>
     <ClInclude Include="MemoryManager\VulkanMappedAutoSyncBuffer.h" />
     <ClInclude Include="MemoryManager\VulkanGPUBuffer.h" />
+    <ClInclude Include="MemoryManager\VulkanMappedBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandPool.h" />
     <ClInclude Include="RenderResources\VulkanDescriptorSet.h" />
     <ClInclude Include="RenderResources\VulkanDescriptorSetPool.h" />
     <ClInclude Include="RenderPipeline\VulkanFence.h" />
-    <ClInclude Include="RenderResources\UniformBufferResource.h" />
+    <ClInclude Include="RenderResources\UniformBufferBinding.h" />
     <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
-    <ClInclude Include="RenderPipeline\VulkanBuffer.h" />
+    <ClInclude Include="MemoryManager\VulkanBuffer.h" />
     <ClInclude Include="RenderResources\IVulkanRenderResource.h" />
     <ClInclude Include="RenderResources\VulkanResourceLoadContext.h" />
     <ClInclude Include="Shaders\IVulkanShader.h" />

@@ -1,7 +1,6 @@
 #include "../catch.hpp"
 #include <MGLEngine.Vulkan/Window/MWindow.h>
-#include "MGLEngine.Vulkan/RenderPipeline/VulkanBuffer.h"
-#include "MGLEngine.Vulkan/MGLContainerVulkan.h"
+#include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 #include "MGLEngine.Vulkan/VulkanContext/VulkanContext.h"
 
 MGL::Window *pWindow = nullptr;

@@ -77,11 +77,7 @@ public:
 
 	}
 
-	void Sync()
-	{
-		throw new Exception("Not Implemented");
-	}
-
+	
 	VkBuffer GetHandle() const { return _handle; }
 	MemoryHandle GetMemoryHandle() const { return _memHandle; }
 	VulkanMemoryManager* GetMemoryManager() const { return _memMngr; }

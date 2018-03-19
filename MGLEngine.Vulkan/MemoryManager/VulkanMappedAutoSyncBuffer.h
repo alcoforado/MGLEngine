@@ -1,4 +1,4 @@
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanBuffer.h>
+#include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 
 /*
  * Since this memory is auto sync with the gpu, we make this buffer a specialization of IArray<T>

@@ -11,6 +11,7 @@ class VulkanDescriptorSet
 	VkDescriptorSet _dsHandle;
 	VkDescriptorSetLayout _handle;
 	VulkanLogicalDevice *_dev;
+	std::vector<IVulkanRenderResource*> _resources;
 	void SetDescriptorSetHandle(VkDescriptorSet dsHandle) { _dsHandle = dsHandle; }
 	~VulkanDescriptorSet();
 public:

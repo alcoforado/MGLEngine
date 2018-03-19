@@ -3,9 +3,9 @@
 #include "MGLEngine.Vulkan/Shaders/IVulkanRenderContext.h"
 #include <MGLEngine.Shared/Utils/Arrays/ArrayFunctions.h>
 #include "IVulkanRenderResource.h"
-
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 template<class Data>
-class UniformBufferResource : public IVulkanRenderResource
+class UniformBufferBinding : public IVulkanRenderResource
 {
 	std::vector<Data> _data;
 	bool _dirty;
@@ -14,9 +14,19 @@ class UniformBufferResource : public IVulkanRenderResource
 	GPUMemoryType _memoryType;
 	VkDescriptorSetLayoutBinding _ubo = {};
 
+private:
+	virtual void UpdateDescriptorSet(VulkanDescriptorSet *dsSet)
+	{
+		VkDescriptorBufferInfo bufferInfo;
+		bufferInfo.buffer = _buffer;
+		bufferInfo.offset = 0;
+	//	bufferInfo.range=
+		dsSet->GetDescriptorSetHandle();
+	}
+
 
 public:
-	UniformBufferResource(int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
+	UniformBufferBinding(int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
 	{
 		assert(nElems > 0);
 		_ubo.binding = binding;
@@ -39,7 +49,7 @@ public:
 	}
 
 
-	virtual ~UniformBufferResource()
+	virtual ~UniformBufferBinding()
 	{
 		
 	}

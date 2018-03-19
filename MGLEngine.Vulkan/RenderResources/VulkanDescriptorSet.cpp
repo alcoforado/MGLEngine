@@ -7,6 +7,7 @@ VulkanDescriptorSet::VulkanDescriptorSet(VulkanLogicalDevice* device,
 	const std::vector<IVulkanRenderResource*>& v)
 {
 	_dev = device;
+	_resources = v;
 	std::vector<VkDescriptorSetLayoutBinding> vLayout;
 	for (auto r: v)
 	{
