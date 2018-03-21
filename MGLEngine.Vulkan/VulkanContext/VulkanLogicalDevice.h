@@ -6,6 +6,7 @@
 #include "VulkanSurface.h"
 #include "VulkanPhysicalDevice.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
+#include <MGLEngine.Vulkan/MemoryManager/VulkanMemoryManager.h>
 class VulkanCommandPool;
 
 struct GLFWwindow;
@@ -19,7 +20,7 @@ private:
 	std::vector<VulkanQueue> _queues;
 	std::vector<VkImage> _images;
 	OPointer<VulkanCommandPool> _pCommandPool;
-
+	
 
 	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
 	

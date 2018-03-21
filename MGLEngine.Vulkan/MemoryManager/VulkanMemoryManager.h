@@ -73,7 +73,7 @@ class VulkanMemoryChunk
 	VulkanMemoryBlock* TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 	void Map();
 	uint32_t GetMemoryTypeIndex() { return _allocInfo.memoryTypeIndex; }
-	void Flush(int offset,int sizeInBytes);
+	void Flush(size_t offset,size_t sizeInBytes);
 };
 
 

@@ -107,7 +107,7 @@ void VulkanMemoryChunk::Map()
 	}
 }
 
-void VulkanMemoryChunk::Flush(int offset, int sizeInBytes)
+void VulkanMemoryChunk::Flush(size_t offset, size_t sizeInBytes)
 {
 	VkMappedMemoryRange memRange = {};
 	memRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
@@ -148,7 +148,7 @@ uint64_t MemoryHandle::GetOffset() const
 
 void MemoryHandle::Flush()
 {
-	_block->GetChunk()->Flush(_block->GetOffset(),_block->);
+	_block->GetChunk()->Flush(_block->GetOffset(),_block->GetSizeInByte());
 }
 
 

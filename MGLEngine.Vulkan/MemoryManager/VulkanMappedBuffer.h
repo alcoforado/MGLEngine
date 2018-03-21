@@ -26,14 +26,13 @@ class VulkanMappedBuffer : public IArray<T>
 
 	public:
 
-		VulkanMappedBuffer & operator=(const VulkanBuffer&) = delete;
-		VulkanMappedBuffer(const VulkanBuffer&) = delete;
+		VulkanMappedBuffer<T> & operator=(const VulkanMappedBuffer<T>&) = delete;
+		VulkanMappedBuffer(const VulkanMappedBuffer<T>&) = delete;
 
 		VulkanMappedBuffer(
 			VulkanMemoryManager *mngr,
 			uint64_t size,
-			std::vector<VkBufferUsageFlagBits> bufferUsage,
-
+			std::vector<VkBufferUsageFlagBits> bufferUsage
 		)
 		{
 			_size = size;
@@ -63,7 +62,7 @@ class VulkanMappedBuffer : public IArray<T>
 
 		void Flush()
 		{
-			return _memHandle.Flush(0, _size);
+			return _memHandle.Flush();
 		}
 
 
@@ -86,7 +85,7 @@ class VulkanMappedBuffer : public IArray<T>
 			return static_cast<int>(memRequirements.alignment);
 
 		}
-
+		
 
 		VkBuffer GetHandle() const { return _handle; }
 		MemoryHandle GetMemoryHandle() const { return _memHandle; }
