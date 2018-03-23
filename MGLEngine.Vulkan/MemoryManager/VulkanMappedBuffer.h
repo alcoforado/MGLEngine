@@ -57,7 +57,7 @@ class VulkanMappedBuffer : public IArray<T>
 
 		IArray<T> GetMappedArray()
 		{
-			return _memHandle.Map(_size);
+			return _memHandle.Map<T>(_size);
 		}
 
 		void Flush()

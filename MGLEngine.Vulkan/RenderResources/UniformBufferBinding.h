@@ -5,10 +5,11 @@
 #include "IVulkanRenderResource.h"
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanMappedBuffer.h>
+#include <MGLEngine.Vulkan/MemoryManager/VulkanMemoryManager.h>
 template<class Data>
 class UniformBufferBinding : public IVulkanRenderResource
 {
-	VulkanLogicalDevice *_dev;
+	const VulkanLogicalDevice *_dev;
 	std::vector<Data> _data;
 	bool _dirty;
 	VulkanMappedBuffer<Data>  *_buffer;
@@ -45,11 +46,11 @@ private:
 
 
 public:
-	UniformBufferBinding(VulkanLogicalDevice *dev,int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
+	UniformBufferBinding(VulkanMemoryManager *mngr,int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
 	{
 		assert(nElems > 0);
 
-		_dev = dev;
+		_dev = mngr->GetLogicalDevice();
 		_ubo.binding = binding;
 		_ubo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 		_ubo.descriptorCount = 1;
@@ -59,12 +60,18 @@ public:
 		_memoryType = memType;
 		_data.resize(nElems);
 
-		_buffer = new VulkanMappedBuffer<T>()
+		_buffer = new VulkanMappedBuffer<Data>(mngr, nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
 		//createBuffer(sizeof(Data), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffer, uniformBufferMemory)
 	}
 
 	virtual void Load(IVulkanResourceLoadContext *context) override {
-		
+		if (IsDirty())
+		{
+			IArray<Data> data = _buffer->GetMappedArray();
+			data.copyFrom(this->_data);
+			_buffer->Flush();
+			_dirty = false;
+		}
 	}
 	virtual VkDescriptorSetLayoutBinding GetVulkanDescriptor() const override
 	{
@@ -89,10 +96,8 @@ public:
 	virtual bool IsDirty() override {
 		return _dirty;
 	}
-	virtual void Clear() override
-	{
-		_dirty = false;
-	}
+	
+
 	virtual GPUMemoryType MemoryType() override
 	{
 		return _memoryType;

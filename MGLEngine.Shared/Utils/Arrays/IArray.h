@@ -77,6 +77,12 @@ public:
 		_size = 0;
 		_ptr = nullptr;
 	}
+
+	void copyFrom(const std::vector<OfType> &v)
+	{
+		assert(_size == v.size()); //Sizes must match
+		memcpy(_ptr, v.data(), _size);
+	}
 };
 
 #endif // IARRAY_H
