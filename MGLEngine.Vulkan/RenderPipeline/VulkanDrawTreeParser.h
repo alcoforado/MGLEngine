@@ -6,6 +6,7 @@
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
 #include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
+#include "MGLEngine.Vulkan/RenderResources/IVulkanRenderResource.h"
 class IVulkanRenderContext;
 
 
@@ -74,6 +75,14 @@ public:
 	}
 
 
+	void LoadRootResources(IVulkanResourceLoadContext *context)
+	{
+		for (auto r : _tree.GetRoot()->GetData().GetResources())
+		{
+			IVulkanRenderResource *vr = reinterpret_cast<IVulkanRenderResource*>(r);
+			vr->Load(context);
+		}
+	}
 
 	void ExecuteTree(IDrawContext *drawContext)
 	{
@@ -135,9 +144,7 @@ public:
 		}
 		
 		uint32_t index = drawContext->GetFrameIndex();
-		VulkanCommandBuffer* rootCmds = GetRootNodeLoadCommands(&(_tree.GetRoot()->GetData()));
-	
-		VulkanSemaphore *rootSemaphore = nullptr;
+		LoadRootResources(drawContext->GetResourceLoadContext());
 
 /*		if (rootCmds != nullptr)
 		{

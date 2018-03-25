@@ -102,7 +102,7 @@ class DrawInfo
 		DrawInfoType = Root;
 	}
 
-	std::list<std::shared_ptr<IRenderResource>> Resources;
+	std::list<IRenderResource*> Resources;
 
 
 public:
@@ -115,7 +115,7 @@ public:
 	{
 		*this = data;
 	}
-	const std::list<std::shared_ptr<IRenderResource>>& GetResources()
+	const std::list<IRenderResource*>& GetResources()
 	{
 		return Resources;
 	}

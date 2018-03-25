@@ -2,6 +2,7 @@
 #include  "../RenderPipeline/VulkanSemaphore.h"
 #include "../Shaders/IVulkanRenderContext.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h"
+#include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
 
 
 struct Output
@@ -14,6 +15,7 @@ public:
 	virtual bool IsWindowResized()=0;
 	virtual  VulkanSemaphore* GetSwapChainSemaphore() = 0;
 	virtual  IVulkanRenderContext* GetRenderContext() = 0;
+	virtual IVulkanResourceLoadContext* GetResourceLoadContext() = 0;
 	virtual int GetFrameIndex() = 0;
 	Output Out;
 
@@ -27,6 +29,7 @@ public:
 	VulkanSemaphore *CurrentSemaphore;
 	IVulkanRenderContext  *RenderContext;
 	VulkanSemaphorePool *Pool;
+	IVulkanResourceLoadContext *ResourceLoadContext;
 	int FrameIndex;
 	
 	DrawContext(){}
@@ -41,7 +44,8 @@ public:
 
 	 virtual int GetFrameIndex() override { return FrameIndex; }
 
-	
+	 virtual IVulkanResourceLoadContext* GetResourceLoadContext() override { return ResourceLoadContext; }
+
 	
 
 };
