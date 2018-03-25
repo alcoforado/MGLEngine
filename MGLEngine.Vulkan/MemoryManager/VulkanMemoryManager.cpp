@@ -7,6 +7,7 @@
 const int _MB = 1048576;
 
 
+
 VulkanMemoryChunk::VulkanMemoryChunk(VulkanMemoryManager *parent, uint32_t memoryTypeIndex,uint64_t size)
 {
 	_parent = parent;
@@ -106,10 +107,23 @@ void VulkanMemoryChunk::Map()
 	}
 }
 
-VulkanMemoryManager::VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB)
+void VulkanMemoryChunk::Flush(size_t offset, size_t sizeInBytes)
+{
+	VkMappedMemoryRange memRange = {};
+	memRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+	memRange.memory = _memoryHandle;
+	memRange.offset = offset;
+	memRange.size = sizeInBytes;
+
+	VkResult result = vkFlushMappedMemoryRanges(_parent->GetLogicalDevice()->GetHandle(), 1, &memRange);
+	AssertVulkanSuccess(result);
+	return;
+}
+
+VulkanMemoryManager::VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeInBytes)
 :_device(device)
 {
-	_blockSize = blockSizeMB* 1048576;
+	_blockSize = blockSizeInBytes;
 }
 
 
@@ -130,6 +144,11 @@ void MemoryHandle::Free()
 uint64_t MemoryHandle::GetOffset() const
 {
 	return _block->GetOffset();
+}
+
+void MemoryHandle::Flush()
+{
+	_block->GetChunk()->Flush(_block->GetOffset(),_block->GetSizeInByte());
 }
 
 

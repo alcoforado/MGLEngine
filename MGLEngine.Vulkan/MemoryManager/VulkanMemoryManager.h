@@ -29,6 +29,7 @@ public:
 		return _block->Map<T>(nElems);
 	}
 
+	void Flush();
 };
 
 
@@ -40,7 +41,7 @@ class VulkanMemoryManager
 	const VulkanLogicalDevice &_device;
 	MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 public:
-	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeMB);
+	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeInBytes);
 	~VulkanMemoryManager();
 	const VulkanLogicalDevice* GetLogicalDevice() const { return &_device; }
 	MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags);
@@ -52,6 +53,7 @@ public:
 
 class VulkanMemoryChunk
 {
+	friend class MemoryHandle;
 	friend class VulkanMemoryBlock;
 	friend class VulkanMemoryManager;
 	uint64_t _totalFree;
@@ -70,6 +72,8 @@ class VulkanMemoryChunk
 	void ComputeFreeBlocksSize();
 	VulkanMemoryBlock* TryToAllocate(uint32_t memoryTypeIndex, uint64_t alignment, uint64_t size);
 	void Map();
+	uint32_t GetMemoryTypeIndex() { return _allocInfo.memoryTypeIndex; }
+	void Flush(size_t offset,size_t sizeInBytes);
 };
 
 
@@ -79,10 +83,10 @@ class VulkanMemoryBlock
 {
 	friend class VulkanMemoryChunk;
 
-	uint64_t Off;
-	uint64_t AlignedOff;
-	uint64_t TotalSize;
-	uint64_t Size;
+	uint64_t Off;        //The offset where the memory block starts, not necessary the offset where the buffer should start. It is not necesseraly consisten with memory alignemnt 
+	uint64_t AlignedOff; //Offset of the chunk block consistent with the memory requirement alignment.
+	uint64_t TotalSize;  //Total size of the memory block
+	uint64_t Size;       //Size in bytes of the buffer allocated with it.   
 	bool IsFree;
 	uint64_t AlignmentOffset;
 	VulkanMemoryChunk *_chunk;
@@ -112,7 +116,9 @@ public:
 	void BindBuffer(VkBuffer uint64) const;
 	void Free();
 	uint64_t GetOffset() const;
-
+	uint64_t GetAlignedOffset() const { return this->AlignedOff; }
+	uint64_t GetSizeInByte() const { return this->Size; }
+	VulkanMemoryChunk* GetChunk() const { return _chunk; }
 	//IBinding Resource;
 };
 

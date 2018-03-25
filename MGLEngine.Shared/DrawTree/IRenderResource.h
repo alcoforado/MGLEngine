@@ -7,6 +7,5 @@ public:
 	
 	virtual ~IRenderResource() {};
 	virtual bool IsDirty() = 0;
-	virtual void Clear()=0;
 	virtual GPUMemoryType MemoryType() = 0;
 };
