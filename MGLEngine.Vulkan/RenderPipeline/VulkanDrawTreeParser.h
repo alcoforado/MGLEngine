@@ -80,7 +80,8 @@ public:
 		for (auto r : _tree.GetRoot()->GetData().GetResources())
 		{
 			IVulkanRenderResource *vr = reinterpret_cast<IVulkanRenderResource*>(r);
-			vr->Load(context);
+			if (vr->IsDirty())
+				vr->Load(context);
 		}
 	}
 
@@ -145,14 +146,9 @@ public:
 		
 		uint32_t index = drawContext->GetFrameIndex();
 		LoadRootResources(drawContext->GetResourceLoadContext());
+		drawContext->Out.Commands.push_back(frameData.CB);
 
-/*		if (rootCmds != nullptr)
-		{
-			rootSemaphore = drawContext->GetAvailableSemaphore();
-			drawContext->Out.Comm+andBatch.AddBatch( rootCmds , rootSemaphore, nullptr, { });
-		}
-		drawContext->Out.CommandBatch.AddBatch(frameData.CB, endSemaphore, rootSemaphore, { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT });
-	*/	
+
 		
 	}
 
