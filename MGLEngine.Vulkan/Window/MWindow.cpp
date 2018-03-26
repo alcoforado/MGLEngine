@@ -105,6 +105,7 @@ void MGL::Window::EasyRun()
 		}
 		else
 		{
+
 			_vkContext->Draw();
 		}
 		

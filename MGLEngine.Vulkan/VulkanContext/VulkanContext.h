@@ -28,10 +28,12 @@ private:
 		VulkanFence *pExecutionFence;
 		VulkanSemaphorePool::Handle *pAcquireImageSemaphore;
 		std::vector<VulkanCommandBuffer*> Commands;
+		OPointer<VulkanSemaphore> pExecutionWaitSemaphore;
 		PerFrameData(VulkanLogicalDevice* dev)
 		{
 			pExecutionFence = dev->CreateFence(true);
 			pAcquireImageSemaphore = nullptr;
+			pExecutionWaitSemaphore = new VulkanSemaphore(dev);
 		}
 	};
 
@@ -52,8 +54,8 @@ public:
 	void Initialize(GLFWwindow* window);
 	
 	std::vector<VulkanPhysicalDevice> GetPhysicalDevices(VkInstance &inst) const;
-	virtual const VulkanSwapChain& GetSwapChain() const override {
-		return *_pSwapChain;
+	virtual VulkanSwapChain* GetSwapChain() const override {
+		return _pSwapChain;
 	}
 
 	virtual VulkanLogicalDevice* GetLogicalDevice() const override { return _vkLogicalDevice; }

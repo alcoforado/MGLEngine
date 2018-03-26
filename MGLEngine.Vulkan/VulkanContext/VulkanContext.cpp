@@ -109,9 +109,16 @@ void VulkanContext::Draw()
 		}
 	}
 
+
+
 	//Finally submit the commands
-	GetLogicalDevice()->GetGraphicQueue()->Submit(pFrameData->Commands, pFrameData->pAcquireImageSemaphore->GetResource(), nullptr, {}, pFrameData->pExecutionFence);
+	GetLogicalDevice()->GetGraphicQueue()->Submit(pFrameData->Commands, pFrameData->pExecutionWaitSemaphore, pFrameData->pAcquireImageSemaphore->GetResource(), {}, pFrameData->pExecutionFence);
 	
-	
+	//Append that to the present wireframe command
+	GetSwapChain()->Present(pFrameData->pExecutionWaitSemaphore);
+
+
+	//Present the next frame
+
 
 }

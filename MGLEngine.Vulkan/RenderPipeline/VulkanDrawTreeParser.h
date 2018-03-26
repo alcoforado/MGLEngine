@@ -23,6 +23,7 @@ class VulkanDrawTreeParser
 	{
 		OPointer<VulkanCommandBuffer> CB;
 		bool IsDirty;
+		PerFrameData() { IsDirty = true; }
 	};
 	std::vector<PerFrameData> _perFrameData;
 	
@@ -114,7 +115,7 @@ public:
 			}
 		}
 		if (drawContext->IsWindowResized())
-			_pipeline.OnSwapChainReload(&(drawContext->GetRenderContext()->GetSwapChain()));
+			_pipeline.OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
 
 		
 		if (needRedraw || drawContext->IsWindowResized())
@@ -132,10 +133,9 @@ public:
 			frameData.CB.if_free();
 
 			VulkanCommandBuffer *comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
-			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 0));
+			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(&_pipeline);
 			comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
-			this->ParseTree(comm,&_tree);
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();

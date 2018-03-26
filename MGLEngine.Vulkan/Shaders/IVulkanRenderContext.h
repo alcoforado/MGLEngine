@@ -8,7 +8,7 @@ class  IVulkanRenderContext
 public:
 	IVulkanRenderContext();
 	virtual ~IVulkanRenderContext();
-	virtual const VulkanSwapChain& GetSwapChain() const = 0;
+	virtual VulkanSwapChain* GetSwapChain() const = 0;
 	virtual VulkanLogicalDevice* GetLogicalDevice() const = 0;
 	virtual VulkanMemoryManager* GetMemoryManager()  =0;
 };
