@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "watch-css": "less-watch-compiler ./src/less ./src styles.less",
-    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"npm run watch-css\"",
+    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"node-sass -w ./src/scss/styles.scss ./src/styles.css\"",
     "lite": "lite-server"
   },
   "private": true,
@@ -50,6 +50,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
+    "node-sass": "4.8.3",
     "tslint": "~5.7.0",
     "typescript": "~2.4.2",
     "concurrently": "^3.1.0",
