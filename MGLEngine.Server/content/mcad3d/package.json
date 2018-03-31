@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "watch-css": "less-watch-compiler ./src/less ./src styles.less",
-    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"node-sass -w ./src/scss/styles.scss ./src/styles.css\"",
+    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"node-sass --include-path ./node_modules -w ./src/scss/styles.scss ./src/styles.css\"",
     "lite": "lite-server"
   },
   "private": true,
@@ -29,7 +29,8 @@
     "zone.js": "^0.8.14",
     "bootstrap": "^3.3.7",
     "systemjs": "0.20.19",
-    "jquery": "^2.2.0"
+    "jquery": "^2.2.0",
+    "material-components-web": "0.33.0"
   },
   "devDependencies": {
     "@angular/cli": "1.5.5",
