@@ -9,15 +9,8 @@
 
 /* You can add global styles to this file, and also import other style files */
 html,body {
-    height: 70%;
-    color: $font-color;
-    font-size: $font-size;
-    width: 100%;
-    margin: -1px;
-    padding: 0;
-    margin-top: 20px;
-    background: $background;
-    font-family: Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+    height:100%;
+    background: $mdc-theme-background;
 }
 
 div {
@@ -156,30 +149,24 @@ animation-duration: 0.5s;
 
 
 
-.main-form
+.shape-card
 {
-    color: white;
-    display:inline-block;
+   display:inline-block;
     /* width: 627px; */
     animation-name: fadein;
     font-size: 15px;
     animation-duration: 1s;
     transition: transform 0.1s;
-    border-color: rgb(2, 5, 58);
+    border: 1px solid $panel-border-color;
 }
 
-.form-header {
-    border: 1px solid $panel-border-color;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
+.shape-card-header {
     padding: 0px 27px 27px 27px;
     height: 62px;
     width: 100%;
     line-height: 62px;
-    font-size: 26px;
-    color: white;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    background:rgba(255,255,255,0.03);
+    @include mdc-typography(headline);
+    background: $panel-border-color;
      img{
          width: 44px;
          margin-left: -15px;
@@ -194,15 +181,9 @@ animation-duration: 0.5s;
     margin-bottom:10px;
 }
 
-.form-body {
-    border: 1px solid $panel-border-color;
-    padding: 15px 0px 15px 0px;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
+.card-body {
     width: 100%;
-    color: white;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    background: $background;
+    @include mdc-typography(body2);
 }
 
 

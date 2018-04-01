@@ -6,12 +6,12 @@
   </span>
 </div>
 
-<form class="main-form" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
+<form class="shape-card mdc-card" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
 
-  <div class="form-header">
+  <div class="shape-card-header mdc-typography--display1">
     <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
   </div>
-  <div [ngSwitch]="sform.shape.TopologyTypeName" class="form-body container" [formGroup]="sform.getTopologyForm().Group">
+  <div [ngSwitch]="sform.shape.TopologyTypeName" class="card-body" [formGroup]="sform.getTopologyForm().Group">
 
     <!-- Error Message -->
     <div class="error-panel" *ngIf="sform.errorMessages.length>0">
