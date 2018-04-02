@@ -38,12 +38,12 @@ TEST_CASE("Vulkan Buffers Tests")
 	{
 		VulkanMappedAutoSyncBuffer<double> vb(window.GetVulkanContext()->GetMemoryManager(), 20, 30,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		REQUIRE(vb.size() == 20);
-		REQUIRE(vb.capacity() > 30);
+		REQUIRE(vb.capacity() >= 30);
 		REQUIRE(vb.capacity()*sizeof(double) % vb.GetAlignment() == 0);
 		
 		VulkanMappedAutoSyncBuffer<double> vb2(window.GetVulkanContext()->GetMemoryManager(), 750, 2470, { VK_BUFFER_USAGE_VERTEX_BUFFER_BIT });
 		REQUIRE(vb2.size() == 750);
-		REQUIRE(vb2.capacity() > 2470);
+		REQUIRE(vb2.capacity() >= 2470);
 		REQUIRE(vb2.capacity()*sizeof(double) % vb2.GetAlignment() == 0);
 	}
 

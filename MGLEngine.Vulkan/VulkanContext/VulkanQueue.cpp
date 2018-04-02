@@ -50,7 +50,7 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 		submitInfo.pSignalSemaphores = &s;
 		submitInfo.signalSemaphoreCount = 1;
 	}
-	else if (pWait!=nullptr)
+	if (pWait!=nullptr)
 	{
 		w = pWait->GetHandle();
 		submitInfo.pWaitSemaphores = &w;

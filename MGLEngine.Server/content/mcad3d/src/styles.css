@@ -10565,12 +10565,13 @@ a.mdc-list-item {
   width: 100%;
   height: 100%;
   border-radius: 10000px;
-  background: red;
+  background: rgba(0, 0, 0, 0.3);
   transform: scale(0);
   position: absolute; }
 
 /* You can add global styles to this file, and also import other style files */
-html, body {
+html,
+body {
   height: 100%;
   background: #303030; }
 
@@ -10622,7 +10623,8 @@ input:focus {
 select:focus {
   outline: none; }
 
-input, select {
+input,
+select {
   background: #303030;
   border-color: #565555; }
 
@@ -10819,7 +10821,7 @@ section {
 .rectangle {
   display: inline-block;
   margin: 0px;
-  border: 1px solid  black;
+  border: 1px solid black;
   background-color: #fa0c1e; }
 
 .bin-pack-root {
@@ -10861,7 +10863,7 @@ bootstrap
   visibility: hidden;
   overflow: hidden;
   display: block;
-  transition: visibility 0.25s,opacity 0.25s linear; }
+  transition: visibility 0.25s, opacity 0.25s linear; }
 
 .modal-body {
   padding: 10px 10px 10px 20px; }

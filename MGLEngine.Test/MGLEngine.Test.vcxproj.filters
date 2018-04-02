@@ -27,6 +27,9 @@
     <ClInclude Include="catch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vulkan\VulkanTestsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vulkan\VulkanContextTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vulkan\VulkanTestsHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vulkan\SemaphorePoolTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

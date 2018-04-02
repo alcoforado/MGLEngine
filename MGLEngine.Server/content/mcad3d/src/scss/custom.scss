@@ -1,4 +1,11 @@
 @import "colors";
 @import "vec2";
 @import "shapes";
-
+.material-ripple {
+    width: 100%;
+    height: 100%;
+    border-radius: 10000px;
+    background: rgba(0, 0, 0, 0.3);
+    transform: scale(0);
+    position: absolute;
+}

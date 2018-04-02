@@ -25,9 +25,10 @@ var MdcButtonComponent = (function () {
     MdcButtonComponent.prototype.clicked = function (event) {
         console.log(event);
         console.log(this.bt);
-        this._x = (event.pageX - this.bt.nativeElement.offsetLeft - this.bt.nativeElement.offsetWidth / 2) + 'px';
-        this._y = (event.pageY - this.bt.nativeElement.offsetTop - this.bt.nativeElement.offsetHeight / 2) + 'px';
-        this._width = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) + 'px';
+        var d = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) * 2;
+        this._width = +d + 'px';
+        this._x = (event.pageX - this.bt.nativeElement.offsetLeft - d / 2) + 'px';
+        this._y = (event.pageY - this.bt.nativeElement.offsetTop - d / 2) + 'px';
         this._ripple = this._ripple == '0' ? '1' : '0';
     };
     __decorate([
@@ -47,7 +48,10 @@ var MdcButtonComponent = (function () {
                 animations_1.trigger('ripple', [
                     animations_1.state('1', animations_1.style({})),
                     animations_1.state('0', animations_1.style({})),
-                    animations_1.transition('0 <=> 1', animations_1.animate('1s ease-in', animations_1.style({ transform: 'scale(1.0)' })))
+                    animations_1.transition('0 <=> 1', animations_1.animate('0.5s linear', animations_1.keyframes([
+                        animations_1.style({ transform: 'scale(0)', opacity: 1 }),
+                        animations_1.style({ transform: 'scale(1)', opacity: 0.2 })
+                    ])))
                 ])
             ]
         }),

@@ -6,7 +6,7 @@
   </span>
 </div>
 
-<form class="shape-card mdc-card mdc-elevation--z24" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
+<form class="shape-card mdc-card mdc-elevation--z4" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
   <div class="shape-card-header">
     <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
   </div>
@@ -62,11 +62,8 @@
     </div>
 
 
-    <mdc-button type="primary">TEST BUTTON</mdc-button>
     <div class="panel-button" data-mdc-auto-init="MDCRipple" *ngIf="sform.shape.RenderTypeName ==''">
-      <button class="mdc-button mdc-button--raised" (click)="addRender(sform)">
-        ADD RENDER
-      </button>
+      <mdc-button type="primary" (click)="addRender(sform)">ADD RENDER</mdc-button>
     </div>
 
 

@@ -1,14 +1,21 @@
 @import "fonts";
 @import "colors";
 @import "material-components-web/material-components-web";
-@import "ripple.scss";
-
-
-
+//@import "ripple.scss";
+.material-ripple {
+    width: 100%;
+    height: 100%;
+    border-radius: 10000px;
+    background: rgba(0, 0, 0, 0.3);
+    transform: scale(0);
+    position: absolute;
+}
 
 /* You can add global styles to this file, and also import other style files */
-html,body {
-    height:100%;
+
+html,
+body {
+    height: 100%;
     background: $mdc-theme-background;
 }
 
@@ -16,144 +23,111 @@ div {
     cursor: default;
 }
 
-.iphone-input
-{
+.iphone-input {
     border: 0px;
-    border-bottom: 1px solid #3a67e2;
-    // background-color: #464646;
+    border-bottom: 1px solid #3a67e2; // background-color: #464646;
     padding: 2px 0px 0px 2px;
 }
-
-
-
-
-
 
 .float-left {
     float: left;
 }
+
 .float-right {
     float: right;
 }
 
-
-.margin-top-20
-{
-    margin-top:20px;
+.margin-top-20 {
+    margin-top: 20px;
 }
 
-
-
-
 .link-button {
-    display:inline-block;
+    display: inline-block;
     color: $link-text-color;
     font-weight: bold;
     padding: 0px;
     box-sizing: content-box;
     img {
-        height:12px;
+        height: 12px;
         vertical-align: baseline;
     }
     &:hover {
-       text-decoration:underline;
-       
+        text-decoration: underline;
     }
     cursor: pointer;
 }
 
-.comma-separator
-{
-    display:inline-block;
+.comma-separator {
+    display: inline-block;
     margin-bottom: -5px;
     margin-left: -2px;
-    vertical-align:bottom;
+    vertical-align: bottom;
 }
 
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input:focus {
     outline: none;
     background: $focus-input-background;
 }
+
 select:focus {
-    outline:none;
+    outline: none;
 }
 
-
-
-
-
-input,select {
+input,
+select {
     background: $background;
     border-color: #565555;
 }
+
 option:hover {
     background: #e7eaea
 }
-
-
-
 
 input[type="color"] {
     width: 52px;
 }
 
-.view-panel
-{
+.view-panel {
     padding-left: 10px;
-    display:block;
+    display: block;
 }
 
 .text-container h1 {
     text-align: center;
 }
 
-.text-container  {
+.text-container {
     width: 278px;
     margin: 0 auto;
-    
 }
 
 .centerfy {
     margin: auto;
     text-align: center;
-    width:100%;
-
+    width: 100%;
 }
 
 .title-panel {
- 
-/* padding: 1px; */
- 
-padding-left: 12px;
- 
-background: $highlight-color;
- 
-/* border-top-right-radius: 19px; */
- 
-/* border-bottom-right-radius: 19px; */
- 
-border: 1px solid #737373;
- 
-font-size: 35px;
- 
-color: white;
- 
-animation-name: appearingFromLeft300;
- 
-animation-duration: 0.5s;
+    /* padding: 1px; */
+    padding-left: 12px;
+    background: $highlight-color;
+    /* border-top-right-radius: 19px; */
+    /* border-bottom-right-radius: 19px; */
+    border: 1px solid #737373;
+    font-size: 35px;
+    color: white;
+    animation-name: appearingFromLeft300;
+    animation-duration: 0.5s;
 }
 
-
-
-.shape-card
-{
-   display:inline-block;
+.shape-card {
+    display: inline-block;
     /* width: 627px; */
     animation-name: fadein;
     font-size: 15px;
@@ -167,8 +141,8 @@ animation-duration: 0.5s;
 }
 
 .form-input {
-    margin-top:5px;
-    margin-bottom:10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .card-body {
@@ -176,35 +150,22 @@ animation-duration: 0.5s;
     @include mdc-typography(body2);
 }
 
-
-
-
-
-
-
-
 .form-row {
     padding: 0px 0px 10px 0px;
 }
 
 .vertical-toolbar {
-
-padding-right: 5px;
-
-height: 100%;
-
-display: table-cell;
-
-color: white;
+    padding-right: 5px;
+    height: 100%;
+    display: table-cell;
+    color: white;
 }
-
 
 .vertical-toolbar img {
     display: inline-block;
     height: 24px;
     vertical-align: text-top;
 }
-
 
 .content-vertical-toolbar-right {
     display: table-cell;
@@ -213,66 +174,56 @@ color: white;
     vertical-align: top;
 }
 
-
 section {
     padding: 13px 11px 2px 11px;
-    font-size:32px;
+    font-size: 32px;
     margin-bottom: 10px;
     border-bottom: 1px solid #434857;
 }
 
 .group-form {
     margin: 0 auto;
-    border: 1px ridge; 
+    border: 1px ridge;
     border-radius: 5px;
-    padding:5px;
+    padding: 5px;
     margin-bottom: 10px;
 }
 
 .group-form div {
-    margin-bottom:5px;
-  
+    margin-bottom: 5px;
 }
 
-
 .col-label {
-    display:inline-block;
-    text-align:left;
-    vertical-align:top;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
 }
 
 .col-value {
-    display:inline-block;
+    display: inline-block;
 }
 
-.span-col2
-{
-    width:47%;
-    text-align:left;
-    display:inline-block;
+.span-col2 {
+    width: 47%;
+    text-align: left;
+    display: inline-block;
 }
 
-
-.round-panel 
-{
+.round-panel {
     border-radius: 27px;
     padding: 27px;
     border: 1px solid;
     /*box-shadow: 10px 10px 5px #888888;*/
 }
 
-
-
-.efficiency-graph-container
-{
-    display:inline-block;
-    background-color:white;
+.efficiency-graph-container {
+    display: inline-block;
+    background-color: white;
     width: 545px;
     height: 369px;
-
 }
-.centralize
-{
+
+.centralize {
     display: block;
     margin: 0 auto;
     width: 100%;
@@ -284,45 +235,41 @@ section {
     padding: 0px 0px 15px 0px;
 }
 
-.main-form input[type=number]
-{
-    width:53px;
+.main-form input[type=number] {
+    width: 53px;
 }
 
 @keyframes fadein {
-    from {opacity:0}
-    to {opacity:1}
-}
-
-@keyframes appearingFromLeft300
-{
     from {
-        transform: translate(-300px,0);
+        opacity: 0
     }
-    to{
-        transform:translate(0,0);
-
+    to {
+        opacity: 1
     }
 }
 
-
-
+@keyframes appearingFromLeft300 {
+    from {
+        transform: translate(-300px, 0);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
 
 .main-form h1 {
     font-size: 19px;
     margin: 0px;
-    -webkit-margin:0px;
+    -webkit-margin: 0px;
 }
 
-
-.round-button
-{
-    display:inline-block;
-    text-align:center;
-    border-radius:10px;
+.round-button {
+    display: inline-block;
+    text-align: center;
+    border-radius: 10px;
     /* border: 3px solid #d28900; */
     padding: 5px 5px 5px 1px;
-    background: linear-gradient(to bottom, lighten($highlight-color,30%),$highlight-color);
+    background: linear-gradient(to bottom, lighten($highlight-color, 30%), $highlight-color);
     color: white;
     cursor: default;
     box-shadow: 2px 2px 0px rgb(0, 0, 0);
@@ -330,37 +277,30 @@ section {
     cursor: default;
     font-size: $font-size-big;
 }
+
 .round-button img {
-  width:21px;
-  vertical-align:text-top;
-  padding-top:1px;
-  
+    width: 21px;
+    vertical-align: text-top;
+    padding-top: 1px;
 }
 
-
-
-
-.round-button:hover
-{
+.round-button:hover {
     /* background: #4A4A4A; */
-    
-    background-color:#ffa500
+    background-color: #ffa500
 }
 
-.round-button:active
-{
+.round-button:active {
     position: relative;
-    top:2px;
-    left:2px;
-    box-shadow:none;
+    top: 2px;
+    left: 2px;
+    box-shadow: none;
 }
 
 .rectangle {
-    display:inline-block;
+    display: inline-block;
     margin: 0px;
-    border: 1px solid  black;
-    background-color: rgb(250,12,30);
-
+    border: 1px solid black;
+    background-color: rgb(250, 12, 30);
 }
 
 .bin-pack-root {
@@ -369,32 +309,29 @@ section {
 }
 
 .bin-pack-node {
-    position:absolute;
+    position: absolute;
 }
 
-.svgplot-empty-graph
-{
+.svgplot-empty-graph {
     background: white url("images/radar.svg") no-repeat center;
-
 }
 
 /**
 List view component
 **/
-.list-view-item
-{
-    display:inline-block;
+
+.list-view-item {
+    display: inline-block;
     font-size: 22px;
 }
 
 .list-view-item {
     padding: 9px 10px 5px 9px;
     transition: background-color .25s;
-    border-radius:10px;
+    border-radius: 10px;
 }
 
-.list-view-item img
-{
+.list-view-item img {
     width: 30px;
     vertical-align: text-bottom;
 }
@@ -402,69 +339,67 @@ List view component
 .list-view-item:hover {
     background-color: #e7eaea;
 }
+
 /**
 bootstrap
 
 **/
-.modal
-{
- 
-    color:black;
-   opacity:0;
-   visibility:hidden;
-   overflow:hidden;
-    display:block;
-    transition: visibility 0.25s,opacity 0.25s linear;
-   
+
+.modal {
+    color: black;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    display: block;
+    transition: visibility 0.25s, opacity 0.25s linear;
 }
 
-
-.modal-body
-{
+.modal-body {
     padding: 10px 10px 10px 20px;
 }
-.show
-{
-   overflow:hidden;
-   opacity:1;
-   visibility:visible;
-   height: auto;
+
+.show {
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
 }
 
-
-
-
 @keyframes example {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes disappear {
-    from {opacity: 1;}
-    to {opacity: 0;}
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 .chosen-container {
-    
-  position: relative;
-  display: block;
-  padding: 3px 0 3px 0px;
-  border: 1px solid #000;
-  border-radius: 5px;
-  background-color: $background;
-  background-clip: padding-box;
-  box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  white-space: nowrap;
-  * {
-      box-sizing:border-box;
-  }
-
-.selected-option {
-    padding:0px 0px 0px 8px;
-
-}
-
+    position: relative;
+    display: block;
+    padding: 3px 0 3px 0px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: $background;
+    background-clip: padding-box;
+    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    white-space: nowrap;
+    * {
+        box-sizing: border-box;
+    }
+    .selected-option {
+        padding: 0px 0px 0px 8px;
+    }
     .expand-icon {
         position: absolute;
         top: 0;
@@ -480,79 +415,62 @@ bootstrap
             margin: auto;
         }
     }
-
-    .chosen-drop 
-    {
-    display:none;
-    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 100%;
-    z-index: 101000;
-    width: 100%;
-  border: 1px solid #000;
-  border-radius: 0 0 5px 5px;
-  background-color: $background;
-  background-clip: padding-box;
-  border-top: 0;
-  box-sizing:content-box;
-  margin-left:-1px;
-//   box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
-
+    .chosen-drop {
+        display: none;
+        box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 100%;
+        z-index: 101000;
+        width: 100%;
+        border: 1px solid #000;
+        border-radius: 0 0 5px 5px;
+        background-color: $background;
+        background-clip: padding-box;
+        border-top: 0;
+        box-sizing: content-box;
+        margin-left: -1px; //   box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
     }
     ul {
         list-style-type: none;
         padding: 0;
     }
     li {
-       padding-left:8px;
-        
+        padding-left: 8px;
     }
     li:hover {
-    
-        
-        background:linear-gradient(to bottom, lighten($highlight-line-color,10%),$highlight-line-color);
-        //  #007be8;
-        
+        background: linear-gradient(to bottom, lighten($highlight-line-color, 10%), $highlight-line-color); //  #007be8;
     }
-
-
-
 }
 
 .chosen-container.expanded {
     border-bottom: 0;
     border-radius: 5px 5px 0px 0px;
-    background: linear-gradient(to bottom, lighten($focus-input-background,10%),$focus-input-background);
-    
-
-    .chosen-drop 
-    {
-        display:block;
+    background: linear-gradient(to bottom, lighten($focus-input-background, 10%), $focus-input-background);
+    .chosen-drop {
+        display: block;
     }
     .selected-option {
-        padding:0px 0px 3px 8px;
+        padding: 0px 0px 3px 8px;
         margin: 0 0px 0 0px;
     }
-    
 }
 
 .navbar {
     .container {
-        margin-left:0px;
-        padding-left:0px;
-        width:100%;
-        background-color:black;
-        a{
-            
-            color:#ababab;
+        margin-left: 0px;
+        padding-left: 0px;
+        width: 100%;
+        background-color: black;
+        a {
+            color: #ababab;
             font-size: 16px;
-            background-color:black;
+            background-color: black;
         }
         li {
-        a:hover {
-            background-color:black;
-            color:white;
-        }
+            a:hover {
+                background-color: black;
+                color: white;
+            }
         }
     }
 }
@@ -562,7 +480,6 @@ bootstrap
     padding: 10px 20px 20px 10px;
     width: 100%;
 }
-
 
 .padding-right-20 {
     padding-right: 20px;
@@ -577,42 +494,32 @@ bootstrap
 }
 
 .font-big {
-    font-size:18px;
+    font-size: 18px;
 }
 
 .btn-normal {
     background-color: $link-text-color-dark;
     &:hover {
         color: $font-color;
-        background-color: darken($link-text-color-dark,10%);
+        background-color: darken($link-text-color-dark, 10%);
     }
     &:active {
         transform: scale(0.9);
     }
 }
 
-.error-panel ul 
-{
-    
+.error-panel ul {
     padding-left: 0px;
     list-style-position: inside;
-    
 }
-.error-panel li
-{
+
+.error-panel li {
     background: $error-background-color;
-    border-radius:5px;
-    padding:10px;
+    border-radius: 5px;
+    padding: 10px;
     border-radius: 10px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     list-style-image: url('/images/list-error-icon.svg');
 }
 
-
-.error-panel
-{
-}
-
-
-
-
+.error-panel {}
