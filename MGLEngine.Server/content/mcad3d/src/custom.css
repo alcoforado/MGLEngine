@@ -1,0 +1,122 @@
+.vec2-input-container {
+  display: inline-block; }
+  .vec2-input-container .vector-picker {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background: url("../images/clock_pointer.svg") no-repeat center center;
+    background-size: 100%;
+    border: 3px solid white;
+    margin-bottom: 10px; }
+  .vec2-input-container .float-right {
+    display: inline-block;
+    float: right; }
+  .vec2-input-container .button-flat {
+    background: #3A3A3A;
+    padding: 1px 18px 1px 18px;
+    border: 1px solid #6D6969;
+    cursor: default; }
+  .vec2-input-container .button-flat:hover {
+    background: #6A6A6A; }
+  .vec2-input-container .dialog-button {
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    background: #770677 url(../images/menu-icon.svg) no-repeat center center;
+    background-size: 83%;
+    border-radius: 5px;
+    vertical-align: top;
+    border: 2px outset #313131; }
+  .vec2-input-container .dialog-button:active {
+    position: relative;
+    left: 3px;
+    top: 3px;
+    width: 22px;
+    height: 22px;
+    border: none; }
+  .vec2-input-container .vector-input {
+    width: 50px; }
+  .vec2-input-container .norm-pane {
+    margin: 10px 0px 10px 0px;
+    text-align: center; }
+  .vec2-input-container .norm-pane span {
+    margin-right: 10px; }
+  .vec2-input-container .norm-pane input[type=number] {
+    width: 100px; }
+  .vec2-input-container .circle-background {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: url("../images/xy_axis.svg") no-repeat center center;
+    position: absolute;
+    background-size: 100%; }
+  .vec2-input-container .circle-background-xyz {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: url("../images/xyz_axis.svg") no-repeat center center;
+    position: absolute;
+    background-size: 100%; }
+  .vec2-input-container .screen-container {
+    background-color: #2E2E35;
+    z-index: 100;
+    margin-bottom: 10px;
+    display: inline-block;
+    position: absolute;
+    width: 260px;
+    height: 239px;
+    border: 3px solid gray;
+    border-radius: 10px;
+    padding: 16px; }
+  .vec2-input-container .left-pane {
+    display: inline-block;
+    width: 49%; }
+  .vec2-input-container .right-pane {
+    display: inline-block;
+    width: 49%; }
+
+.editable-list-row {
+  padding: 5px 0 5px 5px;
+  margin-bottom: 2px;
+  background-color: #2f3138; }
+
+.list-input {
+  margin-top: 5px;
+  padding-left: 20px; }
+
+.list-col-label {
+  display: inline-block;
+  text-align: left; }
+
+.row-list .col-label {
+  display: block; }
+
+.shape-card-header {
+  padding: 10px 27px 10px 27px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03); }
+  .shape-card-header img {
+    width: 31px;
+    padding: 0px 5px 0px 0px;
+    vertical-align: text-bottom; }
+
+.shape-container {
+  padding: 0px 27px 0px 27px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.03); }
+
+.render-container {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.03); }
+
+.row-render {
+  padding-left: 27px; }
+
+.remove-row-button {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  background: url(images/close-icon-dark.svg) no-repeat center center;
+  background-size: 16px;
+  vertical-align: top; }
+  .remove-row-button:hover {
+    background: url(images/close-icon.svg) no-repeat center center;
+    background-size: 16px; }

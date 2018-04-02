@@ -24,10 +24,24 @@
    
 }
 
+
+.shape-card-header {
+    padding: 10px 27px 10px 27px;
+    width: 100%;
+    background: $panel-border-color;
+     img{
+         width: 31px;
+         padding: 0px 5px 0px 0px;
+         vertical-align: text-bottom;
+     }
+}
+
 .shape-container {
     padding: 0px 27px 0px 27px;
     border-bottom: 2px solid $panel-border-color;
 }
+
+
 
 .render-container {
     border-bottom: 2px solid $panel-border-color;

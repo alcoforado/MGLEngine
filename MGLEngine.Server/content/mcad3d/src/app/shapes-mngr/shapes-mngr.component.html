@@ -6,9 +6,8 @@
   </span>
 </div>
 
-<form class="shape-card mdc-card" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
-
-  <div class="shape-card-header mdc-typography--display1">
+<form class="shape-card mdc-card mdc-elevation--z24" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
+  <div class="shape-card-header">
     <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
   </div>
   <div [ngSwitch]="sform.shape.TopologyTypeName" class="card-body" [formGroup]="sform.getTopologyForm().Group">
@@ -35,7 +34,6 @@
       </div>
     </div>
 
-
     <div [ngSwitch]="sform.shape.RenderTypeName" *ngIf="sform.shape.RenderTypeName !=''" class="render-container" [formGroup]="sform.getRenderForm().Group">
       <div class="centerfy padding-small font-big">
         Render: {{sform.shape.RenderTypeName}}
@@ -57,24 +55,24 @@
 
       <div class="panel-button">
         <div class="link-button" (click)="addRender(sform.shape)">
-          <img src="images/pencil.svg" /> Change Render
+          <img src="images/pencil.svg" /> CHANGE RENDER
         </div>
       </div>
 
     </div>
 
 
-
-    <div class="panel-button" *ngIf="sform.shape.RenderTypeName ==''">
-      <div class="link-button" (click)="addRender(sform)">
-        <img src="images/add.svg" />Add Render
-      </div>
+    <mdc-button type="primary">TEST BUTTON</mdc-button>
+    <div class="panel-button" data-mdc-auto-init="MDCRipple" *ngIf="sform.shape.RenderTypeName ==''">
+      <button class="mdc-button mdc-button--raised" (click)="addRender(sform)">
+        ADD RENDER
+      </button>
     </div>
 
 
     <div class="panel-button" *ngIf="sform.shape.RenderTypeName !=''">
       <div class="btn btn-normal" (click)="renderShape(sform)">
-        Save
+        SAVE
       </div>
     </div>
   </div>

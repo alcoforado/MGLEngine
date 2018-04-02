@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "watch-css": "less-watch-compiler ./src/less ./src styles.less",
-    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"node-sass --include-path ./node_modules -w ./src/scss/styles.scss ./src/styles.css\"",
+    "tsc": "tsc --version && tsc --project ./src/tsconfig.debug.json && concurrently \"tsc  --project ./src/tsconfig.debug.json -w\" \"node-sass --include-path ./node_modules -w ./src/scss/styles.scss ./src/styles.css\" \"node-sass --include-path ./node_modules -w ./src/scss/custom.scss ./src/custom.css \"",
     "lite": "lite-server"
   },
   "private": true,

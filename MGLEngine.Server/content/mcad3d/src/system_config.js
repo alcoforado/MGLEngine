@@ -20,7 +20,11 @@
         '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
         '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
         '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
+        '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+        '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
+        '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
         'main': '/src/main_system.js',
+        '@angular': 'node_modules/@angular',
         // other libraries
         'rxjs': 'npm:rxjs',
         'rxjs/Observable': 'npm:rxjs/Observable',
@@ -33,7 +37,9 @@
     packages: {
         'api': { defaultExtension: 'js' },
         'rxjs': { defaultExtension: 'js' },
-        '': { defaultExtension: 'js' },
+        //    '@angular/animations': { main: 'bundles/animations.umd.js', defaultExtension: 'js' },
+        '': { defaultExtension: 'js' }
+
 
         // barrels
         // 'app/core':   { main: 'index'},

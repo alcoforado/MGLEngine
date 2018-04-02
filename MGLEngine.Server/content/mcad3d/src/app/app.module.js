@@ -20,6 +20,8 @@ var router_1 = require("@angular/router");
 var triangle2d_component_1 = require("./shapes/triangle2d/triangle2d.component");
 var modal_component_1 = require("./modal/modal.component");
 var color_render2d_component_1 = require("./renders/color-render2d/color-render2d.component");
+var mdc_button_component_1 = require("./mdc-button/mdc-button.component");
+var animations_1 = require("@angular/platform-browser/animations");
 var appRoutes = [
     { path: 'shapes', component: shapes_mngr_component_1.ShapesMngrComponent },
     { path: 'src/index_system.html', component: shapes_mngr_component_1.ShapesMngrComponent },
@@ -35,6 +37,7 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 forms_1.ReactiveFormsModule,
                 mform_module_1.MFormModule,
+                animations_1.BrowserAnimationsModule,
                 router_1.RouterModule.forRoot(appRoutes)
             ],
             declarations: [
@@ -44,7 +47,8 @@ var AppModule = (function () {
                 processing_animation_component_1.ProcessingAnimationComponent,
                 triangle2d_component_1.Triangle2dComponent,
                 modal_component_1.ModalComponent,
-                color_render2d_component_1.ColorRender2DComponent
+                color_render2d_component_1.ColorRender2DComponent,
+                mdc_button_component_1.MdcButtonComponent
             ],
             providers: [
                 shapes_mngr_service_1.ShapesMngrService

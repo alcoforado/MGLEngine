@@ -14,6 +14,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { Triangle2dComponent } from './shapes/triangle2d/triangle2d.component';
 import { ModalComponent } from './modal/modal.component';
 import { ColorRender2DComponent } from './renders/color-render2d/color-render2d.component';
+import { MdcButtonComponent } from './mdc-button/mdc-button.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 const appRoutes: Routes = [
     { path: 'shapes', component: ShapesMngrComponent },
     { path: 'src/index_system.html', component: ShapesMngrComponent },
@@ -25,6 +28,7 @@ const appRoutes: Routes = [
         BrowserModule,
         ReactiveFormsModule,
         MFormModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes)
     ],
     declarations: [
@@ -34,7 +38,8 @@ const appRoutes: Routes = [
         ProcessingAnimationComponent,
         Triangle2dComponent,
         ModalComponent,
-        ColorRender2DComponent
+        ColorRender2DComponent,
+        MdcButtonComponent
     ],
     providers: [
         ShapesMngrService

@@ -1,8 +1,7 @@
 @import "fonts";
 @import "colors";
 @import "material-components-web/material-components-web";
-@import "vec2";
-@import "shapes";
+@import "ripple.scss";
 
 
 
@@ -24,6 +23,9 @@ div {
     // background-color: #464646;
     padding: 2px 0px 0px 2px;
 }
+
+
+
 
 
 
@@ -161,19 +163,7 @@ animation-duration: 0.5s;
 }
 
 .shape-card-header {
-    padding: 0px 27px 27px 27px;
-    height: 62px;
-    width: 100%;
-    line-height: 62px;
     @include mdc-typography(headline);
-    background: $panel-border-color;
-     img{
-         width: 44px;
-         margin-left: -15px;
-         padding: 0px 5px 0px 0px;
-         vertical-align: text-bottom;
-     }
-    
 }
 
 .form-input {
