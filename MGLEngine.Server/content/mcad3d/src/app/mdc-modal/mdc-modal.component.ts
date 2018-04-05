@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
-
+import { createFocusTrap } from '@material/dialog'
 @Component({
     moduleId: module.id.toString(),
     selector: 'mdc-modal',
@@ -17,32 +17,41 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
         ])
     ]
 })
-export class MdcModalComponent implements OnInit {
+export class MdcModalComponent implements OnInit, AfterViewInit {
     @Input() type: string;
-    @ViewChild('bt') bt: ElementRef;
+    @Input() visible: boolean;
+    @Input() closeOnClickOut: boolean;
+    @ViewChild("mainPanel") main: ElementRef
     css_class: string;
+    focusTrap: any;
     constructor() { }
-    _ripple: string;
-    _x: string;
-    _y: string;
-    _width: string;
+
     ngOnInit() {
         if (this.type == 'primary') {
             this.css_class = "mdc-button--raised"
         }
-        this._x = '0';
-        this._y = '0';
-        this._ripple = '0';
+    }
+    ngAfterViewInit() {
+        var that = this;
+        this.focusTrap = createFocusTrap(this.main.nativeElement, {
+            onDeactivate: function () {
+                that.focusDeactivated()
+            },
+            clickOutsideDeactivates: this.closeOnClickOut
+        })
+    }
 
+    focusDeactivated() {
+        if (this.closeOnClickOut) {
+            this.close();
+        }
+    }
+    close() {
+        visible = 0;
     }
     clicked(event: any) {
         console.log(event);
-        console.log(this.bt);
-        var d: number = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) * 2;
-        this._width = + d + 'px';
-        this._x = (event.pageX - this.bt.nativeElement.offsetLeft - d / 2) + 'px';
-        this._y = (event.pageY - this.bt.nativeElement.offsetTop - d / 2) + 'px';
-        this._ripple = this._ripple == '0' ? '1' : '0';
+
     }
 }
 
