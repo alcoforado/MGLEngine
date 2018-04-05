@@ -3,12 +3,12 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
 
 @Component({
     moduleId: module.id.toString(),
-    selector: 'mdc-button',
-    templateUrl: 'mdc-button.component.html',
+    selector: 'mdc-modal',
+    templateUrl: 'mdc-modal.component.html',
     animations: [
-        trigger('ripple', [
-            state('1', style({})),
-            state('0', style({})),
+        trigger('visible', [
+            state('1', style({ opacity: 1, top: "0px" })),
+            state('0', style({ opacity: 1, top: "100px" })),
             transition('0 <=> 1',
                 animate('0.5s linear',
                     keyframes([
@@ -17,10 +17,7 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
         ])
     ]
 })
-
-
-
-export class MdcButtonComponent implements OnInit {
+export class MdcModalComponent implements OnInit {
     @Input() type: string;
     @ViewChild('bt') bt: ElementRef;
     css_class: string;
