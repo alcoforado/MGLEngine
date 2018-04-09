@@ -1,36 +1,27 @@
 @import "fonts";
 @import "colors";
 @import "material-components-web/material-components-web";
-
-
-@function highlight-color($color)
-{
-    @if mdc-theme-tone($color) == 'dark'
-    {
-        @return lighten($color,5%);
-    } 
-    @else
-    {
-        @return darken($color,5%);
+@function highlight-color($color) {
+    @if mdc-theme-tone($color)=='dark' {
+        @return lighten($color, 15%);
+    }
+    @else {
+        @return darken($color, 15%);
     }
 }
 
-.mdc-dialog__body
-{
+.mdc-dialog__body {
     color: var(--mdc-theme-text-secondary-on-background)
 }
 
-.mdc-button.mdc-button--flat 
-{
-    transition: background-color 2s;
-    
+.mdc-button.mdc-button--flat {
+    transition: background-color 1s;
     background-color: $background;
-    &:hover
-    {
-        background-color: highlight-color($background); 
+    @include mdc-theme-prop(color, text-primary-on-background);
+    &:hover {
+        background-color: highlight-color($background);
     }
 }
-
 
 .material-ripple {
     width: 100%;
@@ -52,9 +43,6 @@ body {
 div {
     cursor: default;
 }
-
-
-
 
 .iphone-input {
     border: 0px;

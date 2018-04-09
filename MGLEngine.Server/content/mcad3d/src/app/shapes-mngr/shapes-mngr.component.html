@@ -1,15 +1,12 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
 
-<mdc-button type="flat">
-  Add
-</mdc-button>
-
 <div>
-  <span class="round-button" (click)="enableAddShapeDialog()">
-    <img src="images/add.svg" /> Add
-  </span>
+  <mdc-button type="flat" (click)="enableAddShapeDialog()">
+    <i class="material-icons">add</i> ADD SHAPES
+  </mdc-button>
 </div>
+
 
 <form class="shape-card mdc-card mdc-elevation--z4" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
   <div class="shape-card-header">
@@ -87,7 +84,7 @@
 </app-modal>
 
 
-<div class="modal" [class.show]="showAddShapeDialog1" tabindex="-1" role="dialog">
+<div class="modal" [class.show]="showAddShapeDialog" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -110,4 +107,4 @@
 </div>
 <!-- /.modal -->
 
-<mdc-modal type="select" [(visible)]="showAddShapeDialog"></mdc-modal>
+<!-- <mdc-modal type="select" [(visible)]="showAddShapeDialog"></mdc-modal> -->

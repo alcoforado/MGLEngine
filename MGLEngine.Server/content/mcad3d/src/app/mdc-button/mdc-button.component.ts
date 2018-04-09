@@ -30,8 +30,7 @@ export class MdcButtonComponent implements OnInit {
         if (this.type == 'primary') {
             this.css_class = "mdc-button--raised"
         }
-        else (this.type == 'flat')
-        {
+        else if (this.type == 'flat') {
             this.css_class = "mdc-button--flat";
         }
         this._x = '0';
