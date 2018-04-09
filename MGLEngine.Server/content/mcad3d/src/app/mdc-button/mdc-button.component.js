@@ -18,6 +18,11 @@ var MdcButtonComponent = (function () {
         if (this.type == 'primary') {
             this.css_class = "mdc-button--raised";
         }
+        else
+            (this.type == 'flat');
+        {
+            this.css_class = "mdc-button--flat";
+        }
         this._x = '0';
         this._y = '0';
         this._ripple = '0';

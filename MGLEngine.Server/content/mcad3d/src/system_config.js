@@ -30,8 +30,9 @@
         'rxjs/Observable': 'npm:rxjs/Observable',
         'rxjs/Rx': 'npm:rxjs/Rx',
         'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-        'services/mocks': 'typescript/services/mocks'
-
+        'services/mocks': 'typescript/services/mocks',
+        'focus-trap': 'node_modules/focus-trap/index.js',
+        'tabbable': 'npm:/tabbable/index.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

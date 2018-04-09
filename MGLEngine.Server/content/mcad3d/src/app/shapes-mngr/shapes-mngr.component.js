@@ -85,7 +85,7 @@ var ShapesMngrComponent = (function () {
     };
     ShapesMngrComponent.prototype.renderSelected = function ($event) {
         if (this.selectedShape == null)
-            throw "Shave not selected to appy render";
+            throw "Shave not selected to apply render";
         var sh = this.selectedShape.shape;
         sh.RenderType = this.RenderTypes[$event.index];
         sh.RenderTypeName = sh.RenderType.TypeName;

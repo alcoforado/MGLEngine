@@ -1,5 +1,10 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
+
+<mdc-button type="flat">
+  Add
+</mdc-button>
+
 <div>
   <span class="round-button" (click)="enableAddShapeDialog()">
     <img src="images/add.svg" /> Add
@@ -82,7 +87,7 @@
 </app-modal>
 
 
-<div class="modal" [class.show]="showAddShapeDialog" tabindex="-1" role="dialog">
+<div class="modal" [class.show]="showAddShapeDialog1" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -104,3 +109,5 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<mdc-modal type="select" [(visible)]="showAddShapeDialog"></mdc-modal>

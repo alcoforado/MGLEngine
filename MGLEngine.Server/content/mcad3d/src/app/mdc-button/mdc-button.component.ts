@@ -17,9 +17,6 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
         ])
     ]
 })
-
-
-
 export class MdcButtonComponent implements OnInit {
     @Input() type: string;
     @ViewChild('bt') bt: ElementRef;
@@ -32,6 +29,10 @@ export class MdcButtonComponent implements OnInit {
     ngOnInit() {
         if (this.type == 'primary') {
             this.css_class = "mdc-button--raised"
+        }
+        else (this.type == 'flat')
+        {
+            this.css_class = "mdc-button--flat";
         }
         this._x = '0';
         this._y = '0';
