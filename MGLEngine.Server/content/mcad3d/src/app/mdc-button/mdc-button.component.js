@@ -15,12 +15,6 @@ var MdcButtonComponent = (function () {
     function MdcButtonComponent() {
     }
     MdcButtonComponent.prototype.ngOnInit = function () {
-        if (this.type == 'primary') {
-            this.css_class = "mdc-button--raised";
-        }
-        else if (this.type == 'flat') {
-            this.css_class = "mdc-button--flat";
-        }
         this._x = '0';
         this._y = '0';
         this._ripple = '0';
@@ -42,6 +36,10 @@ var MdcButtonComponent = (function () {
         core_1.ViewChild('bt'),
         __metadata("design:type", core_1.ElementRef)
     ], MdcButtonComponent.prototype, "bt", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], MdcButtonComponent.prototype, "_class", void 0);
     MdcButtonComponent = __decorate([
         core_1.Component({
             moduleId: module.id.toString(),

@@ -22,6 +22,16 @@
         background-color: highlight-color($background);
     }
 }
+.mdc-button.mdc-button--flat-secondary {
+    transition: background-color 1s;
+    background-color: $background;
+    @include mdc-theme-prop(color, secondary-light);
+    &:hover {
+        background-color: lighten($background, 5%);
+    }
+}
+
+
 
 .material-ripple {
     width: 100%;
