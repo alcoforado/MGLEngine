@@ -1,8 +1,8 @@
 <section>Manage Shapes</section>
 <processing-animation></processing-animation>
 
-<div class="second-toolbar">
-  <mdc-button _class="mdc-button--flat-secondary" (click)="enableAddShapeDialog()">
+<div class="second-toolbar mb-2">
+  <mdc-button _class="btn-flat-secondary" (click)="enableAddShapeDialog()">
     <i class="material-icons">add</i> ADD SHAPES
   </mdc-button>
 </div>
@@ -64,7 +64,7 @@
     </div>
 
 
-    <div class="panel-button" data-mdc-auto-init="MDCRipple" *ngIf="sform.shape.RenderTypeName ==''">
+    <div class="panel-button" *ngIf="sform.shape.RenderTypeName ==''">
       <mdc-button _class="btn btn-primary" (click)="addRender(sform)">ADD RENDER</mdc-button>
     </div>
 

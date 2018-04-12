@@ -125,9 +125,7 @@
             background-color: lighten($color, 5%);
         }
         &:focus,
-        &.focus {
-            @extend .z-depth-1-half;
-        }
+        &.focus {}
         &:focus,
         &:active,
         &.active {
