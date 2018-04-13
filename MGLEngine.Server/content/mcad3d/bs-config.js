@@ -10,7 +10,9 @@ module.exports = {
     browser: "chrome",
     server: {
         routes: {
-            "/images": "src/images"
+            "/images": "src/images",
+            "/fonts": "src/fonts"
+
         },
         middleware: {
             1: apiProxy

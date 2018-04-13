@@ -350,12 +350,15 @@ bootstrap
 
 **/
 
+
+
 .modal {
     color: black;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
     display: block;
+    background-color: rgba(0,0,0,0.2);
     transition: visibility 0.25s, opacity 0.25s linear;
 }
 
