@@ -2,7 +2,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "md/mdb.scss";
 @import "material-icons.scss";
-
 .btn-flat-secondary {
     @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic);
     color: $white;
@@ -15,7 +14,6 @@
         background-color: lighten($secondary-color, 5%);
     }
 }
-
 
 /* You can add global styles to this file, and also import other style files */
 

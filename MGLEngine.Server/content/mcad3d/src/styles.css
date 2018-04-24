@@ -3760,7 +3760,7 @@ button.close {
   pointer-events: auto;
   background-color: #ffffff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.3rem;
   outline: 0; }
 
@@ -7587,7 +7587,7 @@ a.text-dark:hover, a.text-dark:focus {
 .show > .btn-black.dropdown-toggle, .btn-black:not([disabled]):not(.disabled):active:focus, .btn-black.active:not([disabled]):not(.disabled):focus,
 .show > .btn-black.dropdown-toggle:focus, .btn-outline-black:not([disabled]):not(.disabled):active, .btn-outline-black.active:not([disabled]):not(.disabled),
 .show > .btn-outline-black.dropdown-toggle, .btn-outline-black:not([disabled]):not(.disabled):active:focus, .btn-outline-black.active:not([disabled]):not(.disabled):focus,
-.show > .btn-outline-black.dropdown-toggle:focus, .modal-dialog .modal-content, .modal-dialog.cascading-modal .modal-header {
+.show > .btn-outline-black.dropdown-toggle:focus, .modal-dialog.cascading-modal .modal-header {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
 
 .z-depth-2, .hoverable:hover, .btn, .modal-dialog.cascading-modal.modal-avatar .modal-header img {
@@ -7599,7 +7599,7 @@ a.text-dark:hover, a.text-dark:focus {
 .z-depth-4 {
   box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21); }
 
-.z-depth-5 {
+.z-depth-5, .modal-dialog .modal-content {
   box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22); }
 
 .hoverable {
@@ -10551,7 +10551,6 @@ body.scrollable {
   overflow-y: auto; }
 
 .modal-dialog .modal-content {
-  border: 0;
   border-radius: 0.125rem; }
   .modal-dialog .modal-content .modal-header {
     border-top-left-radius: 0.125rem;

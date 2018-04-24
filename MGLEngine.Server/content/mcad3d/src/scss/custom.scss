@@ -350,15 +350,13 @@ bootstrap
 
 **/
 
-
-
 .modal {
     color: black;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
     display: block;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     transition: visibility 0.25s, opacity 0.25s linear;
 }
 
@@ -567,4 +565,20 @@ button {
 .mdc-button {
     position: relative;
     overflow: hidden;
+}
+
+// BOOTSTRAP MODAL
+.modal-dialog {
+    .modal-content {
+        background: $background;
+        color: $body-color;
+        .modal-header {
+            background: $background-accent;
+            border: 0;
+            font-weight: bold;
+        }
+        .modal-body {
+            border: 0;
+        }
+    }
 }
