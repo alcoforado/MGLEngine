@@ -5,6 +5,10 @@
   <mdc-button _class="btn-flat-secondary" (click)="enableAddShapeDialog()">
     <i class="material-icons">add</i> ADD SHAPES
   </mdc-button>
+
+  <mdc-button _class="btn-flat-secondary">
+    <i class="material-icons">add</i> ADD SHAPES
+  </mdc-button>
 </div>
 
 
@@ -97,7 +101,7 @@
         <app-list-view [items]="shapesListView" [defaultImage]="'/src/images/shapes.svg'" (itemSelected)="createShape($event)"></app-list-view>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-flat-secondary" (click)="disableAddShapeDialog()">Cancel</button>
+        <mdc-button _class="btn-flat" (click)="disableAddShapeDialog()">Cancel</mdc-button>
       </div>
     </div>
     <!-- /.modal-content -->

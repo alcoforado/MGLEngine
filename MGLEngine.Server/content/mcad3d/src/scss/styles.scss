@@ -10,8 +10,20 @@
     background-color: $secondary-color;
     border: 0px solid $secondary-color;
     box-shadow: none !important;
+   
+}
+
+.btn-flat {
+    @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic);
+    color: $white;
+    border-radius: $border-radius-base;
+    transition: background-color 0.5s;
+    background-color: $background;
+    border: 0px solid $secondary-color;
+    box-shadow: none !important;
     &:hover {
-        background-color: lighten($secondary-color, 5%);
+        background-color: darken($background, 8%);
+        font-weight: bold;
     }
 }
 
@@ -24,4 +36,8 @@
     &:focus {
         box-shadow: none !important;
     }
+}
+
+.mdc-button {
+    @extend .btn;
 }
