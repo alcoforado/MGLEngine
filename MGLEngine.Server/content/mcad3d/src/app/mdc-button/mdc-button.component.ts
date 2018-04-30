@@ -33,8 +33,6 @@ export class MdcButtonComponent implements OnInit {
 
     }
     clicked(event: any) {
-        console.log(event);
-        console.log(this.bt);
         var d: number = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) * 2;
         this._width = + d + 'px';
         this._x = (event.pageX - this.bt.nativeElement.offsetLeft - d / 2) + 'px';

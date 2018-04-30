@@ -20,8 +20,6 @@ var MdcButtonComponent = (function () {
         this._ripple = '0';
     };
     MdcButtonComponent.prototype.clicked = function (event) {
-        console.log(event);
-        console.log(this.bt);
         var d = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) * 2;
         this._width = +d + 'px';
         this._x = (event.pageX - this.bt.nativeElement.offsetLeft - d / 2) + 'px';
