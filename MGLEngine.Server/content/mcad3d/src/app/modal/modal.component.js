@@ -10,21 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var animations_1 = require("@angular/animations");
 var ModalComponent = (function () {
     function ModalComponent() {
-        this.close = new core_1.EventEmitter();
     }
-    ModalComponent.prototype.triggerCloseEvent = function (ok) {
-        this.close.emit(ok);
-    };
     ModalComponent.prototype.ngOnChanges = function (ch) {
-        if (typeof (ch.showButtons) == "undefined")
-            return;
-        if (typeof (ch.showButtons.currentValue) == "string") {
-            this._showButtons = ch.showButtons.currentValue.toLowerCase() === "true";
-        }
-        else
-            this._showButtons = ch.showButtons.currentValue;
     };
     ModalComponent.prototype.ngOnInit = function () {
     };
@@ -36,20 +26,20 @@ var ModalComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], ModalComponent.prototype, "show", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Object)
-    ], ModalComponent.prototype, "showButtons", void 0);
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], ModalComponent.prototype, "close", void 0);
     ModalComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'app-modal',
             templateUrl: './modal.component.html',
-            styleUrls: ['./modal.component.css']
+            styleUrls: ['./modal.component.css'],
+            animations: [
+                animations_1.trigger('visibleAnim', [
+                    animations_1.state('1', animations_1.style({ opacity: 1, transform: "scale(1) translate(0px,0px)", top: "0px" })),
+                    animations_1.state('0', animations_1.style({ opacity: 0.2, transform: "scale(0.75) translate(0px,250px)" })),
+                    animations_1.transition('0 => 1', animations_1.animate('0.25s cubic-bezier(0, 0, .2, 1)')),
+                    animations_1.transition('1 => 0', animations_1.animate('0.25s cubic-bezier(0,0,.2,1)'))
+                ])
+            ]
         }),
         __metadata("design:paramtypes", [])
     ], ModalComponent);
