@@ -52,3 +52,4 @@ $secondary-color-light: $deep-orange-400;
 $modal-content-border-color: choose-border-color($background, 0.1);
 $modal-footer-border-color: $modal-content-border-color;
 $background-accent: choose-border-color($background, 0.1);
+$background-accent-dark: darken($background, 8%);

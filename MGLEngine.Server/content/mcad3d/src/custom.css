@@ -1534,11 +1534,12 @@ List view component
   border-radius: 10px; }
 
 .list-view-item img {
-  width: 30px;
-  vertical-align: text-bottom; }
+  width: 45px;
+  vertical-align: text-bottom;
+  display: inline-block; }
 
 .list-view-item:hover {
-  background-color: #e7eaea; }
+  background-color: #1f1f1f; }
 
 /**
 bootstrap

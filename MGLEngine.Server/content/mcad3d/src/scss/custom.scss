@@ -337,12 +337,13 @@ List view component
 }
 
 .list-view-item img {
-    width: 30px;
+    width: 45px;
     vertical-align: text-bottom;
+    display: inline-block;
 }
 
 .list-view-item:hover {
-    background-color: #e7eaea;
+    background-color: $background-accent-dark;
 }
 
 /**
