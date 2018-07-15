@@ -161,6 +161,7 @@
     <ClCompile Include="RenderPipeline\VulkanRenderPass.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp" />
+    <ClCompile Include="RenderResources\SlotManager.cpp" />
     <ClCompile Include="VulkanContext\VulkanQueue.cpp" />
     <ClCompile Include="MGLContainerVulkan.cpp" />
     <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="RenderPipeline\VulkanSemaphore.cpp" />
     <ClCompile Include="RenderPipeline\VulkanInputLayout.cpp" />
     <ClCompile Include="MemoryManager\VulkanMemoryManager.cpp" />
+    <ClCompile Include="RenderResources\VulkanDescriptorSetLayout.cpp" />
     <ClCompile Include="VulkanMemoryProperties.cpp" />
     <ClCompile Include="RenderPipeline\VulkanSemaphorePool.cpp" />
     <ClCompile Include="VulkanUtils.cpp" />
@@ -206,6 +208,7 @@
     <ClInclude Include="RenderPipeline\VulkanRenderPass.h" />
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
+    <ClInclude Include="RenderResources\SlotManager.h" />
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="RenderPipeline\VulkanSemaphore.h" />
     <ClInclude Include="RenderPipeline\VulkanInputLayout.h" />
     <ClInclude Include="MemoryManager\VulkanMemoryManager.h" />
+    <ClInclude Include="RenderResources\VulkanDescriptorSetLayout.h" />
     <ClInclude Include="VulkanMemoryProperties.h" />
     <ClInclude Include="RenderPipeline\VulkanSemaphorePool.h" />
     <ClInclude Include="VulkanUtils.h" />

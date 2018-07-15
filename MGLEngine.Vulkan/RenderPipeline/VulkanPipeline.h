@@ -7,6 +7,7 @@
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
+#include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
 class VulkanDescriptorSet;
 class VulkanCommandPool;
 class VulkanSwapChain;
@@ -21,7 +22,7 @@ class VulkanPipeline
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
 	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
-	std::vector<VulkanDescriptorSet*> _descriptorSets;
+	std::vector<VulkanDescriptorSetLayout*> _descriptorSetLayouts;
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
@@ -57,8 +58,8 @@ public:
 	
 
 	//The Descriptor Sets binded to the pipeline
-	void AddDescriptorSetLayout(VulkanDescriptorSet *layout);
-	std::vector<VulkanDescriptorSet*> GetDescriptorSetLayouts() const { return _descriptorSets; }
+	void AddDescriptorSetLayout(VulkanDescriptorSetLayout *layout);
+	std::vector<VulkanDescriptorSetLayout*> GetDescriptorSetLayouts() const { return _descriptorSetLayouts; }
 
 
 	~VulkanPipeline();

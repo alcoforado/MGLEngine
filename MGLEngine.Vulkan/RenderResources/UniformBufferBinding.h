@@ -17,6 +17,8 @@ class UniformBufferBinding : public IVulkanRenderResource
 	GPUMemoryType _memoryType;
 	VkDescriptorSetLayoutBinding _ubo = {};
 	VulkanDescriptorSet* _dsSet = nullptr;
+	
+	
 private:
 	/*
 	 * This function is used internally to bind the vulkan descriptor set with the buffer.

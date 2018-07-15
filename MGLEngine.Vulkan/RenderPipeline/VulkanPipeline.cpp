@@ -6,6 +6,7 @@
 #include <cassert>
 #include "Utils/Exception.h"
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
+#include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
 
 VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
 	:_swapChain(pSwapChain),
@@ -146,7 +147,7 @@ void VulkanPipeline::Load()
 
 	//Create Layout
 	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
-	for (auto d : _descriptorSets)
+	for (auto d : _descriptorSetLayouts)
 	{
 		vkDescriptorSetsLayout.push_back(d->GetLayoutHandle());
 	}
@@ -197,9 +198,9 @@ void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 	this->Load();
 }
 
-void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSet* layout)
+void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSetLayout* layout)
 {
-	_descriptorSets.push_back(layout);
+	_descriptorSetLayouts.push_back(layout);
 }
 
 VulkanPipeline::~VulkanPipeline()

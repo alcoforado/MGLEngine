@@ -109,8 +109,6 @@ void VulkanContext::Draw()
 		}
 	}
 
-
-
 	//Finally submit the commands
 	GetLogicalDevice()->GetGraphicQueue()->Submit(pFrameData->Commands, pFrameData->pExecutionWaitSemaphore, pFrameData->pAcquireImageSemaphore->GetResource(), { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT }, pFrameData->pExecutionFence);
 	
