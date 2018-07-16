@@ -8,7 +8,7 @@
 #include <MGLEngine.Shared/Utils/opointer.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanMemoryManager.h>
 class VulkanCommandPool;
-
+class VulkanDescriptorSetPool;
 struct GLFWwindow;
 class VulkanLogicalDevice
 {
@@ -20,7 +20,7 @@ private:
 	std::vector<VulkanQueue> _queues;
 	std::vector<VkImage> _images;
 	OPointer<VulkanCommandPool> _pCommandPool;
-	
+	OPointer<VulkanDescriptorSetPool> _pDescriptorSetPool;
 
 	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
 	
@@ -36,6 +36,7 @@ public:
 	const VulkanQueue* GetGraphicQueue() const;
 
 	VulkanCommandPool* GetGraphicCommandPool();
+	VulkanDescriptorSetPool* GetDescriptorSetPool() { return _pDescriptorSetPool; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;
 	VulkanSemaphore* CreateSemaphore() const;
