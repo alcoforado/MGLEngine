@@ -1,6 +1,6 @@
 #pragma once
 #pragma once
-#include "MGLEngine.Vulkan/RenderResources/IVulkanRenderResource.h"
+#include "MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h"
 #include <vector>
 
 class VulkanDescriptorSetLayout
@@ -9,10 +9,10 @@ class VulkanDescriptorSetLayout
 
 	VkDescriptorSetLayout _handle;
 	VulkanLogicalDevice *_dev;
-	std::vector<IVulkanRenderResource*> _resources;
+	std::vector<IVulkanRenderSlot*> _resources;
 	;
 public:
-	VulkanDescriptorSetLayout(VulkanLogicalDevice* device, const std::vector<IVulkanRenderResource*> &v);
+	VulkanDescriptorSetLayout(VulkanLogicalDevice* device, const std::vector<IVulkanRenderSlot*> &v);
 	VkDescriptorSetLayout GetLayoutHandle() const { return _handle; }
 	~VulkanDescriptorSetLayout();
 };

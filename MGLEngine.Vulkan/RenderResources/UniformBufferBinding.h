@@ -2,12 +2,12 @@
 #include <MGLEngine.Shared/DrawTree/IRenderResource.h>
 #include "MGLEngine.Vulkan/Shaders/IVulkanRenderContext.h"
 #include <MGLEngine.Shared/Utils/Arrays/ArrayFunctions.h>
-#include "IVulkanRenderResource.h"
+#include "IVulkanRenderSlot.h"
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanMappedBuffer.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanMemoryManager.h>
 template<class Data>
-class UniformBufferBinding : public IVulkanRenderResource
+class UniformBufferBinding : public IVulkanRenderSlot
 {
 	const VulkanLogicalDevice *_dev;
 	std::vector<Data> _data;
@@ -48,7 +48,8 @@ private:
 
 
 public:
-	UniformBufferBinding(VulkanMemoryManager *mngr,int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType)
+	UniformBufferBinding(VulkanMemoryManager *mngr,int binding, int nElems, std::vector<VkShaderStageFlagBits> stages,GPUMemoryType memType, ResourceWriteFrequency frequency)
+		:IVulkanRenderSlot(frequency)
 	{
 		assert(nElems > 0);
 

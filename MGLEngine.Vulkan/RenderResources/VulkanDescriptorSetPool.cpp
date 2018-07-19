@@ -21,7 +21,7 @@ VulkanDescriptorSetPool::~VulkanDescriptorSetPool()
 	}
 }
 
-VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(const std::vector<IVulkanRenderResource*>& v)
+VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(const std::vector<IVulkanRenderSlot*>& v)
 {
 	if (IsAllocated())
 	{

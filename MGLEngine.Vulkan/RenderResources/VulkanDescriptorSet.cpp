@@ -1,10 +1,10 @@
 #include "VulkanDescriptorSet.h"
-#include <MGLEngine.Vulkan/RenderResources/IVulkanRenderResource.h>
+#include <MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include  <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
 
 VulkanDescriptorSet::VulkanDescriptorSet(VulkanLogicalDevice* device,
-	const std::vector<IVulkanRenderResource*>& v)
+	const std::vector<IVulkanRenderSlot*>& v)
 {
 	_dev = device;
 	_resources = v;

@@ -6,7 +6,7 @@
 #include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
 #include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
-#include "MGLEngine.Vulkan/RenderResources/IVulkanRenderResource.h"
+#include "MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h"
 class IVulkanRenderContext;
 
 
@@ -80,7 +80,7 @@ public:
 	{
 		for (auto r : _tree.GetRoot()->GetData().GetResources())
 		{
-			IVulkanRenderResource *vr = reinterpret_cast<IVulkanRenderResource*>(r);
+			IVulkanRenderSlot *vr = reinterpret_cast<IVulkanRenderSlot*>(r);
 			if (vr->IsDirty())
 				vr->Load(context);
 		}

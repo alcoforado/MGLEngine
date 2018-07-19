@@ -2,7 +2,7 @@
 
 
 
-SlotManager::SlotManager()
+SlotManager::SlotManager(std::vector<IVulkanRenderSlot*> resources)
 {
 }
 

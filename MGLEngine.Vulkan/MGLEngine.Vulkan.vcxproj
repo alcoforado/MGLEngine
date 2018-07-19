@@ -197,7 +197,7 @@
     <ClInclude Include="MGLEngineVulkan.h" />
     <ClInclude Include="RenderPipeline\VulkanDrawTreeParser.h" />
     <ClInclude Include="MemoryManager\VulkanBuffer.h" />
-    <ClInclude Include="RenderResources\IVulkanRenderResource.h" />
+    <ClInclude Include="RenderResources\IVulkanRenderSlot.h" />
     <ClInclude Include="RenderResources\VulkanResourceLoadContext.h" />
     <ClInclude Include="Shaders\IVulkanShader.h" />
     <ClInclude Include="Shaders\IVulkanRenderContext.h" />

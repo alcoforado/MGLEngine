@@ -4,7 +4,7 @@
 
 class VulkanLogicalDevice;
 class VulkanDescriptorSet;
-class IVulkanRenderResource;
+class IVulkanRenderSlot;
 struct PoolAllocation
 {
 	unsigned int UniformBuffers;
@@ -22,7 +22,7 @@ public:
 
 	VkDescriptorPool GetHandle() const { return _handle; }
 
-	VulkanDescriptorSet* CreateDescriptorSet(const std::vector<IVulkanRenderResource*> &v);
+	VulkanDescriptorSet* CreateDescriptorSet(const std::vector<IVulkanRenderSlot*> &v);
 	void AllocateDescriptorSets();
 	bool IsAllocated();
 };

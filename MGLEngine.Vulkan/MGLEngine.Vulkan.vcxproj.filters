@@ -221,9 +221,6 @@
     <ClInclude Include="MemoryManager\VulkanMappedAutoSyncBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderResources\IVulkanRenderResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VulkanContext\VulkanCommandBatchCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -264,6 +261,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderResources\SlotManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\IVulkanRenderSlot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
