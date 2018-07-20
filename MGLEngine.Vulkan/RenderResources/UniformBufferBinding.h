@@ -42,7 +42,6 @@ private:
 		descWrite.pBufferInfo = &bufferInfo;
 		descWrite.pImageInfo = nullptr;
 		descWrite.pTexelBufferView = nullptr;
-		
 		vkUpdateDescriptorSets(_dev->GetHandle(), 1, &descWrite, 0, nullptr);
 	}
 
