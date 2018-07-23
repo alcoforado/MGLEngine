@@ -4,5 +4,6 @@ class IVulkanSlotBinding
 public:
 	IVulkanSlotBinding();
 	~IVulkanSlotBinding();
+
 };
 

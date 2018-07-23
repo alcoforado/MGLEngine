@@ -61,16 +61,18 @@ private:
 		
 		}
 
+		
+
 
 	};
 
-	
+public:
 	/*
 	 * This function is used internally to bind the vulkan descriptor set with the buffer.
 	 * This only happens after the descriptorsetpool is finally allocated, which allocates all descritpor sets,
 	 * which in turn, call the bind function for every of its resources.
 	 */
-	virtual IVulkanSlotBinding* Bind(VulkanDescriptorSet *dsSet)
+	virtual IVulkanSlotBinding* Bind(VulkanDescriptorSet *dsSet) override
 	{
 		UniformSlotBinding *binding = new UniformSlotBinding();
 		binding->pBuffer = new VulkanMappedBuffer<Data>(_dev->GetMemoryManager(), _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });

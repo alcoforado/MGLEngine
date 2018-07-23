@@ -7,7 +7,7 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device
 	const std::vector<IVulkanRenderSlot*>& v)
 {
 	_dev = device;
-	_resources = v;
+	_slots = v;
 	std::vector<VkDescriptorSetLayoutBinding> vLayout;
 	for (auto r : v)
 	{

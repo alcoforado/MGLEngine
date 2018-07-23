@@ -29,7 +29,7 @@ VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(VulkanDescript
 	}
 	
 	auto result = new VulkanDescriptorSet(pLayout);
-	for (auto slot : pLayout->GetResources())
+	for (auto slot : pLayout->GetSlots())
 	{
 		switch (slot->GetVkDescriptorSetLayoutBinding().descriptorType)
 		{
@@ -52,6 +52,11 @@ VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(VulkanDescript
  */
 void VulkanDescriptorSetPool::AllocateDescriptorSets()
 {
+	if (IsAllocated())
+	{
+		throw new Exception("Vulkan Descriptor Pool were already allocated, can't call Allocate function again");
+	}
+
 	std::vector<VkDescriptorPoolSize> v;
 	v.push_back(
 		{
@@ -92,7 +97,7 @@ void VulkanDescriptorSetPool::AllocateDescriptorSets()
 	//Distribute the VkDescriptorSets to the VulkanDescriptorSets of the pool
 	for (int i=0;i<ds.size();i++)
 	{
-		_descriptorSets[i]->SetDescriptorSetHandle(ds[i]);
+		_descriptorSets[i]->InitializeDescriptorSet(ds[i]);
 	}
 
 }

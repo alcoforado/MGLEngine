@@ -1,7 +1,7 @@
 #include "SlotManager.h"
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
-
+#include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 /*
  * The Slot Manager
  */
