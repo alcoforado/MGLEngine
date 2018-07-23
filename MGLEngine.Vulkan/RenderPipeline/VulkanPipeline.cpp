@@ -149,7 +149,7 @@ void VulkanPipeline::Load()
 	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
 	for (auto d : _descriptorSetLayouts)
 	{
-		vkDescriptorSetsLayout.push_back(d->GetLayoutHandle());
+		vkDescriptorSetsLayout.push_back(d->GetHandle());
 	}
 	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetsLayout.size());
 	PipelineLayoutInfo.pSetLayouts = vkDescriptorSetsLayout.size()>0 ? vkDescriptorSetsLayout.data() : nullptr;

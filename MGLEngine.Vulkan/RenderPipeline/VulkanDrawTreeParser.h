@@ -76,15 +76,7 @@ public:
 	}
 
 
-	void LoadRootResources(IVulkanResourceLoadContext *context)
-	{
-		for (auto r : _tree.GetRoot()->GetData().GetResources())
-		{
-			IVulkanRenderSlot *vr = reinterpret_cast<IVulkanRenderSlot*>(r);
-			if (vr->IsDirty())
-				vr->Load(context);
-		}
-	}
+	
 
 	void ExecuteTree(IDrawContext *drawContext)
 	{
@@ -145,7 +137,6 @@ public:
 		}
 		
 		uint32_t index = drawContext->GetFrameIndex();
-		LoadRootResources(drawContext->GetResourceLoadContext());
 		drawContext->Out.Commands.push_back(frameData.CB);
 
 

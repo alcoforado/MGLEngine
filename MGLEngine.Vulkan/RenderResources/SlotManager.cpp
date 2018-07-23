@@ -1,13 +1,20 @@
 #include "SlotManager.h"
-#include "VulkanDescriptorSetLayout.h"
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h>
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
 
+/*
+ * The Slot Manager
+ */
 
-SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot*> resources)
+SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot*> resources,int nFrames)
 {
 	_slots = resources;
 	_pDev = pDev;
 
 	_pLayout = new VulkanDescriptorSetLayout(pDev, _slots);
+
+	pDev->GetDescriptorSetPool()->CreateDescriptorSet(_pLayout);
+	
 	
 }
 

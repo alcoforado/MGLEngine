@@ -11,7 +11,7 @@
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 
 #include "../RenderPipeline/VulkanDrawTreeParser.h"
-#include "MGLEngine.Vulkan/RenderResources/UniformBufferBinding.h"
+#include "MGLEngine.Vulkan/RenderResources/UniformBufferSlot.h"
 #include "IVulkanShader.h"
 class IVulkanRenderContext;
 
@@ -24,7 +24,7 @@ class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 	VertexShaderByteCode _vertexByteCode; 
 	FragmentShaderByteCode _fragShaderCode;  
 	std::vector<VulkanCommandBuffer*> _commands;
-	OPointer<UniformBufferBinding<glm::mat3>> _pGT;
+	OPointer<UniformBufferSlot<glm::mat3>> _pGT;
 
 	public:
 	explicit ShaderColor2D(IVulkanRenderContext& renderContext);

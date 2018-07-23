@@ -16,9 +16,9 @@ public:
 		_frequency = frequency;
 	}
 	
-	virtual void Load(IVulkanResourceLoadContext *context) = 0;
-	virtual VkDescriptorSetLayoutBinding GetVulkanDescriptor()  const = 0;
 	virtual ResourceWriteFrequency WriteFrequency() const {
 		return _frequency;
 	}
+
+	virtual VkDescriptorSetLayoutBinding GetVkDescriptorSetLayoutBinding()=0;
 };

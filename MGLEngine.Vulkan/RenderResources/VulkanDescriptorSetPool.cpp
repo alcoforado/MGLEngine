@@ -21,17 +21,17 @@ VulkanDescriptorSetPool::~VulkanDescriptorSetPool()
 	}
 }
 
-VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(const std::vector<IVulkanRenderSlot*>& v)
+VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(VulkanDescriptorSetLayout *pLayout)
 {
 	if (IsAllocated())
 	{
 		throw new Exception("Vulkan Descriptor Pool were already allocated, can't create more VulkanDescriptorSets for this pool");
 	}
 	
-	auto result = new VulkanDescriptorSet(_dev, v);
-	for (auto r : v)
+	auto result = new VulkanDescriptorSet(pLayout);
+	for (auto slot : pLayout->GetResources())
 	{
-		switch (r->GetVulkanDescriptor().descriptorType)
+		switch (slot->GetVkDescriptorSetLayoutBinding().descriptorType)
 		{
 			case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
 				_alloc.UniformBuffers++;
@@ -72,7 +72,7 @@ void VulkanDescriptorSetPool::AllocateDescriptorSets()
 	std::vector<VkDescriptorSetLayout> layouts;
 	for (auto d: _descriptorSets)
 	{
-		layouts.push_back(d->GetLayoutHandle());
+		layouts.push_back(d->GetLayout()->GetHandle());
 	}
 
 	//Set the Allocation Structure

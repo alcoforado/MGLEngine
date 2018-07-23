@@ -11,7 +11,7 @@ VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device
 	std::vector<VkDescriptorSetLayoutBinding> vLayout;
 	for (auto r : v)
 	{
-		vLayout.push_back(r->GetVulkanDescriptor());
+		vLayout.push_back(r->GetVkDescriptorSetLayoutBinding());
 	}
 	VkDescriptorSetLayoutCreateInfo layoutInfo = {};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;

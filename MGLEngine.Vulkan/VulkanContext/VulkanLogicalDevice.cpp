@@ -9,7 +9,7 @@
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
-VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice)
+VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice, long MemoryManagerMaxBlockSize)
 	:_physicalDevice(physicalDevice)
 {
 	//Create Device with the Queues
@@ -77,7 +77,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 
 	_pDescriptorSetPool = new VulkanDescriptorSetPool(this);
 
-
+	_pMemoryManager = new VulkanMemoryManager(*this, MemoryManagerMaxBlockSize);
 }
 
 

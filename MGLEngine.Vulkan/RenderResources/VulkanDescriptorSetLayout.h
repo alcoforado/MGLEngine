@@ -13,7 +13,8 @@ class VulkanDescriptorSetLayout
 	;
 public:
 	VulkanDescriptorSetLayout(VulkanLogicalDevice* device, const std::vector<IVulkanRenderSlot*> &v);
-	VkDescriptorSetLayout GetLayoutHandle() const { return _handle; }
+	VkDescriptorSetLayout GetHandle() const { return _handle; }
 	~VulkanDescriptorSetLayout();
+	std::vector<IVulkanRenderSlot*> GetResources() { return _resources; };
 };
 

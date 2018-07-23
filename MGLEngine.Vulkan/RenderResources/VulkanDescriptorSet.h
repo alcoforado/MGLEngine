@@ -4,19 +4,18 @@
 
 class VulkanLogicalDevice;
 class VulkanDescriptorSetPool;
+class SlotManager;
+class VulkanDescriptorSetLayout;
 class VulkanDescriptorSet
 {
 	friend class VulkanDescriptorSetPool;
-	
 	VkDescriptorSet _dsHandle;
-	VkDescriptorSetLayout _handle;
-	VulkanLogicalDevice *_dev;
-	std::vector<IVulkanRenderSlot*> _resources;
+	VulkanDescriptorSetLayout *_pLayout;
 	void SetDescriptorSetHandle(VkDescriptorSet dsHandle) { _dsHandle = dsHandle; }
-	VulkanDescriptorSet(VulkanLogicalDevice* device, const std::vector<IVulkanRenderSlot*> &v);
+	VulkanDescriptorSet(VulkanDescriptorSetLayout *pLayout);
 	~VulkanDescriptorSet();
 public:
-	VkDescriptorSetLayout GetLayoutHandle() const { return _handle; }
+	VulkanDescriptorSetLayout* GetLayout() const { return _pLayout; }
 	VkDescriptorSet GetDescriptorSetHandle() const { return _dsHandle; }
 };
 

@@ -126,6 +126,12 @@
     <ClCompile Include="RenderResources\SlotManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RenderResources\IVulkanSlotBinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResources\UniformSlotBinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\MWindow.h">
@@ -248,9 +254,6 @@
     <ClInclude Include="RenderResources\VulkanDescriptorSetPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderResources\UniformBufferBinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryManager\VulkanBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -264,6 +267,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderResources\IVulkanRenderSlot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\UniformBufferSlot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\IVulkanSlotBinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderResources\UniformSlotBinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 
+class VulkanDescriptorSetLayout;
 class VulkanLogicalDevice;
 class VulkanDescriptorSet;
 class IVulkanRenderSlot;
@@ -20,9 +21,10 @@ public:
 	VulkanDescriptorSetPool(VulkanLogicalDevice *dev);
 	~VulkanDescriptorSetPool();
 
+	VulkanDescriptorSet * CreateDescriptorSet(VulkanDescriptorSetLayout * pLayout);
+
 	VkDescriptorPool GetHandle() const { return _handle; }
 
-	VulkanDescriptorSet* CreateDescriptorSet(const std::vector<IVulkanRenderSlot*> &v);
 	void AllocateDescriptorSets();
 	bool IsAllocated();
 };

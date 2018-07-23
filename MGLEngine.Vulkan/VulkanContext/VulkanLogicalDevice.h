@@ -21,8 +21,8 @@ private:
 	std::vector<VkImage> _images;
 	OPointer<VulkanCommandPool> _pCommandPool;
 	OPointer<VulkanDescriptorSetPool> _pDescriptorSetPool;
-
-	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice);
+	OPointer<VulkanMemoryManager> _pMemoryManager;
+	VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice,long MemoryManagerMaxBlockSize=1);
 	
 public:
 
@@ -37,6 +37,7 @@ public:
 
 	VulkanCommandPool* GetGraphicCommandPool();
 	VulkanDescriptorSetPool* GetDescriptorSetPool() { return _pDescriptorSetPool; }
+	VulkanMemoryManager* GetMemoryManager() const { return _pMemoryManager; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;
 	VulkanSemaphore* CreateSemaphore() const;
