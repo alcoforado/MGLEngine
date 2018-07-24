@@ -13,7 +13,12 @@ SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot
 
 	_pLayout = new VulkanDescriptorSetLayout(pDev, _slots);
 
-	pDev->GetDescriptorSetPool()->CreateDescriptorSet(_pLayout);
+
+	for (int i=0;i<nFrames;i++)
+	{
+		VulkanDescriptorSet* pSet = pDev->GetDescriptorSetPool()->CreateDescriptorSet(_pLayout);
+		_frames.push_back({ pSet });
+	}
 	
 	
 }

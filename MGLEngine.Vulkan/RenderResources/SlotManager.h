@@ -16,7 +16,7 @@ private:
 		VulkanDescriptorSet* DescriptorSet;
 		
 	};
-	
+	std::vector<FrameData> _frames;
 	
 public:
 	SlotManager(VulkanLogicalDevice *dev,std::vector<IVulkanRenderSlot*> resources,int nFrames);
