@@ -41,11 +41,11 @@ private:
 		bool bNeedUpdate;
 
 		
-		virtual bool NeedUpdate()
+		virtual bool NeedUpdate() override 
 		{
 			return bNeedUpdate;
 		}
-		virtual void Update()
+		virtual void Update() override
 		{
 			if (NeedUpdate())
 			{
@@ -88,7 +88,7 @@ public:
 		bufferInfo.offset = 0;
 		VkWriteDescriptorSet descWrite;
 		descWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		descWrite.dstSet = dsSet->GetDescriptorSetHandle();
+		descWrite.dstSet = dsSet->GetHandle();
 		descWrite.dstBinding = _ubo.binding;
 		descWrite.dstArrayElement = 0;
 		descWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;

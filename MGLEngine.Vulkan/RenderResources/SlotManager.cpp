@@ -19,9 +19,22 @@ SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot
 		VulkanDescriptorSet* pSet = pDev->GetDescriptorSetPool()->CreateDescriptorSet(_pLayout);
 		_frames.push_back({ pSet });
 	}
-	
+}
+
+void SlotManager::OnCommandBufferOpen(VulkanCommandBuffer * cb, int frameIndex)
+{
 	
 }
+
+void SlotManager::OnFrameStart(int iFrame)
+{
+	//Update all bindings related to DescriptorSet assigned to a frame
+	for(auto pBind : _frames[iFrame].DescriptorSet->GetBindings())
+	{
+		pBind->Update();
+	}
+}
+
 
 
 SlotManager::~SlotManager()

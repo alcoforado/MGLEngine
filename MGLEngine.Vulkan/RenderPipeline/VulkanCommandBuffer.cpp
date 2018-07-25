@@ -7,6 +7,7 @@
 #include "../VulkanUtils.h"
 #include "VulkanPipeline.h"
 #include "Utils/Exception.h"
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 class VulkanRenderPass;
 
 void VulkanCommandBuffer::AssertIsOpen()
@@ -76,6 +77,14 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline* pip
 	AssertIsOpen();
 	
 	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetHandle());
+	return *this;
+}
+
+VulkanCommandBuffer & VulkanCommandBuffer::BindDescriptorSet(const VulkanDescriptorSet * pSet,VulkanPipeline *pipeline)
+{
+	AssertIsOpen();
+	VkDescriptorSet dsSetHandle = pSet->GetHandle();
+	vkCmdBindDescriptorSets(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetVulkanPipelineLayout(), 0, 1, &dsSetHandle, 0, nullptr);
 	return *this;
 }
 

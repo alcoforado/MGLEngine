@@ -140,6 +140,7 @@
     <ClInclude Include="DrawTree\DrawInfo.h" />
     <ClInclude Include="DrawTree\DrawTree.h" />
     <ClInclude Include="DrawTree\IRenderResource.h" />
+    <ClInclude Include="Utils\eassert.h" />
     <ClInclude Include="IMGLEngine.h" />
     <ClInclude Include="Shaders\IShader.h" />
     <ClInclude Include="Utils\Arrays\ArrayFunctions.h" />

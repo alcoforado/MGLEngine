@@ -51,6 +51,7 @@ public:
 	const VulkanSwapChain& GetSwapChain() const { return *_swapChain; }
 	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
+	const VkPipelineLayout GetVulkanPipelineLayout() const { assert(_isLoaded); return _vkPipelineLayout; }
 	void Dispose();
 
 	

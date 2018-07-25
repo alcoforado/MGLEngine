@@ -20,7 +20,9 @@ private:
 	
 public:
 	SlotManager(VulkanLogicalDevice *dev,std::vector<IVulkanRenderSlot*> resources,int nFrames);
-
+	void OnCommandBufferOpen(VulkanCommandBuffer *cb, int frameIndex);
+	void OnFrameStart(int iFrame);
+		
 	~SlotManager();
 };
 

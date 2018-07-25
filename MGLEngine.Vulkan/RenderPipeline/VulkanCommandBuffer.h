@@ -4,6 +4,7 @@
 #include "VulkanSemaphore.h"
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 
+class VulkanDescriptorSet;
 class VulkanPipeline;
 class VulkanFramebuffer;
 class VulkanCommandBuffer;
@@ -52,6 +53,7 @@ private:
 	const VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
 	VkSubmitInfo *_pSubmitInfoCache;
+	VulkanPipeline *_vulkanPipeline;
 	
 	bool _isOpen;
 	void AssertIsOpen();
@@ -64,6 +66,8 @@ public:
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 
 	VulkanCommandBuffer& BindPipeline(const VulkanPipeline* pipeline);
+
+	VulkanCommandBuffer& BindDescriptorSet(const VulkanDescriptorSet *pSet,VulkanPipeline *pipeline);
 
 	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);
 	
