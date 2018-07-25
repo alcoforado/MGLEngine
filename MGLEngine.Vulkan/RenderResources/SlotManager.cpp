@@ -2,6 +2,7 @@
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
 /*
  * The Slot Manager
  */
@@ -21,9 +22,9 @@ SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot
 	}
 }
 
-void SlotManager::OnCommandBufferOpen(VulkanCommandBuffer * cb, int frameIndex)
+VulkanDescriptorSet* SlotManager::GetActiveDescriptorSetForFrame(int frameIndex)
 {
-	
+	return _frames[frameIndex].DescriptorSet;
 }
 
 void SlotManager::OnFrameStart(int iFrame)

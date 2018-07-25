@@ -7,6 +7,7 @@
 #include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
 #include "MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h"
+#include <MGLEngine.Vulkan/RenderResources/SlotManager.h>
 class IVulkanRenderContext;
 
 
@@ -18,7 +19,6 @@ class VulkanDrawTreeParser
 	DrawTree<T> &_tree;
 	VulkanPipeline& _pipeline;
 	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
-
 	struct PerFrameData
 	{
 		OPointer<VulkanCommandBuffer> CB;
@@ -29,6 +29,7 @@ class VulkanDrawTreeParser
 	
 	IVulkanRenderContext& _context;
 	OPointer<VulkanSemaphore> _sm;
+
 	VulkanRenderResourceLoadContext _renderLoadContext;
 
 private:
@@ -128,6 +129,9 @@ public:
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(&_pipeline);
 			comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
+			
+			
+
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();

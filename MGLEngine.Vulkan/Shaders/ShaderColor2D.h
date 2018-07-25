@@ -29,8 +29,7 @@ class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 	public:
 	explicit ShaderColor2D(IVulkanRenderContext& renderContext);
 	~ShaderColor2D();
-	void OnSwapChange();
-	virtual void Draw(IDrawContext *pDrawContext);
+	virtual void Draw(IDrawContext *pDrawContext) override;
 	void SetGlobalTransform(glm::mat3 mat3);
 
 };

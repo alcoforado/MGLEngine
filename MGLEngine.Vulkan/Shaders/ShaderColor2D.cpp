@@ -57,16 +57,6 @@ ShaderColor2D::~ShaderColor2D()
 	
 }
 
-void ShaderColor2D::OnSwapChange()
-{
-	_pPipeline.if_free();
-	for (auto pc : _commands)
-	{
-		delete pc;
-	}
-	_commands.clear();
-}
-
 
 
 
