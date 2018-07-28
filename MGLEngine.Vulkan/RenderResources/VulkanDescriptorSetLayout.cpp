@@ -3,7 +3,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include  <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
 
-VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanLogicalDevice* device,
+VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(const VulkanLogicalDevice* device,
 	const std::vector<IVulkanRenderSlot*>& v)
 {
 	_dev = device;

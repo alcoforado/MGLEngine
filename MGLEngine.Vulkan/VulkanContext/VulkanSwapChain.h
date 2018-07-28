@@ -19,7 +19,7 @@ class VulkanSwapChain
 	
 	public:
 	VulkanSwapChain(GLFWwindow *window,VulkanLogicalDevice& device);
-	const VulkanLogicalDevice& GetLogicalDevice()const { return _logicalDevice; }
+	const VulkanLogicalDevice* GetLogicalDevice()const { return &_logicalDevice; }
 	VkExtent2D GetExtent() const { return _dims; }
 	~VulkanSwapChain();
 	VkFormat GetImageFormat() const { return _imageFormat; }

@@ -20,7 +20,7 @@ class VulkanRenderPass
 	VkRenderPass _renderPass;
 	bool _isLoaded;
 public:
-	VulkanRenderPass(const VulkanLogicalDevice& device);
+	VulkanRenderPass(const VulkanLogicalDevice* device);
 	~VulkanRenderPass();
 
 	void AddColorDescription(std::string name, VkAttachmentDescription desc);

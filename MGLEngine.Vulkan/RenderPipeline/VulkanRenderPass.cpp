@@ -4,8 +4,8 @@
 #include "../VulkanContext/VulkanLogicalDevice.h"
 #include "../VulkanUtils.h"
 
-VulkanRenderPass::VulkanRenderPass(const VulkanLogicalDevice& device)
-	:_logicalDevice(device)
+VulkanRenderPass::VulkanRenderPass(const VulkanLogicalDevice* device)
+	:_logicalDevice(*device)
 {
 	_isLoaded = false;
 }

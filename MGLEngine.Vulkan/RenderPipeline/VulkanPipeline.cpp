@@ -8,15 +8,14 @@
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
 
-VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
+VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment, std::vector<IVulkanRenderSlot*> allSlots)
 	:_swapChain(pSwapChain),
 	RenderPass(pSwapChain->GetLogicalDevice()),
-	_pLogicalDevice(&(pSwapChain->GetLogicalDevice()))
+	_pLogicalDevice((pSwapChain->GetLogicalDevice()))
 
 {
 	_isLoaded = false;
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-
 
 
 
@@ -115,7 +114,9 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderBy
 	{
 		this->OnSwapChainReload(pSwapChain);
 	});
-	
+
+	_pSlotManager = new SlotManager(this, allSlots);
+
 
 }
 
@@ -147,13 +148,13 @@ void VulkanPipeline::Load()
 
 	//Create Layout
 	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
-	for (auto d : _descriptorSetLayouts)
+	for (auto d : _pSlotManager->GetDescriptorSetLayouts())
 	{
 		vkDescriptorSetsLayout.push_back(d->GetHandle());
 	}
 	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetsLayout.size());
 	PipelineLayoutInfo.pSetLayouts = vkDescriptorSetsLayout.size()>0 ? vkDescriptorSetsLayout.data() : nullptr;
-	auto err = vkCreatePipelineLayout(GetLogicalDevice().GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
+	auto err = vkCreatePipelineLayout(GetLogicalDevice()->GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
 	pipelineInfo.layout = _vkPipelineLayout;
@@ -165,7 +166,7 @@ void VulkanPipeline::Load()
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
-	err = vkCreateGraphicsPipelines(GetLogicalDevice().GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
+	err = vkCreateGraphicsPipelines(GetLogicalDevice()->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
 	AssertVulkanSuccess(err);
 
 
@@ -181,8 +182,8 @@ void VulkanPipeline::Dispose()
 	if (_isLoaded)
 	{
 		_pFramebuffers.if_free();
-		vkDestroyPipeline(GetLogicalDevice().GetHandle(), _vkPipeline, nullptr);
-		vkDestroyPipelineLayout(GetLogicalDevice().GetHandle(), _vkPipelineLayout, nullptr);
+		vkDestroyPipeline(GetLogicalDevice()->GetHandle(), _vkPipeline, nullptr);
+		vkDestroyPipelineLayout(GetLogicalDevice()->GetHandle(), _vkPipelineLayout, nullptr);
 		_isLoaded = false;
 	}
 
@@ -198,10 +199,6 @@ void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 	this->Load();
 }
 
-void VulkanPipeline::AddDescriptorSetLayout(VulkanDescriptorSetLayout* layout)
-{
-	_descriptorSetLayouts.push_back(layout);
-}
 
 VulkanPipeline::~VulkanPipeline()
 {

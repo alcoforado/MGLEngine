@@ -8,7 +8,9 @@
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
 #include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
+#include "MGLEngine.Vulkan/RenderResources/SlotManager.h"
 class VulkanDescriptorSet;
+
 class VulkanCommandPool;
 class VulkanSwapChain;
 class VertexShaderByteCode;
@@ -22,7 +24,7 @@ class VulkanPipeline
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
 	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
-	std::vector<VulkanDescriptorSetLayout*> _descriptorSetLayouts;
+	SlotManager *_pSlotManager;
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
@@ -43,26 +45,26 @@ public:
 	VkRect2D Scissor;
 	OPointer<VulkanSwapChainFramebuffers> _pFramebuffers;
 
-	VulkanPipeline(const VulkanSwapChain *pSwapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
+	VulkanPipeline(const VulkanSwapChain *pSwapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment, std::vector<IVulkanRenderSlot*> allSlots);
 	VkPipeline GetHandle() const { return _vkPipeline; }
 
 	void Load();
-	const VulkanLogicalDevice& GetLogicalDevice() const { return *_pLogicalDevice; }
+	const VulkanLogicalDevice* GetLogicalDevice() const { return _pLogicalDevice; }
 	const VulkanSwapChain& GetSwapChain() const { return *_swapChain; }
 	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
-	const VkPipelineLayout GetVulkanPipelineLayout() const { assert(_isLoaded); return _vkPipelineLayout; }
+	VkPipelineLayout GetVulkanPipelineLayout() const { assert(_isLoaded); return _vkPipelineLayout; }
 	void Dispose();
 
 	
-	void OnSwapChainReload(const VulkanSwapChain *pNewSwapChaing);
+	void OnSwapChainReload(const VulkanSwapChain * pNewSwapChain);
+	
+	SlotManager* GetSlotManager() { return _pSlotManager; }
+
 	
 
-	//The Descriptor Sets binded to the pipeline
-	void AddDescriptorSetLayout(VulkanDescriptorSetLayout *layout);
-	std::vector<VulkanDescriptorSetLayout*> GetDescriptorSetLayouts() const { return _descriptorSetLayouts; }
 
-
+	
 	~VulkanPipeline();
 };
 

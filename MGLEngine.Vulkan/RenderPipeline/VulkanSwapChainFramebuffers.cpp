@@ -5,7 +5,7 @@
 
 
 VulkanSwapChainFramebuffers::VulkanSwapChainFramebuffers(const VulkanRenderPass& renderPass,const VulkanSwapChain& swapChain)
-	:_swapChain(swapChain),_renderPass(renderPass),_logicalDevice(swapChain.GetLogicalDevice())
+	:_swapChain(swapChain),_renderPass(renderPass),_logicalDevice(*(swapChain.GetLogicalDevice()))
 {
 	auto imageViews = swapChain.GetImageViews();
 	assert(renderPass.GetColorAttachments().size() == 1);
@@ -21,7 +21,7 @@ VulkanSwapChainFramebuffers::VulkanSwapChainFramebuffers(const VulkanRenderPass&
 		framebufferInfo.layers = 1;
 		
 		VkFramebuffer vkFramebuffer;
-		auto err = vkCreateFramebuffer(swapChain.GetLogicalDevice().GetHandle(), &framebufferInfo, nullptr, &vkFramebuffer);
+		auto err = vkCreateFramebuffer(swapChain.GetLogicalDevice()->GetHandle(), &framebufferInfo, nullptr, &vkFramebuffer);
 		AssertVulkanSuccess(err);
 		_framebuffers.push_back(vkFramebuffer);
 

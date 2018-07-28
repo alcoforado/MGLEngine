@@ -3,41 +3,60 @@
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
 /*
  * The Slot Manager
  */
 
-SlotManager::SlotManager(VulkanLogicalDevice *pDev,std::vector<IVulkanRenderSlot*> resources,int nFrames)
+
+
+SlotManager::SlotManager(VulkanPipeline* pipeline, std::vector<IVulkanRenderSlot*> allSlots)
 {
-	_slots = resources;
-	_pDev = pDev;
+	_pDev = pipeline->GetLogicalDevice();
+	_allSlots = allSlots;
+	_pPipeline = pipeline;
+}
 
-	_pLayout = new VulkanDescriptorSetLayout(pDev, _slots);
+void SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
+{
+	eassert(std::includes(_allSlots.begin(), _allSlots.end(), slots.begin(), slots.end()), "One or more slots passed do not belong to the actually pipeline");
+	eassert(!_pPipeline->IsLoaded(),"Cannot add more layouts to the pipeline because it is already loaded")
+	LayoutData ld;
+	ld.pLayout = new VulkanDescriptorSetLayout(_pDev,slots);
+	_data.push_back(ld);
+}
 
-
-	for (int i=0;i<nFrames;i++)
+void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCount)
+{
+	eassert(layoutNumber < _data.size(),"Error layoutNumber " << layoutNumber << " out of range [0," << _data.size()-1);
+	for(int i=0;i<descriptorSetsCount;i++)
 	{
-		VulkanDescriptorSet* pSet = pDev->GetDescriptorSetPool()->CreateDescriptorSet(_pLayout);
-		_frames.push_back({ pSet });
+		_data[layoutNumber].vDescSets.push_back	(
+			new VulkanDescriptorSet(_data[layoutNumber].pLayout)
+		);
 	}
+	
 }
 
-VulkanDescriptorSet* SlotManager::GetActiveDescriptorSetForFrame(int frameIndex)
+VulkanDescriptorSet* SlotManager::GetDescriptorSet(int iLayout,int iDescSet)
 {
-	return _frames[frameIndex].DescriptorSet;
-}
+	eassert(iLayout < _data.size(), "Error layoutNumber " << iLayout << " out of range [0," << _data.size() - 1);
+	eassert(iDescSet < _data[iLayout].vDescSets.size(), "Error descriptor set index out of range");
+	return _data[iLayout].vDescSets[iDescSet];
 
-void SlotManager::OnFrameStart(int iFrame)
-{
-	//Update all bindings related to DescriptorSet assigned to a frame
-	for(auto pBind : _frames[iFrame].DescriptorSet->GetBindings())
-	{
-		pBind->Update();
-	}
 }
-
 
 
 SlotManager::~SlotManager()
 {
+}
+
+std::vector<VulkanDescriptorSetLayout*> SlotManager::GetDescriptorSetLayouts()
+{
+	std::vector<VulkanDescriptorSetLayout*> result;
+	for (auto d: _data)
+	{
+		result.push_back(d.pLayout);
+	}
+	return result;
 }

@@ -10,11 +10,11 @@ class VulkanDescriptorSetLayout
 	friend class VulkanDescriptorSetPool;
 
 	VkDescriptorSetLayout _handle;
-	VulkanLogicalDevice *_dev;
+	const VulkanLogicalDevice *_dev;
 	std::vector<IVulkanRenderSlot*> _slots;
 	;
 public:
-	VulkanDescriptorSetLayout(VulkanLogicalDevice* device, const std::vector<IVulkanRenderSlot*> &v);
+	VulkanDescriptorSetLayout(const VulkanLogicalDevice* device, const std::vector<IVulkanRenderSlot*> &v);
 	VkDescriptorSetLayout GetHandle() const { return _handle; }
 	~VulkanDescriptorSetLayout();
 	std::vector<IVulkanRenderSlot*> GetSlots() { return _slots; };
