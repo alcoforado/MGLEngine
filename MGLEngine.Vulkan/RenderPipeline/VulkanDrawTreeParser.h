@@ -76,37 +76,14 @@ public:
 		}
 	}
 
-
-	
-
 	void ExecuteTree(IDrawContext *drawContext)
 	{
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();
-		bool needRedraw = false;
-		if (_tree.NeedRedraw())
-		{
-			needRedraw = true;
-			//If draw tree changed, Update Vertice Data 
-			std::vector<unsigned> indices1(100);
-			Indices is1(indices1.data(), root->GetData().Current.SizeI, 100);
-			std::vector<unsigned> indices2(100);
-			Indices is2(indices2.data(), root->GetData().Future.SizeI, 100);
+		bool needRedraw = _tree.NeedRedraw();
+		
+		const VulkanBuffer<T>* pVerticeBuffer = this->Serialize(_tree);
 
-			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
-			{
-				VulkanMappedAutoSyncBuffer<T> *newBuff = new VulkanMappedAutoSyncBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV, {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
-				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
-
-				delete _pVerticesBuffer;
-				_pVerticesBuffer = newBuff;
-				is1.swap(is2);
-			}
-			else
-			{
-				_tree.UpdateVerticeData(*_pVerticesBuffer, is1);
-			}
-		}
 		if (drawContext->IsWindowResized())
 			_pipeline.OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
 
@@ -128,10 +105,7 @@ public:
 			VulkanCommandBuffer *comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(&_pipeline);
-			comm->BindVertexBuffer(_pVerticesBuffer->GetHandle());
-			
-			
-
+			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();
@@ -147,7 +121,6 @@ public:
 		
 	}
 
-
 	~VulkanDrawTreeParser()
 	{
 		if (_pVerticesBuffer)
@@ -161,6 +134,36 @@ public:
 	{
 		assert(index < _commands.size());
 		return _commands[index];
+	}
+
+	const VulkanBuffer<T>* Serialize(DrawTree<T>& tree)
+	{
+		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
+		_tree.ComputeSizes();
+		
+		if (_tree.NeedRedraw())
+		{
+			//If draw tree changed, Update Vertice Data 
+			std::vector<unsigned> indices1(100);
+			Indices is1(indices1.data(), root->GetData().Current.SizeI, 100);
+			std::vector<unsigned> indices2(100);
+			Indices is2(indices2.data(), root->GetData().Future.SizeI, 100);
+
+			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
+			{
+				VulkanMappedAutoSyncBuffer<T> *newBuff = new VulkanMappedAutoSyncBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV, { VK_BUFFER_USAGE_VERTEX_BUFFER_BIT });
+				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
+
+				delete _pVerticesBuffer;
+				_pVerticesBuffer = newBuff;
+				is1.swap(is2);
+			}
+			else
+			{
+				_tree.UpdateVerticeData(*_pVerticesBuffer, is1);
+			}
+		}
+		return _pVerticesBuffer->GetVulkanBuffer();
 	}
 
 

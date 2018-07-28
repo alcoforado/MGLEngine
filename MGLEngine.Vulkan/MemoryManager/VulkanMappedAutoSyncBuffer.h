@@ -28,18 +28,22 @@ public:
 
 	}
 	
-	int GetAlignment()
+	int GetAlignment() const
 	{
 		return _buffer.GetAlignment();
 	}
 
-	VkBuffer GetHandle()
+	VkBuffer GetHandle() const
 	{
 		return _buffer.GetHandle();
 	}
 
-	bool IsStaging()
+	bool IsStaging() const 
 	{
 		return _buffer.IsStaging();
+	}
+	const VulkanBuffer<T>* GetVulkanBuffer() const
+	{
+		return &_buffer;
 	}
 };

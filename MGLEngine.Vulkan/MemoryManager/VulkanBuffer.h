@@ -52,7 +52,7 @@ public:
 		
 	}
 
-	uint64_t GetSize()
+	uint64_t GetSize() const
 	{
 		return _size;
 	}
@@ -69,7 +69,7 @@ public:
 		_memHandle.Free();
 	}
 	
-	int GetAlignment()
+	int GetAlignment() const
 	{
 		VkMemoryRequirements memRequirements;
 		vkGetBufferMemoryRequirements(_memMngr->GetLogicalDevice()->GetHandle(), _handle, &memRequirements);
