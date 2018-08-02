@@ -101,14 +101,7 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderBy
 	ColorBlending.blendConstants[3] = 0.0f; // Optional
 
 
-	PipelineLayoutInfo = {};
-	PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	PipelineLayoutInfo.setLayoutCount = 0; // Optional
-	PipelineLayoutInfo.pSetLayouts = nullptr; // Optional
-	PipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-	PipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
-
-
+	
 
 	onResize.SetHandler([this](VulkanSwapChain *pSwapChain) 
 	{
@@ -147,17 +140,8 @@ void VulkanPipeline::Load()
 	pipelineInfo.pDynamicState = nullptr;
 
 	//Create Layout
-	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
-	for (auto d : _pSlotManager->GetDescriptorSetLayouts())
-	{
-		vkDescriptorSetsLayout.push_back(d->GetHandle());
-	}
-	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetsLayout.size());
-	PipelineLayoutInfo.pSetLayouts = vkDescriptorSetsLayout.size()>0 ? vkDescriptorSetsLayout.data() : nullptr;
-	auto err = vkCreatePipelineLayout(GetLogicalDevice()->GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
-	AssertVulkanSuccess(err);
-
-	pipelineInfo.layout = _vkPipelineLayout;
+	_pSlotManager->Load();
+	pipelineInfo.layout = _pSlotManager->GetVkPipelineLayoutHandle();
 	
 	auto renderHandle = RenderPass.Load();
 	pipelineInfo.renderPass = renderHandle;
@@ -166,7 +150,7 @@ void VulkanPipeline::Load()
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
-	err = vkCreateGraphicsPipelines(GetLogicalDevice()->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
+	auto err = vkCreateGraphicsPipelines(GetLogicalDevice()->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &_vkPipeline);
 	AssertVulkanSuccess(err);
 
 
@@ -183,7 +167,6 @@ void VulkanPipeline::Dispose()
 	{
 		_pFramebuffers.if_free();
 		vkDestroyPipeline(GetLogicalDevice()->GetHandle(), _vkPipeline, nullptr);
-		vkDestroyPipelineLayout(GetLogicalDevice()->GetHandle(), _vkPipelineLayout, nullptr);
 		_isLoaded = false;
 	}
 

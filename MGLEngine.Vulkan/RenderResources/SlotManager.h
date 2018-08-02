@@ -7,9 +7,12 @@
 class VulkanPipeline;
 class SlotManager
 {
+	friend class VulkanPipeline;
 	std::vector<IVulkanRenderSlot*> _allSlots;
 	const VulkanLogicalDevice *_pDev;
 	VulkanPipeline* _pPipeline;
+	VkPipelineLayout _vkPipelineLayout;
+
 
 private:
 	struct LayoutData
@@ -26,11 +29,17 @@ public:
 	void AddLayout(std::vector<IVulkanRenderSlot*> slots);
 	void AllocateDescritorSets(int layoutNumber, int descriptorSetsCount);
 	VulkanDescriptorSet* GetDescriptorSet(int iLayout, int iDescSet);
-
+	void Load();
 	void OnCommandBufferOpen(VulkanCommandBuffer *cb, int frameIndex);
 	void OnFrameStart(int iFrame);
 	~SlotManager();
+	bool IsLoaded() const {
+		return _vkPipelineLayout != VK_NULL_HANDLE;
+	}
 	std::vector<VulkanDescriptorSetLayout*> GetDescriptorSetLayouts(); 
+	VkPipelineLayout GetVkPipelineLayoutHandle() const;
+
 };
+
 
 

@@ -19,7 +19,7 @@ class FragmentShaderByteCode;
 class VulkanPipeline
 {
 	const VulkanSwapChain *_swapChain;
-	VkPipelineLayout _vkPipelineLayout;
+	std::vector<VkPipelineLayout> _vkPipelineLayouts;
 	const VulkanLogicalDevice *_pLogicalDevice;
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
@@ -53,7 +53,6 @@ public:
 	const VulkanSwapChain& GetSwapChain() const { return *_swapChain; }
 	bool  IsLoaded() const { return _isLoaded; }
 	const VulkanSwapChainFramebuffers* GetVulkanSwapChainFramebuffers() const { assert(_isLoaded); return _pFramebuffers; }
-	VkPipelineLayout GetVulkanPipelineLayout() const { assert(_isLoaded); return _vkPipelineLayout; }
 	void Dispose();
 
 	

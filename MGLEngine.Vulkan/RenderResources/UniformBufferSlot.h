@@ -82,6 +82,7 @@ public:
 		{
 			binding->bNeedUpdate = true;
 		});
+		binding->_slotListener.Listen(&_onChange);
 
 		VkDescriptorBufferInfo bufferInfo;
 		bufferInfo.buffer = binding->pBuffer->GetHandle();

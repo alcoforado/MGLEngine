@@ -8,6 +8,9 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
 #include "MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h"
 #include <MGLEngine.Vulkan/RenderResources/SlotManager.h>
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
+
+
 class IVulkanRenderContext;
 
 
@@ -23,39 +26,22 @@ class VulkanDrawTreeParser
 	{
 		OPointer<VulkanCommandBuffer> CB;
 		bool IsDirty;
-		PerFrameData() { IsDirty = true; }
+		VulkanDescriptorSet *DescriptorSet;
+		PerFrameData() { IsDirty = true; DescriptorSet = nullptr; }
 	};
 	std::vector<PerFrameData> _perFrameData;
 	
+
 	IVulkanRenderContext& _context;
 	OPointer<VulkanSemaphore> _sm;
 
 	VulkanRenderResourceLoadContext _renderLoadContext;
 
 private:
-	VulkanCommandBuffer* GetRootNodeLoadCommands(DrawInfo<T> *root)
-	{
-		assert(root->DrawInfoType == DrawInfoType::Root);
-
-		if (root->HasDirtyResources())
-		{
-
-			for (auto r : root->GetResources())
-			{
-				//r->Load(); //Load All resources
-			}
-
-			//Add a memory barrier
-
-			//_renderLoadContext._loadCommandBuffer.PipelineBarrier();
-
-
-		}
-		return nullptr;
-	}
+	
 
 public:
-	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree)
+	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree,int layoutPerFrame=-1)
 		:_context(context), _pipeline(pipeline), _tree(tree)
 	{
 		_pVerticesBuffer = nullptr;
@@ -63,12 +49,22 @@ public:
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		_sm = new VulkanSemaphore(context.GetLogicalDevice());
 		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
+		
+		if (layoutPerFrame != -1)
+		{
+			_pipeline.GetSlotManager()->AllocateDescritorSets(layoutPerFrame, (int) _perFrameData.size());
+			int i = 0;
+			for (auto f : _perFrameData)
+			{
+				f.DescriptorSet = _pipeline.GetSlotManager()->GetDescriptorSet(layoutPerFrame, i++);
+			}
+		}
 	}
 
 
 	IVulkanResourceLoadContext* GetRenderLoadContext() { return &_renderLoadContext; }
 
-	void clearCommandsBuffers()
+	void setAllFramesToRedraw()
 	{
 		for (auto frameData : _perFrameData)
 		{
@@ -87,11 +83,12 @@ public:
 		if (drawContext->IsWindowResized())
 			_pipeline.OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
 
+
 		
 		if (needRedraw || drawContext->IsWindowResized())
 		{
-			//Redo the commands
-			clearCommandsBuffers();
+			//set all frames as need to update
+		    setAllFramesToRedraw();
 		}
 		
 		PerFrameData &frameData = _perFrameData[drawContext->GetFrameIndex()];
@@ -127,7 +124,7 @@ public:
 		{
 			delete _pVerticesBuffer;
 		}
-		clearCommandsBuffers();
+		setAllFramesToRedraw();
 	}
 
 	VulkanCommandBuffer* GetCommandForFrame(uint32_t index)

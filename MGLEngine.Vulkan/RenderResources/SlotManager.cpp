@@ -15,6 +15,7 @@ SlotManager::SlotManager(VulkanPipeline* pipeline, std::vector<IVulkanRenderSlot
 	_pDev = pipeline->GetLogicalDevice();
 	_allSlots = allSlots;
 	_pPipeline = pipeline;
+	_vkPipelineLayout = VK_NULL_HANDLE;
 }
 
 void SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
@@ -38,6 +39,8 @@ void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCoun
 	
 }
 
+
+
 VulkanDescriptorSet* SlotManager::GetDescriptorSet(int iLayout,int iDescSet)
 {
 	eassert(iLayout < _data.size(), "Error layoutNumber " << iLayout << " out of range [0," << _data.size() - 1);
@@ -46,9 +49,34 @@ VulkanDescriptorSet* SlotManager::GetDescriptorSet(int iLayout,int iDescSet)
 
 }
 
+void SlotManager::Load()
+{
+	eassert(!IsLoaded(), "Error slotmanager is already loaded");
+
+	//Create Layout
+	VkPipelineLayoutCreateInfo PipelineLayoutInfo = {};
+	PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	PipelineLayoutInfo.setLayoutCount = 0; // Optional
+	PipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+	PipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
+	PipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
+
+	std::vector<VkDescriptorSetLayout> vkDescriptorSetsLayout;
+	for (auto d : GetDescriptorSetLayouts())
+	{
+		vkDescriptorSetsLayout.push_back(d->GetHandle());
+	}
+	PipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetsLayout.size());
+	PipelineLayoutInfo.pSetLayouts = vkDescriptorSetsLayout.size()>0 ? vkDescriptorSetsLayout.data() : nullptr;
+
+	auto err = vkCreatePipelineLayout(_pDev->GetHandle(), &PipelineLayoutInfo, nullptr, &_vkPipelineLayout);
+	AssertVulkanSuccess(err);
+}
+
 
 SlotManager::~SlotManager()
 {
+	vkDestroyPipelineLayout(_pDev->GetHandle(), _vkPipelineLayout, nullptr);
 }
 
 std::vector<VulkanDescriptorSetLayout*> SlotManager::GetDescriptorSetLayouts()
@@ -59,4 +87,10 @@ std::vector<VulkanDescriptorSetLayout*> SlotManager::GetDescriptorSetLayouts()
 		result.push_back(d.pLayout);
 	}
 	return result;
+}
+
+VkPipelineLayout SlotManager::GetVkPipelineLayoutHandle() const
+{
+	eassert(this->IsLoaded(), "Pipeline not yet loaded, VkPipelineLLayout is not available yet");
+	return _vkPipelineLayout;
 }

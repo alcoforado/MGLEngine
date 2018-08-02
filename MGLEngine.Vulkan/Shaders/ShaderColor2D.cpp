@@ -44,8 +44,8 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 	
 	_pPipeline->Load();
 
-
-	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this);
+	
+	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this,0);
 
 }
 
