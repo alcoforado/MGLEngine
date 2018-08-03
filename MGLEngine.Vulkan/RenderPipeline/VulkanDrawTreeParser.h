@@ -3,8 +3,8 @@
 #include "../Shaders/IVulkanRenderContext.h"
 #include "../RenderPipeline/VulkanPipeline.h"
 #include "../VulkanContext/IDrawContext.h"
-#include "MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h"
-#include "MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h"
+#include <MGLEngine.Vulkan/MemoryManager/VulkanMappedAutoSyncBuffer.h>
+#include <MGLEngine.Vulkan/RenderResources/VulkanResourceLoadContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBatchCollection.h>
 #include "MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h"
 #include <MGLEngine.Vulkan/RenderResources/SlotManager.h>
@@ -36,12 +36,12 @@ class VulkanDrawTreeParser
 	OPointer<VulkanSemaphore> _sm;
 
 	VulkanRenderResourceLoadContext _renderLoadContext;
-
+	int _oncePerFrameLayoutIndex;
 private:
 	
 
 public:
-	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree,int layoutPerFrame=-1)
+	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree,int oncePerFrameLayoutIndex=-1)
 		:_context(context), _pipeline(pipeline), _tree(tree)
 	{
 		_pVerticesBuffer = nullptr;
@@ -49,15 +49,11 @@ public:
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		_sm = new VulkanSemaphore(context.GetLogicalDevice());
 		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
-		
-		if (layoutPerFrame != -1)
+		_oncePerFrameLayoutIndex = oncePerFrameLayoutIndex;
+
+		if (oncePerFrameLayoutIndex != -1)
 		{
-			_pipeline.GetSlotManager()->AllocateDescritorSets(layoutPerFrame, (int) _perFrameData.size());
-			int i = 0;
-			for (auto f : _perFrameData)
-			{
-				f.DescriptorSet = _pipeline.GetSlotManager()->GetDescriptorSet(layoutPerFrame, i++);
-			}
+			_pipeline.GetSlotManager()->AllocateDescritorSets(oncePerFrameLayoutIndex, (int) _perFrameData.size());
 		}
 	}
 
@@ -74,6 +70,15 @@ public:
 
 	void ExecuteTree(IDrawContext *drawContext)
 	{
+		int frameIndex = drawContext->GetFrameIndex();
+		
+		//update resources if necessary
+		if (_oncePerFrameLayoutIndex != INVALID_INDEX)
+		{
+			VulkanDescriptorSet* set = _pipeline.GetSlotManager()->GetDescriptorSet(_oncePerFrameLayoutIndex, frameIndex);
+			set->LoadIfNeeded();
+		}
+		
 		NTreeNode<DrawInfo<T>>* root = _tree.GetRoot();
 		_tree.ComputeSizes();
 		bool needRedraw = _tree.NeedRedraw();
@@ -91,7 +96,7 @@ public:
 		    setAllFramesToRedraw();
 		}
 		
-		PerFrameData &frameData = _perFrameData[drawContext->GetFrameIndex()];
+		PerFrameData &frameData = _perFrameData[frameIndex];
 		if (frameData.IsDirty)
 		{
 			auto framebuffer = _pipeline.GetVulkanSwapChainFramebuffers()->GetFramebuffer(drawContext->GetFrameIndex());
@@ -103,6 +108,8 @@ public:
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(&_pipeline);
 			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
+			if (_oncePerFrameLayoutIndex != INVALID_INDEX) //If we have a resource layout that changes once per frame bind it
+				comm->BindDescriptorSet(&_pipeline, _oncePerFrameLayoutIndex, frameIndex);
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();

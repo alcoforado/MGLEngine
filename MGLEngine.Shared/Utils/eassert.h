@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 
+#define INVALID_INDEX -1
 /// Exception type for assertion failures
 class AssertionFailureException : public std::exception
 {

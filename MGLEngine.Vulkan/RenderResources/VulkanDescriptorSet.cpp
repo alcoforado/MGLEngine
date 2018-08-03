@@ -26,3 +26,12 @@ VulkanDescriptorSet::~VulkanDescriptorSet()
 {
 	
 }
+
+void VulkanDescriptorSet::LoadIfNeeded()
+{
+	for (auto b : _bindings)
+	{
+		if (b->NeedUpdate())
+			b->Update();
+	}
+}

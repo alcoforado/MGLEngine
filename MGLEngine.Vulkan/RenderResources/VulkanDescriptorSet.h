@@ -23,5 +23,6 @@ public:
 	VulkanDescriptorSetLayout* GetLayout() const { return _pLayout; }
 	VkDescriptorSet GetHandle() const { eassert(_dsHandle != nullptr, "Error trying to get a descriptor set handle that was not allocated yet by its pool");  return _dsHandle; }
 	const std::vector<IVulkanSlotBinding*>& GetBindings() { return _bindings; }
+	void LoadIfNeeded();
 };
 

@@ -4,6 +4,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
+
 /*
  * The Slot Manager
  */
@@ -16,15 +17,32 @@ SlotManager::SlotManager(VulkanPipeline* pipeline, std::vector<IVulkanRenderSlot
 	_allSlots = allSlots;
 	_pPipeline = pipeline;
 	_vkPipelineLayout = VK_NULL_HANDLE;
+
+	
+
 }
 
-void SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
+std::vector<IVulkanRenderSlot*> SlotManager::GetSlotsByFrequence(ResourceWriteFrequency freq)
+{
+	std::vector<IVulkanRenderSlot*> slots;
+	for (auto sl : _allSlots)
+	{
+		if (sl->WriteFrequency() == ResourceWriteFrequency::ONCE_PER_FRAME)
+			slots.push_back(sl);
+	}
+	return slots;
+}
+
+
+int SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
 {
 	eassert(std::includes(_allSlots.begin(), _allSlots.end(), slots.begin(), slots.end()), "One or more slots passed do not belong to the actually pipeline");
-	eassert(!_pPipeline->IsLoaded(),"Cannot add more layouts to the pipeline because it is already loaded")
+	eassert(!IsLoaded(),"Cannot add more layouts to the pipeline because it is already loaded")
 	LayoutData ld;
 	ld.pLayout = new VulkanDescriptorSetLayout(_pDev,slots);
 	_data.push_back(ld);
+
+	return _data.size() - 1;
 }
 
 void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCount)

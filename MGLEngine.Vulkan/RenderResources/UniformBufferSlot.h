@@ -47,13 +47,10 @@ private:
 		}
 		virtual void Update() override
 		{
-			if (NeedUpdate())
-			{
 				IArray<Data> data = pBuffer->GetMappedArray();
 				data.copyFrom(this->pSlot->_data);
 				pBuffer->Flush();
 				bNeedUpdate = false;
-			}
 		}
 
 		virtual ~UniformSlotBinding()
