@@ -20,7 +20,7 @@ class VulkanDrawTreeParser
 {
 
 	DrawTree<T> &_tree;
-	VulkanPipeline& _pipeline;
+	VulkanPipeline* _pPipeline;
 	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
 	struct PerFrameData
 	{
@@ -32,7 +32,7 @@ class VulkanDrawTreeParser
 	std::vector<PerFrameData> _perFrameData;
 	
 
-	IVulkanRenderContext& _context;
+	IVulkanRenderContext* _pContext;
 	OPointer<VulkanSemaphore> _sm;
 
 	VulkanRenderResourceLoadContext _renderLoadContext;
@@ -41,19 +41,19 @@ private:
 	
 
 public:
-	VulkanDrawTreeParser(IVulkanRenderContext& context, VulkanPipeline& pipeline, DrawTree<T>& tree,int oncePerFrameLayoutIndex=-1)
-		:_context(context), _pipeline(pipeline), _tree(tree)
+	VulkanDrawTreeParser(IVulkanRenderContext* context, VulkanPipeline* pipeline, DrawTree<T>& tree,int oncePerFrameLayoutIndex=-1)
+		:_pContext(context), _pPipeline(pipeline), _tree(tree)
 	{
 		_pVerticesBuffer = nullptr;
-		assert(pipeline.IsLoaded());
-		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context.GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
-		_sm = new VulkanSemaphore(context.GetLogicalDevice());
-		_perFrameData = std::vector<PerFrameData>(pipeline.GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
+		assert(pipeline->IsLoaded());
+		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context->GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
+		_sm = new VulkanSemaphore(context->GetLogicalDevice());
+		_perFrameData = std::vector<PerFrameData>(pipeline->GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
 		_oncePerFrameLayoutIndex = oncePerFrameLayoutIndex;
 
 		if (oncePerFrameLayoutIndex != -1)
 		{
-			_pipeline.GetSlotManager()->AllocateDescritorSets(oncePerFrameLayoutIndex, (int) _perFrameData.size());
+			_pPipeline->GetSlotManager()->AllocateDescritorSets(oncePerFrameLayoutIndex, (int) _perFrameData.size());
 		}
 	}
 
@@ -75,7 +75,7 @@ public:
 		//update resources if necessary
 		if (_oncePerFrameLayoutIndex != INVALID_INDEX)
 		{
-			VulkanDescriptorSet* set = _pipeline.GetSlotManager()->GetDescriptorSet(_oncePerFrameLayoutIndex, frameIndex);
+			VulkanDescriptorSet* set = _pPipeline->GetSlotManager()->GetDescriptorSet(_oncePerFrameLayoutIndex, frameIndex);
 			set->LoadIfNeeded();
 		}
 		
@@ -86,7 +86,7 @@ public:
 		const VulkanBuffer<T>* pVerticeBuffer = this->Serialize(_tree);
 
 		if (drawContext->IsWindowResized())
-			_pipeline.OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
+			_pPipeline->OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
 
 
 		
@@ -99,17 +99,17 @@ public:
 		PerFrameData &frameData = _perFrameData[frameIndex];
 		if (frameData.IsDirty)
 		{
-			auto framebuffer = _pipeline.GetVulkanSwapChainFramebuffers()->GetFramebuffer(drawContext->GetFrameIndex());
+			auto framebuffer = _pPipeline->GetVulkanSwapChainFramebuffers()->GetFramebuffer(drawContext->GetFrameIndex());
 			glm::vec4 color(0, 0, 0, 1.0);
 
 			frameData.CB.if_free();
 
-			VulkanCommandBuffer *comm = _context.GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
+			VulkanCommandBuffer *comm = _pContext->GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
-			comm->BindPipeline(&_pipeline);
+			comm->BindPipeline(_pPipeline);
 			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
 			if (_oncePerFrameLayoutIndex != INVALID_INDEX) //If we have a resource layout that changes once per frame bind it
-				comm->BindDescriptorSet(&_pipeline, _oncePerFrameLayoutIndex, frameIndex);
+				comm->BindDescriptorSet(_pPipeline, _oncePerFrameLayoutIndex, frameIndex);
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();
@@ -155,7 +155,7 @@ public:
 
 			if (root->GetData().Future.SizeV > _pVerticesBuffer->capacity())
 			{
-				VulkanMappedAutoSyncBuffer<T> *newBuff = new VulkanMappedAutoSyncBuffer<T>(_context.GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV, { VK_BUFFER_USAGE_VERTEX_BUFFER_BIT });
+				VulkanMappedAutoSyncBuffer<T> *newBuff = new VulkanMappedAutoSyncBuffer<T>(_pContext->GetMemoryManager(), root->GetData().Future.SizeV, root->GetData().Future.SizeV, { VK_BUFFER_USAGE_VERTEX_BUFFER_BIT });
 				_tree.UpdateVerticeData(*_pVerticesBuffer, is1, *newBuff, is2);
 
 				delete _pVerticesBuffer;

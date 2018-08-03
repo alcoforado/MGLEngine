@@ -6,13 +6,13 @@
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
 
-ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
- :_vertexByteCode(*renderContext.GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
-  _fragShaderCode(*renderContext.GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag))
+ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
+ :_vertexByteCode(*renderContext->GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
+  _fragShaderCode(*renderContext->GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag))
 {
-	_pGT = new UniformBufferSlot<glm::mat3>(renderContext.GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
+	_pGT = new UniformBufferSlot<glm::mat3>(renderContext->GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
 
-	_pPipeline = new VulkanPipeline(renderContext.GetSwapChain(), _vertexByteCode, _fragShaderCode,{_pGT});
+	_pPipeline = new VulkanPipeline(renderContext->GetSwapChain(), _vertexByteCode, _fragShaderCode,{_pGT});
 
 	_pPipeline->VertexInputInfo
 		.CreateBinding<Color2D>()
@@ -23,7 +23,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 
 
 	VkAttachmentDescription colorAttachment = {};
-	colorAttachment.format = renderContext.GetSwapChain()->GetImageFormat();
+	colorAttachment.format = renderContext->GetSwapChain()->GetImageFormat();
 	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -45,7 +45,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext& renderContext)
 	_pPipeline->Load();
 
 	
-	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, *_pPipeline, *this,0);
+	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, _pPipeline, *this,0);
 
 }
 

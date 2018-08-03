@@ -27,7 +27,7 @@ class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 	OPointer<UniformBufferSlot<glm::mat3>> _pGT;
 
 	public:
-	explicit ShaderColor2D(IVulkanRenderContext& renderContext);
+	explicit ShaderColor2D(IVulkanRenderContext* renderContext);
 	~ShaderColor2D();
 	virtual void Draw(IDrawContext *pDrawContext) override;
 	void SetGlobalTransform(glm::mat3 mat3);

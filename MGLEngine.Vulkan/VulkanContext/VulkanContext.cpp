@@ -13,7 +13,7 @@
 #include <Topologies/Triangle2D.h>
 #include <Renders/CyclicColor.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
-
+#include <MGLEngine.Vulkan\RenderResources\VulkanDescriptorSetPool.h>
 VulkanContext::VulkanContext(GLFWwindow * window)
 	:_vkLogicalDevice(_vkInstance.GetPhysicalDevices()[0].CreateLogicalDevice(window)),
 	_memoryMngr(*_vkLogicalDevice,1),
@@ -21,7 +21,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 {
 	//Set Swap Chain
 	_pSwapChain = new VulkanSwapChain(window,*_vkLogicalDevice);
-	_render = new ShaderColor2D(*this);
+	_render = new ShaderColor2D(this);
 	_drawContext.RenderContext = this;
 	_shaders.push_back(_render);
 	
@@ -31,6 +31,7 @@ VulkanContext::VulkanContext(GLFWwindow * window)
 		_framesData.push_back(pfd);
 
 	}
+	GetLogicalDevice()->GetDescriptorSetPool()->AllocateDescriptorSets();
 }
 
 
