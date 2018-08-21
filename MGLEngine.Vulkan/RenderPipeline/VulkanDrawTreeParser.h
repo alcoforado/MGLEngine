@@ -24,7 +24,7 @@ class VulkanDrawTreeParser
 	VulkanMappedAutoSyncBuffer<T>* _pVerticesBuffer;
 	struct PerFrameData
 	{
-		OPointer<VulkanCommandBuffer> CB;
+		std::shared_ptr<VulkanCommandBuffer> CB;
 		bool IsDirty;
 		VulkanDescriptorSet *DescriptorSet;
 		PerFrameData() { IsDirty = true; DescriptorSet = nullptr; }
@@ -102,7 +102,7 @@ public:
 			auto framebuffer = _pPipeline->GetVulkanSwapChainFramebuffers()->GetFramebuffer(drawContext->GetFrameIndex());
 			glm::vec4 color(0, 0, 0, 1.0);
 
-			frameData.CB.if_free();
+			
 
 			VulkanCommandBuffer *comm = _pContext->GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
@@ -113,13 +113,13 @@ public:
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();
-			frameData.CB = comm;
+			frameData.CB = std::shared_ptr<VulkanCommandBuffer>(comm);
 			frameData.IsDirty = false;
 			
 		}
 		
 		uint32_t index = drawContext->GetFrameIndex();
-		drawContext->Out.Commands.push_back(frameData.CB);
+		drawContext->Out.Commands.push_back(frameData.CB.get());
 
 
 		

@@ -13,9 +13,9 @@ class OPointer
  protected:
 
 
-
   
  public:
+	 OPointer(const OPointer&p)=  delete;
   OPointer(){_ptr=NULL;}
   OPointer(Type *p){_ptr=p;}
   ~OPointer()

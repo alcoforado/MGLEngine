@@ -17,7 +17,7 @@ class SlotManager
 private:
 	struct LayoutData
 	{
-		OPointer<VulkanDescriptorSetLayout> pLayout;
+		VulkanDescriptorSetLayout *pLayout;
 		std::vector<VulkanDescriptorSet*> vDescSets;
 
 	};

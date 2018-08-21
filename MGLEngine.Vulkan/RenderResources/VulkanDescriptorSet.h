@@ -12,7 +12,6 @@ class VulkanDescriptorSetLayout;
 class VulkanDescriptorSet
 {
 	friend class VulkanDescriptorSetPool;
-	friend class SlotManager;
 	VkDescriptorSet _dsHandle=nullptr;
 	VulkanDescriptorSetLayout *_pLayout;
 	std::vector<IVulkanSlotBinding*> _bindings;

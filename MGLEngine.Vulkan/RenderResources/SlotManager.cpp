@@ -42,7 +42,7 @@ int SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
 	ld.pLayout = new VulkanDescriptorSetLayout(_pDev,slots);
 	_data.push_back(ld);
 
-	return _data.size() - 1;
+	return static_cast<int>(_data.size() - 1);
 }
 
 void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCount)
@@ -51,7 +51,7 @@ void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCoun
 	for(int i=0;i<descriptorSetsCount;i++)
 	{
 		_data[layoutNumber].vDescSets.push_back	(
-			new VulkanDescriptorSet(_data[layoutNumber].pLayout)
+			_pDev->GetDescriptorSetPool()->CreateDescriptorSet(_data[layoutNumber].pLayout)
 		);
 	}
 	
@@ -94,6 +94,10 @@ void SlotManager::Load()
 
 SlotManager::~SlotManager()
 {
+	for (auto d : _data)
+	{
+		delete d.pLayout;
+	}
 	vkDestroyPipelineLayout(_pDev->GetHandle(), _vkPipelineLayout, nullptr);
 }
 

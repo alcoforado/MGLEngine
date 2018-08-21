@@ -36,7 +36,7 @@ public:
 	const VulkanQueue* GetGraphicQueue() const;
 
 	VulkanCommandPool* GetGraphicCommandPool();
-	VulkanDescriptorSetPool* GetDescriptorSetPool() { return _pDescriptorSetPool; }
+	VulkanDescriptorSetPool* GetDescriptorSetPool() const { return _pDescriptorSetPool; }
 	VulkanMemoryManager* GetMemoryManager() const { return _pMemoryManager; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;
