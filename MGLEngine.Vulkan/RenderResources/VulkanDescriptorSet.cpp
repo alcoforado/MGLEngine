@@ -2,7 +2,7 @@
 #include <MGLEngine.Vulkan/RenderResources/IVulkanRenderSlot.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include  <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
-
+#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
 
 void VulkanDescriptorSet::InitializeDescriptorSet(VkDescriptorSet dsHandle)
 {
@@ -20,6 +20,7 @@ void VulkanDescriptorSet::InitializeDescriptorSet(VkDescriptorSet dsHandle)
 VulkanDescriptorSet::VulkanDescriptorSet(VulkanDescriptorSetLayout* pLayout)
 {
 	_pLayout = pLayout;
+	_pLayout->GetVulkanLogicalDevice()->GetDescriptorSetPool()->RegisterDescriptorSet(this);
 }
 
 VulkanDescriptorSet::~VulkanDescriptorSet()

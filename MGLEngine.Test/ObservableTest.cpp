@@ -6,9 +6,11 @@ TEST_CASE("Observables")
 {
 	
 	Observable<int> obs,obs2;
-	int a = 1, b = 3;
+	int a = 1, b = 3, c=4;
 	Listener<int> lst1([&a](int e) {a += e; });
 	Listener<int> lst2([&b](int e) {b += e; });
+	Listener<int> lst3([&c](int e) {c += e; });
+
 	lst1.Listen(&obs);
 	lst2.Listen(&obs);
 	lst1.Listen(&obs2);
@@ -57,8 +59,18 @@ TEST_CASE("Observables")
 		REQUIRE(b == 10);
 
 	}
+	SECTION("Dispose Observer detach all its listeners")
+	{
+		lst3.Listen(&obs);
+		obs.Dispose();
+		int d = 5;
+		obs.Emit(d);
 
+		REQUIRE(a == 1);
+		REQUIRE(b == 3);
+		REQUIRE(c == 4);
 
+	}
 
 	
 }

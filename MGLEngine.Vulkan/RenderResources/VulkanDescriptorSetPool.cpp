@@ -21,15 +21,15 @@ VulkanDescriptorSetPool::~VulkanDescriptorSetPool()
 	}
 }
 
-VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(VulkanDescriptorSetLayout *pLayout)
+void  VulkanDescriptorSetPool::RegisterDescriptorSet(VulkanDescriptorSet *pDs)
 {
 	if (IsAllocated())
 	{
 		throw new Exception("Vulkan Descriptor Pool were already allocated, can't create more VulkanDescriptorSets for this pool");
 	}
 	
-	auto result = new VulkanDescriptorSet(pLayout);
-	for (auto slot : pLayout->GetSlots())
+	
+	for (auto slot : pDs->GetLayout()->GetSlots())
 	{
 		switch (slot->GetVkDescriptorSetLayoutBinding().descriptorType)
 		{
@@ -41,8 +41,8 @@ VulkanDescriptorSet* VulkanDescriptorSetPool::CreateDescriptorSet(VulkanDescript
 		}
 
 	}
-	_descriptorSets.push_back(result);
-	return result;
+	_descriptorSets.push_back(pDs);
+
 }
 
 

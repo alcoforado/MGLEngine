@@ -21,7 +21,7 @@ public:
 	VulkanDescriptorSetPool(VulkanLogicalDevice *dev);
 	~VulkanDescriptorSetPool();
 
-	VulkanDescriptorSet * CreateDescriptorSet(VulkanDescriptorSetLayout * pLayout);
+	void RegisterDescriptorSet(VulkanDescriptorSet* pDs);
 
 	VkDescriptorPool GetHandle() const { return _handle; }
 

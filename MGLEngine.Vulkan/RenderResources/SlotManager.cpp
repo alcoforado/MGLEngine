@@ -50,9 +50,7 @@ void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCoun
 	eassert(layoutNumber < _data.size(),"Error layoutNumber " << layoutNumber << " out of range [0," << _data.size()-1);
 	for(int i=0;i<descriptorSetsCount;i++)
 	{
-		_data[layoutNumber].vDescSets.push_back	(
-			_pDev->GetDescriptorSetPool()->CreateDescriptorSet(_data[layoutNumber].pLayout)
-		);
+		_data[layoutNumber].vDescSets.push_back	(new VulkanDescriptorSet(_data[layoutNumber].pLayout));
 	}
 	
 }

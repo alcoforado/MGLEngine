@@ -27,9 +27,9 @@ public:
 
 	void Dispose()
 	{
-		for (Listener<T>* listener : _list)
+		while(!_list.empty())
 		{
-			listener->DetachFromObserver(this);
+			_list.front()->DetachFromObserver(this);
 		}
 	}
 
