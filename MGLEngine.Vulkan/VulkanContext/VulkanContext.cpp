@@ -116,7 +116,7 @@ void VulkanContext::Draw()
 	//Append that to the present wireframe command
 	GetSwapChain()->Present(pFrameData->pExecutionWaitSemaphore);
 
-
+	
 	//Present the next frame
 
 

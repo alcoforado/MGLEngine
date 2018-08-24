@@ -37,9 +37,9 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 
 	VkSemaphore w, s;
 
-	VulkanSemaphore* sm = new VulkanSemaphore(&_logicalDevice);
+	
 	VkSubmitInfo submitInfo = {};
-	VkSemaphore sHandle = sm->GetHandle();
+	
 
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 	submitInfo.commandBufferCount = (uint32_t) _vcbH.size();
