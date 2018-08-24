@@ -211,6 +211,7 @@
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
     <ClInclude Include="RenderResources\SlotManager.h" />
+    <ClInclude Include="SPIR-V\shaders_bytecode.h" />
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />
@@ -243,6 +244,11 @@
   <ItemGroup>
     <GLSLShader Include="SPIR-V\canvas2D.vert" />
     <GLSLShader Include="SPIR-V\canvas2D.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SPIR-V\canvas2D.frag" />
+    <None Include="SPIR-V\canvas2D.vert" />
+    <None Include="SPIR-V\frag.spv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

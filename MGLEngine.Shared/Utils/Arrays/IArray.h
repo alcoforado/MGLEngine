@@ -81,7 +81,7 @@ public:
 	void copyFrom(const std::vector<OfType> &v)
 	{
 		assert(_size == v.size()); //Sizes must match
-		memcpy(_ptr, v.data(), _size);
+		memcpy(_ptr, v.data(), _size*sizeof(OfType));
 	}
 };
 

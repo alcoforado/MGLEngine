@@ -36,7 +36,7 @@ private:
 	{
 	public:
 		Listener<bool> _slotListener;
-		OPointer<VulkanMappedBuffer<Data>>  pBuffer;
+		OPointer<VulkanMappedAutoSyncBuffer<Data>>  pBuffer;
 		UniformBufferSlot *pSlot;
 		bool bNeedUpdate;
 
@@ -47,10 +47,13 @@ private:
 		}
 		virtual void Update() override
 		{
+			pBuffer->copyFrom(this->pSlot->_data);
+			bNeedUpdate = false;
+			/*
 				IArray<Data> data = pBuffer->GetMappedArray();
 				data.copyFrom(this->pSlot->_data);
 				pBuffer->Flush();
-				bNeedUpdate = false;
+			*/
 		}
 
 		virtual ~UniformSlotBinding()
@@ -72,7 +75,7 @@ public:
 	virtual IVulkanSlotBinding* Bind(VulkanDescriptorSet *dsSet) override
 	{
 		UniformSlotBinding *binding = new UniformSlotBinding();
-		binding->pBuffer = new VulkanMappedBuffer<Data>(_dev->GetMemoryManager(), _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
+		binding->pBuffer = new VulkanMappedAutoSyncBuffer<Data>(_dev->GetMemoryManager(),_nElems, _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
 		binding->pSlot = this;
 		binding->bNeedUpdate = true;
 		binding->_slotListener.SetHandler([&binding](bool b)
@@ -80,10 +83,11 @@ public:
 			binding->bNeedUpdate = true;
 		});
 		binding->_slotListener.Listen(&_onChange);
-
+		binding->Update();
 		VkDescriptorBufferInfo bufferInfo;
 		bufferInfo.buffer = binding->pBuffer->GetHandle();
 		bufferInfo.offset = 0;
+		bufferInfo.range = sizeof(Data)*_nElems;
 		VkWriteDescriptorSet descWrite;
 		descWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descWrite.dstSet = dsSet->GetHandle();

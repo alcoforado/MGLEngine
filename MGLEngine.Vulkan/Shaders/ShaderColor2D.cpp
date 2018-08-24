@@ -12,6 +12,8 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
 {
 	_pGT = new UniformBufferSlot<glm::mat3>(renderContext->GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
 
+
+
 	_pPipeline = new VulkanPipeline(renderContext->GetSwapChain(), _vertexByteCode, _fragShaderCode,{_pGT});
 
 	_pPipeline->VertexInputInfo

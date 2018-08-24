@@ -111,6 +111,6 @@ std::vector<VulkanDescriptorSetLayout*> SlotManager::GetDescriptorSetLayouts()
 
 VkPipelineLayout SlotManager::GetVkPipelineLayoutHandle() const
 {
-	eassert(this->IsLoaded(), "Pipeline not yet loaded, VkPipelineLLayout is not available yet");
+	eassert(this->IsLoaded(), "SlotManager not yet loaded, VkPipelineLLayout is not available yet");
 	return _vkPipelineLayout;
 }

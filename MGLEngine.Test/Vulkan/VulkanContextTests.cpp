@@ -2,6 +2,8 @@
 #include <MGLEngine.Vulkan/Window/MWindow.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 #include "MGLEngine.Vulkan/VulkanContext/VulkanContext.h"
+#include <MGLEngine.Shared/Topologies/Triangle2D.h>
+#include "MGLEngine.Shared/Renders/CyclicColor.h"
 
 MGL::Window *pWindow = nullptr;
 
@@ -29,6 +31,29 @@ TEST_CASE("Vulkan Windows Tests")
 		REQUIRE(!VulkanInstance::HasErrors());
 	}
 }
+
+TEST_CASE("Print Triangle")
+{
+	MGL::Window&  window = *GetWindow();
+	ITopology2D *top = new Triangle2D(
+		glm::vec2(0, 0),
+		glm::vec2(0, 1),
+		glm::vec2(1, 0)
+	);
+	IRender<Color2D> *render = new CyclicColor<Color2D>(
+		{glm::vec3(1,1,1),glm::vec3(1,0,1),glm::vec3(0,0,1)}
+	);
+
+
+	window.GetVulkanContext()->GetShaderColor2D()->Add(top, render);
+
+	window.EasyRun();
+
+	return;
+
+}
+
+
 
 TEST_CASE("Vulkan Buffers Tests")
 {

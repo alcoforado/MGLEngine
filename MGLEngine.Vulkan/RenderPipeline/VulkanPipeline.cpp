@@ -140,7 +140,8 @@ void VulkanPipeline::Load()
 	pipelineInfo.pDynamicState = nullptr;
 
 	//Create Layout
-	_pSlotManager->Load();
+	if (!_pSlotManager->IsLoaded())
+		_pSlotManager->Load();
 	pipelineInfo.layout = _pSlotManager->GetVkPipelineLayoutHandle();
 	
 	auto renderHandle = RenderPass.Load();

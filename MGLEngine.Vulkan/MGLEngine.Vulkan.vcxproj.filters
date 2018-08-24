@@ -272,5 +272,13 @@
     <ClInclude Include="RenderResources\IVulkanSlotBinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SPIR-V\shaders_bytecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SPIR-V\canvas2D.frag" />
+    <None Include="SPIR-V\canvas2D.vert" />
+    <None Include="SPIR-V\frag.spv" />
   </ItemGroup>
 </Project>
