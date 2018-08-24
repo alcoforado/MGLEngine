@@ -36,32 +36,30 @@ private:
 	{
 	public:
 		Listener<bool> _slotListener;
-		OPointer<VulkanMappedAutoSyncBuffer<Data>>  pBuffer;
+		OPointer<IMappedMemory<Data>>  pBuffer;
 		UniformBufferSlot *pSlot;
 		bool bNeedUpdate;
 
-		
-		virtual bool NeedUpdate() override 
+
+		virtual bool NeedUpdate() override
 		{
 			return bNeedUpdate;
 		}
 		virtual void Update() override
 		{
-			pBuffer->copyFrom(this->pSlot->_data);
+			IArray<Data> data = pBuffer->Map();
+			data.copyFrom(this->pSlot->_data);
+			pBuffer->Flush();
 			bNeedUpdate = false;
-			/*
-				IArray<Data> data = pBuffer->GetMappedArray();
-				data.copyFrom(this->pSlot->_data);
-				pBuffer->Flush();
-			*/
+
 		}
 
 		virtual ~UniformSlotBinding()
 		{
-		
+
 		}
 
-		
+
 
 
 	};
@@ -75,7 +73,13 @@ public:
 	virtual IVulkanSlotBinding* Bind(VulkanDescriptorSet *dsSet) override
 	{
 		UniformSlotBinding *binding = new UniformSlotBinding();
-		binding->pBuffer = new VulkanMappedAutoSyncBuffer<Data>(_dev->GetMemoryManager(),_nElems, _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
+		if (this->_memoryType == MAPPED_MEMORY)
+			binding->pBuffer = new VulkanMappedBuffer<Data>(_dev->GetMemoryManager(), _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
+		else if (this->_memoryType == AUTO_SYNC_MEMORY)
+			binding->pBuffer = new VulkanMappedAutoSyncBuffer<Data>(_dev->GetMemoryManager(), _nElems, _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
+		else
+			eassert(true,"Buffer Memory type not implemented yet")
+		
 		binding->pSlot = this;
 		binding->bNeedUpdate = true;
 		binding->_slotListener.SetHandler([&binding](bool b)
@@ -87,7 +91,7 @@ public:
 		VkDescriptorBufferInfo bufferInfo;
 		bufferInfo.buffer = binding->pBuffer->GetHandle();
 		bufferInfo.offset = 0;
-		bufferInfo.range = sizeof(Data)*_nElems;
+		bufferInfo.range = VK_WHOLE_SIZE;
 		VkWriteDescriptorSet descWrite;
 		descWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descWrite.dstSet = dsSet->GetHandle();
@@ -116,7 +120,7 @@ public:
 		_ubo.descriptorCount = 1;
 		_ubo.pImmutableSamplers = nullptr;
 		_ubo.stageFlags = ArrayFunctions::FromBitFlagsToInt(stages);
-		
+
 		_nElems = nElems;
 		_memoryType = memType;
 		_data.resize(nElems);

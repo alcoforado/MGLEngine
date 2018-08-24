@@ -1,42 +1,106 @@
-INFO: [loader] Code 0 : loaderGetRegistryFiles: opening device PCI\VEN_10DE&DEV_1187&SUBSYS_36141458&REV_A1\4&b77c4c1&0&0008
-INFO: [loader] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanExplicitLayers"
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 14 - DISPLAY\ACI249A\5&29E47E93&0&UID4352
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 15 - DISPLAY\ACI249A\5&29E47E93&0&UID4355
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_object_tracker.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_parameter_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_screenshot.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swapchain.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [loader] Code 0 : loaderGetRegistryFiles: opening device PCI\VEN_10DE&DEV_1187&SUBSYS_36141458&REV_A1\4&b77c4c1&0&0008
-INFO: [loader] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanImplicitLayers"
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 14 - DISPLAY\ACI249A\5&29E47E93&0&UID4352
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 15 - DISPLAY\ACI249A\5&29E47E93&0&UID4355
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [loader] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_api_dump.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_core_validation.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_monitor.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_object_tracker.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_parameter_validation.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_screenshot.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_swapchain.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_threading.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_unique_objects.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\VulkanSDK\1.0.46.0\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
-INFO: [loader] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
-INFO: [loader] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation all 0 component layers appear to be valid.
-INFO: [loader] Code 0 : loaderGetRegistryFiles: opening device PCI\VEN_10DE&DEV_1187&SUBSYS_36141458&REV_A1\4&b77c4c1&0&0008
-INFO: [loader] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanDriverName"
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 14 - DISPLAY\ACI249A\5&29E47E93&0&UID4352
-INFO: [loader] Code 0 : loaderGetRegistryFiles: Opening child device 15 - DISPLAY\ACI249A\5&29E47E93&0&UID4355
-INFO: [loader] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
-INFO: [loader] Code 0 : Found ICD manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [loader] Code 0 : Insert instance layer VK_LAYER_NV_optimus (C:\WINDOWS\system32\.\nvoglv64.dll)
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanExplicitLayers"
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_standard_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_s
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanImplicitLayers"
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [Loader Message] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: C:\WINDOWS\system32\nv-vk64.json;C:\Program Files\RenderDoc\renderdoc.json;C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json
+
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_standard_validation.json, version "1.1.1"
+INFO: [Loader Message] Code 0 : Encountered meta-layer VK_LAYER_LUNARG_standard_validation
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_threading.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_unique_objects.json, version "1.1.0"
+INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_GOOGLE_threading adding instance extension VK_EXT_debug_report
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_parameter_validation adding instance extension VK_EXT_debug_report
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_parameter_validation adding device extension VK_EXT_debug_marker
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_object_tracker adding instance extension VK_EXT_debug_report
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_object_tracker adding device extension VK_EXT_debug_marker
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding instance extension VK_EXT_debug_report
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding device extension VK_EXT_debug_marker
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding device extension VK_EXT_validation_cache
+INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation all 5 component layers appear to be valid.
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanDriverName"
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
+INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
+INFO: [Loader Message] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
+INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: C:\WINDOWS\system32\nv-vk64.json
+
+INFO: [Loader Message] Code 0 : Found ICD manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
+INFO: [Loader Message] Code 0 : Searching for ICD drivers named .\nvoglv64.dll, using default dir 
+INFO: [Loader Message] Code 0 : Build ICD instance extension list
+INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_debug_report (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.8
+INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_display_surface_counter (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_physical_device_properties2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_surface_capabilities2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.25
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_win32_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.6
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_device_group_creation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_fence_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_NV_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : loader_add_implicit_layer: Disabling implicit layer VK_LAYER_NV_optimus for using an old API version 1.0 versus application requested 1.1
+INFO: [Loader Message] Code 0 : loader_add_implicit_layer: Disabling implicit layer VK_LAYER_NV_optimus for using an old API version 1.0 versus application requested 1.1
+INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_unique_objects.dll
+INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_GOOGLE_unique_objects (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_unique_objects.dll)
+INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_core_validation.dll
+INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_core_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_core_validation.dll)
+INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_object_tracker.dll
+INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_object_tracker (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_object_tracker.dll)
+INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_parameter_validation.dll
+INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_parameter_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_parameter_validation.dll)
+INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_threading.dll
+INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_GOOGLE_threading (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_threading.dll)
+INFO: [Loader Message] Code 0 : Build ICD instance extension list
+INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_debug_report (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.8
+INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_display_surface_counter (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_physical_device_properties2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_surface_capabilities2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.25
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_win32_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.6
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_device_group_creation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_fence_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Instance Extension: VK_NV_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1

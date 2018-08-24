@@ -80,7 +80,7 @@ VulkanInstance::VulkanInstance()
 	app_info.applicationVersion = 1;
 	app_info.pEngineName = "MGLEngine";
 	app_info.engineVersion = 1;
-	app_info.apiVersion = VK_API_VERSION_1_0;
+	app_info.apiVersion = VK_API_VERSION_1_1;
 
 
 	//Set Instance Info

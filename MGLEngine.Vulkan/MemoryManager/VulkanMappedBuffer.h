@@ -5,13 +5,11 @@
 #include "../VulkanContext/VulkanLogicalDevice.h"
 
 
-/*
-* Since this memory is auto sync with the gpu, we make this buffer a specialization of IArray<T>
-*/
+
 class VulkanLogicalDevice;
 
 template<class T>
-class VulkanMappedBuffer : public IArray<T>
+class VulkanMappedBuffer : public IMappedMemory<T>
 {
 
 
@@ -55,12 +53,12 @@ class VulkanMappedBuffer : public IArray<T>
 
 		}
 
-		IArray<T> GetMappedArray()
+		IArray<T> Map()
 		{
 			return _memHandle.Map<T>(_size);
 		}
 
-		void Flush()
+		virtual void Flush() override 
 		{
 			return _memHandle.Flush();
 		}
@@ -87,7 +85,7 @@ class VulkanMappedBuffer : public IArray<T>
 		}
 		
 
-		VkBuffer GetHandle() const { return _handle; }
+		virtual VkBuffer GetHandle() const override { return _handle; }
 		MemoryHandle GetMemoryHandle() const { return _memHandle; }
 		VulkanMemoryManager* GetMemoryManager() const { return _memMngr; }
 		std::vector<VkBufferUsageFlagBits> GetBufferUsage() const {

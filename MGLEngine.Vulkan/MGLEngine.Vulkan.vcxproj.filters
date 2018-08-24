@@ -275,6 +275,9 @@
     <ClInclude Include="SPIR-V\shaders_bytecode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager\IMappedMemory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SPIR-V\canvas2D.frag" />

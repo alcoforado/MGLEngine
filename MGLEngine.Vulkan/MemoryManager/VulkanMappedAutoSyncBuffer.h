@@ -1,4 +1,5 @@
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
+#include <MGLEngine.Vulkan/MemoryManager/IMappedMemory.h>
 
 /*
  * Since this memory is auto sync with the gpu, we make this buffer a specialization of IArray<T>
@@ -6,7 +7,7 @@
  */
 
 template<class T>
-class VulkanMappedAutoSyncBuffer : public IArray<T>
+class VulkanMappedAutoSyncBuffer : public IArray<T>, public IMappedMemory<T>
 {
 	VulkanBuffer<T> _buffer;
 public:
@@ -28,12 +29,18 @@ public:
 
 	}
 	
+	virtual void Flush() override { return; }
+	
+	virtual IArray<T> Map() override { return *this; }
+
+
+
 	int GetAlignment() const
 	{
 		return _buffer.GetAlignment();
 	}
 
-	VkBuffer GetHandle() const
+	virtual VkBuffer GetHandle() const override
 	{
 		return _buffer.GetHandle();
 	}

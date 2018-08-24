@@ -47,7 +47,7 @@ TEST_CASE("Print Triangle")
 
 	window.GetVulkanContext()->GetShaderColor2D()->Add(top, render);
 
-	window.EasyRun();
+	window.PsychoRun();
 
 	return;
 
