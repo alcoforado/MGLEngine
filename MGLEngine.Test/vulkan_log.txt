@@ -1,106 +1,190 @@
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanExplicitLayers"
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_standard_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_threading.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_unique_objects.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "D:\VulkanSDK\1.1.82.1\Bin\VkLayer_vktrace_layer.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
-INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json;D:\VulkanSDK\1.1.82.1\Bin\VkLayer_s
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanImplicitLayers"
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [Loader Message] Code 0 : Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
-INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: C:\WINDOWS\system32\nv-vk64.json;C:\Program Files\RenderDoc\renderdoc.json;C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json
-
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_api_dump.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_assistant_layer.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_core_validation.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_device_simulation.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_monitor.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_object_tracker.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_parameter_validation.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_screenshot.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_standard_validation.json, version "1.1.1"
-INFO: [Loader Message] Code 0 : Encountered meta-layer VK_LAYER_LUNARG_standard_validation
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_threading.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_unique_objects.json, version "1.1.0"
-INFO: [Loader Message] Code 0 : Found manifest file D:\VulkanSDK\1.1.82.1\Bin\VkLayer_vktrace_layer.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file C:\Program Files\RenderDoc\renderdoc.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_GOOGLE_threading adding instance extension VK_EXT_debug_report
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_parameter_validation adding instance extension VK_EXT_debug_report
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_parameter_validation adding device extension VK_EXT_debug_marker
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_object_tracker adding instance extension VK_EXT_debug_report
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_object_tracker adding device extension VK_EXT_debug_marker
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding instance extension VK_EXT_debug_report
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding device extension VK_EXT_debug_marker
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation component layer VK_LAYER_LUNARG_core_validation adding device extension VK_EXT_validation_cache
-INFO: [Loader Message] Code 0 : Meta-layer VK_LAYER_LUNARG_standard_validation all 5 component layers appear to be valid.
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: opening device P
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryEntry: Device ID(13) Does not contain a value for "VulkanDriverName"
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 14 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 14 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: Opening child device 15 - D
-INFO: [Loader Message] Code 0 : loaderGetDeviceRegistryFiles: GUID for 15 is not SoftwareComponent skipping
-INFO: [Loader Message] Code 0 : Located json file "C:\WINDOWS\system32\nv-vk64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers"
-INFO: [Loader Message] Code 0 : Searching the following paths for manifest files: C:\WINDOWS\system32\nv-vk64.json
-
-INFO: [Loader Message] Code 0 : Found ICD manifest file C:\WINDOWS\system32\nv-vk64.json, version "1.0.0"
-INFO: [Loader Message] Code 0 : Searching for ICD drivers named .\nvoglv64.dll, using default dir 
-INFO: [Loader Message] Code 0 : Build ICD instance extension list
-INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_debug_report (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.8
-INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_display_surface_counter (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_physical_device_properties2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_surface_capabilities2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.25
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_win32_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.6
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_device_group_creation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_fence_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_NV_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : loader_add_implicit_layer: Disabling implicit layer VK_LAYER_NV_optimus for using an old API version 1.0 versus application requested 1.1
-INFO: [Loader Message] Code 0 : loader_add_implicit_layer: Disabling implicit layer VK_LAYER_NV_optimus for using an old API version 1.0 versus application requested 1.1
+DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b50540af0 (Type = 28) | OBJ[0x1] : CREATE DebugReportCallbackEXT object 0x23b50540af0
+DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b532d8f80 (Type = 2) | OBJ[0x2] : CREATE PhysicalDevice object 0x23b532d8f80
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1 (Type = 26) | OBJ[0x3] : CREATE SurfaceKHR object 0x1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_swapchain (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.68
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_16bit_storage (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_bind_memory2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_descriptor_update_template (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_dedicated_allocation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_get_memory_requirements2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_image_format_list (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance1 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_push_descriptor (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_relaxed_block_layout (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_mirror_clamp_to_edge (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_ycbcr_conversion (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_shader_draw_parameters (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_storage_buffer_storage_class (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_variable_pointers (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_device_group (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.2
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_multiview (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_depth_range_unrestricted (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_discard_rectangles (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_ballot (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_vote (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_dedicated_allocation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_glsl_shader (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_device_generated_commands (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_multiview_per_view_attributes (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_swapchain (Unknown) version 0.0.68
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_16bit_storage (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_bind_memory2 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_descriptor_update_template (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_dedicated_allocation (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_get_memory_requirements2 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_image_format_list (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance1 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance2 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_push_descriptor (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_relaxed_block_layout (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_mirror_clamp_to_edge (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_ycbcr_conversion (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_shader_draw_parameters (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_storage_buffer_storage_class (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_win32_keyed_mutex (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_variable_pointers (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_device_group (Unknown) version 0.0.2
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_multiview (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_win32_keyed_mutex (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_depth_range_unrestricted (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_discard_rectangles (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_ballot (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_vote (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_dedicated_allocation (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory_win32 (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_glsl_shader (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_win32_keyed_mutex (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_device_generated_commands (Unknown) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_multiview_per_view_attributes (Unknown) version 0.0.1
 INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_unique_objects.dll
-INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_GOOGLE_unique_objects (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_unique_objects.dll)
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_GOOGLE_unique_objects (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_unique_objects.dll)
 INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_core_validation.dll
-INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_core_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_core_validation.dll)
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_LUNARG_core_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_core_validation.dll)
 INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_object_tracker.dll
-INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_object_tracker (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_object_tracker.dll)
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_LUNARG_object_tracker (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_object_tracker.dll)
 INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_parameter_validation.dll
-INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_LUNARG_parameter_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_parameter_validation.dll)
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_LUNARG_parameter_validation (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_parameter_validation.dll)
 INFO: [Loader Message] Code 0 : Loading layer library D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_threading.dll
-INFO: [Loader Message] Code 0 : Insert instance layer VK_LAYER_GOOGLE_threading (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_threading.dll)
-INFO: [Loader Message] Code 0 : Build ICD instance extension list
-INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_debug_report (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.8
-INFO: [Loader Message] Code 0 : Instance Extension: VK_EXT_display_surface_counter (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_physical_device_properties2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_get_surface_capabilities2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.25
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_win32_surface (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.6
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_device_group_creation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_fence_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHX_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_KHR_external_semaphore_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Loader Message] Code 0 : Instance Extension: VK_NV_external_memory_capabilities (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_GOOGLE_threading (D:\VulkanSDK\1.1.82.1\Bin\.\VkLayer_threading.dll)
+INFO: [Loader Message] Code 0 : Loading layer library C:\WINDOWS\system32\.\nvoglv64.dll
+INFO: [Loader Message] Code 0 : Inserted device layer VK_LAYER_NV_optimus (C:\WINDOWS\system32\.\nvoglv64.dll)
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_swapchain (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.68
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_16bit_storage (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_bind_memory2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_descriptor_update_template (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_dedicated_allocation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_get_memory_requirements2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_image_format_list (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance1 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_maintenance2 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_push_descriptor (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_relaxed_block_layout (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_mirror_clamp_to_edge (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_sampler_ycbcr_conversion (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_shader_draw_parameters (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_storage_buffer_storage_class (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_semaphore_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_external_fence_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_variable_pointers (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_device_group (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.2
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_external_semaphore_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_multiview (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_KHX_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_depth_range_unrestricted (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_discard_rectangles (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_ballot (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_EXT_shader_subgroup_vote (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_dedicated_allocation (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_external_memory_win32 (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_glsl_shader (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NV_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_device_generated_commands (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_multiview_per_view_attributes (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b5363d7c0 (Type = 3) | OBJ[0x4] : CREATE Device object 0x23b5363d7c0
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b5053a4e0 (Type = 4) | OBJ[0x5] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_QUEUE_EXT object 0x23b5053a4e0
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1 (Type = 26) | OBJ_STAT Destroy SurfaceKHR obj 0x1 (4 total objs remain & 0 SurfaceKHR objs).
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2 (Type = 26) | OBJ[0x6] : CREATE SurfaceKHR object 0x2
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x3 (Type = 27) | OBJ[0x7] : CREATE SwapchainKHR object 0x3
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x4 (Type = 10) | OBJ[0x8] : CREATE SwapchainImage object 0x4
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x5 (Type = 10) | OBJ[0x9] : CREATE SwapchainImage object 0x5
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x6 (Type = 10) | OBJ[0xa] : CREATE SwapchainImage object 0x6
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x7 (Type = 14) | OBJ[0xb] : CREATE ImageView object 0x7
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x8 (Type = 14) | OBJ[0xc] : CREATE ImageView object 0x8
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x9 (Type = 14) | OBJ[0xd] : CREATE ImageView object 0x9
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xa (Type = 15) | OBJ[0xe] : CREATE ShaderModule object 0xa
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xb (Type = 15) | OBJ[0xf] : CREATE ShaderModule object 0xb
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xc (Type = 20) | OBJ[0x10] : CREATE DescriptorSetLayout object 0xc
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xd (Type = 17) | OBJ[0x11] : CREATE PipelineLayout object 0xd
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xe (Type = 18) | OBJ[0x12] : CREATE RenderPass object 0xe
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0xf (Type = 19) | OBJ[0x13] : CREATE Pipeline object 0xf
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x10 (Type = 24) | OBJ[0x14] : CREATE Framebuffer object 0x10
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x11 (Type = 24) | OBJ[0x15] : CREATE Framebuffer object 0x11
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x12 (Type = 24) | OBJ[0x16] : CREATE Framebuffer object 0x12
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x13 (Type = 9) | OBJ[0x17] : CREATE Buffer object 0x13
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x14 (Type = 8) | OBJ[0x18] : CREATE DeviceMemory object 0x14
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x15 (Type = 5) | OBJ[0x19] : CREATE Semaphore object 0x15
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x16 (Type = 7) | OBJ[0x1a] : CREATE Fence object 0x16
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x17 (Type = 5) | OBJ[0x1b] : CREATE Semaphore object 0x17
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x18 (Type = 7) | OBJ[0x1c] : CREATE Fence object 0x18
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x19 (Type = 5) | OBJ[0x1d] : CREATE Semaphore object 0x19
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1a (Type = 7) | OBJ[0x1e] : CREATE Fence object 0x1a
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1b (Type = 5) | OBJ[0x1f] : CREATE Semaphore object 0x1b
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1c (Type = 22) | OBJ[0x20] : CREATE DescriptorPool object 0x1c
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1d (Type = 23) | OBJ[0x21] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_DESCRIPTOR_SET_EXT object 0x1d
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1e (Type = 23) | OBJ[0x22] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_DESCRIPTOR_SET_EXT object 0x1e
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1f (Type = 23) | OBJ[0x23] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_DESCRIPTOR_SET_EXT object 0x1f
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x20 (Type = 9) | OBJ[0x24] : CREATE Buffer object 0x20
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x21 (Type = 8) | OBJ[0x25] : CREATE DeviceMemory object 0x21
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x22 (Type = 9) | OBJ[0x26] : CREATE Buffer object 0x22
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23 (Type = 8) | OBJ[0x27] : CREATE DeviceMemory object 0x23
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x24 (Type = 9) | OBJ[0x28] : CREATE Buffer object 0x24
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x25 (Type = 8) | OBJ[0x29] : CREATE DeviceMemory object 0x25
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x26 (Type = 5) | OBJ[0x2a] : CREATE Semaphore object 0x26
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x27 (Type = 25) | OBJ[0x2b] : CREATE CommandPool object 0x27
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a33e48 (Type = 6) | OBJ[0x2c] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a33e48
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x28 (Type = 5) | OBJ[0x2d] : CREATE Semaphore object 0x28
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a3b2e8 (Type = 6) | OBJ[0x2e] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a3b2e8
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x29 (Type = 5) | OBJ[0x2f] : CREATE Semaphore object 0x29
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a3c898 (Type = 6) | OBJ[0x30] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a3c898
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2a (Type = 5) | OBJ[0x31] : CREATE Semaphore object 0x2a

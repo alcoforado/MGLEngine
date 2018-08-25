@@ -89,6 +89,8 @@ public:
 			_pPipeline->OnSwapChainReload(drawContext->GetRenderContext()->GetSwapChain());
 
 
+
+
 		
 		if (needRedraw || drawContext->IsWindowResized())
 		{
@@ -107,9 +109,10 @@ public:
 			VulkanCommandBuffer *comm = _pContext->GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(_pPipeline);
-			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
 			if (_oncePerFrameLayoutIndex != INVALID_INDEX) //If we have a resource layout that changes once per frame bind it
 				comm->BindDescriptorSet(_pPipeline, _oncePerFrameLayoutIndex, frameIndex);
+			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
+			
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);
 			comm->EndRenderPass();
 			comm->End();

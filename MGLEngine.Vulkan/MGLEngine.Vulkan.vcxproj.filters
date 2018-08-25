@@ -280,8 +280,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SPIR-V\canvas2D.frag" />
-    <None Include="SPIR-V\canvas2D.vert" />
-    <None Include="SPIR-V\frag.spv" />
+    <CustomBuild Include="SPIR-V\canvas2D.vert" />
   </ItemGroup>
 </Project>

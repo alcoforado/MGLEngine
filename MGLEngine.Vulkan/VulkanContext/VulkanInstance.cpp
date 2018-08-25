@@ -3,9 +3,10 @@
 #include  <Utils/Exception.h>
 #include <glfw/glfw3.h>
 #include <cassert>
+#include <MGLEngine.Shared/Utils/eassert.h>
 #define VK_MAKE_VERSION(major, minor, patch) \
     (((major) << 22) | ((minor) << 12) | (patch))
-#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
+//#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
 int VulkanInstance::nErrors = 0;
 int VulkanInstance::nWarning = 0;
@@ -23,6 +24,7 @@ VkBool32 __stdcall VulkanInstance::DbgCallback(VkFlags msgFlags, VkDebugReportOb
 	if (msgFlags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
 		sprintf_s(message, size, "ERROR: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
 		VulkanInstance::nErrors++;
+		return true;
 	}
 	else if (msgFlags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
 		sprintf_s(message, size, "WARNING: [%s] Code %d : %s", pLayerPrefix, msgCode, pMsg);
@@ -67,6 +69,7 @@ VulkanInstance::VulkanInstance()
 
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
+	eassert(this->SupportLayer("VK_LAYER_LUNARG_standard_validation"), "Vulkan Instance does not support VK_LAYER_LUNARG_standard_validation");
 	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
 	vulkan_extensions.push_back("VK_EXT_debug_report");
 #endif
@@ -80,7 +83,7 @@ VulkanInstance::VulkanInstance()
 	app_info.applicationVersion = 1;
 	app_info.pEngineName = "MGLEngine";
 	app_info.engineVersion = 1;
-	app_info.apiVersion = VK_API_VERSION_1_1;
+	app_info.apiVersion = VK_API_VERSION_1_0;
 
 
 	//Set Instance Info
@@ -93,14 +96,7 @@ VulkanInstance::VulkanInstance()
 	inst_info.enabledExtensionCount = (uint32_t)vulkan_extensions.size();
 	inst_info.ppEnabledExtensionNames = vulkan_extensions.data();
 
-#ifdef _DEBUG
-	VkDebugReportCallbackCreateInfoEXT dbg_info;
-	memset(&dbg_info, 0, sizeof(dbg_info));
-	dbg_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
-	dbg_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_INFORMATION_BIT_EXT;
-	dbg_info.pfnCallback = DbgCallback;
-	inst_info.pNext = &dbg_info;
-#endif
+
 	VkResult err;
 	err = vkCreateInstance(&inst_info, NULL, &(this->_vkInstance));
 	if (err == VK_ERROR_INCOMPATIBLE_DRIVER) {
@@ -109,6 +105,23 @@ VulkanInstance::VulkanInstance()
 	else if (err) {
 		throw new Exception("Vulkan initialization failed with error %s", MapVkResultToString(err).c_str());;
 	}
+
+#ifdef _DEBUG
+	VkDebugReportCallbackCreateInfoEXT dbg_info;
+	memset(&dbg_info, 0, sizeof(dbg_info));
+	dbg_info.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
+	dbg_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_INFORMATION_BIT_EXT | VK_DEBUG_REPORT_DEBUG_BIT_EXT;
+	dbg_info.pfnCallback = DbgCallback;
+
+
+	auto f=(PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(this->_vkInstance, "vkCreateDebugReportCallbackEXT");
+	eassert(f, "Unable to fo find vkCreateDebugReportCallbackEXT function.");
+	f(this->_vkInstance, &dbg_info, nullptr, &_vk_debug_report_callback_ext);
+	
+
+
+#endif
+
 
 	_vkPhysicalDevices = ComputePhysicalDevices();
 
@@ -201,5 +214,28 @@ std::vector<VulkanLayerProperties> VulkanInstance::ComputeAvailableLayers() cons
 		} while (res == VK_INCOMPLETE);
 	}
 	free(vk_props);
+	return result;
+}
+
+bool VulkanInstance::SupportLayer(std::string layerName) const
+{
+	for (const VulkanLayerProperties& elem : _vkLayers)
+	{
+		if (elem.getName() == layerName)
+			return true;
+	}
+	return false;
+}
+
+VulkanInstance::VulkanVersion VulkanInstance::GetVulkanVersion() const
+{
+	uint32_t api_version;
+
+	int err = vkEnumerateInstanceVersion(&api_version);
+
+	VulkanVersion result;
+	result.Major = VK_VERSION_MAJOR(api_version);
+	result.Minor = VK_VERSION_MINOR(api_version);
+	result.Version = api_version;
 	return result;
 }

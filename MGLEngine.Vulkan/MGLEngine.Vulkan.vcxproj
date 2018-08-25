@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A21B7BD2-0B50-41E4-995B-7A153D66BE90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+	<DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <RootNamespace>MGLEngineVulkan</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -212,7 +213,9 @@
     <ClInclude Include="RenderPipeline\VulkanCommandBuffer.h" />
     <ClInclude Include="RenderPipeline\VulkanCommands.h" />
     <ClInclude Include="RenderResources\SlotManager.h" />
-    <ClInclude Include="SPIR-V\shaders_bytecode.h" />
+    <ClInclude Include="SPIR-V\shaders_bytecode.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />
@@ -247,25 +250,24 @@
     <GLSLShader Include="SPIR-V\canvas2D.frag" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SPIR-V\canvas2D.frag" />
-    <None Include="SPIR-V\canvas2D.vert" />
-    <None Include="SPIR-V\frag.spv" />
+    <CustomBuild Include="SPIR-V\canvas2D.vert">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CustomBuild>
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
   <Target Name="CompileShaders" Inputs="@(GLSLShader)" Outputs="SPIR-V\shaders_bytecode.h">
     <PropertyGroup>
       <OriginalFileName>%(GLSLShader.Filename)%(GLSLShader.Extension)</OriginalFileName>
     </PropertyGroup>
+    <Message Text="Start Compiling GSLANG @(GLSLShader) " />
     <Message Condition="'$(VULKAN_SDK)'==''" Text="Error, cant find environment variable VULKAN_SDK, Make sure that the  Lunar  Vulkan SDK is installed" />
     <Message Condition="'$(VULKAN_SDK)'!=''" Text="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" />
     <Exec Condition="'$(VULKAN_SDK)'!=''" Command="$(VULKAN_SDK)\Bin\glslangValidator.exe %(GLSLShader.Filename)%(GLSLShader.Extension) -V --vn $([System.String]::Copy('%(GLSLShader.Filename)%(GLSLShader.Extension)').Replace('.','_')) -o %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
     <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
     <Exec Condition="'$(VULKAN_SDK)'!=''" Command="type %(GLSLShader.Filename)%(GLSLShader.Extension).h &gt;&gt; shaders_bytecode.h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
     <Exec Condition="'$(VULKAN_SDK)'!=''" Command="del %(GLSLShader.Filename)%(GLSLShader.Extension).h" WorkingDirectory="$(ProjectDir)\SPIR-V" />
-    <!--<MSBuild Projects="./shaders/compileGLSL.proj" Targets="Build" />-->
   </Target>
-  <Target Name="ConcatenateHeaders">
-  </Target>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
 </Project>

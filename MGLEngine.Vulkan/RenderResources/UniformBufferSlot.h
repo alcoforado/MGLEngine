@@ -51,6 +51,7 @@ private:
 			data.copyFrom(this->pSlot->_data);
 			pBuffer->Flush();
 			bNeedUpdate = false;
+			int o=sizeof(glm::vec3);
 
 		}
 
@@ -92,7 +93,7 @@ public:
 		bufferInfo.buffer = binding->pBuffer->GetHandle();
 		bufferInfo.offset = 0;
 		bufferInfo.range = VK_WHOLE_SIZE;
-		VkWriteDescriptorSet descWrite;
+		VkWriteDescriptorSet descWrite={};
 		descWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 		descWrite.dstSet = dsSet->GetHandle();
 		descWrite.dstBinding = _ubo.binding;

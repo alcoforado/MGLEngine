@@ -24,7 +24,7 @@ class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
 	VertexShaderByteCode _vertexByteCode; 
 	FragmentShaderByteCode _fragShaderCode;  
 	std::vector<VulkanCommandBuffer*> _commands;
-	OPointer<UniformBufferSlot<glm::mat3>> _pGT;
+	OPointer<UniformBufferSlot<glm::mat4>> _pGT;
 
 	public:
 	explicit ShaderColor2D(IVulkanRenderContext* renderContext);

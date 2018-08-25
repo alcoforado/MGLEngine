@@ -8,7 +8,7 @@ layout(location = 0) out vec3 fragColor;
 
 
 layout(binding = 0) uniform UniformBufferObject {
-    mat3 mGT;
+    mat4 mGT;
 } ubo;
 
 
@@ -16,8 +16,12 @@ out gl_PerVertex {
     vec4 gl_Position;
 };
 
+
 void main() {
-	vec3 v=ubo.mGT*vec3(inPosition,1.0);
+
+
+	vec3 v=mat3(ubo.mGT)*vec3(inPosition,1.0);
 	gl_Position = vec4(v[0],v[1],0.0, 1.0);
-    fragColor = inColor;
+    fragColor = vec3(ubo.mGT[2][0],ubo.mGT[2][1],ubo.mGT[2][2]);
 }
+

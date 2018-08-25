@@ -10,9 +10,12 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
  :_vertexByteCode(*renderContext->GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
   _fragShaderCode(*renderContext->GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag))
 {
-	_pGT = new UniformBufferSlot<glm::mat3>(renderContext->GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
+	_pGT = new UniformBufferSlot<glm::mat4>(renderContext->GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
 
+	glm::mat4 m;
+	m[1][0] = 1;
 
+	_pGT->SetData(m);
 
 	_pPipeline = new VulkanPipeline(renderContext->GetSwapChain(), _vertexByteCode, _fragShaderCode,{_pGT});
 
