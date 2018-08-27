@@ -51,17 +51,15 @@ div {
 
 .link-button {
     display: inline-block;
-    color: $link-text-color;
-    font-weight: bold;
+    color: $body-color;
+    font-weight: normal;
     padding: 0px;
     box-sizing: content-box;
     img {
         height: 12px;
         vertical-align: baseline;
     }
-    &:hover {
-        text-decoration: underline;
-    }
+    
     cursor: pointer;
 }
 
@@ -91,6 +89,7 @@ input,
 select {
     background: $background;
     border-color: #565555;
+    color:$body-color;
 }
 
 option:hover {
@@ -98,7 +97,7 @@ option:hover {
 }
 
 input[type="color"] {
-    width: 52px;
+    width: 82px;
 }
 
 .view-panel {
@@ -201,7 +200,7 @@ section {
 .col-label {
     display: inline-block;
     text-align: left;
-    vertical-align: top;
+    vertical-align: inherit;
 }
 
 .col-value {
@@ -581,5 +580,18 @@ button {
         .modal-body {
             border: 0;
         }
+    }
+}
+
+.round-on-hover {
+    display: inline-block;
+    height: 23px;
+    width: 23px;
+    text-align:center;
+    border-radius:1000px;
+    vertical-align: bottom;
+    transition: background-color 0.5s;
+    &:hover {
+        background-color: $background-accent-dark;
     }
 }

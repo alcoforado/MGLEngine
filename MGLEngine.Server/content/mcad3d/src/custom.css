@@ -1217,8 +1217,7 @@
 
 .editable-list-row {
   padding: 5px 0 5px 5px;
-  margin-bottom: 2px;
-  background-color: #2f3138; }
+  margin-bottom: 2px; }
 
 .list-input {
   margin-top: 5px;
@@ -1249,17 +1248,6 @@
 
 .row-render {
   padding-left: 27px; }
-
-.remove-row-button {
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-  background: url(images/close-icon-dark.svg) no-repeat center center;
-  background-size: 16px;
-  vertical-align: top; }
-  .remove-row-button:hover {
-    background: url(images/close-icon.svg) no-repeat center center;
-    background-size: 16px; }
 
 .material-ripple {
   width: 100%;
@@ -1301,16 +1289,14 @@ div {
 
 .link-button {
   display: inline-block;
-  color: #3a67e2;
-  font-weight: bold;
+  color: #ffffff;
+  font-weight: normal;
   padding: 0px;
   box-sizing: content-box;
   cursor: pointer; }
   .link-button img {
     height: 12px;
     vertical-align: baseline; }
-  .link-button:hover {
-    text-decoration: underline; }
 
 .comma-separator {
   display: inline-block;
@@ -1325,7 +1311,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 input:focus {
   outline: none;
-  background: #3c3c3e; }
+  background: transparent; }
 
 select:focus {
   outline: none; }
@@ -1333,13 +1319,14 @@ select:focus {
 input,
 select {
   background: #333333;
-  border-color: #565555; }
+  border-color: #565555;
+  color: #ffffff; }
 
 option:hover {
   background: #e7eaea; }
 
 input[type="color"] {
-  width: 52px; }
+  width: 82px; }
 
 .view-panel {
   padding-left: 10px;
@@ -1424,7 +1411,7 @@ section {
 .col-label {
   display: inline-block;
   text-align: left;
-  vertical-align: top; }
+  vertical-align: inherit; }
 
 .col-value {
   display: inline-block; }
@@ -1628,7 +1615,7 @@ bootstrap
 .chosen-container.expanded {
   border-bottom: 0;
   border-radius: 5px 5px 0px 0px;
-  background: linear-gradient(to bottom, #555558, #3c3c3e); }
+  background: linear-gradient(to bottom, rgba(26, 26, 26, 0), transparent); }
   .chosen-container.expanded .chosen-drop {
     display: block; }
   .chosen-container.expanded .selected-option {
@@ -1725,3 +1712,14 @@ button {
     font-weight: bold; }
   .modal-dialog .modal-content .modal-body {
     border: 0; }
+
+.round-on-hover {
+  display: inline-block;
+  height: 23px;
+  width: 23px;
+  text-align: center;
+  border-radius: 1000px;
+  vertical-align: bottom;
+  transition: background-color 0.5s; }
+  .round-on-hover:hover {
+    background-color: #1f1f1f; }

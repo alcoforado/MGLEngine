@@ -5,11 +5,13 @@
       <div class="col-value">
         <dynamic-input directiveType="{{listType}}" [mformComponent]="fc"></dynamic-input>
       </div>
-      <div class="remove-row-button" (click)="removeComponentFromList(fc)"></div>
+      <span class="round-on-hover">
+        <i class="material-icons">clear</i>
+      </span>
     </div>
   </ng-container>
   <div class="link-button" (click)="addFormComponent()">
-    <img src="images/add.svg" /> Add
+    <i class="material-icons">add</i> Add
   </div>
 
 
