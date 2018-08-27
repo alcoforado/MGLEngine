@@ -23,6 +23,7 @@ var color_render2d_component_1 = require("./renders/color-render2d/color-render2
 var mdc_button_component_1 = require("./mdc-button/mdc-button.component");
 var animations_1 = require("@angular/platform-browser/animations");
 var mdc_modal_component_1 = require("./mdc-modal/mdc-modal.component");
+var mdc_menu_component_1 = require("./mdc-menu/mdc-menu.component");
 var appRoutes = [
     { path: 'shapes', component: shapes_mngr_component_1.ShapesMngrComponent },
     { path: 'src/index_system.html', component: shapes_mngr_component_1.ShapesMngrComponent },
@@ -50,7 +51,8 @@ var AppModule = (function () {
                 modal_component_1.ModalComponent,
                 color_render2d_component_1.ColorRender2DComponent,
                 mdc_button_component_1.MdcButtonComponent,
-                mdc_modal_component_1.MdcModalComponent
+                mdc_modal_component_1.MdcModalComponent,
+                mdc_menu_component_1.MdcMenuComponent
             ],
             providers: [
                 shapes_mngr_service_1.ShapesMngrService

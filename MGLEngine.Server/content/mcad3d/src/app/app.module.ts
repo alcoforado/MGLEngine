@@ -17,6 +17,7 @@ import { ColorRender2DComponent } from './renders/color-render2d/color-render2d.
 import { MdcButtonComponent } from './mdc-button/mdc-button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdcModalComponent } from './mdc-modal/mdc-modal.component';
+import { MdcMenuComponent } from './mdc-menu/mdc-menu.component';
 const appRoutes: Routes = [
     { path: 'shapes', component: ShapesMngrComponent },
     { path: 'src/index_system.html', component: ShapesMngrComponent },
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
         ModalComponent,
         ColorRender2DComponent,
         MdcButtonComponent,
-        MdcModalComponent
+        MdcModalComponent,
+        MdcMenuComponent
     ],
     providers: [
         ShapesMngrService

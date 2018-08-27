@@ -5,7 +5,7 @@
       <div class="col-value">
         <dynamic-input directiveType="{{listType}}" [mformComponent]="fc"></dynamic-input>
       </div>
-      <span class="round-on-hover">
+      <span class="round-on-hover" (click)="removeComponentFromList(fc)">
         <i class="material-icons">clear</i>
       </span>
     </div>
@@ -13,6 +13,7 @@
   <div class="link-button" (click)="addFormComponent()">
     <i class="material-icons">add</i> Add
   </div>
+
 
 
 </div>
