@@ -51,6 +51,10 @@ VkBool32 __stdcall VulkanInstance::DbgCallback(VkFlags msgFlags, VkDebugReportOb
 }
 
 
+const char* VulkanInstance::LUNAR_VALIDATION_LAYER = "VK_LAYER_LUNARG_standard_validation";
+const char* VulkanInstance::DEBUG_REPORT_EXTENSION = "VK_EXT_debug_report";
+
+
 
 VulkanInstance::VulkanInstance()
 {
@@ -69,16 +73,17 @@ VulkanInstance::VulkanInstance()
 
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
+	
 	eassert(this->SupportLayer("VK_LAYER_LUNARG_standard_validation"), "Vulkan Instance does not support VK_LAYER_LUNARG_standard_validation");
-	vulkan_layers.push_back("VK_LAYER_LUNARG_standard_validation");
-	vulkan_extensions.push_back("VK_EXT_debug_report");
+	vulkan_layers.push_back(LUNAR_VALIDATION_LAYER);
+	vulkan_extensions.push_back(DEBUG_REPORT_EXTENSION);
 #endif
 
 
 	//Set Application Info
 	VkApplicationInfo app_info{};
 	app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	app_info.pNext = NULL;
+	app_info.pNext = nullptr;
 	app_info.pApplicationName = "MGLEngine";
 	app_info.applicationVersion = 1;
 	app_info.pEngineName = "MGLEngine";
@@ -98,7 +103,7 @@ VulkanInstance::VulkanInstance()
 
 
 	VkResult err;
-	err = vkCreateInstance(&inst_info, NULL, &(this->_vkInstance));
+	err = vkCreateInstance(&inst_info, nullptr, &(this->_vkInstance));
 	if (err == VK_ERROR_INCOMPATIBLE_DRIVER) {
 		throw new Exception("Cannot create Vulkan instance.\n");
 	}

@@ -5,6 +5,10 @@
 #include "VulkanPhysicalDevice.h"
 class VulkanInstance
 {
+	static const char* LUNAR_VALIDATION_LAYER;
+	static const char* DEBUG_REPORT_EXTENSION;
+
+
 	static int nErrors;
 	static int nWarning;
 
