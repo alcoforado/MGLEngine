@@ -15,6 +15,13 @@ var forms_1 = require("@angular/forms");
 var ColorInputComponent = (function () {
     function ColorInputComponent() {
     }
+    ColorInputComponent.prototype.componentColorToString = function (d) {
+        var str = (d * 255).toString(16);
+        if (str.length < 2) {
+            str = '0' + str;
+        }
+        return str;
+    };
     ColorInputComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.formComponent.setAsGroupValue(new forms_1.FormGroup({ R: new forms_1.FormControl(0), G: new forms_1.FormControl(0), B: new forms_1.FormControl(0) }));
@@ -29,6 +36,11 @@ var ColorInputComponent = (function () {
             };
             _this.formComponent.Group.setValue(parsed);
         });
+        var m = this.formComponent.Model;
+        if (m != null) {
+            var result = '#' + this.componentColorToString(m.R) + this.componentColorToString(m.G) + this.componentColorToString(m.B);
+            this.g.setValue({ value: result });
+        }
     };
     __decorate([
         core_1.Input(),

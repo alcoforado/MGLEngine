@@ -35,6 +35,10 @@ private:
 			{
 				throw new Exception("Shape Handle was already deleted");
 			}
+			_node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
+				pNode->GetData().NeedRedraw = true;
+			});
+
 			_node->CutSubTree();
 			delete _node;
 			_node = nullptr;

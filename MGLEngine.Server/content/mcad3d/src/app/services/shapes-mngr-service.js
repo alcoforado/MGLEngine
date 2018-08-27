@@ -63,10 +63,11 @@ var ShapesMngrService = (function () {
             this.RenderTypes = this.$http.get("/api/shapemngr/rendertypes")
                 .map(this.extractData)
                 .map(function (c) {
-                return c.filter(function (x) {
+                c.filter(function (x) {
                     x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
                     return x;
                 });
+                return c;
             });
         }
         return this.RenderTypes;
@@ -97,13 +98,26 @@ var ShapesMngrService = (function () {
     };
     ShapesMngrService.prototype.getShapes = function () {
         var _this = this;
-        return this.getTypes().mergeMap(function (types) {
+        var that = this;
+        return this.getTypes()
+            .mergeMap(function (types) {
             return _this.$http.get('api/shapemngr/shapes')
                 .map(_this.extractData)
                 .map(function (shapes) {
                 shapes.forEach(function (elem) {
                     elem.TopologyType = types[elem.TopologyTypeName];
                     elem.RenderType = null;
+                });
+                return shapes;
+            });
+        })
+            .mergeMap(function (shapes) {
+            return that.getRenderTypes().map(function (types) {
+                shapes.forEach(function (elem) {
+                    types.forEach(function (t) {
+                        if (t.TypeName == elem.RenderTypeName)
+                            elem.RenderType = t;
+                    });
                 });
                 return shapes;
             });

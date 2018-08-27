@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ShapeUI, ShapesMngrService, ErrorResult } from '../services/shapes-mngr-service';
 import { MFormModel, MFormComponent, UIType } from '../modules/mform/mformmodel';
 import { ListViewItem } from '../list-view/list-view.component';
@@ -20,11 +20,12 @@ class ShapeForm {
     errorMessages = [];
     constructor(sh: ShapeUI) {
         this.shape = sh;
-        this.form = new MFormModel({});
+        this.form = new MFormModel(sh);
         this.errorMessages = [];
     }
 
     getTopologyForm(): MFormComponent {
+
         return this.form.getFormComponentAsGroup("ShapeData");
     }
 
@@ -83,6 +84,8 @@ export class ShapesMngrComponent implements OnInit {
             })
         })
     }
+
+
 
     constructor(private shapesMngrService: ShapesMngrService) { }
 

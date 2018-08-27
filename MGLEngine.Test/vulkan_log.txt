@@ -1,10 +1,10 @@
-DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
-DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
-DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b50540af0 (Type = 28) | OBJ[0x1] : CREATE DebugReportCallbackEXT object 0x23b50540af0
-DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
-DEBUG: [DebugReport] Code 0 : Object: 0x23b50540af0 (Type = 28) | Added callback
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b532d8f80 (Type = 2) | OBJ[0x2] : CREATE PhysicalDevice object 0x23b532d8f80
+DEBUG: [DebugReport] Code 0 : Object: 0x284511626a0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x284511626a0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x284511626a0 (Type = 28) | Added callback
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x284511626a0 (Type = 28) | OBJ[0x1] : CREATE DebugReportCallbackEXT object 0x284511626a0
+DEBUG: [DebugReport] Code 0 : Object: 0x284511626a0 (Type = 28) | Added callback
+DEBUG: [DebugReport] Code 0 : Object: 0x284511626a0 (Type = 28) | Added callback
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x284542bad10 (Type = 2) | OBJ[0x2] : CREATE PhysicalDevice object 0x284542bad10
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1 (Type = 26) | OBJ[0x3] : CREATE SurfaceKHR object 0x1
 INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_swapchain (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.68
 INFO: [Loader Message] Code 0 : Device Extension: VK_KHR_16bit_storage (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
@@ -141,8 +141,8 @@ INFO: [Loader Message] Code 0 : Device Extension: VK_NV_glsl_shader (C:\WINDOWS\
 INFO: [Loader Message] Code 0 : Device Extension: VK_NV_win32_keyed_mutex (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
 INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_device_generated_commands (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
 INFO: [Loader Message] Code 0 : Device Extension: VK_NVX_multiview_per_view_attributes (C:\WINDOWS\system32\.\nvoglv64.dll) version 0.0.1
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b5363d7c0 (Type = 3) | OBJ[0x4] : CREATE Device object 0x23b5363d7c0
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b5053a4e0 (Type = 4) | OBJ[0x5] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_QUEUE_EXT object 0x23b5053a4e0
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2845438c100 (Type = 3) | OBJ[0x4] : CREATE Device object 0x2845438c100
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2845115c140 (Type = 4) | OBJ[0x5] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_QUEUE_EXT object 0x2845115c140
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x1 (Type = 26) | OBJ_STAT Destroy SurfaceKHR obj 0x1 (4 total objs remain & 0 SurfaceKHR objs).
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2 (Type = 26) | OBJ[0x6] : CREATE SurfaceKHR object 0x2
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x3 (Type = 27) | OBJ[0x7] : CREATE SwapchainKHR object 0x3
@@ -182,9 +182,9 @@ INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x24 (Ty
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x25 (Type = 8) | OBJ[0x29] : CREATE DeviceMemory object 0x25
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x26 (Type = 5) | OBJ[0x2a] : CREATE Semaphore object 0x26
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x27 (Type = 25) | OBJ[0x2b] : CREATE CommandPool object 0x27
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a33e48 (Type = 6) | OBJ[0x2c] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a33e48
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2845481c208 (Type = 6) | OBJ[0x2c] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x2845481c208
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x28 (Type = 5) | OBJ[0x2d] : CREATE Semaphore object 0x28
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a3b2e8 (Type = 6) | OBJ[0x2e] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a3b2e8
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x284548316d8 (Type = 6) | OBJ[0x2e] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x284548316d8
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x29 (Type = 5) | OBJ[0x2f] : CREATE Semaphore object 0x29
-INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x23b53a3c898 (Type = 6) | OBJ[0x30] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x23b53a3c898
+INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x28454832c88 (Type = 6) | OBJ[0x30] : CREATE VK_DEBUG_REPORT_OBJECT_TYPE_COMMAND_BUFFER_EXT object 0x28454832c88
 INFO: [Validation] Code -1 :  [ UNASSIGNED-ObjectTracker-Info ] Object: 0x2a (Type = 5) | OBJ[0x31] : CREATE Semaphore object 0x2a

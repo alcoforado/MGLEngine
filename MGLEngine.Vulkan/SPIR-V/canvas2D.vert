@@ -22,6 +22,6 @@ void main() {
 
 	vec3 v=mat3(ubo.mGT)*vec3(inPosition,1.0);
 	gl_Position = vec4(v[0],v[1],0.0, 1.0);
-    fragColor = vec3(ubo.mGT[2][0],ubo.mGT[2][1],ubo.mGT[2][2]);
+    fragColor = inColor;
 }
 

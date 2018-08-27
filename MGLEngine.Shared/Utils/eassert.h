@@ -8,6 +8,7 @@
 class AssertionFailureException : public std::exception
 {
 private:
+	static std::ostream *_pErrorOut;
 	const char* expression;
 	const char* file;
 	int line;
@@ -15,6 +16,8 @@ private:
 	std::string report;
 
 public:
+
+	static void SetOutput(std::ostream* pErrorOut);
 
 	/// Helper class for formatting assertion message
 	class StreamFormatter
@@ -41,11 +44,10 @@ public:
 	/// Log error before throwing
 	void LogError()
 	{
-#ifdef THROWASSERT_LOGGER
-		THROWASSERT_LOGGER(report);
-#else
-		std::cerr << report << std::endl;
-#endif
+		if (_pErrorOut!=nullptr)
+		{
+			(*_pErrorOut) << report << std::endl;
+		}
 	}
 
 	/// Construct an assertion failure exception

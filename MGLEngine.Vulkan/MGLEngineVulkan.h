@@ -11,5 +11,6 @@ public:
 	MGLEngineVulkan(IWindow *win);
 	virtual ~MGLEngineVulkan();
 	virtual IShader<Color2D>* Color2DShader() override;
+	virtual void Redraw() override;
 };
 

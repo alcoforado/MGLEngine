@@ -13,6 +13,7 @@ using MGLEngine.Server.Services.Interfaces;
 using MGLEngine.Server.Services.Models;
 using MGLEngineCLR;
 using MUtils.Reflection;
+using Newtonsoft.Json.Linq;
 
 
 namespace MGLEngine.Server.Services
@@ -25,13 +26,15 @@ namespace MGLEngine.Server.Services
 
         private int _idCounter = 0;
         private Dictionary<string, ShapeUI> _shapeCollection;
-       
+        private JsonFileStore _store;
         public ShapeMngrService(Window w)
         {
             _w = w;
             _shapeCollection = new Dictionary<string, ShapeUI>();
             _topologyTypes = new Dictionary<string, Type>();
             _renderTypes = new Dictionary<string, Type>();
+            _store = new JsonFileStore();
+            _store.Open("objects.txt");
 
             var assembly = Assembly.Load(new AssemblyName("MGLEngine.Managed"));
 
@@ -48,18 +51,43 @@ namespace MGLEngine.Server.Services
                 _renderTypes.Add(type.Name, type);
             }
 
+            LoadObjectsFromJson(_store.GetRoot());
+
 
         }
-        
+
+        private void LoadObjectsFromJson(JObject root)
+        {
+
+            var lst = _store.LoadIfExists<List<ShapeUI>>("shapes");
+
+            if (lst != null)
+            {
+                foreach (ShapeUI sh in lst)
+                {
+                    _shapeCollection.Add(sh.Id,sh);
+                    UpdateShape(sh.Id,sh.Topology,sh.Render);
+
+                }
+
+
+            }
+
+
+        }
+
         //public RenderBase CreateRender(string renderType)
         //{
         //    var result = (RenderBase)Activator.CreateInstance(_renderTypes[renderType]);
         //    _renderCollection.Add(result.Id,result);
         //    return result;
         //}
-        
 
 
+        public void Redraw()
+        {
+          //  return _w.GetCanvas().
+        }
 
 
         public Dictionary<string, Type> GetShapeTypes()
@@ -81,23 +109,7 @@ namespace MGLEngine.Server.Services
             return _shapeCollection;
         }
 
-        public void UpdateShape(ShapeUI shape)
-        {
-            if (String.IsNullOrEmpty(shape.Id))
-            {
-                throw new Exception("Invalid Id");
-            }
-            if (shape.Render == null)
-            {
-                throw new Exception("No Render provided");
-            }
-            if (shape.Topology == null)
-            {
-                throw new Exception("No Topology Provided");
-            }
-           
-        }
-
+      
 
 
        
@@ -139,6 +151,7 @@ namespace MGLEngine.Server.Services
         {
             var result = new ShapeUI();
             result.Topology = (Object) CreateTopology(topologyTypeId);
+            result.TopologyTypeName = topologyTypeId;
             result.Render = null;
             result.Id = Guid.NewGuid().ToString();
             result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
@@ -186,7 +199,9 @@ namespace MGLEngine.Server.Services
                     shape.Handle.Delete();
                 shape.Handle=_w.GetCanvas().Render(top2D,render2d);
                 shape.Render = render2d;
+                shape.RenderTypeName = render2d.GetType().Name;
                 shape.Topology = top2D;
+                shape.TopologyTypeName = top2D.GetType().Name;
             }
             else if (render3d != null)
             {
@@ -206,6 +221,14 @@ namespace MGLEngine.Server.Services
             }
             return _shapeCollection[modelId];
         }
+
+        ~ShapeMngrService()
+        {
+        //    _store.Save("shapes",_shapeCollection.ToList().Select(x=>x.Value).ToList());
+        //   _store.Dispose();
+
+        }
+
     }
 }
 

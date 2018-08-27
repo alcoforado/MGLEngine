@@ -4,8 +4,10 @@
 #include "VulkanUtils.h"
 #include <map>
 #include <fstream>
-
+#include <MGLEngine.Shared/Utils/eassert.h>
 std::ofstream vulkanError("vulkan_log.txt", std::ofstream::trunc);
+
+
 
 std::vector<std::string> ConvertToVectorString(std::vector<const char*> user)
 {

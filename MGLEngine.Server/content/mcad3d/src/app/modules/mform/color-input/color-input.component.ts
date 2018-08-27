@@ -14,7 +14,17 @@ export class ColorInputComponent implements OnInit {
 
   constructor() { }
 
+  componentColorToString(d: number): string {
+    var str = (d * 255).toString(16);
+    if (str.length < 2) {
+      str = '0' + str;
+    }
+    return str;
+
+  }
+
   ngOnInit() {
+
     this.formComponent.setAsGroupValue(new FormGroup({ R: new FormControl(0), G: new FormControl(0), B: new FormControl(0) }));
     this.g = new FormGroup({ value: new FormControl() });
     this.g.valueChanges.subscribe(c => {
@@ -27,8 +37,16 @@ export class ColorInputComponent implements OnInit {
       };
       this.formComponent.Group.setValue(parsed);
     });
+    var m = this.formComponent.Model;
+    if (m != null) {
+      var result = '#' + this.componentColorToString(m.R) + this.componentColorToString(m.G) + this.componentColorToString(m.B);
+      this.g.setValue({ value: result });
+    }
   }
+
+
 }
+
 
 
 

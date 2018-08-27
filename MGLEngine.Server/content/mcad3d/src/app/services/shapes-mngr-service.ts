@@ -40,7 +40,7 @@ export type UITypeHash = { [typeName: string]: UIType };
 export class ShapesMngrService {
     private TypesHash: Observable<{ [typeName: string]: UIType }> = null;
     private Types: Observable<Array<UIType>> = null;
-    private RenderTypes: Observable<Array<UIType>> = null;
+    private RenderTypes: Observable<UIType[]> = null;
 
     private extractData<T>(res: Response): T {
         let body = res.json();
@@ -61,17 +61,17 @@ export class ShapesMngrService {
 
     }
 
-    getRenderTypes(): Observable<Array<UIType>> {
+    getRenderTypes(): Observable<UIType[]> {
         if (this.RenderTypes == null) {
             this.RenderTypes = this.$http.get("/api/shapemngr/rendertypes")
                 .map<Response, Array<UIType>>(this.extractData)
                 .map(c => {
-                    return c.filter(x => {
+                    c.filter(x => {
                         x.CssTypeName = x.TypeName.toLowerCase().replace(" ", "-");
                         return x;
                     })
+                    return c;
                 })
-
         }
         return this.RenderTypes;
     }
@@ -104,17 +104,31 @@ export class ShapesMngrService {
 
     getShapes(): Observable<Array<ShapeUI>> {
 
-        return this.getTypes().mergeMap((types: { [typeName: string]: UIType }) => {
-            return this.$http.get('api/shapemngr/shapes')
-                .map(this.extractData)
-                .map((shapes: Array<ShapeUI>) => {
-                    shapes.forEach((elem) => {
-                        elem.TopologyType = types[elem.TopologyTypeName];
-                        elem.RenderType = null;
+        var that = this;
+        return this.getTypes()
+            .mergeMap((types: { [typeName: string]: UIType }) => {
+                return this.$http.get('api/shapemngr/shapes')
+                    .map(this.extractData)
+                    .map((shapes: Array<ShapeUI>) => {
+                        shapes.forEach((elem) => {
+                            elem.TopologyType = types[elem.TopologyTypeName];
+                            elem.RenderType = null;
+                        });
+                        return shapes;
                     });
+            })
+            .mergeMap((shapes: Array<ShapeUI>) => {
+                return that.getRenderTypes().map((types: UIType[]) => {
+                    shapes.forEach((elem) => {
+                        types.forEach((t) => {
+                            if (t.TypeName == elem.RenderTypeName)
+                                elem.RenderType = t;
+                        })
+                    })
                     return shapes;
-                });
-        });
+                })
+            });
+
 
     }
     createShape(UIType: string): Observable<ShapeUI> {

@@ -21,7 +21,9 @@ export class MFormComponent {
         }
     }
 
-    setAsGroupValue(g: FormGroup) {
+    setAsGroupValue(g?: FormGroup) {
+        if (g == undefined)
+            g = new FormGroup({});
 
         if (this.parent == null) {
             throw "A root form is always a  group"
@@ -43,7 +45,7 @@ export class MFormComponent {
         if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
             if (typeof (this.parent.Model[this.field]) != "object")
                 throw `Incosisntency, the MFormModel field ${this.field} is not an object but it was assigned to a group mformcomponent`
-            this.Group.setValue(this.parent.Model[this.field]);
+            this.Group.patchValue(this.parent.Model[this.field]);
             this.Model = this.parent.Model[this.field]
         }
         if (this.parent.Group != null)
@@ -73,8 +75,11 @@ export class MFormComponent {
         if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
             if (this.parent.Model[this.field].constructor !== Array)
                 throw `Incosisntency, the MFormModel field ${this.field} is not an array but it was assigned to an array mformcomponent`
-            this.Array.setValue(this.parent.Model[this.field]);
+            this.Array.patchValue(this.parent.Model[this.field]);
             this.Model = this.parent.Model[this.field];
+            this.Model.forEach(e => {
+                this.appendFormComponent();
+            })
         }
         if (this.parent.Group != null)
             this.parent.Group.addControl(<string>this.field, this.Array)
@@ -161,10 +166,10 @@ export class MFormComponent {
                 if (init != null) {
                     if (typeof (init) != typeof (obj))
                         throw "Error primitive type  set by function setPrimitiveValue does not match the init  field in the model"
-                    this.Control.setValue(init);
+                    this.Control.patchValue(init);
                 }
                 else
-                    this.Control.setValue(obj);
+                    this.Control.patchValue(obj);
                 return;
             default:
                 throw "Type is not primitive"
@@ -210,6 +215,7 @@ export class UIType {
 export class MFormModel extends MFormComponent {
     constructor(model: any) {
         super(null, '');
+        this.Model = model;
         this.Group = new FormGroup({});
     }
 }

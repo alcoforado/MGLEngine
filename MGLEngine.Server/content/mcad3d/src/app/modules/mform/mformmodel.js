@@ -32,6 +32,8 @@ var MFormComponent = (function () {
         }
     };
     MFormComponent.prototype.setAsGroupValue = function (g) {
+        if (g == undefined)
+            g = new forms_1.FormGroup({});
         if (this.parent == null) {
             throw "A root form is always a  group";
         }
@@ -48,7 +50,7 @@ var MFormComponent = (function () {
         if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
             if (typeof (this.parent.Model[this.field]) != "object")
                 throw "Incosisntency, the MFormModel field " + this.field + " is not an object but it was assigned to a group mformcomponent";
-            this.Group.setValue(this.parent.Model[this.field]);
+            this.Group.patchValue(this.parent.Model[this.field]);
             this.Model = this.parent.Model[this.field];
         }
         if (this.parent.Group != null)
@@ -57,6 +59,7 @@ var MFormComponent = (function () {
             this.parent.Array.setControl(this.field, this.Group);
     };
     MFormComponent.prototype.setAsArrayValue = function (a) {
+        var _this = this;
         if (a === void 0) { a = null; }
         if (a == null)
             a = new forms_1.FormArray([]);
@@ -74,8 +77,11 @@ var MFormComponent = (function () {
         if (this.parent.Model != null && typeof (this.parent.Model[this.field]) != "undefined") {
             if (this.parent.Model[this.field].constructor !== Array)
                 throw "Incosisntency, the MFormModel field " + this.field + " is not an array but it was assigned to an array mformcomponent";
-            this.Array.setValue(this.parent.Model[this.field]);
+            this.Array.patchValue(this.parent.Model[this.field]);
             this.Model = this.parent.Model[this.field];
+            this.Model.forEach(function (e) {
+                _this.appendFormComponent();
+            });
         }
         if (this.parent.Group != null)
             this.parent.Group.addControl(this.field, this.Array);
@@ -153,10 +159,10 @@ var MFormComponent = (function () {
                 if (init != null) {
                     if (typeof (init) != typeof (obj))
                         throw "Error primitive type  set by function setPrimitiveValue does not match the init  field in the model";
-                    this.Control.setValue(init);
+                    this.Control.patchValue(init);
                 }
                 else
-                    this.Control.setValue(obj);
+                    this.Control.patchValue(obj);
                 return;
             default:
                 throw "Type is not primitive";
@@ -195,6 +201,7 @@ var MFormModel = (function (_super) {
     __extends(MFormModel, _super);
     function MFormModel(model) {
         var _this = _super.call(this, null, '') || this;
+        _this.Model = model;
         _this.Group = new forms_1.FormGroup({});
         return _this;
     }

@@ -23,7 +23,7 @@ var ShapeForm = (function () {
     function ShapeForm(sh) {
         this.errorMessages = [];
         this.shape = sh;
-        this.form = new mformmodel_1.MFormModel({});
+        this.form = new mformmodel_1.MFormModel(sh);
         this.errorMessages = [];
     }
     ShapeForm.prototype.getTopologyForm = function () {

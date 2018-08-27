@@ -53,6 +53,7 @@ namespace MGLEngineCLR {
 		array<Object^> ^parameters = { topology,render};
 		auto f = dictionary->default[render->GetType()->Name];
 		auto result = f->Invoke(this, parameters);
+		_engine->Redraw();
 		return dynamic_cast<ShapeHandle^>(result);
 	}
 

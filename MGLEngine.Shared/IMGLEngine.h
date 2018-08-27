@@ -6,6 +6,6 @@ class IMGLEngine
 {
 public:
 	virtual IShader<Color2D>* Color2DShader() = 0;
-	
+	virtual void Redraw() = 0;
 
 };

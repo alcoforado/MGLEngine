@@ -15,14 +15,17 @@ namespace MGLEngine.Server.Services
     {
         private JObject _store;
         private JsonSerializer _serializer;
+        private JsonSerializerSettings _settings;
+            
         private string _fileName;
         public JsonFileStore()
         {
             _store = null;
-            _serializer = JsonSerializer.Create(new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.All
-                });
+            _settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
+            _serializer = JsonSerializer.Create(_settings);
         }
 
         public void Open(string fileName)
@@ -54,14 +57,20 @@ namespace MGLEngine.Server.Services
             _store[section] = JToken.FromObject(value, _serializer);
         }
 
-        public T Load<T>(string section)
+        public T LoadIfExists<T>(string section)
         {
             AssertStoreWasOpenned();
             var sectionToken = _store[section];
-            var obj = JsonConvert.DeserializeObject<T>(sectionToken.ToString());
+            if (sectionToken == null)
+                return default(T);
+            var obj = JsonConvert.DeserializeObject<T>(sectionToken.ToString(),_settings);
             return obj;
         }
 
+        public JObject GetRoot()
+        {
+            return _store;
+        }
        
 
         public void Dispose()

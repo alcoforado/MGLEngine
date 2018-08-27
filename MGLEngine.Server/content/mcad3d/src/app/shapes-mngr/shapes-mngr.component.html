@@ -8,7 +8,8 @@
 </div>
 
 
-<form class="shape-card mdc-card mdc-elevation--z4" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
+
+<form class="shape-card mdc-card z-depth-2" *ngFor="let sform of shapeForms;index as id;" [formGroup]="sform.form.Group">
   <div class="shape-card-header">
     <img src="images/shapes.svg" />{{sform.shape.TopologyTypeName}}
   </div>

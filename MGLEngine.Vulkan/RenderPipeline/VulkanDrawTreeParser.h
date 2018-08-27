@@ -62,7 +62,7 @@ public:
 
 	void setAllFramesToRedraw()
 	{
-		for (auto frameData : _perFrameData)
+		for (PerFrameData& frameData : _perFrameData)
 		{
 			frameData.IsDirty = true;
 		}
