@@ -12,6 +12,11 @@ public:
 	virtual Index NIndices() override  {
 		return 3;
 	}
+	virtual TOPOLOGY_TYPE GetTopologyType()
+	{
+		return TOPOLOGY_TYPE::TRIANGLES;
+	}
+
 
 	virtual void WriteTopology(ArraySelect<glm::vec2>& array, Indices& indices) override;
 
@@ -19,6 +24,8 @@ public:
 
 
 	Triangle2D(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2);
+
+
 
 	~Triangle2D();
 };

@@ -103,7 +103,7 @@ class DrawInfo
 	}
 
 	std::list<IRenderResource*> Resources;
-
+	TOPOLOGY_TYPE _batchTopologyType;
 
 public:
 	ArrayLocation Current;
@@ -111,6 +111,7 @@ public:
 	DrawInfoType DrawInfoType;
 	bool NeedRedraw;
 	
+
 	DrawInfo(const DrawInfo<VerticeData>& data)
 	{
 		*this = data;
@@ -120,6 +121,14 @@ public:
 		return Resources;
 	}
 
+	TOPOLOGY_TYPE GetTopology()
+	{
+		if (IsBatch())
+			return _batchTopologyType;
+		if (IsShape())
+			return _shape._topology->GetTopologyType();
+		eassert(false, "Trying to get topology of a root node");
+	}
 
 
 	bool HasDirtyResources()

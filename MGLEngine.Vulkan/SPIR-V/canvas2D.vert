@@ -18,8 +18,6 @@ out gl_PerVertex {
 
 
 void main() {
-
-
 	vec3 v=mat3(ubo.mGT)*vec3(inPosition,1.0);
 	gl_Position = vec4(v[0],v[1],0.0, 1.0);
     fragColor = inColor;
