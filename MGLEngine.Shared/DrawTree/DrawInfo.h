@@ -148,6 +148,8 @@ public:
 	bool IsShape() const { return DrawInfoType == Shape; }
 
 
+
+
 	ShapeInfo<VerticeData>& GetShape()
 	{
 		if (DrawInfoType == Shape)
