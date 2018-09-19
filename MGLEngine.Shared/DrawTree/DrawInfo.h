@@ -75,13 +75,21 @@ public:
 		_render->Write(v);
 	}
 
+	TOPOLOGY_TYPE GetTopologyType()
+	{
+		eassert(_topology != nullptr, "Topology is not set");
+		return _topology->GetTopologyType();
+		
+	}
 
 	Index NVertices()
 	{
+		eassert(_topology != nullptr, "Topology is not set");
 		return _topology->NVertices();
 	}
 	Index NIndices()
 	{
+		eassert(_topology != nullptr, "Topology is not set");
 		return _topology->NIndices();
 	}
 
@@ -126,7 +134,7 @@ public:
 		if (IsBatch())
 			return _batchTopologyType;
 		if (IsShape())
-			return _shape._topology->GetTopologyType();
+			return _shape.GetTopologyType();
 		eassert(false, "Trying to get topology of a root node");
 	}
 
@@ -195,6 +203,19 @@ public:
 
 		return info;
 	}
+	
+	static DrawInfo<VerticeData> CreateBatch(TOPOLOGY_TYPE topType)
+	{
+		DrawInfo<VerticeData> info;
+		info.DrawInfoType = Batch;
+		info.NeedRedraw = true;
+		info._batchTopologyType = topType;
+
+
+		return info;
+	}
+
+
 
 	~DrawInfo() {}
 

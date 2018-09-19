@@ -12,7 +12,8 @@
 template<class VerticeData>
 class DrawTree : public  IShader<VerticeData>
 {
-	NTreeNode<DrawInfo<VerticeData>> _root;
+	typedef NTreeNode<DrawInfo<VerticeData>> Node;
+	Node _root;
 ;
 
 private:
@@ -288,8 +289,29 @@ public:
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
-		_root.AppendChild(node);
-		
+
+
+		//Try to find a batch to add the node
+		auto topType = topology->GetTopologyType();
+		bool foundBatch = false;
+		for (Node *child: _root.GetChilds())
+		{
+				if (child->GetData().IsBatch() && child->GetData().GetTopology() == topType)
+				{
+					foundBatch = true;
+					child->AppendChild(node);
+				}
+		}
+		if (!foundBatch)
+		{
+			//no batch found, create one and add the node to it.
+			Node *batch = new Node(DrawInfo<VerticeData>::CreateBatch(topType));
+			_root.AppendChild(batch);
+			batch->AppendChild(node);
+		}
+
+
+		//Notify all the way to the root that the shape was changed.
 		node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
 			pNode->GetData().NeedRedraw = true;
 		});
