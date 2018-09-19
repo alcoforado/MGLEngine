@@ -180,8 +180,19 @@ public:
 			DrawInfo<T> &data = pNode->GetData();
 				if (data.DrawInfoType==DrawInfoType::Root)
 				{
-					return true;
+					return true; //continue descending;
 				}
+				else if (data.DrawInfoType == DrawInfoType::Batch)
+				{
+					//It may have other batches as child.
+					//For now this doesn't happen
+					var topType = data.GetToplogy();
+					
+
+					return true;
+
+				}
+				//For shapes just return false
 				return true;
 		});
 	}
