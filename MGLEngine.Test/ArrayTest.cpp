@@ -37,13 +37,7 @@ TEST_CASE("IArray")
 		REQUIRE(heap[5] == 4);
 		REQUIRE(heap[6] == 5);
 	}
-	SECTION("IArraySelect should give ther right member offset in bytes")
-	{
-		REQUIRE(v1.GetMemberOff() == 0);
-		REQUIRE(v2.GetMemberOff() == 4);
-		REQUIRE(v3.GetMemberOff() == 8);
-
-	}
+	
 
 	SECTION("IArraySelect should set the right member")
 	{

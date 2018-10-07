@@ -158,7 +158,9 @@
     <ClInclude Include="Vulkan\VulkanTestsHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayTest.cpp" />
     <ClCompile Include="ObservableTest.cpp" />
+    <ClCompile Include="ShapesTests.cpp" />
     <ClCompile Include="TemplateTests.cpp" />
     <ClCompile Include="TestDefragArray.cpp" />
     <ClCompile Include="MGLEngine.Test.cpp" />

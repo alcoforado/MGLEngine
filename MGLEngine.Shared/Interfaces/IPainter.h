@@ -2,12 +2,14 @@
 
 #include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 template<class VerticeData>
-class IRender
+class IPainter 
 {
 
 public:
-	IRender(){}
-	virtual ~IRender(){}
+	IPainter(){}
+	virtual ~IPainter(){}
 	virtual void Write(IArray<VerticeData> &array)=0;
+	//virtual void Draw(ITopology2D *top)=0;
+
 };
 

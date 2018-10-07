@@ -4,6 +4,7 @@
 #include <vulkan/vulkan.h>
 #include <glfw/glfw3.h>
 #include "../VulkanContext/VulkanContext.h"
+#include <MGLEngine.Shared/Window/IWindowEventHandler.h>
 bool MGL::Window::isGLFWInitialized = false;
 
 #define VK_MAKE_VERSION(major, minor, patch) \
@@ -18,6 +19,15 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 
 }
 
+
+void MGL::Window::window_mouse_move_callback(GLFWwindow* window, double x, double y)
+{
+	MGL::Window *w = static_cast<MGL::Window*>(glfwGetWindowUserPointer(window));
+	for(auto it: w->_handlers)
+	{
+		it->OnMouseMove(x, y);
+	}
+}
 
 
 MGL::Window::Window()
@@ -55,6 +65,9 @@ MGL::Window::Window()
 
 		//Register resize event
 		glfwSetWindowSizeCallback(_window, window_size_callback);
+
+		//Register mouse move event
+		glfwSetCursorPosCallback(_window, MGL::Window::window_mouse_move_callback);
 }
 
 
@@ -139,5 +152,21 @@ void MGL::Window::PsychoRun()
 void MGL::Window::Redraw()
 {
 	glfwPostEmptyEvent();
+}
+
+void MGL::Window::AttachEventHandler(IWindowEventHandler* eh)
+{
+	if (std::find(_handlers.begin(),_handlers.end(),eh) != _handlers.end())
+	{
+		throw new Exception("Event Handler already exists");
+	}
+	_handlers.push_back(eh);
+
+}
+
+
+void MGL::Window::DetachEventHandler(IWindowEventHandler* eh)
+{
+    _handlers.remove(eh);
 }
 

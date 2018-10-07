@@ -1,6 +1,6 @@
 #pragma once
-#include <MGLEngine.Shared/Shapes/IRender.h>
-#include <MGLEngine.Shared/Shapes/ITopology2D.h>
+#include <MGLEngine.Shared/Interfaces/IPainter.h>
+#include <MGLEngine.Shared/Interfaces/ITopology2D.h>
 
 class IShapeHandle
 {
@@ -15,6 +15,6 @@ class IShader
 {
 public:
 	virtual ~IShader(){}
-	virtual IShapeHandle* Add(ITopology2D *topology, IRender<VerticeData> *render) = 0;
+	virtual IShapeHandle* Add(ITopology2D *topology, IPainter<VerticeData> *render) = 0;
 };
 

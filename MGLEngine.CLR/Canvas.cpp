@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Canvas.h"
 #include "Mappers/Topology2DMapper.h"
-#include <MGLEngine.Shared\Renders\CyclicColor.h>
+#include <MGLEngine.Shared\Painters\CyclicColor.h>
 #include <MGLEngine.Shared\VerticeData\Color2D.h>
 using namespace System::Threading;
 

@@ -3,10 +3,11 @@
 #include "../Utils/Arrays/IArray.h"
 #include "../Utils/Arrays/Indices.h"
 #include "../Utils/Arrays/ArraySelect.h"
+#include "ISerializable.h"
 
 
 enum TOPOLOGY_TYPE {TRIANGLES,LINES};
-class ITopology2D
+class ITopology2D : ISerializable
 {
 public:
 	virtual Index NVertices()=0;

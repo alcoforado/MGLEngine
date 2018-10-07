@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GlmNet;
 using MGLEngine.Managed.Renders;
 using MGLEngine.Managed.Topologies;
+using MGLEngine.Server.EventHandlers;
 using MGLEngineCLR;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
@@ -42,6 +43,7 @@ namespace MGLEngine.Server
 
 
             //w.GetCanvas().Render(tria,render);
+            w.SetEventHandler(new EditPathEventHandler());
             w.EasyRun();
         }
     }

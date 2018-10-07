@@ -11,7 +11,7 @@
 #include "../VulkanUtils.h"
 #include "../Shaders/ShaderColor2D.h"
 #include <Topologies/Triangle2D.h>
-#include <Renders/CyclicColor.h>
+#include <MGLEngine.Shared/Painters/CyclicColor.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 #include <MGLEngine.Vulkan\RenderResources\VulkanDescriptorSetPool.h>
 VulkanContext::VulkanContext(GLFWwindow * window)
