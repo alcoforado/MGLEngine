@@ -2,9 +2,9 @@
 #include "../Utils/Arrays/IArray.h"
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
 #include "MGLEngine.Shared/Shaders/IShader.h"
-class IDrawContext;
-class ITopology2D;
-class ICanvas;
+#include <MGLEngine.Shared/Interfaces/ITopology2D.h>
+#include <MGLEngine.Shared/Window/ICanvas.h>
+
 class IShape2D : ISerializable
 {
 public:

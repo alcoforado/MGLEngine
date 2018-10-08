@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "MGLEngine.Shared/Interfaces/ITopology2D.h"
+#include <MGLEngine.Shared/Interfaces/ITopology2D.h>
+#include <MGLEngine.Shared/Interfaces/IShape2D.h>
 #include <functional>
 #include <map>
 
@@ -15,7 +16,11 @@ private:
 	};
 	std::map<std::string, Topology2DType> _topologies2D;
 
-
+	struct Shape2DType
+	{
+		public:
+			std::function<IShape2D*(void)> Create;
+	};
 
 
 private:
