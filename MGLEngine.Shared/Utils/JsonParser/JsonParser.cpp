@@ -21,6 +21,12 @@ void JsonParser::AddMember(std::string name, const glm::vec2& v)
 	(*this)[name] = { {"x",v.x},{"y",v.y} };
 }
 
+void JsonParser::AddMemberAsColor(std::string name, const std::vector<glm::vec3>& v)
+{
+	(*this)[name] = this->array();
+	(*this)[name].insert()
+}
+
 glm::vec2 JsonParser::GetVec2(std::string memberName)
 {
 	glm::vec2 r;

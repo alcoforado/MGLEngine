@@ -29,6 +29,7 @@ public:
 	~JsonParser();
 
 	void AddMember(std::string name, const glm::vec2& v);
+	void AddMemberAsColor(std::string name, const std::vector<glm::vec3> &v);
 	glm::vec2 GetVec2(std::string memberName);
 
 

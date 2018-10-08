@@ -11,5 +11,6 @@ public:
 	IShape3D();
 	~IShape3D();
 	virtual IShapeHandle* Draw(ICanvas *canvas, ITopology3D *top) = 0;
+	
 };
 
