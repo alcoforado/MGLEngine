@@ -21,9 +21,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A21B7BD2-0B50-41E4-995B-7A153D66BE90}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-	<DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <RootNamespace>MGLEngineVulkan</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
