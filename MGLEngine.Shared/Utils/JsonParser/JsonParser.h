@@ -4,10 +4,8 @@
 #include "json_fwd.hpp"
 #include "json_fwd.hpp"
 
-class JsonParser  
+class JsonParser : public nlohmann::json
 {
-private:
-	nlohmann::json _json;
 
 public:
 	class FieldDescriptor
@@ -24,28 +22,72 @@ public:
 		std::list<FieldDescriptor> Fields;
 
 	};
-	
+
 public:
 	JsonParser(const std::string& text);
 	JsonParser(const nlohmann::json& j);
 	JsonParser();
 	~JsonParser();
-	std::string dump() { return _json.dump(); }
 
-	void AddMember(std::string name, const glm::vec2& v);
-	void AddMemberAsColor(std::string name, const std::vector<glm::vec3> &v);
-	glm::vec2 GetVec2(std::string memberName);
-
-	static JsonParser SerializeColor(glm::vec3 c);
-
-	JsonParser& operator[](std::string str);
-
-	static glm::vec3 ToVec3(nlohmann::json& j);
-
-	operator glm::vec3&();
+	//nlohmann::json& to_base_json()
+	//{
 	
+	//}
+
+	JsonParser& operator[](const char* str);
+	JsonParser& operator[](const std::string& str);
+
+
+	JsonParser& operator=(glm::vec2& v);
+	JsonParser& operator=(glm::vec3 & v);
+	JsonParser& operator=(float x);
+
+	bool exist(const std::string& key) const;
+	static JsonParser SerializeAsColor(glm::vec3 & v);
+	
+	operator glm::vec2() const;
+	operator glm::vec3() const;
+
+
+	template<class T>
+	JsonParser& operator=(std::vector<T> v)
+	{
+		*this = nlohmann::json::array();
+		for(auto t : v)
+		{
+			JsonParser elem;
+			elem = t;
+			this->push_back(elem);
+		}
+		return *this;
+
+	}
+
+
+
+	template<class T>
+	operator std::vector<T>() const
+	{
+		std::vector<T> result;
+		if (!this->is_array())
+		{
+			throw new Exception("Json is not an array")
+		}
+		for (auto it : this->items())
+		{
+			T t = *it;
+			result.push_back(t);
+
+		}
+
+
+
+	}
+
+
+
+
 
 
 };
-
 

@@ -31,9 +31,9 @@ Triangle2D::Triangle2D(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2)
 std::string Triangle2D::Serialize()
 {
 	JsonParser j;
-	j.AddMember("P0", V0);
-	j.AddMember("P1", V1);
-	j.AddMember("P2", V2);
+	j["P0"]= V0;
+	j["P1"]= V1;
+	j["P2"]= V2;
 	return j.dump();
 	
 	
@@ -43,9 +43,9 @@ std::string Triangle2D::Serialize()
 void Triangle2D::Deserialize(std::string str)
 {
 	JsonParser j(str);
-	V0 = j.GetVec2("P0");
-	V1 = j.GetVec2("P1");
-	V2 = j.GetVec2("P2");
+	V0 = j["P0"];
+	V1 = j["P1"];
+	V2 = j["P2"];
 }
 
 

@@ -1,25 +1,22 @@
 #include "JsonParser.h"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
-#include <MGLEngine.Shared/Utils/Exception.h>
+#include "MGLEngine.Shared/Utils/Exception.h"
+
 
 JsonParser::JsonParser(const std::string& text)
 {
-	_json=_json.parse(text);
+	
+	*(static_cast<nlohmann::json*>(this)) = this->parse(text);
 }
 
-
-
-
-JsonParser::JsonParser(const nlohmann::json & j)
-	:_json(j)
+JsonParser::JsonParser(const nlohmann::json& j)
 {
-	
+	*(static_cast<nlohmann::json*>(this)) = j;
 }
 
 JsonParser::JsonParser()
 {
-	
 }
 
 
@@ -27,70 +24,95 @@ JsonParser::~JsonParser()
 {
 }
 
-void JsonParser::AddMember(std::string name, const glm::vec2& v)
+JsonParser& JsonParser::operator[](const char *str)
 {
-	(*this)[name] = { {"x",v.x},{"y",v.y} };
+	assert(sizeof(JsonParser) == sizeof(nlohmann::json));
+	nlohmann::json &j = static_cast<nlohmann::json&>(*this)[str];
+	return static_cast<JsonParser&>(j);
 }
 
-void JsonParser::AddMemberAsColor(std::string name, const std::vector<glm::vec3>& v)
+JsonParser & JsonParser::operator[](const std::string & str)
 {
-	(*this)[name] = this->array();
-	for (auto color : v)
-	{
-		(*this)[name].push_back(JsonParser::SerializeColor(color));
-	}
+	return this->operator[](str.c_str());
 }
 
-glm::vec2 JsonParser::GetVec2(std::string memberName)
+JsonParser& JsonParser::operator=(glm::vec2& v)
 {
-	glm::vec2 r;
-    auto m = (*this)[memberName];
-	r.x=m["x"].get<float>();
-	r.y=m["y"].get<float>();
-	return r;
+	this->clear();
+	(*this)["x"] = v.x;
+	(*this)["y"] = v.y;
+	
+	return *this;
 }
 
-JsonParser JsonParser::SerializeColor(glm::vec3 c)
+JsonParser& JsonParser::operator=(glm::vec3& v)
+{
+	this->clear();
+	
+	(*this)["x"] = v.x;
+	(*this)["y"] = v.y;
+	(*this)["z"] = v.z;
+
+	return *this;
+}
+
+
+
+JsonParser& JsonParser::operator=(float x)
+{
+	static_cast<nlohmann::json&>(*this) = x;
+	return *this;
+}
+
+bool JsonParser::exist(const std::string& key) const 
+{
+	return this->find(key) != this->end();
+}
+
+
+JsonParser JsonParser::SerializeAsColor(glm::vec3& v)
 {
 	JsonParser j;
-	j["r"] = c.r;
-	j["g"] = c.g;
-	j["b"] = c.b;
+	j["r"] = v.r;
+	j["g"] = v.g;
+	j["b"] = v.b;
 	return j;
+
 }
 
-JsonParser& JsonParser::operator[](std::string str)
+JsonParser::operator glm::vec2() const
 {
-	return JsonParser(_json[str]);
+	glm::vec2 r;
+	const nlohmann::json& m = (*this);
+	r.x = m["x"].get<float>();
+	r.y = m["y"].get<float>();
+	return r;
+
 }
 
 
-
-glm::vec3 JsonParser::ToVec3(nlohmann::json & j)
+JsonParser::operator glm::vec3() const
 {
-	glm::vec3 v;
-	if (j.find("r")!=j.end())
+	glm::vec3 r;
+	const nlohmann::json &j = static_cast<const nlohmann::json&>(*this);
+
+	if (exist("r") && exist("g") && exist("b"))
 	{
-		v.r = j["r"];
-		v.b = j["b"];
-		v.g = j["g"];
+		r.x = j["r"].get<float>();
+		r.y = j["g"].get<float>();
+		r.z = j["b"].get<float>();
 	}
-	else if (j.find("x") != j.end())
+	else if (!j["x"].is_null() && !j["y"].is_null() && !j["z"].is_null())
 	{
-		v.x = j["x"];
-		v.y = j["y"];
-		v.z = j["z"];
+		r.x = j["x"].get<float>();
+		r.y = j["y"].get<float>();
+		r.z = j["z"].get<float>();
 	}
 	else
 	{
-		throw new Exception("Json is not a vec3");
+		throw new Exception("Could not deserialize json to Vec3");
 	}
-	return v;
-}
-
-JsonParser::operator glm::vec3&()
-{
-	{ return ToVec3(_json); }
+	return r;
 }
 
 

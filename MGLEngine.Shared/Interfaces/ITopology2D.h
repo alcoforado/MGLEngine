@@ -16,7 +16,7 @@ public:
 
 	virtual void WriteTopology(ArraySelect<glm::vec2> &array, Indices& indices) = 0;
 	
-	ITopology2D(){}
-	~ITopology2D(){}
+	ITopology2D();
+	~ITopology2D();
 };
 

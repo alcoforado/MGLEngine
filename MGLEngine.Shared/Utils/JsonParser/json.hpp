@@ -11507,7 +11507,7 @@ class basic_json
     With the default values for @a ObjectType (`std::map`), @a StringType
     (`std::string`), and @a AllocatorType (`std::allocator`), the default
     value for @a object_t is:
-
+	
     @code {.cpp}
     std::map<
       std::string, // key_type
