@@ -69,6 +69,18 @@ bool JsonParser::exist(const std::string& key) const
 	return this->find(key) != this->end();
 }
 
+JsonParser JsonParser::SerializeAsColor(std::vector<glm::vec3>& v)
+{
+	JsonParser j(nlohmann::json::array());
+	for(glm::vec3 el : v)
+	{
+		JsonParser je = JsonParser::SerializeAsColor(el);
+		j.push_back(je);
+		
+	}
+	return j;
+}
+
 
 JsonParser JsonParser::SerializeAsColor(glm::vec3& v)
 {

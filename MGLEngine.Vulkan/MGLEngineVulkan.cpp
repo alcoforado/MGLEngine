@@ -13,9 +13,9 @@ MGLEngineVulkan::~MGLEngineVulkan()
 {
 }
 
-IShader<Color2D>* MGLEngineVulkan::Color2DShader()
+IShader2D<Color2D>* MGLEngineVulkan::Color2DShader()
 {
-	return dynamic_cast<IShader<Color2D>*>(_window->GetVulkanContext()->GetShaderColor2D());
+	return dynamic_cast<IShader2D<Color2D>*>(_window->GetVulkanContext()->GetShaderColor2D());
 }
 
 void MGLEngineVulkan::Redraw()

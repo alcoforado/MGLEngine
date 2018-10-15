@@ -11,10 +11,10 @@ public:
 
 
 template<class VerticeData>
-class IShader
+class IShader2D
 {
 public:
-	virtual ~IShader(){}
+	virtual ~IShader2D(){}
 	virtual IShapeHandle* Add(ITopology2D *topology, IPainter<VerticeData> *render) = 0;
 };
 

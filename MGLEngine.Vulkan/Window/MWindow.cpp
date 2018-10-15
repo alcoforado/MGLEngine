@@ -5,6 +5,9 @@
 #include <glfw/glfw3.h>
 #include "../VulkanContext/VulkanContext.h"
 #include <MGLEngine.Shared/Window/IWindowEventHandler.h>
+#include <MGLEngine.Shared/Window/ICanvas.h>
+#include <MGLEngine.Vulkan/Window/VulkanCanvas.h>
+
 bool MGL::Window::isGLFWInitialized = false;
 
 #define VK_MAKE_VERSION(major, minor, patch) \
@@ -68,6 +71,7 @@ MGL::Window::Window()
 
 		//Register mouse move event
 		glfwSetCursorPosCallback(_window, MGL::Window::window_mouse_move_callback);
+		_canvas = new VulkanCanvas(this);
 }
 
 
@@ -168,5 +172,10 @@ void MGL::Window::AttachEventHandler(IWindowEventHandler* eh)
 void MGL::Window::DetachEventHandler(IWindowEventHandler* eh)
 {
     _handlers.remove(eh);
+}
+
+ICanvas* MGL::Window::GetCanvas()
+{
+	return _canvas;
 }
 

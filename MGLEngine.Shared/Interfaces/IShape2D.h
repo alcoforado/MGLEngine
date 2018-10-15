@@ -1,7 +1,7 @@
 #pragma once
 #include "../Utils/Arrays/IArray.h"
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
-#include "MGLEngine.Shared/Shaders/IShader.h"
+#include "MGLEngine.Shared/Shaders/IShader2D.h"
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
 #include <MGLEngine.Shared/Window/ICanvas.h>
 

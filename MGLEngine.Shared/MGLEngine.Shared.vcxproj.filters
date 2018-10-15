@@ -75,9 +75,6 @@
     <ClInclude Include="Utils\Observable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders\IShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VerticeData\Color2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -147,7 +144,10 @@
     <ClInclude Include="Painters\CyclicColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shapes\VerticeColor2D.h">
+    <ClInclude Include="Painters\VerticeColor2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\IShader2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -191,7 +191,7 @@
     <ClCompile Include="Interfaces\ITopology3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shapes\VerticeColor2D.cpp">
+    <ClCompile Include="Painters\VerticeColor2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

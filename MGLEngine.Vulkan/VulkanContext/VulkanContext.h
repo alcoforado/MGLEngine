@@ -12,6 +12,7 @@
 #include "IDrawContext.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h>
+#include <MGLEngine.Shared/Window/ICanvas.h>
 struct GLFWwindow;
 
 
@@ -64,7 +65,8 @@ public:
 
 	virtual VulkanMemoryManager* GetMemoryManager() override { return &_memoryMngr; }
 
-	ShaderColor2D* GetShaderColor2D() { return _render; }
+	ShaderColor2D* GetShaderColor2D()  { return _render; }
+
 
 };
 

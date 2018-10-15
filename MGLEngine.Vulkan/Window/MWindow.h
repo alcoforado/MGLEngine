@@ -2,6 +2,8 @@
 #include <MGLEngine.Shared/Window/IWindow.h>
 #include <MGLEngine.Shared/Utils/opointer.h>
 #include "MGLEngine.Vulkan/VulkanContext/VulkanInstance.h"
+class ICanvas;
+class VulkanCanvas;
 class IWindowEventHandler;
 class VulkanContext;
 struct GLFWwindow;
@@ -13,6 +15,7 @@ namespace MGL {
 	private :
 		GLFWwindow *_window;
 		OPointer<VulkanContext> _vkContext;
+		OPointer<VulkanCanvas> _canvas;
 		static bool isGLFWInitialized;
 		bool _resizeOcurred;
 		int _width;
@@ -33,6 +36,8 @@ namespace MGL {
 		virtual void Redraw() override;
 		virtual void AttachEventHandler(IWindowEventHandler *eh) override;
 		virtual void DetachEventHandler(IWindowEventHandler *eb) override;
+
+		virtual ICanvas* GetCanvas() override;
 	};
 
 }

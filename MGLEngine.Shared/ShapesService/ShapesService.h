@@ -21,19 +21,20 @@ private:
 		public:
 			std::function<IShape2D*(void)> Create;
 	};
-
+	std::map<std::string, Shape2DType> _shapes2D;
 
 private:
 	void registerTopologies();
-
+	void registerShapes2D();
+	void registerShapes3D();
 
 
 public:
 	ShapesService();
 	~ShapesService();
 
-	void CreateShape(std::string jsonShape);
-	//void UpdateShape(std::string shape);
-	//void DeleteShape(int shapeId);
+	std::string CreateShape(std::string topologyType,std::string renderType);
+	void UpdateShape(int shapeId,std::string top,std::string painter);
+	void DeleteShape(int shapeId);
 };
 

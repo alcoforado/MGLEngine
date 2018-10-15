@@ -4,13 +4,13 @@
 #include <MGLEngine.Shared/Utils/DefragArray/CopyRegion.h>
 #include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 #include <MGLEngine.Shared/Utils/DefragArray/DefragArray.h>
-#include <MGLEngine.Shared/Shaders/IShader.h>
+#include <MGLEngine.Shared/Shaders/IShader2D.h>
 
 
 	
 
 template<class VerticeData>
-class DrawTree : public  IShader<VerticeData>
+class DrawTree : public  IShader2D<VerticeData>
 {
 	typedef NTreeNode<DrawInfo<VerticeData>> Node;
 	Node _root;
@@ -34,7 +34,7 @@ private:
 		{
 			if (_node == nullptr)
 			{
-				throw new Exception("Shape Handle was already deleted");
+				throw new ::Exception("Shape Handle was already deleted");
 			}
 			_node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
 				pNode->GetData().NeedRedraw = true;

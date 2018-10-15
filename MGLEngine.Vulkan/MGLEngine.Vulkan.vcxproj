@@ -164,6 +164,7 @@
     <ClCompile Include="RenderPipeline\VulkanCommandBuffer.cpp" />
     <ClCompile Include="RenderPipeline\VulkanCommands.cpp" />
     <ClCompile Include="RenderResources\SlotManager.cpp" />
+    <ClCompile Include="Window\VulkanCanvas.cpp" />
     <ClCompile Include="VulkanContext\VulkanQueue.cpp" />
     <ClCompile Include="MGLContainerVulkan.cpp" />
     <ClCompile Include="VulkanContext\VulkanCommandBatchCollection.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="SPIR-V\shaders_bytecode.h">
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
+    <ClInclude Include="Window\VulkanCanvas.h" />
     <ClInclude Include="VulkanContext\IDrawContext.h" />
     <ClInclude Include="VulkanContext\VulkanQueue.h" />
     <ClInclude Include="MGLContainerVulkan.h" />

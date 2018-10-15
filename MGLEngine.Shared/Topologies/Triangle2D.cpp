@@ -35,9 +35,6 @@ std::string Triangle2D::Serialize()
 	j["P1"]= V1;
 	j["P2"]= V2;
 	return j.dump();
-	
-	
-
 }
 
 void Triangle2D::Deserialize(std::string str)

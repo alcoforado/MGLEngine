@@ -3,10 +3,12 @@
 #include <glm/vec2.hpp>
 #include "json_fwd.hpp"
 #include "json_fwd.hpp"
+#include "MGLEngine.Shared/Utils/Exception.h"
 
 class JsonParser : public nlohmann::json
 {
 
+	
 public:
 	class FieldDescriptor
 	{
@@ -43,6 +45,7 @@ public:
 	JsonParser& operator=(float x);
 
 	bool exist(const std::string& key) const;
+	static JsonParser SerializeAsColor(std::vector<glm::vec3>&v );
 	static JsonParser SerializeAsColor(glm::vec3 & v);
 	
 	operator glm::vec2() const;
@@ -50,7 +53,7 @@ public:
 
 
 	template<class T>
-	JsonParser& operator=(std::vector<T> v)
+	JsonParser& operator=(const std::vector<T> &v)
 	{
 		*this = nlohmann::json::array();
 		for(auto t : v)
@@ -71,15 +74,16 @@ public:
 		std::vector<T> result;
 		if (!this->is_array())
 		{
-			throw new Exception("Json is not an array")
+			throw new Exception("Json is not an array");
 		}
 		for (auto it : this->items())
 		{
-			T t = *it;
+			nlohmann::json j = *it;
+			T t = JsonParser(j);
 			result.push_back(t);
 
 		}
-
+		return result;
 
 
 	}

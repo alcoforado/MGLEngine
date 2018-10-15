@@ -1,6 +1,6 @@
 #pragma once
 class IWindowEventHandler;
-
+class ICanvas;
 class IWindow
 {
 public:
@@ -15,6 +15,7 @@ public:
 	virtual void Redraw() = 0;
 	virtual void AttachEventHandler(IWindowEventHandler *eh)=0;
 	virtual void DetachEventHandler(IWindowEventHandler *eb)=0;
+	virtual ICanvas* GetCanvas() = 0;
 
 	virtual ~IWindow()
 	{

@@ -3,13 +3,17 @@
 std::string VerticeColor2D::Serialize()
 {
 	JsonParser j;
-//	j.AddMemberAsColor("Colors", Colors);
+	j["Colors"]=JsonParser::SerializeAsColor(Colors);
 	return j.dump();
 }
 
 void VerticeColor2D::Deserialize(std::string str)
 {
 	JsonParser j(str);
-//	std::vector<glm::vec3> v = j["Colors"];
+	Colors=j["Colors"];
+}
 
+IShapeHandle* VerticeColor2D::Draw(ICanvas* canvas, ITopology2D* top)
+{
+	return canvas->GetColor2DShader()->Add(top, this);
 }

@@ -48,7 +48,7 @@ namespace MGLEngineCLR {
 		auto dictionary = GetReflectionDictionary();
 		if (!dictionary->ContainsKey(render->GetType()->Name))
 		{
-			throw gcnew Exception("No method Render(IMngTopology2D," + render->GetType()->Name + ") found in the Canvas class");
+			throw gcnew System::Exception("No method Render(IMngTopology2D," + render->GetType()->Name + ") found in the Canvas class");
 		}
 		array<Object^> ^parameters = { topology,render};
 		auto f = dictionary->default[render->GetType()->Name];

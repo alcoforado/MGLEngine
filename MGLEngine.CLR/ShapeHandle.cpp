@@ -1,5 +1,5 @@
 #include "ShapeHandle.h"
-#include <MGLEngine.Shared\Shaders\IShader.h>
+#include <MGLEngine.Shared\Shaders\IShader2D.h>
 
 using System::Exception;
 namespace MGLEngineCLR {
