@@ -15,10 +15,11 @@ void ShapesService::registerShapes2D()
 }
 
 
-ShapesService::ShapesService()
+ShapesService::ShapesService(IWindow *pWindow)
 {
 	registerTopologies();
 	registerShapes2D();
+	_pWindow = pWindow;
 }
 
 
@@ -31,8 +32,8 @@ std::string ShapesService::CreateShape(std::string topologyType, std::string ren
 	if (mstd::Does(_topologies2D).Have(topologyType) && mstd::Does(_shapes2D).Have(renderType))
 	{
 		ITopology2D* top = _topologies2D[topologyType].Create();
-		IPainter2D *shape = _shapes2D[renderType].Create();
-
+		IPainter2D *painter = _shapes2D[renderType].Create();
+		painter->Draw(_pWindow->GetCanvas(), top);
 
 	}
 

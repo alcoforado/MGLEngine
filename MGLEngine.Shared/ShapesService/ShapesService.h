@@ -4,11 +4,14 @@
 #include <MGLEngine.Shared/Interfaces/IPainter2D.h>
 #include <functional>
 #include <map>
+#include "MGLEngine.Shared/Window/IWindow.h"
 
 
 class ShapesService
 {
 private:
+	
+	
 	struct Topology2DType
 	{
 		public:
@@ -24,14 +27,19 @@ private:
 	std::map<std::string, Shape2DType> _shapes2D;
 
 private:
+	IWindow * _pWindow;
+	
+	
 	void registerTopologies();
 	void registerShapes2D();
 	void registerShapes3D();
 
 
 public:
-	ShapesService();
+	ShapesService(IWindow *pWindow);
 	~ShapesService();
+
+	
 
 	std::string CreateShape(std::string topologyType,std::string renderType);
 	void UpdateShape(int shapeId,std::string top,std::string painter);
