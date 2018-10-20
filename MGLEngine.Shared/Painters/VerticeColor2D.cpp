@@ -7,6 +7,8 @@ std::string VerticeColor2D::Serialize()
 	return j.dump();
 }
 
+
+
 void VerticeColor2D::Deserialize(std::string str)
 {
 	JsonParser j(str);

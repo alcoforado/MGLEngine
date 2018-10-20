@@ -76,9 +76,9 @@ public:
 		{
 			throw new Exception("Json is not an array");
 		}
-		for (auto it : this->items())
+		for (auto it = this->begin();it!=this->end();it++)
 		{
-			nlohmann::json j = *it;
+			nlohmann::json j = it.value();
 			T t = JsonParser(j);
 			result.push_back(t);
 

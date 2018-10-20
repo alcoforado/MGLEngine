@@ -36,7 +36,7 @@ std::string ShapesService::CreateShape(std::string topologyType, std::string ren
 
 	}
 
-
+	return"";
 }
 
 

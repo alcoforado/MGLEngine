@@ -153,6 +153,12 @@
     <ClInclude Include="ShapesService\Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\collection_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\JsonParser\mjson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">
@@ -198,6 +204,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapesService\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\JsonParser\mjson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

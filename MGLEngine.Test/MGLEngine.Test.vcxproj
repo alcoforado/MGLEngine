@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="ArrayTest.cpp" />
     <ClCompile Include="JsonParserTest.cpp" />
+    <ClCompile Include="MJsonTest.cpp" />
     <ClCompile Include="ObservableTest.cpp" />
     <ClCompile Include="ShapesTests.cpp" />
     <ClCompile Include="TemplateTests.cpp" />

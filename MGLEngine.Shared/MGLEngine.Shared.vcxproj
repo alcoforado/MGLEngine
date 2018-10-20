@@ -141,8 +141,10 @@
     <ClInclude Include="DrawTree\DrawInfo.h" />
     <ClInclude Include="DrawTree\DrawTree.h" />
     <ClInclude Include="DrawTree\IRenderResource.h" />
+    <ClInclude Include="Utils\JsonParser\mjson.h" />
     <ClInclude Include="Painters\VerticeColor2D.h" />
     <ClInclude Include="ShapesService\Shape.h" />
+    <ClInclude Include="Utils\collection_functions.h" />
     <ClInclude Include="Window\ICanvas.h" />
     <ClInclude Include="Utils\JsonParser\JsonParser.h" />
     <ClInclude Include="ShapesService\ShapesService.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="Window\IWindowEventHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Utils\JsonParser\mjson.cpp" />
     <ClCompile Include="Painters\VerticeColor2D.cpp" />
     <ClCompile Include="ShapesService\Shape.cpp" />
     <ClCompile Include="Utils\JsonParser\JsonParser.cpp" />

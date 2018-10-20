@@ -13,6 +13,7 @@ JsonParser::JsonParser(const std::string& text)
 JsonParser::JsonParser(const nlohmann::json& j)
 {
 	*(static_cast<nlohmann::json*>(this)) = j;
+
 }
 
 JsonParser::JsonParser()
