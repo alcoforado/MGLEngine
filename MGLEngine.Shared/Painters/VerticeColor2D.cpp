@@ -1,9 +1,9 @@
 #include "VerticeColor2D.h"
-#include <MGLEngine.Shared/Utils/JsonParser/JsonParser.h>
+#include <MGLEngine.Shared/Utils/JsonParser/mjson.h>
 std::string VerticeColor2D::Serialize()
 {
-	JsonParser j;
-	j["Colors"]=JsonParser::SerializeAsColor(Colors);
+	json j;
+	j["Colors"]=jsonext::SerializeAsColor(Colors);
 	return j.dump();
 }
 
@@ -11,8 +11,8 @@ std::string VerticeColor2D::Serialize()
 
 void VerticeColor2D::Deserialize(std::string str)
 {
-	JsonParser j(str);
-	Colors=j["Colors"];
+	json j = json::parse(str);
+	Colors = j["Colors"].get<std::vector<glm::vec3>>();;
 }
 
 IShapeHandle* VerticeColor2D::Draw(ICanvas* canvas, ITopology2D* top)

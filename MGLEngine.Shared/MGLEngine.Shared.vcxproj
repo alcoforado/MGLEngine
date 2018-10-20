@@ -146,7 +146,6 @@
     <ClInclude Include="ShapesService\Shape.h" />
     <ClInclude Include="Utils\collection_functions.h" />
     <ClInclude Include="Window\ICanvas.h" />
-    <ClInclude Include="Utils\JsonParser\JsonParser.h" />
     <ClInclude Include="ShapesService\ShapesService.h" />
     <ClInclude Include="Interfaces\ISerializable.h" />
     <ClInclude Include="Utils\eassert.h" />
@@ -189,7 +188,6 @@
     <ClCompile Include="Utils\JsonParser\mjson.cpp" />
     <ClCompile Include="Painters\VerticeColor2D.cpp" />
     <ClCompile Include="ShapesService\Shape.cpp" />
-    <ClCompile Include="Utils\JsonParser\JsonParser.cpp" />
     <ClCompile Include="ShapesService\ShapesService.cpp" />
     <ClCompile Include="Utils\Arrays\Indices.cpp" />
     <ClCompile Include="Topologies\Triangle2D.cpp" />

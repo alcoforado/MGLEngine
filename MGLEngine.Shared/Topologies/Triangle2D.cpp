@@ -1,5 +1,5 @@
 #include "Triangle2D.h"
-#include "MGLEngine.Shared/Utils/JsonParser/JsonParser.h"
+#include "MGLEngine.Shared/Utils/JsonParser/mjson.h"
 
 
 void Triangle2D::WriteTopology(ArraySelect<glm::vec2>& array, Indices& indices)
@@ -30,7 +30,7 @@ Triangle2D::Triangle2D(glm::vec2 v0, glm::vec2 v1, glm::vec2 v2)
 
 std::string Triangle2D::Serialize()
 {
-	JsonParser j;
+	json j;
 	j["P0"]= V0;
 	j["P1"]= V1;
 	j["P2"]= V2;
@@ -39,7 +39,7 @@ std::string Triangle2D::Serialize()
 
 void Triangle2D::Deserialize(std::string str)
 {
-	JsonParser j(str);
+	json j = json::parse(str);
 	V0 = j["P0"];
 	V1 = j["P1"];
 	V2 = j["P2"];

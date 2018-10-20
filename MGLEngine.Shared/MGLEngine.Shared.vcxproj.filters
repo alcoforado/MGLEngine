@@ -117,9 +117,6 @@
     <ClInclude Include="Utils\JsonParser\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\JsonParser\JsonParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Window\ICanvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,9 +183,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapesService\ShapesService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\JsonParser\JsonParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Interfaces\IShape3D.cpp">

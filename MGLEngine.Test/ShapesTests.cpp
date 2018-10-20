@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include <MGLEngine.Shared/Topologies/Triangle2D.h>
-#include "MGLEngine.Shared/Utils/JsonParser/JsonParser.h"
+#include "MGLEngine.Shared/Utils/JsonParser/mjson.h"
 
 
 TEST_CASE("Triangle2D Serialization")
