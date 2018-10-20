@@ -40,7 +40,7 @@ TEST_CASE("Print Triangle")
 		glm::vec2(0, 1),
 		glm::vec2(1, 0)
 	);
-	IPainter<Color2D> *render = new CyclicColor<Color2D>(
+	IShaderDataWriter<Color2D> *render = new CyclicColor<Color2D>(
 		{glm::vec3(1,1,1),glm::vec3(1,0,1),glm::vec3(0,0,1)}
 	);
 

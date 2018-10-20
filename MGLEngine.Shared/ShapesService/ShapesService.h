@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
-#include <MGLEngine.Shared/Interfaces/IShape2D.h>
+#include <MGLEngine.Shared/Interfaces/IPainter2D.h>
 #include <functional>
 #include <map>
 
@@ -19,7 +19,7 @@ private:
 	struct Shape2DType
 	{
 		public:
-			std::function<IShape2D*(void)> Create;
+			std::function<IPainter2D*(void)> Create;
 	};
 	std::map<std::string, Shape2DType> _shapes2D;
 

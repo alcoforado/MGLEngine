@@ -2,7 +2,7 @@
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
 #include <MGLEngine.Shared/Interfaces/ITopology3D.h>
 #include <MGLEngine.Shared/Utils/Exception.h>
-#include <MGLEngine.Shared/Interfaces/IPainter.h>
+#include <MGLEngine.Shared/Interfaces/IShaderDataWriter.h>
 #include <type_traits>
 #include <assert.h>
 #include <MGLEngine.Shared/DrawTree/IRenderResource.h>
@@ -36,10 +36,10 @@ public:
 	
 private:	
 	std::shared_ptr<TopologyType> _topology;
-	std::shared_ptr<IPainter<VerticeData>> _render;
+	std::shared_ptr<IShaderDataWriter<VerticeData>> _render;
 public:
 
-	ShapeInfo(std::shared_ptr<TopologyType> topology,std::shared_ptr<IPainter<VerticeData>> render)
+	ShapeInfo(std::shared_ptr<TopologyType> topology,std::shared_ptr<IShaderDataWriter<VerticeData>> render)
 	{
 		_topology = topology;
 		_render = render;
@@ -181,7 +181,7 @@ public:
 	}
 
 
-	static DrawInfo<VerticeData> CreateShape(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType> top, std::shared_ptr<IPainter<VerticeData>> render)
+	static DrawInfo<VerticeData> CreateShape(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType> top, std::shared_ptr<IShaderDataWriter<VerticeData>> render)
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;
@@ -189,11 +189,11 @@ public:
 		return info;
 	}
 
-	static DrawInfo<VerticeData> CreateShape(typename ShapeInfo<VerticeData>::TopologyType *top, IPainter<VerticeData> *render)
+	static DrawInfo<VerticeData> CreateShape(typename ShapeInfo<VerticeData>::TopologyType *top, IShaderDataWriter<VerticeData> *render)
 	{
 		DrawInfo<VerticeData> info;
 		info.DrawInfoType = Shape;
-		info._shape = ShapeInfo<VerticeData>(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType>(top) , std::shared_ptr<IPainter<VerticeData>>(render));
+		info._shape = ShapeInfo<VerticeData>(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType>(top) , std::shared_ptr<IShaderDataWriter<VerticeData>>(render));
 		return info;
 	}
 

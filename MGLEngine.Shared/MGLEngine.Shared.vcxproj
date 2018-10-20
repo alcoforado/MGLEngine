@@ -142,6 +142,7 @@
     <ClInclude Include="DrawTree\DrawTree.h" />
     <ClInclude Include="DrawTree\IRenderResource.h" />
     <ClInclude Include="Painters\VerticeColor2D.h" />
+    <ClInclude Include="ShapesService\Shape.h" />
     <ClInclude Include="Window\ICanvas.h" />
     <ClInclude Include="Utils\JsonParser\JsonParser.h" />
     <ClInclude Include="ShapesService\ShapesService.h" />
@@ -158,11 +159,11 @@
     <ClInclude Include="Painters\CyclicColor.h" />
     <ClInclude Include="Topologies\Triangle2D.h" />
     <ClInclude Include="Utils\Arrays\ArraySelect.h" />
-    <ClInclude Include="Interfaces\IPainter.h" />
+    <ClInclude Include="Interfaces\IShaderDataWriter.h" />
     <ClInclude Include="Interfaces\ITopology2D.h" />
     <ClInclude Include="Interfaces\ITopology3D.h" />
     <ClInclude Include="Interfaces\IShape3D.h" />
-    <ClInclude Include="Interfaces\IShape2D.h" />
+    <ClInclude Include="Interfaces\IPainter2D.h" />
     <ClInclude Include="Utils\DefragArray\DefragArray.h" />
     <ClInclude Include="Utils\DefragArray\CopyPlanSequenceDetail.h" />
     <ClInclude Include="Utils\DefragArray\CopyRegion.h" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Painters\VerticeColor2D.cpp" />
+    <ClCompile Include="ShapesService\Shape.cpp" />
     <ClCompile Include="Utils\JsonParser\JsonParser.cpp" />
     <ClCompile Include="ShapesService\ShapesService.cpp" />
     <ClCompile Include="Utils\Arrays\Indices.cpp" />

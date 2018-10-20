@@ -2,12 +2,12 @@
 
 #include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 template<class VerticeData>
-class IPainter 
+class IShaderDataWriter 
 {
 
 public:
-	IPainter(){}
-	virtual ~IPainter(){}
+	IShaderDataWriter(){}
+	virtual ~IShaderDataWriter(){}
 	virtual void Write(IArray<VerticeData> &array)=0;
 	
 

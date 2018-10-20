@@ -1,11 +1,11 @@
 #pragma once
 #include <glm/detail/type_vec3.hpp>
 #include <vector>
-#include <MGLEngine.Shared/Interfaces/IPainter.h>
+#include <MGLEngine.Shared/Interfaces/IShaderDataWriter.h>
 #include "../Utils/Arrays/IArray.h"
 
 template<class VerticeData>
-class CyclicColor : public IPainter<VerticeData>
+class CyclicColor : public IShaderDataWriter<VerticeData>
 {
 protected:
 	std::vector<glm::vec3> Colors;

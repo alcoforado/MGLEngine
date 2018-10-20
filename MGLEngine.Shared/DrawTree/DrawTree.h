@@ -285,7 +285,7 @@ public:
 
 
 
-	virtual IShapeHandle* Add(ITopology2D *topology,IPainter<VerticeData> *render) override 
+	virtual IShapeHandle* Add(ITopology2D *topology,IShaderDataWriter<VerticeData> *render) override 
 	{
 		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
 		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);

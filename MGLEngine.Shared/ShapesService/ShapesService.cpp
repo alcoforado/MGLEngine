@@ -1,7 +1,7 @@
 #include "ShapesService.h"
 #include "MGLEngine.Shared/Topologies/Triangle2D.h"
 #include "MGLEngine.Shared/Painters/VerticeColor2D.h"
-
+#include <MGLEngine.Shared/Utils/collection_functions.h>
 
 void ShapesService::registerTopologies()
 {
@@ -17,6 +17,8 @@ void ShapesService::registerShapes2D()
 
 ShapesService::ShapesService()
 {
+	registerTopologies();
+	registerShapes2D();
 }
 
 
@@ -24,8 +26,17 @@ ShapesService::~ShapesService()
 {
 }
 
-void ShapesService::CreateShape(std::string jsonShape)
+std::string ShapesService::CreateShape(std::string topologyType, std::string renderType)
 {
+	if (mstd::Does(_topologies2D).Have(topologyType) && mstd::Does(_shapes2D).Have(renderType))
+	{
+		ITopology2D* top = _topologies2D[topologyType].Create();
+		IPainter2D *shape = _shapes2D[renderType].Create();
+
+
+	}
 
 
 }
+
+

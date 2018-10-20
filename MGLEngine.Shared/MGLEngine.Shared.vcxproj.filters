@@ -123,13 +123,7 @@
     <ClInclude Include="Window\ICanvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IPainter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\ISerializable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IShape2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IShape3D.h">
@@ -148,6 +142,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shaders\IShader2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IPainter2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IShaderDataWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapesService\Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,6 +195,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Painters\VerticeColor2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapesService\Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

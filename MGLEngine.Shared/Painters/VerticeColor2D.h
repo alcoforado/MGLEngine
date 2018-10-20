@@ -1,11 +1,11 @@
 #pragma once
 
-#include <MGLEngine.Shared/Interfaces/IShape2D.h>
-#include "MGLEngine.Shared/Interfaces/IPainter.h"
+#include <MGLEngine.Shared/Interfaces/IPainter2D.h>
+#include "MGLEngine.Shared/Interfaces/IShaderDataWriter.h"
 #include "MGLEngine.Shared/VerticeData/Color2D.h"
 #include "MGLEngine.Shared/Painters/CyclicColor.h"
 
-class VerticeColor2D : public IShape2D, public CyclicColor<Color2D>
+class VerticeColor2D : public IPainter2D, public CyclicColor<Color2D>
 {
 public:
 	
