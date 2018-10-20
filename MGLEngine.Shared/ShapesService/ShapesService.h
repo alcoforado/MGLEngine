@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include "MGLEngine.Shared/Window/IWindow.h"
+#include "ShapeScene.h"
 
 
 class ShapesService
@@ -24,12 +25,16 @@ private:
 		public:
 			std::function<IPainter2D*(void)> Create;
 	};
-	std::map<std::string, Shape2DType> _shapes2D;
+	std::map<std::string, Shape2DType> _painters2d;
 
-private:
 	IWindow * _pWindow;
+
+	int _idCount;
+
+	std::map<int, ShapeScene> _shapes;
+
 	
-	
+private:	
 	void registerTopologies();
 	void registerShapes2D();
 	void registerShapes3D();
@@ -39,8 +44,8 @@ public:
 	ShapesService(IWindow *pWindow);
 	~ShapesService();
 
-	
 
+	int NewShapeId();
 	std::string CreateShape(std::string topologyType,std::string renderType);
 	void UpdateShape(int shapeId,std::string top,std::string painter);
 	void DeleteShape(int shapeId);

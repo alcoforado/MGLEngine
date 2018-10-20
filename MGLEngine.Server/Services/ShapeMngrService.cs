@@ -127,7 +127,7 @@ namespace MGLEngine.Server.Services
           {
               if (!_shapeCollection.ContainsKey(id))
               {
-                  throw new Exception(String.Format("Error, Shape Id {0} not found", id));
+                  throw new Exception(String.Format("Error, ShapeScene Id {0} not found", id));
               }
               else
               {
@@ -154,7 +154,7 @@ namespace MGLEngine.Server.Services
             result.TopologyTypeName = topologyTypeId;
             result.Render = null;
             result.Id = Guid.NewGuid().ToString();
-            result.Name = "Shape" + Interlocked.Increment(ref _idCounter).ToString();
+            result.Name = "ShapeScene" + Interlocked.Increment(ref _idCounter).ToString();
             _shapeCollection.Add(result.Id, result);
             return result;
         }
@@ -186,7 +186,7 @@ namespace MGLEngine.Server.Services
             {
                 IMngTopology2D top2D= topology as IMngTopology2D;
                 if (top2D == null)
-                    throw new Exception($"Shape of type {topology.GetType().Name} is not compatible to Render2D");
+                    throw new Exception($"ShapeScene of type {topology.GetType().Name} is not compatible to Render2D");
                 List<string> errors = new List<string>();
                 top2D.Validate(errors);
                 render2d.Validate(errors);
@@ -217,7 +217,7 @@ namespace MGLEngine.Server.Services
         {
             if (!_shapeCollection.ContainsKey(modelId))
             {
-                throw new Exception($"Shape {modelId} not found, make sure the shape is created  first");
+                throw new Exception($"ShapeScene {modelId} not found, make sure the shape is created  first");
             }
             return _shapeCollection[modelId];
         }

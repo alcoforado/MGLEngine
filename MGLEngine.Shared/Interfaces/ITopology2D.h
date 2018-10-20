@@ -7,7 +7,7 @@
 
 
 enum TOPOLOGY_TYPE {TRIANGLES,LINES};
-class ITopology2D : ISerializable
+class ITopology2D : public  ISerializable
 {
 public:
 	virtual Index NVertices()=0;
