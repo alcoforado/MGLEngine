@@ -2,7 +2,7 @@
 #include "MGLEngine.Shared/Interfaces/ITopology2D.h"
 #include "MGLEngine.Shared/Interfaces/IPainter2D.h"
 
-class ShapeScene : public ISerializable
+class ShapeScene 
 {
 public:
 	int Id;
@@ -15,7 +15,6 @@ public:
 	ShapeScene(int id,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
 	ShapeScene(){}
 	~ShapeScene();
-	std::string Serialize() override;
-	void Deserialize(std::string str) override;
+	std::string Serialize();
 };
 

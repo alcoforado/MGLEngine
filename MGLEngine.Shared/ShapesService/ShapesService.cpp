@@ -43,9 +43,8 @@ std::string ShapesService::CreateShape(std::string topologyType, std::string ren
 		ShapeScene sceneObj(NewShapeId(), top, painter, handler,topologyType,renderType);
 		_shapes[sceneObj.Id] = sceneObj;
 		return sceneObj.Serialize();
-
-
 	}
+	throw new Exception("Not Implemented");
 }
 
 
