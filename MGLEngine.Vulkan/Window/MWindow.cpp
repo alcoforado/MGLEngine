@@ -7,7 +7,7 @@
 #include <MGLEngine.Shared/Window/IWindowEventHandler.h>
 #include <MGLEngine.Shared/Window/ICanvas.h>
 #include <MGLEngine.Vulkan/Window/VulkanCanvas.h>
-
+#include <MGLEngine.Shared/ShapesService/ShapesService.h>
 bool MGL::Window::isGLFWInitialized = false;
 
 #define VK_MAKE_VERSION(major, minor, patch) \
@@ -72,6 +72,10 @@ MGL::Window::Window()
 		//Register mouse move event
 		glfwSetCursorPosCallback(_window, MGL::Window::window_mouse_move_callback);
 		_canvas = new VulkanCanvas(this);
+
+		//Create ShapeService
+		_shService = new ShapesService(this);
+
 }
 
 
@@ -177,5 +181,10 @@ void MGL::Window::DetachEventHandler(IWindowEventHandler* eh)
 ICanvas* MGL::Window::GetCanvas()
 {
 	return _canvas;
+}
+
+ShapesService * MGL::Window::GetShapesManager()
+{
+	return _shService;
 }
 

@@ -7,6 +7,8 @@ using namespace System::Collections::Generic;
 using namespace System::Reflection;
 class IMGLEngine;
 namespace MGLEngineCLR {
+	using namespace System;
+
 	ref class Topology2DMapper;
 	ref class Window;
 	public ref class Canvas

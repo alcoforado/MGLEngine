@@ -1,13 +1,7 @@
 #pragma once
 #include <MGLEngine.Shared/Interfaces/IShaderDataWriter.h>
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
-
-class IShapeHandle
-{
-public:
-	virtual void Delete() = 0;
-	virtual ~IShapeHandle(){}
-};
+#include <MGLEngine.Shared/Interfaces/IShapeHandle.h>
 
 
 template<class VerticeData>

@@ -1,5 +1,6 @@
 #pragma once
-#include "MGLEngine.Vulkan/Shaders/ShaderColor2D.h"
+#include <MGLEngine.Shared/Shaders/IShader2D.h>
+#include<MGLEngine.Shared/VerticeData/Color2D.h>
 
 class ICanvas
 {

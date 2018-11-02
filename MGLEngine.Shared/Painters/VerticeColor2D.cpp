@@ -1,5 +1,6 @@
 #include "VerticeColor2D.h"
 #include <MGLEngine.Shared/Utils/JsonParser/mjson.h>
+#include <MGLEngine.Shared/Window/ICanvas.h>
 std::string VerticeColor2D::Serialize()
 {
 	json j;

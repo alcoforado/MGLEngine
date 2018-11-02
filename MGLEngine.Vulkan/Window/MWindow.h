@@ -16,6 +16,7 @@ namespace MGL {
 		GLFWwindow *_window;
 		OPointer<VulkanContext> _vkContext;
 		OPointer<VulkanCanvas> _canvas;
+		OPointer<ShapesService> _shService;
 		static bool isGLFWInitialized;
 		bool _resizeOcurred;
 		int _width;
@@ -38,6 +39,9 @@ namespace MGL {
 		virtual void DetachEventHandler(IWindowEventHandler *eb) override;
 
 		virtual ICanvas* GetCanvas() override;
+
+		// Inherited via IWindow
+		virtual ShapesService* GetShapesManager() override;
 	};
 
 }

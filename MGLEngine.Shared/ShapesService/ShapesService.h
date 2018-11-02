@@ -38,7 +38,7 @@ private:
 	void registerTopologies();
 	void registerShapes2D();
 	void registerShapes3D();
-	ShapeScene ShapesService::CreateShape(int shapeId, std::string topologyType, std::string renderType);
+	ShapeScene CreateShape(int shapeId, std::string topologyType, std::string renderType);
 
 public:
 	ShapesService(IWindow *pWindow);

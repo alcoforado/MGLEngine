@@ -3,13 +3,13 @@
 #include "UnmanagedFacade.h"
 #pragma once
 
-using namespace System;
+
 
 class IMGLEngine;
 
 namespace MGLEngineCLR {
 	ref class Canvas;
-	
+
 
 	enum MouseButton { BUTTON_RIGHT, BUTTON_LEFT };
 
@@ -23,9 +23,9 @@ namespace MGLEngineCLR {
 
 	public interface class IMngWindowEventHandler
 	{
-	public:
-		void OnMouseMove(double x, double y);
-		void OnMouseClick(MngClickEvent^ evt);
+		public:
+			void OnMouseMove(double x, double y);
+			void OnMouseClick(MngClickEvent^ evt);
 	};
 
 
@@ -41,6 +41,8 @@ namespace MGLEngineCLR {
 		Window();
 		Canvas^ GetCanvas() { return _canvas; }
 
+		IWindow* GetNativeHandle() { return _window; }
+		
 		void SetSize(int width, int height)
 		{
 			_window->SetSize(width, height);
@@ -53,13 +55,13 @@ namespace MGLEngineCLR {
 		{
 			_window->PsychoRun();
 		}
-
-
+		
 		void SetEventHandler(IMngWindowEventHandler ^eh);
 
 		~Window()
 		{
-			delete _window;		}
+			delete _window;		
+		}
 	};
 
 }

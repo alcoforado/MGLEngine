@@ -139,9 +139,9 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Mappers\BasicTypesMapper.h" />
     <ClInclude Include="ShapeHandle.h" />
+    <ClInclude Include="ShapesManager.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Mappers\Topology2DMapper.h" />
     <ClInclude Include="UnmanagedFacade.h" />
@@ -150,8 +150,8 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="ShapeHandle.cpp" />
+    <ClCompile Include="ShapesManager.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

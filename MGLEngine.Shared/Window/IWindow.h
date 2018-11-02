@@ -1,6 +1,7 @@
 #pragma once
 class IWindowEventHandler;
 class ICanvas;
+class ShapesService;
 class IWindow
 {
 public:
@@ -16,7 +17,7 @@ public:
 	virtual void AttachEventHandler(IWindowEventHandler *eh)=0;
 	virtual void DetachEventHandler(IWindowEventHandler *eb)=0;
 	virtual ICanvas* GetCanvas() = 0;
-
+	virtual ShapesService* GetShapesManager() = 0;
 	virtual ~IWindow()
 	{
 	}
