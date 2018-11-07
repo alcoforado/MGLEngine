@@ -18,7 +18,7 @@ namespace MGLEngineCLR {
 
 
 
-	ref class ShapesManager
+	public ref class ShapesManager
 	{
 		ShapesService *_sh;
 	public:

@@ -2,7 +2,7 @@
 
 namespace MGLEngineCLR {
 	using namespace System;
-	ref class ShapeType
+	public ref class ShapeType
 	{
 	public:
 		property int Dim;

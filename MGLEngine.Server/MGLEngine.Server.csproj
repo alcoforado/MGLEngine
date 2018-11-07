@@ -90,6 +90,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UserException.cs" />
+    <Compile Include="Controllers\ShapeController.cs" />
     <Compile Include="Controllers\ShapeMngrController.cs" />
     <Compile Include="EventHandlers\EditPathEventHandler.cs" />
     <Compile Include="Models\CreateShapeViewModel.cs" />
