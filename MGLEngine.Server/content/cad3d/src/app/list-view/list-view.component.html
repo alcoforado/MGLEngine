@@ -1,6 +1,0 @@
-
-<div class="row">
-<div *ngFor="let item of items;let i=index" class="list-view-item col-6 col-md-4" (click)="itemSelected.emit(item)">
-  <img src="{{item.imageUrl}}" (error)="onImageNotFound($event)"> {{item.itemLabel}}
-</div> 
-</div>
