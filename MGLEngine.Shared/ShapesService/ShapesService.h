@@ -20,12 +20,12 @@ private:
 	};
 	std::map<std::string, Topology2DType> _topologies2D;
 
-	struct Shape2DType
+	struct Painter2DType
 	{
 		public:
 			std::function<IPainter2D*(void)> Create;
 	};
-	std::map<std::string, Shape2DType> _painters2d;
+	std::map<std::string, Painter2DType> _painters2d;
 
 	IWindow * _pWindow;
 
@@ -43,6 +43,10 @@ private:
 public:
 	ShapesService(IWindow *pWindow);
 	~ShapesService();
+
+	const std::map<std::string, Painter2DType>& GetPainters2D() const { return _painters2d; }
+	const std::map<std::string, Topology2DType>& GetShapes2D() const { return _topologies2D; }
+
 
 
 	int NewShapeId();

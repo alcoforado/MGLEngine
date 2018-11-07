@@ -42,6 +42,12 @@
     <ClInclude Include="ShapesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Models\RenderType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\ShapeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">

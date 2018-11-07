@@ -138,8 +138,10 @@
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Mappers\BasicTypesMapper.h" />
+    <ClInclude Include="Models\RenderType.h" />
     <ClInclude Include="ShapeHandle.h" />
     <ClInclude Include="ShapesManager.h" />
+    <ClInclude Include="Models\ShapeType.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
