@@ -1,0 +1,12 @@
+<div class="chosen-container" [class.expanded]="isExpanded" (click)="clicked()">
+  <div class="selected-option">
+    <span>{{items[selectedIndex][fieldName]}}</span>
+    <div class="expand-icon"><b></b></div>
+  </div>
+  <div class="chosen-drop">
+    <!--<div class="chosen-search"><input type="text" autocomplete="off" tabindex="2"></div>-->
+    <ul class="chosen-results">
+      <li *ngFor="let item of items;let i=index" [attr.data-option-array-index]='i' class="active-result result-selected">{{item[fieldName]}}</li>
+    </ul>
+  </div>
+</div>
