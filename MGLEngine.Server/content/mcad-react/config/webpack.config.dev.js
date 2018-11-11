@@ -73,6 +73,22 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
+const getSassLoaders = (cssOptions) =>
+{
+  var loaders = getStyleLoaders(cssOptions);
+  loaders.push(
+    {
+      loader: require.resolve('sass-loader'),
+      options: {
+        includePaths: ["node_modules"]
+      }
+    })
+  return loaders;
+}
+
+
+
+
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -298,20 +314,18 @@ module.exports = {
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+            use: getSassLoaders({ importLoaders: 2 })
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
           {
             test: sassModuleRegex,
-            use: getStyleLoaders(
-              {
-                importLoaders: 2,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'sass-loader'
-            ),
+            use: getSassLoaders( 
+                {
+                  importLoaders: 2,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                })
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
