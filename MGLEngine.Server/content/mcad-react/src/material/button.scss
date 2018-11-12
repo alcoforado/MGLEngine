@@ -1,0 +1,13 @@
+@import "@material/button/mdc-button.scss"; 
+@import "@material/ripple/mdc-ripple.scss";
+
+.mdc-button {
+    padding: 50px;
+}
+
+.my-surface {
+    @include mdc-ripple-surface;
+    @include mdc-ripple-radius-bounded;
+    @include mdc-states;
+  }
+  

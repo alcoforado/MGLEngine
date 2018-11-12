@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import Button from '@material/react-button';
+import {Button} from './material/button';
 
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
         <Button
           raised
           className='button-alternate'
-          onClick={() => console.log('clicked!')}
+          
         >
           Click Me!
         </Button>
