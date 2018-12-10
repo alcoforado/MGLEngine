@@ -1,6 +1,23 @@
-@import "@material/react-button/index.scss";
+
+$mdc-theme-background: #303030;
+$mdc-theme-primary: #3a67e2;
+$mdc-theme-secondary: #D28900;
+$mdc-theme-surface: lighten($mdc-theme-background,5);
+
+@import "material-components-web/material-components-web";
+
+@import "./Icons.scss";
 
 
+
+body {
+    @include mdc-typography-base;
+    
+}
+
+.appMenu {
+    padding-bottom:5em;
+}
 
 // .App {
 //   text-align: center;

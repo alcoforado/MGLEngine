@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import {Button} from './material/button';
 
+import { Button } from './material/button';
+import { AppBar } from './material/appbar';
+import {ShapeForm} from './app/shape-form'
 
 class App extends Component {
   render() {
     return (
-
-      
-
       <div className="App">
+        <AppBar>
+          <a href="#" className="material-icons mdc-top-app-bar__action-item" aria-label="Download" >save_alt</a>
+        </AppBar>
+        <ShapeForm title="hello world">
 
-      <div>
-        <Button
-          raised
-          className='button-alternate'
-          
-        >
+        </ShapeForm>
+        <Button raised className='button-alternate' >
           Click Me!
         </Button>
-      </div>
-
-
-
+        <i className="material-icons">face</i>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
@@ -38,6 +34,8 @@ class App extends Component {
             Learn React
           </a>
         </header>
+
+
       </div>
     );
   }
