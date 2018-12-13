@@ -1,5 +1,6 @@
 @import "pallete.scss";
 @import "mixins.scss";
+
 $background: #333333;
 $mdc-theme-background: #303030;
 $mdc-theme-primary: #3a67e2;
@@ -21,9 +22,9 @@ $body-bg: $background;
 $body-color: #ffffff;
 $secondary-color: #ef6c00;
 $primary-color: #4285f4;
-$primary-color-dark: #0d47a1;
+$primary-color-highlight: #0d47a1;
 $secondary-color: #aa66cc;
-$secondary-color-dark: #9933cc;
+$secondary-color-highlight: #9933cc;
 $default-color: #2bbbad;
 $default-color-dark: #00695c;
 $info-color: #33b5e5;
@@ -53,3 +54,9 @@ $modal-content-border-color: choose-border-color($background, 0.1);
 $modal-footer-border-color: $modal-content-border-color;
 $background-accent: choose-border-color($background, 0.1);
 $background-accent-dark: darken($background, 8%);
+
+
+$btn-padding-y-basic:         .84rem !default;
+$btn-padding-x-basic:         2.14rem !default;
+$btn-font-size-basic:         .81rem !default;
+

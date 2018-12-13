@@ -25,9 +25,14 @@ export class AppBar extends Component<IAppMenuProp,any> {
 render() {
         return (
             <div className="appMenu">
-                <nav className="navbar  navbar-dark primary-color">
-                            <a href="#" className="material-icons mdc-top-app-bar__navigation-icon">menu</a>
-                            <span className="mdc-top-app-bar__title">Title</span>
+                <nav className="navbar  bg-primary navbar-fixed-top text-light">
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <button  className="material-icons ">menu</button>
+                           
+                            <a className="navbar-link" href="#">Brand</a>
+                        </div>
+                    </div>
                 </nav>
             </div>
         );

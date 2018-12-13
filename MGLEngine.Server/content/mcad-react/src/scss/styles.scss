@@ -1,11 +1,11 @@
-@import "colors.scss";
+
+@import "theming.scss";
 @import "bootstrap/scss/bootstrap";
-@import "md/mdb.scss";
 @import "material-icons.scss";
 .btn-flat-secondary {
-    @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic);
+    @include button-size($btn-padding-y-basic, $btn-padding-x-basic,$btn-font-size-basic, $line-height-base, $border-radius );
     color: $white;
-    border-radius: $border-radius-base;
+    border-radius: $border-radius;
     transition: background-color 0.5s;
     background-color: $secondary-color;
     border: 0px solid $secondary-color;
@@ -14,9 +14,9 @@
 }
 
 .btn-flat {
-    @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic);
+    @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic,$line-height-base, $border-radius);
     color: $white;
-    border-radius: $border-radius-base;
+    border-radius: $border-radius;
     transition: background-color 0.5s;
     background-color: $background;
     border: 0px solid $secondary-color;
