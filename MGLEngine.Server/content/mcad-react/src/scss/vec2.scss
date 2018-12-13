@@ -1,0 +1,116 @@
+.vec2-input-container {
+    display:inline-block;
+
+
+.vector-picker {
+    width: 100px;
+    height:  100px;
+    border-radius: 50px;
+    background: url("./images/clock_pointer.svg") no-repeat center center;
+    background-size: 100%;
+    border: 3px solid white;
+    margin-bottom: 10px;
+    
+}
+
+.float-right {
+    display:inline-block;
+    float: right;
+}
+
+.button-flat {
+    background: #3A3A3A;
+    padding: 1px 18px 1px 18px;
+    border: 1px solid #6D6969;
+    cursor: default;
+}
+
+.button-flat:hover {
+    background: #6A6A6A;
+}
+
+
+.dialog-button {
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    background: #770677 url(./images/menu-icon.svg) no-repeat center center;
+    background-size: 83%;
+    border-radius: 5px;
+    vertical-align: top;
+    border: 2px outset #313131;
+}
+
+.dialog-button:active {
+    position:relative;
+    left:3px;
+    top:3px;
+    width:22px;
+    height: 22px;
+    border: none;
+
+}
+
+.vector-input {
+    width: 50px;
+}
+
+.norm-pane {
+    margin: 10px 0px 10px 0px;
+    text-align: center;
+
+}
+
+.norm-pane span {
+    margin-right: 10px;
+}
+
+.norm-pane input[type=number] {
+    width:100px;
+}
+
+
+.circle-background {
+    width: 100px;
+    height:  100px;
+    position:absolute;
+    background: url("./images/xy_axis.svg") no-repeat center center;
+    position:absolute;
+    background-size: 100%;
+  
+}
+
+
+.circle-background-xyz {
+    width: 100px;
+    height:  100px;
+    position:absolute;
+    background: url("./images/xyz_axis.svg") no-repeat center center;
+    position:absolute;
+    background-size: 100%;
+}
+
+.screen-container {
+    background-color: #2E2E35;
+    z-index: 100;
+    margin-bottom: 10px;
+    display: inline-block;
+    position:absolute;
+    width: 260px;
+    height: 239px;
+    border: 3px solid gray;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.left-pane {
+    display:inline-block;
+    width: 49%;
+}
+
+.right-pane {
+    display:inline-block;
+    width: 49%;
+}
+
+}

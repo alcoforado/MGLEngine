@@ -80,7 +80,7 @@ const getSassLoaders = (cssOptions) =>
     {
       loader: require.resolve('sass-loader'),
       options: {
-        includePaths: ["node_modules"]
+        includePaths: ["./node_modules"],
       }
     })
   return loaders;

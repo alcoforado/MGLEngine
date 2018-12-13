@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom'
-import * as mdcRiple from "@material/ripple"
 import { AsyncResource } from 'async_hooks';
 
 
@@ -19,7 +18,7 @@ interface IButtonProp {
 
 export class Button extends Component<IButtonProp,any> {
     private _classes:string;
-    private _ripple:mdcRiple.MDCRipple;
+
     constructor(props:IButtonProp){
         super(props);
         
@@ -30,14 +29,9 @@ export class Button extends Component<IButtonProp,any> {
             'mdc-button--dense': props.dense,
             'mdc-ripple-surface':true
           });
-
     }
     componentDidMount(){
         var node = ReactDOM.findDOMNode(this);
-        if (node instanceof HTMLElement)
-        {
-            this._ripple= mdcRiple.MDCRipple.attachTo(node);
-        }
     }
 
     

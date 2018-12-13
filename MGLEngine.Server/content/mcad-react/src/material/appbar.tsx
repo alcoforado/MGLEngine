@@ -25,17 +25,10 @@ export class AppBar extends Component<IAppMenuProp,any> {
 render() {
         return (
             <div className="appMenu">
-                <header className="mdc-top-app-bar">
-                    <div className="mdc-top-app-bar__row">
-                        <section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <nav className="navbar  navbar-dark primary-color">
                             <a href="#" className="material-icons mdc-top-app-bar__navigation-icon">menu</a>
                             <span className="mdc-top-app-bar__title">Title</span>
-                        </section>
-                        <section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                            {this.props.children}
-                        </section>
-                    </div>
-                </header>
+                </nav>
             </div>
         );
       
