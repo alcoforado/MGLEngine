@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom'
-import "@material/top-app-bar"
+import "@material/top-app-bar/mdc-top-app-bar.scss"
 
 interface IAppMenuProp {
     className?:any,
@@ -31,7 +31,7 @@ render() {
         <section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-start"><button className="material-icons mdc-top-app-bar__navigation-icon"
             >menu</button><span
             className="mdc-top-app-bar__title">Standard</span></section>
-        <section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"><button className="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded"
+        <section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"><button className="material-icons mdc-top-app-bar__action-item"
             aria-label="Download" >file_download</button><button
             className="material-icons mdc-top-app-bar__action-item mdc-ripple-upgraded--unbounded mdc-ripple-upgraded"
             aria-label="Print this page" >print</button><button

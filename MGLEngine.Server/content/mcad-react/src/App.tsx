@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.scss';
 
-import { Button } from './material/button';
+import { Button,ButtonType } from './material/button';
 import { AppBar } from './material/appbar';
 import {ShapeForm} from './app/shape-form'
 
@@ -13,7 +13,8 @@ class App extends Component {
         <AppBar>
           <a href="#" className="material-icons mdc-top-app-bar__action-item" aria-label="Download" >save_alt</a>
         </AppBar>
-        <p>Hello World</p>
+        <p>Hello World</p> Hello
+        <Button>Click Me</Button>
       </>
     );
   }

@@ -6,6 +6,10 @@ $mdc-theme-surface: lighten($mdc-theme-background,5);
 
 @import "./scss/styles.scss";
 @import "./scss/custom.scss";
+@import "@material/theme/mdc-theme.scss";
+@import "@material/typography/mdc-typography.scss";
+
+
 
 
 
