@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom'
 import "./button.scss"
-
+import {Ripple} from "./ripple"
 interface IButtonProp {
     className?:any,
     appearance?: ButtonType,
@@ -24,7 +24,7 @@ interface IButtonState {
 
 export class Button extends Component<IButtonProp,IButtonState> {
     private _classes:string;
-    private _rippleEl:React.RefObject<any>;
+    private _rippleEl:React.RefObject<Ripple>;
     private t:any;
     constructor(props:IButtonProp){
         super(props);
@@ -37,12 +37,13 @@ export class Button extends Component<IButtonProp,IButtonState> {
     }
     componentDidMount(){
         var node = ReactDOM.findDOMNode(this);
-        const surface = document.querySelector('.mdc-button');
+        
     }
 
 
-    clicked(event: any) {
-  
+    clicked(event: React.MouseEvent<HTMLButtonElement>) {
+        this._rippleEl.current.clicked(event);
+
     }
 
 
@@ -51,9 +52,9 @@ render() {
         const SemanticButton = this.props.href ? 'a' : 'button';
 
         return (
-        <button type="button" className="mdc-button mdc-button--raised"> 
+        <button type="button" className="mdc-button mdc-button--raised" onClick={this.clicked}> 
             {this.props.children}
-            <div className="mdc-button-overlay"></div>
+            <Ripple ref={this._rippleEl}></Ripple>
         </button>)
 
       

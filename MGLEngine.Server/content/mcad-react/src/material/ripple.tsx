@@ -18,7 +18,7 @@ interface IRippleProp {
 
 export class Ripple extends Component<IRippleProp,IRippleState> {
     
-    private _rippleRef:React.RefObject<any>;
+    private _rippleRef:React.RefObject<HTMLDivElement>;
 
 
     constructor(props:IRippleProp){
@@ -31,10 +31,10 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
     }
 
     getRippleElement():HTMLElement{
-        return this._rippleRef.current;
+        return this._rippleRef.current.parentElement;
     }
 
-    clicked(event: any) {
+    clicked(event: React.MouseEvent<HTMLButtonElement>) {
         var d: number = Math.max(this.getRippleElement().offsetWidth, this.getRippleElement().offsetHeight) * 2;
         
         var state = new IRippleState();
