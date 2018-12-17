@@ -1,7 +1,8 @@
 
 @import "theming.scss";
-@import "bootstrap/scss/bootstrap";
+//@import "bootstrap/scss/bootstrap";
 @import "material-icons.scss";
+/*
 .btn-flat-secondary {
     @include button-size($btn-padding-y-basic, $btn-padding-x-basic,$btn-font-size-basic, $line-height-base, $border-radius );
     color: $white;
@@ -27,7 +28,7 @@
     }
 }
 
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files 
 
 .btn {
     overflow: hidden;
@@ -41,3 +42,4 @@
 .mdc-button {
     @extend .btn;
 }
+*/

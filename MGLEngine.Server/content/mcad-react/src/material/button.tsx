@@ -13,15 +13,20 @@ interface IButtonProp {
     children?:any,
     unbounded?:boolean,
     href?:string
-
 }
 
-export class Button extends Component<IButtonProp,any> {
+
+interface IButtonState {
+}
+
+
+export class Button extends Component<IButtonProp,IButtonState> {
     private _classes:string;
+    private _rippleEl:React.RefObject<any>;
 
     constructor(props:IButtonProp){
         super(props);
-        
+        this._rippleEl = React.createRef();
         this._classes = classnames('mdc-button', props.className, {
             'mdc-button--raised': props.raised,
             'mdc-button--unelevated': props.unelevated,
@@ -34,29 +39,20 @@ export class Button extends Component<IButtonProp,any> {
         var node = ReactDOM.findDOMNode(this);
     }
 
+
     clicked(event: any) {
-        var d: number = Math.max(this.bt.nativeElement.offsetWidth, this.bt.nativeElement.offsetHeight) * 2;
-        this._width = + d + 'px';
-        this._x = (event.pageX - this.bt.nativeElement.offsetLeft - d / 2) + 'px';
-        this._y = (event.pageY - this.bt.nativeElement.offsetTop - d / 2) + 'px';
-        this._ripple = this._ripple == '0' ? '1' : '0';
+  
     }
 
    
 render() {
         const SemanticButton = this.props.href ? 'a' : 'button';
 
-        <button type="button" class="mdc-button {{_class}}" (click)="clicked($event)">
-    <div [@ripple]="_ripple" class='material-ripple' [ngStyle]="{'top': _y, 'left':_x, 'width': _width, 'height': _width}"></div>
-    <ng-content></ng-content>
-    <div class="mdc-button-overlay"></div>
-</button>
-
-        return (
-          <SemanticButton  className={this._classes}>
+        return (<button type="button" className={this._classes}>
             {this.props.children}
-          </SemanticButton>
-        );
+            <div className="mdc-button-overlay"></div>
+        </button>)
+
       
      
     }
