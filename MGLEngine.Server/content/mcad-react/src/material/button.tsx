@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import ReactDOM from 'react-dom'
-import "./button.scss"
+import "./scss/button.scss"
 import {Ripple} from "./ripple"
 interface IButtonProp {
     className?:any,
@@ -42,6 +42,7 @@ export class Button extends Component<IButtonProp,IButtonState> {
 
 
     clicked(event: React.MouseEvent<HTMLButtonElement>) {
+        
         this._rippleEl.current.clicked(event);
 
     }
@@ -52,12 +53,9 @@ render() {
         const SemanticButton = this.props.href ? 'a' : 'button';
 
         return (
-        <button type="button" className="mdc-button mdc-button--raised" onClick={this.clicked}> 
+        <button type="button" className="mdc-button mdc-button--raised" onClick={(ev)=>this.clicked(ev)}> 
             {this.props.children}
             <Ripple ref={this._rippleEl}></Ripple>
         </button>)
-
-      
-     
     }
 }  
