@@ -6,8 +6,10 @@
     height: 100%;
     border-radius: 10000px;
     background: rgba(255, 255, 255, 0.3);
-    transform: scale(1);
+    transform: scale(0);
     position: absolute;
+    top:0px;
+    left:0px;
 }
 
 @keyframes material-ripple-anim {
@@ -16,8 +18,9 @@
   }
   
 
-.material-ripple, .active {
-    animation: material-ripple-anim 1s linear 4s; 
+.material-ripple.active {
+    animation: material-ripple-anim 2s linear 0s; 
+    background-color: green;
 }
 
 

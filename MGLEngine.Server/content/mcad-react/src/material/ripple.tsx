@@ -48,7 +48,7 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
         {
             this.setState({
                 isActive: false
-            },()=>(window.setTimeout(()=>{this.clicked((Object as any).assign({},event))},0)));
+            },()=>this.clicked((Object as any).assign({},event)));
 
         }
         else
@@ -71,7 +71,7 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
 render() {
 
     return (
-    <div ref={this._rippleRef} className={'material-ripple ' + (this.state.isActive ? 'active' : '')} style={this.state.style}></div>
+    <div ref={this._rippleRef} className={'material-ripple ' + (this.state.isActive ? 'active' : '')} /*style={this.state.style}*/ ></div>
     );
     }
 }  
