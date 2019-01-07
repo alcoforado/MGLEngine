@@ -1,0 +1,620 @@
+@import "theming.scss";
+@import "vec2";
+@import "shapes";
+.material-ripple {
+    width: 100%;
+    height: 100%;
+    border-radius: 10000px;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+
+@keyframes material-ripple-anim {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+  }
+  
+
+.material-ripple.active {
+    animation: material-ripple-anim 2s linear 0s; 
+    background-color: green;
+}
+
+
+
+
+html,
+body {
+    height: 100%;
+    color: $font-color;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+div {
+    cursor: default;
+}
+
+.iphone-input {
+    border: 0px;
+    border-bottom: 1px solid #3a67e2; // background-color: #464646;
+    padding: 2px 0px 0px 2px;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.link-button {
+    display: inline-block;
+    color: $body-color;
+    font-weight: normal;
+    padding: 0px;
+    box-sizing: content-box;
+    img {
+        height: 12px;
+        vertical-align: baseline;
+    }
+    
+    cursor: pointer;
+}
+
+.comma-separator {
+    display: inline-block;
+    margin-bottom: -5px;
+    margin-left: -2px;
+    vertical-align: bottom;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input:focus {
+    outline: none;
+    background: $focus-input-background;
+}
+
+select:focus {
+    outline: none;
+}
+
+input,
+select {
+    background: $background;
+    border-color: #565555;
+    color:$body-color;
+}
+
+option:hover {
+    background: #e7eaea
+}
+
+input[type="color"] {
+    width: 82px;
+}
+
+.view-panel {
+    padding-left: 10px;
+    display: block;
+}
+
+.text-container h1 {
+    text-align: center;
+}
+
+.text-container {
+    width: 278px;
+    margin: 0 auto;
+}
+
+.centerfy {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+.title-panel {
+    /* padding: 1px; */
+    padding-left: 12px;
+    background: $highlight-color;
+    /* border-top-right-radius: 19px; */
+    /* border-bottom-right-radius: 19px; */
+    border: 1px solid #737373;
+    font-size: 35px;
+    color: white;
+    animation-name: appearingFromLeft300;
+    animation-duration: 0.5s;
+}
+
+.shape-card {
+    display: inline-block;
+    /* width: 627px; */
+    animation-name: fadein;
+    font-size: 15px;
+    animation-duration: 1s;
+    transition: transform 0.1s;
+    border: 1px solid $panel-border-color;
+}
+
+.shape-card-header {}
+
+.form-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    width: 100%;
+}
+
+.form-row {
+    padding: 0px 0px 10px 0px;
+}
+
+.vertical-toolbar {
+    padding-right: 5px;
+    height: 100%;
+    display: table-cell;
+    color: white;
+}
+
+.vertical-toolbar img {
+    display: inline-block;
+    height: 24px;
+    vertical-align: text-top;
+}
+
+.content-vertical-toolbar-right {
+    display: table-cell;
+    border-left: 2px solid #7F7F84;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+
+.group-form {
+    margin: 0 auto;
+    border: 1px ridge;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.group-form div {
+    margin-bottom: 5px;
+}
+
+.col-label {
+    display: inline-block;
+    text-align: left;
+    vertical-align: inherit;
+    margin-right: 10px;
+}
+
+.col-value {
+    display: inline-block;
+    margin: 0px 5px;
+}
+
+.span-col2 {
+    width: 47%;
+    text-align: left;
+    display: inline-block;
+}
+
+.round-panel {
+    border-radius: 27px;
+    padding: 27px;
+    border: 1px solid;
+    /*box-shadow: 10px 10px 5px #888888;*/
+}
+
+.efficiency-graph-container {
+    display: inline-block;
+    background-color: white;
+    width: 545px;
+    height: 369px;
+}
+
+.centralize {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.center-text {
+    text-align: center;
+    width: 100%;
+    padding: 0px 0px 15px 0px;
+}
+
+.main-form input[type=number] {
+    width: 53px;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes appearingFromLeft300 {
+    from {
+        transform: translate(-300px, 0);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+.main-form h1 {
+    font-size: 19px;
+    margin: 0px;
+    -webkit-margin: 0px;
+}
+
+.round-button {
+    display: inline-block;
+    text-align: center;
+    border-radius: 10px;
+    /* border: 3px solid #d28900; */
+    padding: 5px 5px 5px 1px;
+    background: linear-gradient(to bottom, lighten($highlight-color, 30%), $highlight-color);
+    color: white;
+    cursor: default;
+    box-shadow: 2px 2px 0px rgb(0, 0, 0);
+    min-width: 80px;
+    cursor: default;
+    font-size: $font-size-big;
+}
+
+.round-button img {
+    width: 21px;
+    vertical-align: text-top;
+    padding-top: 1px;
+}
+
+.round-button:hover {
+    /* background: #4A4A4A; */
+    background-color: #ffa500
+}
+
+.round-button:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
+    box-shadow: none;
+}
+
+.rectangle {
+    display: inline-block;
+    margin: 0px;
+    border: 1px solid black;
+    background-color: rgb(250, 12, 30);
+}
+
+.bin-pack-root {
+    background-color: white;
+    position: relative;
+}
+
+.bin-pack-node {
+    position: absolute;
+}
+
+.svgplot-empty-graph {
+    background: white url("images/radar.svg") no-repeat center;
+}
+
+/**
+List view component
+**/
+
+.list-view-item {
+    display: inline-block;
+    font-size: 22px;
+}
+
+.list-view-item {
+    padding: 9px 10px 5px 9px;
+    transition: background-color .25s;
+    border-radius: 10px;
+}
+
+.list-view-item img {
+    width: 45px;
+    vertical-align: text-bottom;
+    display: inline-block;
+}
+
+.list-view-item:hover {
+    background-color: $background-accent-dark;
+}
+
+/**
+bootstrap
+
+**/
+
+.modal {
+    color: black;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: visibility 0.25s, opacity 0.25s linear;
+}
+
+.modal-body {
+    padding: 10px 10px 10px 20px;
+}
+
+.show {
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+}
+
+@keyframes example {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.chosen-container {
+    position: relative;
+    display: block;
+    padding: 3px 0 3px 0px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: $background;
+    background-clip: padding-box;
+    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    white-space: nowrap;
+    * {
+        box-sizing: border-box;
+    }
+    .selected-option {
+        padding: 0px 0px 0px 8px;
+    }
+    .expand-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: block;
+        width: 18px;
+        height: 100%;
+        b {
+            display: inline-block;
+            width: 100%;
+            height: 5px;
+            background: url(images/chosen-sprite.png) no-repeat 0px -8px;
+            margin: auto;
+        }
+    }
+    .chosen-drop {
+        display: none;
+        box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 100%;
+        z-index: 101000;
+        width: 100%;
+        border: 1px solid #000;
+        border-radius: 0 0 5px 5px;
+        background-color: $background;
+        background-clip: padding-box;
+        border-top: 0;
+        box-sizing: content-box;
+        margin-left: -1px; //   box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        padding-left: 8px;
+    }
+    li:hover {
+        background: linear-gradient(to bottom, lighten($highlight-line-color, 10%), $highlight-line-color); //  #007be8;
+    }
+}
+
+.chosen-container.expanded {
+    border-bottom: 0;
+    border-radius: 5px 5px 0px 0px;
+    background: linear-gradient(to bottom, lighten($focus-input-background, 10%), $focus-input-background);
+    .chosen-drop {
+        display: block;
+    }
+    .selected-option {
+        padding: 0px 0px 3px 8px;
+        margin: 0 0px 0 0px;
+    }
+}
+
+.navbar {
+    .container {
+        margin-left: 0px;
+        padding-left: 0px;
+        width: 100%;
+        background-color: black;
+        a {
+            color: #ababab;
+            font-size: 16px;
+            background-color: black;
+        }
+        li {
+            a:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+}
+
+.panel-button {
+    text-align: right;
+    padding: 10px 20px 20px 10px;
+    width: 100%;
+}
+
+.padding-right-20 {
+    padding-right: 20px;
+}
+
+.padding-small {
+    padding: 20px 20px;
+}
+
+.font-huge {
+    font-size: 26px;
+}
+
+.font-big {
+    font-size: 18px;
+}
+
+button {
+    border: inherit;
+    border-width: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.btn-normal {
+    background-color: $link-text-color-dark;
+    &:hover {
+        color: $font-color;
+        background-color: darken($link-text-color-dark, 10%);
+    }
+    &:active {
+        transform: scale(0.9);
+    }
+}
+
+.error-panel ul {
+    padding-left: 0px;
+    list-style-position: inside;
+}
+
+.error-panel li {
+    background: $error-background-color;
+    border-radius: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    list-style-image: url('/images/list-error-icon.svg');
+}
+
+.error-panel {}
+
+.second-toolbar {
+    width: 100%;
+    display: block;
+    padding-bottom: 0px;
+}
+
+.mdc-button-overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.mdc-button:hover .mdc-button-overlay {
+    opacity: 1;
+}
+
+.mdc-button:focus .mdc-button-overlay {
+    opacity: 1;
+}
+
+.mdc-button {
+    position: relative;
+    overflow: hidden;
+}
+
+// BOOTSTRAP MODAL
+.modal-dialog {
+    .modal-content {
+        background: $background;
+        color: $body-color;
+        .modal-header {
+            background: $background-accent;
+            border: 0;
+            font-weight: bold;
+        }
+        .modal-body {
+            border: 0;
+        }
+    }
+}
+
+.round-on-hover {
+    display: inline-block;
+    height: 23px;
+    width: 23px;
+    text-align:center;
+    border-radius:1000px;
+    vertical-align: bottom;
+    transition: background-color 0.5s;
+    &:hover {
+        background-color: $background-accent-dark;
+    }
+}
+
+/*ripple effect
+/* Ripple effect */
+.ripple {
+    background-position: center;
+    transition: background 0.8s;
+  }
+  .ripple:hover {
+    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+  }
+  .ripple:active {
+    background-color: #6eb9f7;
+    background-size: 100%;
+    transition: background 0s;
+  }
+  
+
+
