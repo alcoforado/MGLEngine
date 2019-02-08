@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import gactions from 'actions'
+import actions from './actions'
 import {StoreOptions} from 'vuex';
 import {StoreRootState} from './models'
 
@@ -12,6 +12,7 @@ const store: StoreOptions<StoreRootState> = {
         PaiterTypes:[],
         ShapeTypes:[]
     },
+    actions
 };
 
 export default new Vuex.Store(store);

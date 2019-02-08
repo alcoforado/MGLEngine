@@ -1,12 +1,12 @@
 import { ActionTree } from 'vuex';
-import {axios} from 'axios';
-import {StoreRootState} from './models'
+import axios from 'axios';
+import * as Model from './models'
 
 export enum Actions {
     INITIALIZE="fetchData"
 }
 
-export const actions: ActionTree<StoreRootState, StoreRootState> = {
+export const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
     [Actions.INITIALIZE]({ commit }): any {
         axios.get('/api/shape/rendertypes').then((response) => {
             
@@ -15,3 +15,6 @@ export const actions: ActionTree<StoreRootState, StoreRootState> = {
         });
     }
 };
+
+
+
