@@ -11,6 +11,12 @@ namespace MGLEngine.Server.Controllers
     {
         private ShapesManager _mngr;
 
+        public ShapeController(ShapesManager mngr)
+        {
+            _mngr = mngr;
+        }
+
+
         [HttpGet]
         public List<ShapeType> ShapeTypes()
         {

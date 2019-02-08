@@ -13,7 +13,8 @@
     "vue-material": "^1.0.0-beta-10.2",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "axios": "0.18.0"
   },
   "devDependencies": {
     "@types/vue-material": "git+https://github.com/calebsander/vue-material-types.git",
@@ -23,6 +24,7 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "@types/axios": "0.14.0"
   }
 }

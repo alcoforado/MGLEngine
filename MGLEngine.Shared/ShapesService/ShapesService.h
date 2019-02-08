@@ -36,7 +36,7 @@ private:
 	
 private:	
 	void registerTopologies();
-	void registerShapes2D();
+	void registerPainters2D();
 	void registerShapes3D();
 	ShapeScene CreateShape(int shapeId, std::string topologyType, std::string renderType);
 

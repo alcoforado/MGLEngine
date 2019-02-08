@@ -13,7 +13,7 @@ void ShapesService::registerTopologies()
 	
 }
 
-void ShapesService::registerShapes2D()
+void ShapesService::registerPainters2D()
 {
 	_painters2d.insert({ "CyclicColor2D",{[]() {return new VerticeColor2D(); }} });
 }
@@ -22,7 +22,7 @@ void ShapesService::registerShapes2D()
 ShapesService::ShapesService(IWindow *pWindow)
 {
 	registerTopologies();
-	registerShapes2D();
+	registerPainters2D();
 	_pWindow = pWindow;
 }
 
