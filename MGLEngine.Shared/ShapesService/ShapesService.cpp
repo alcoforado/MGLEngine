@@ -37,14 +37,14 @@ int ShapesService::NewShapeId()
 }
 
 
-ShapeScene ShapesService::CreateShape(int shapeId,std::string topologyType, std::string renderType)
+SceneObject ShapesService::CreateShape(int shapeId,std::string topologyType, std::string renderType)
 {
 	if (mstd::Does(_topologies2D).Have(topologyType) && mstd::Does(_painters2d).Have(renderType))
 	{
 		ITopology2D* top = _topologies2D[topologyType].Create();
 		IPainter2D *painter = _painters2d[renderType].Create();
 		IShapeHandle *handler = painter->Draw(_pWindow->GetCanvas(), top);
-		ShapeScene sceneObj(shapeId, top, painter, handler, topologyType, renderType);
+		SceneObject sceneObj(shapeId, top, painter, handler, topologyType, renderType);
 		_shapes[sceneObj.Id] = sceneObj;
 		return sceneObj;
 	}
@@ -61,9 +61,9 @@ std::string ShapesService::CreateShape(std::string topologyType, std::string ren
 void ShapesService::UpdateShape(int shapeId, std::string shapeJson)
 {
 	json j = json::parse(shapeJson);
-	ShapeScene sh = _shapes[shapeId];
+	SceneObject sh = _shapes[shapeId];
 	DeleteShape(shapeId);
-	ShapeScene newShape = CreateShape(shapeId, j["TopologyType"], j["PainterType"]);
+	SceneObject newShape = CreateShape(shapeId, j["TopologyType"], j["PainterType"]);
 	newShape.Top2d->Deserialize(j["Topology"].dump());
 	newShape.Painter->Deserialize(j["Painter"].dump());
 	newShape.Handle=newShape.Painter->Draw(_pWindow->GetCanvas(), newShape.Top2d);

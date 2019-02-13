@@ -1,20 +1,25 @@
 import { ActionTree } from 'vuex';
 import axios from 'axios';
 import * as Model from './models'
+import {Mutations,Actions} from './constants'
 
-export enum Actions {
-    INITIALIZE="fetchData"
-}
 
-export const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
-    [Actions.INITIALIZE]({ commit }): any {
-        axios.get('/api/shape/rendertypes').then((response) => {
-            
+
+const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
+    async [Actions.INITIALIZE]({ commit }) {
+        var p1 = axios.get('/api/shape/rendertypes').then((response) => {
+            commit(Mutations.SET_PAINTER_TYPES,response.data);
         }, (error) => {
             console.log(error);
         });
+        var p2 = axios.get('/api/shape/topologytypes').then((response) => {
+            commit(Mutations.SET_TOPOLOGY_TYPES,response.data);
+        }, (error) => {
+            console.log(error);
+        });
+        return await Promise.all([p1,p2]);
     }
 };
 
-
+export default actions;
 

@@ -4,12 +4,12 @@ export interface Shape {
     Type:string;
 }
 
-export interface PainterTypes {
+export interface PainterType {
     Dim:number;
     Name:string;
 }
 
-export interface ShapeTypes {
+export interface TopologyType {
     Dim:number;
     Name:string;
 }
@@ -17,8 +17,8 @@ export interface ShapeTypes {
 
 
 export interface StoreRootState {
-    PaiterTypes:PainterTypes[];
-    ShapeTypes:ShapeTypes[];
+    PaiterTypes:PainterType[];
+    TopologyTypes:TopologyType[];
 }
 
 

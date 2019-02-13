@@ -84,13 +84,25 @@
 
 <script lang="ts">
 import VueMaterial from 'vue-material';
+import {Store} from 'vuex';
 import 'vue-material/dist/vue-material.min.css';
 import { Component, Vue } from 'vue-property-decorator';
+import store from './store/store';
+import {Mutations,Actions} from './store/constants'
+import * as Models from './store/models';
 Vue.use(VueMaterial);
 
 @Component
 export default class App extends Vue {
   private menuVisible: boolean = false;
+  public $store!:Store<Models.StoreRootState>;
+  
+  
+  created(){
+     
+     this.$store.dispatch(Actions.INITIALIZE);
+  }
+
 }
 </script>
 

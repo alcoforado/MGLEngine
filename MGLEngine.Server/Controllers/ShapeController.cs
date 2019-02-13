@@ -18,7 +18,7 @@ namespace MGLEngine.Server.Controllers
 
 
         [HttpGet]
-        public List<ShapeType> ShapeTypes()
+        public List<ShapeType> TopologyTypes()
         {
             return _mngr.GetShapeTypes();
         }

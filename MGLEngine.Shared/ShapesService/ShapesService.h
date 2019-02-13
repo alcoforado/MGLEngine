@@ -31,14 +31,14 @@ private:
 
 	int _idCount;
 
-	std::map<int, ShapeScene> _shapes;
+	std::map<int, SceneObject> _shapes;
 
 	
 private:	
 	void registerTopologies();
 	void registerPainters2D();
 	void registerShapes3D();
-	ShapeScene CreateShape(int shapeId, std::string topologyType, std::string renderType);
+	SceneObject CreateShape(int shapeId, std::string topologyType, std::string renderType);
 
 public:
 	ShapesService(IWindow *pWindow);

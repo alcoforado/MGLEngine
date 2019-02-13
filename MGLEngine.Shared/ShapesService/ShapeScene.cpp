@@ -4,7 +4,7 @@
 
 
 
-ShapeScene::ShapeScene(int id, ITopology2D* top2d, IPainter2D* painter, IShapeHandle *handle,  std::string topType, std::string pntType)
+SceneObject::SceneObject(int id, ITopology2D* top2d, IPainter2D* painter, IShapeHandle *handle,  std::string topType, std::string pntType)
 {
 	Id = id;
 	Top2d = top2d;
@@ -15,11 +15,11 @@ ShapeScene::ShapeScene(int id, ITopology2D* top2d, IPainter2D* painter, IShapeHa
 	
 }
 
-ShapeScene::~ShapeScene()
+SceneObject::~SceneObject()
 {
 }
 
-std::string ShapeScene::Serialize()
+std::string SceneObject::Serialize()
 {
 	json j;
 

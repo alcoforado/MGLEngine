@@ -2,7 +2,7 @@
 #include "MGLEngine.Shared/Interfaces/ITopology2D.h"
 #include "MGLEngine.Shared/Interfaces/IPainter2D.h"
 
-class ShapeScene 
+class SceneObject 
 {
 public:
 	int Id;
@@ -12,9 +12,9 @@ public:
 	std::string TopologyType;
 	std::string PainterType;
 public:
-	ShapeScene(int id,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
-	ShapeScene(){}
-	~ShapeScene();
+	SceneObject(int id,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
+	SceneObject(){}
+	~SceneObject();
 	std::string Serialize();
 };
 
