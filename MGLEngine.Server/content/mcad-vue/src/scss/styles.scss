@@ -1,0 +1,45 @@
+
+@import "theming.scss";
+//@import "bootstrap/scss/bootstrap";
+@import "material-icons.scss";
+/*
+.btn-flat-secondary {
+    @include button-size($btn-padding-y-basic, $btn-padding-x-basic,$btn-font-size-basic, $line-height-base, $border-radius );
+    color: $white;
+    border-radius: $border-radius;
+    transition: background-color 0.5s;
+    background-color: $secondary-color;
+    border: 0px solid $secondary-color;
+    box-shadow: none !important;
+   
+}
+
+.btn-flat {
+    @include button-size($btn-padding-y-basic, $btn-padding-x-basic, $btn-font-size-basic,$line-height-base, $border-radius);
+    color: $white;
+    border-radius: $border-radius;
+    transition: background-color 0.5s;
+    background-color: $background;
+    border: 0px solid $secondary-color;
+    box-shadow: none !important;
+    &:hover {
+    background-color: $background-accent-dark;
+    font-weight: bold;
+    }
+}
+
+/* You can add global styles to this file, and also import other style files 
+
+.btn {
+    overflow: hidden;
+    position: relative;
+    outline: 0 !important;
+    &:focus {
+        box-shadow: none !important;
+    }
+}
+
+.mdc-button {
+    @extend .btn;
+}
+*/
