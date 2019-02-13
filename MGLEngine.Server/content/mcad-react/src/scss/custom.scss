@@ -1,24 +1,41 @@
 @import "theming.scss";
 @import "vec2";
 @import "shapes";
+
+$mdc-animation-deceleration-curve-timing-function: cubic-bezier(0, 0, .2, 1) !default;
+$mdc-animation-standard-curve-timing-function: cubic-bezier(.4, 0, .2, 1) !default;
+$mdc-animation-acceleration-curve-timing-function: cubic-bezier(.4, 0, 1, 1) !default;
+$mdc-animation-sharp-curve-timing-function: cubic-bezier(.4, 0, .6, 1) !default;
+
 .material-ripple {
     width: 100%;
     height: 100%;
     border-radius: 10000px;
     background: rgba(255, 255, 255, 0.3);
-    transform: scale(1);
+    transform: scale(0);
     position: absolute;
 }
 
-@keyframes material-ripple-anim {
+@keyframes material-ripple-anim-0 {
     from {transform: scale(0);}
     to {transform: scale(1);}
   }
+  @keyframes material-ripple-anim-1 {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+  }
+
   
 
-.material-ripple, .active {
-    animation: material-ripple-anim 1s linear 4s; 
+.material-ripple.active-0 {
+    animation: material-ripple-anim-0 0.5s $mdc-animation-sharp-curve-timing-function 0s; 
 }
+.material-ripple.active-1 {
+    animation: material-ripple-anim-1 0.5s $mdc-animation-sharp-curve-timing-function 0s; 
+}
+
+
+
 
 
 

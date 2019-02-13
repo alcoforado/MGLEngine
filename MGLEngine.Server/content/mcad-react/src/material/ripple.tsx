@@ -13,13 +13,18 @@ class RippleStyle {
 }
 interface IRippleState {
     style: RippleStyle;
-    isActive: boolean;
+    animState: AnimStateCss;
 }
 
 interface IRippleProp {
     
 }
 
+enum AnimStateCss {
+    NEVER_PRESSED="material-ripple",
+    PRESSED_1="material-ripple active-0",
+    PRESSED_2="material-ripple active-1"
+}
 
 export class Ripple extends Component<IRippleProp,IRippleState> {
     
@@ -30,7 +35,7 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
         super(props);
         this.state = {
             style: new RippleStyle(),
-            isActive: false
+         animState: AnimStateCss.NEVER_PRESSED
         };
         this._rippleRef=React.createRef();
     }
@@ -43,16 +48,7 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
     }
 
     clicked(event: React.MouseEvent<HTMLButtonElement>) {
-        //debugger;
-        if (this.state.isActive)
-        {
-            this.setState({
-                isActive: false
-            },()=>(window.setTimeout(()=>{this.clicked((Object as any).assign({},event))},0)));
-
-        }
-        else
-        {
+       
         var d: number = Math.max(this.getRippleElement().offsetWidth, this.getRippleElement().offsetHeight)*2;
     
         var style = new RippleStyle();
@@ -60,18 +56,27 @@ export class Ripple extends Component<IRippleProp,IRippleState> {
         style.left = (event.pageX - this.getRippleElement().offsetLeft - d / 2) + 'px';
         style.top = (event.pageY - this.getRippleElement().offsetTop - d / 2) + 'px';
         style.height = style.width;
+
+        var newAnimState:AnimStateCss=null;
+        if (this.state.animState == AnimStateCss.NEVER_PRESSED || this.state.animState == AnimStateCss.PRESSED_2)
+        {
+            newAnimState=AnimStateCss.PRESSED_1;
+        }
+        else
+        {
+            newAnimState = AnimStateCss.PRESSED_2;
+        }
+
+
         this.setState({
             style: style,
-            isActive: true
+            animState:newAnimState
         });
         }
-    }
-
-   
-render() {
+    render() {
 
     return (
-    <div ref={this._rippleRef} className={'material-ripple ' + (this.state.isActive ? 'active' : '')} style={this.state.style}></div>
+    <div ref={this._rippleRef} className={this.state.animState} style={this.state.style}></div>
     );
     }
 }  
