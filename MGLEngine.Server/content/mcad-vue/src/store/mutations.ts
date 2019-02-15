@@ -10,6 +10,8 @@ const mutations: MutationTree<Model.StoreRootState> = {
     [Mutations.SET_TOPOLOGY_TYPES](state:Model.StoreRootState, payload:Array<Model.TopologyType>) {
         state.TopologyTypes=payload;
     }
+    
+
 
 };
 
