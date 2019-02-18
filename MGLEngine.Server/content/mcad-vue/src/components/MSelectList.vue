@@ -1,7 +1,7 @@
 <template>
     <md-list >
         <md-list-item class="mselect-list-item" @click="itemSelected()" v-bind:key="item.text" v-for="item in items">
-           <svg-icon class="md-size-2x" src="@/assets/images/triangle2d.svg"/><span class="md-list-item-text">{{item.text}}</span>
+           <svg-icon src="/images/triangle2d.svg"></svg-icon><span class="md-list-item-text">{{item.text}}</span>
         </md-list-item>
     </md-list>
 
@@ -44,7 +44,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import {MSelectListItem} from './mmodels'
-import SvgIcon from './svgicon.vue'
+import SvgIcon from './SvgIcon.vue'
 
 @Component({
     components: {

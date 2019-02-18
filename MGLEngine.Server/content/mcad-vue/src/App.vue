@@ -84,7 +84,7 @@ import store from './store/store';
 import {Mutations,Actions} from './store/constants'
 import * as Models from './store/models';
 import MModal from './components/modal.vue';
-import MSelectList from './components/mselectlist.vue'
+import MSelectList from './components/MSelectList.vue'
 import {MSelectListItem} from './components/mmodels'
 Vue.use(VueMaterial);
 
