@@ -57,18 +57,20 @@
 
 
 <style lang="scss">
-@import "~vue-material/dist/theme/engine"; // Import the theme engine
-
-@include md-register-theme("default", (
-  primary: md-get-palette-color(blue, A700), // The primary color of your application
-  accent: md-get-palette-color(purple, 800), // The accent or secondary color
-  theme: dark
-));
 
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
 @import "./scss/fonts.scss";
 @import "./scss/material-icons.scss";
+
+
+
+ 
+
+
+  
+
+
 </style>
 
 
@@ -82,7 +84,8 @@ import store from './store/store';
 import {Mutations,Actions} from './store/constants'
 import * as Models from './store/models';
 import MModal from './components/modal.vue';
-import {MSelectList} from './components/MSelectList.vue'
+import MSelectList from './components/mselectlist.vue'
+import {MSelectListItem} from './components/mmodels'
 Vue.use(VueMaterial);
 
 export interface MSelectListItem {

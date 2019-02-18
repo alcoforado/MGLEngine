@@ -8,5 +8,20 @@ module.exports = {
             }
         }
     },
-    lintOnSave: false
+    lintOnSave: false,
+    css: {
+          loaderOptions: {
+            sass: {
+              data: `@import "@/scss/apptheme.scss";`
+            }
+          }
+        },
+        chainWebpack: config => {
+            config.module
+                .rule("vue")
+                .use("vue-svg-inline-loader")
+                    .loader("vue-svg-inline-loader")
+                    .options({ /* ... */ });
+        }
+      
 }
