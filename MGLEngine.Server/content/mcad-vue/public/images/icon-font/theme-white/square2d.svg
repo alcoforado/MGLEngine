@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-32.416667)">
     <path
-       style="fill:'#ffffff';fill-opacity:1;stroke:'#ffffff';stroke-width:0.26499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.26499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 0,32.10466 H 264.89532 V 297.62401 H 0 Z"
        id="rect4565"
        inkscape:connector-curvature="0" />
