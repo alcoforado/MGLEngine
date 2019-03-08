@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build-icons": "tsc ./public/images/icon-font/theme-gen.ts &&cd ./public/images/icon-font &&node ./theme-gen.js ./base ./theme-orange '#ff9100'&&node ./theme-gen.js ./base ./theme-white '#ffffff'",
+    "build-icons-2": "cd ./public"
   },
   "dependencies": {
     "vue": "^2.5.17",

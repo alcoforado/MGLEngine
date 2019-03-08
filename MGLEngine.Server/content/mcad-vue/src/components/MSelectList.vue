@@ -1,7 +1,7 @@
 <template>
     <md-list >
         <md-list-item class="mselect-list-item" @click="itemSelected()" v-bind:key="item.text" v-for="item in items">
-           <svg-icon src="/images/triangle2d.svg"></svg-icon><span class="md-list-item-text">{{item.text}}</span>
+           <svg-icon :src="item.image"></svg-icon><span class="md-list-item-text">{{item.text}}</span>
         </md-list-item>
     </md-list>
 

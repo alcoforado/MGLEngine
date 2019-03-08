@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-32.416667)">
     <path
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:5.49918652;stroke-opacity:1"
+       style="fill:'#ffffff';fill-opacity:1;stroke:none;stroke-width:5.49918652;stroke-opacity:1"
        inkscape:transform-center-x="-0.53203072"
        inkscape:transform-center-y="-37.702115"
        d="M 263.91189,296.74478 131.35216,297.04438 0.66028875,298.2818 64.274238,164.31889 128.20124,32.540041 196.21205,163.39556 Z"

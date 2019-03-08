@@ -103,7 +103,7 @@ export interface MSelectListItem {
 export default class App extends Vue {
   private menuVisible: boolean = false;
   public $store!:Store<Models.StoreRootState>;
-  public its:MSelectListItem[]= [{image: "image1",text: "text1"},{image: "image2",text: "text2"}];
+  public its:MSelectListItem[]= [{image: "/images/icon-font/theme-orange/triangle2d.svg",text: "text1"},{image: "/images/icon-font/theme-orange/triangle2d.svg",text: "text2"}];
   
   created(){
      
