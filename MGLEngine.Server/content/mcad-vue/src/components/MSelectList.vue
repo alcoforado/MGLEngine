@@ -36,7 +36,7 @@
         }
   }
   img {
-    width: 30px;
+    width: 20px;
   }
   span {
     margin-left:10px;

@@ -17,8 +17,7 @@
 
 
       <md-app-drawer :md-active.sync="menuVisible">
-        <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
-
+        
         <md-list>
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>
@@ -44,7 +43,7 @@
 
       <md-app-content>
         
-        <m-modal title="Create Shape"> 
+        <m-modal title="Create Shape" cancelButtonText="" confirmButtonText=""> 
           <m-select-list :items="its"></m-select-list>
 
         </m-modal>
@@ -58,7 +57,9 @@
 
 <style lang="scss">
 
-
+.page-container {
+  height:100%;
+}
 @import "~vue-material/dist/theme/all"; // Apply the theme
 @import "./scss/fonts.scss";
 @import "./scss/material-icons.scss";

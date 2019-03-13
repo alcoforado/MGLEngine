@@ -12,9 +12,10 @@
             <slot></slot>
         </div>
        
-       <md-dialog-actions>
-        <md-button class="md-raised md-primary" @click="$emit('cancel')">Cancel</md-button>
-        <md-button class="md-raised md-primary" @click="$emit('confirm')">Save</md-button>
+
+       <md-dialog-actions v-if="cancelButtonText!='' && confirmButtonText!=''">
+        <md-button class="md-flat" @click="$emit('cancel')">{{cancelButtonText}}</md-button>
+        <md-button class="md-flat" @click="$emit('confirm')">{{confirmButtonText}}</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -25,6 +26,9 @@
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+.md-flat {
+    text-decoration:underline;
 }
 
 
@@ -40,5 +44,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class MModal extends Vue {
     @Prop({default:true}) showDialog!:boolean;
     @Prop({default:""}) title!:string;
+    @Prop({default:"Cancel"}) cancelButtonText!:string;
+    @Prop({default:"OK"}) confirmButtonText!:string;
+
 }
 </script>
