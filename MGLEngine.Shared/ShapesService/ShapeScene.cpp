@@ -4,7 +4,7 @@
 
 
 
-SceneObject::SceneObject(int id, ITopology2D* top2d, IPainter2D* painter, IShapeHandle *handle,  std::string topType, std::string pntType)
+SceneObject::SceneObject(int id, std::string name, ITopology2D* top2d, IPainter2D* painter, IShapeHandle *handle,  std::string topType, std::string pntType)
 {
 	Id = id;
 	Top2d = top2d;
@@ -12,6 +12,7 @@ SceneObject::SceneObject(int id, ITopology2D* top2d, IPainter2D* painter, IShape
 	Handle = handle;
 	TopologyType = topType;
 	PainterType = pntType;
+	Name = name;
 	
 }
 

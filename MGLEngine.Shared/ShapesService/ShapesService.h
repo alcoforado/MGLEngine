@@ -2,6 +2,8 @@
 #include <string>
 #include <MGLEngine.Shared/Interfaces/ITopology2D.h>
 #include <MGLEngine.Shared/Interfaces/IPainter2D.h>
+#include <MGLEngine.Shared/Utils/UniqueNameGenerator.h>
+
 #include <functional>
 #include <map>
 #include "MGLEngine.Shared/Window/IWindow.h"
@@ -32,13 +34,15 @@ private:
 	int _idCount;
 
 	std::map<int, SceneObject> _shapes;
-
 	
+	UniqueNameGenerator _nameGen;
 private:	
 	void registerTopologies();
 	void registerPainters2D();
 	void registerShapes3D();
-	SceneObject CreateShape(int shapeId, std::string topologyType, std::string renderType);
+	SceneObject* CreateShape(int shapeId, std::string topologyType, std::string renderType);
+	SceneObject* UpdateShape(std::string shapeJson);
+	int NewShapeId();
 
 public:
 	ShapesService(IWindow *pWindow);
@@ -49,9 +53,8 @@ public:
 
 
 
-	int NewShapeId();
-	std::string CreateShape(std::string topologyType,std::string renderType);
-	void UpdateShape(int shapeId,std::string shapeJson);
+	std::string SaveShape(std::string shapeJson);
+	
 	void DeleteShape(int shapeId);
 };
 

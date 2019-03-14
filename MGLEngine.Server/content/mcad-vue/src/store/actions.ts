@@ -18,6 +18,10 @@ const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
             console.log(error);
         });
         return await Promise.all([p1,p2]);
+    },
+
+    async [Actions.SAVE_SHAPE]({commit},shape) {
+        return axios.post('/api/shape',shape);
     }
 };
 

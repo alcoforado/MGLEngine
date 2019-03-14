@@ -44,7 +44,7 @@
       <md-app-content>
         
         <m-modal title="Create Shape" cancelButtonText="" confirmButtonText=""> 
-          <m-select-list :items="shapesList"></m-select-list>
+          <m-select-list :items="topologiesList"></m-select-list>
 
         </m-modal>
 
@@ -103,8 +103,8 @@ export default class App extends Vue {
   public its:MSelectListItem[]= [{image: "/images/icon-font/theme-white/triangle2d.svg",text: "text1"},{image: "/images/icon-font/theme-white/square2d.svg",text: "text2"}];
   
 
-  get shapesList():MSelectListItem[] {
-    return this.$store.state.TopologyTypes.map(x=>{return {image:`/images/icon-font/theme-white/${x.Name}.svg`,text:x.Name}})
+  get topologiesList():MSelectListItem[] {
+    return this.$store.getters.topologiesList;
   }
 
   created(){

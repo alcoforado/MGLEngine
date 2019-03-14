@@ -1,6 +1,6 @@
 <template>
     <md-list >
-        <md-list-item class="mselect-list-item" @click="itemSelected()" v-bind:key="item.text" v-for="item in items">
+        <md-list-item class="mselect-list-item" @click="itemSelected(item)" v-bind:key="item.text" v-for="item in items">
            <img :src="item.image"/><span class="md-list-item-text">{{item.text}}</span>
         </md-list-item>
     </md-list>
@@ -59,6 +59,9 @@ import SvgIcon from './SvgIcon.vue'
 })
 export default class MSelectList extends Vue {
     @Prop({default:[]}) items!:MSelectListItem[];
-    itemSelected(){}
+    itemSelected(item:MSelectListItem){
+     
+     this.$emit("itemSelected",item)
+    }
 }
 </script>

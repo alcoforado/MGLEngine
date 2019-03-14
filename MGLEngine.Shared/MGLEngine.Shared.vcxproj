@@ -142,6 +142,7 @@
     <ClInclude Include="DrawTree\DrawTree.h" />
     <ClInclude Include="DrawTree\IRenderResource.h" />
     <ClInclude Include="Interfaces\IShapeHandle.h" />
+    <ClInclude Include="Utils\UniqueNameGenerator.h" />
     <ClInclude Include="Utils\JsonParser\mjson.h" />
     <ClInclude Include="Painters\VerticeColor2D.h" />
     <ClInclude Include="ShapesService\ShapeScene.h" />

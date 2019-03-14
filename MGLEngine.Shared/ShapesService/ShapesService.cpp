@@ -37,40 +37,61 @@ int ShapesService::NewShapeId()
 }
 
 
-SceneObject ShapesService::CreateShape(int shapeId,std::string topologyType, std::string renderType)
+SceneObject* ShapesService::CreateShape(int shapeId,std::string topologyType, std::string renderType) 
 {
 	if (mstd::Does(_topologies2D).Have(topologyType) && mstd::Does(_painters2d).Have(renderType))
 	{
 		ITopology2D* top = _topologies2D[topologyType].Create();
 		IPainter2D *painter = _painters2d[renderType].Create();
 		IShapeHandle *handler = painter->Draw(_pWindow->GetCanvas(), top);
-		SceneObject sceneObj(shapeId, top, painter, handler, topologyType, renderType);
+		SceneObject sceneObj(shapeId, _nameGen.GenerateName(topologyType), top, painter, handler, topologyType, renderType);
 		_shapes[sceneObj.Id] = sceneObj;
-		return sceneObj;
+		return &(_shapes[sceneObj.Id]);
 	}
 	throw new Exception("Not Implemented");
 }
 
-std::string ShapesService::CreateShape(std::string topologyType, std::string renderType)
-{
-	return CreateShape(NewShapeId(), topologyType, renderType).Serialize();
-	
-	
-}
 
-void ShapesService::UpdateShape(int shapeId, std::string shapeJson)
+
+std::string ShapesService::SaveShape(std::string shapeJson)
 {
 	json j = json::parse(shapeJson);
+	if (j.value("Id", "") == "" || j["Id"].is_null()) //no id
+	{
+		SceneObject* shape = this->CreateShape(NewShapeId(),j["TopologyType"], j["PainterType"]);
+		
+		//Set name
+		std::string name = j.value("Name","");
+		if (name != "")
+		{
+			shape->Name=name;
+		}
+		return shape->Serialize();
+	}
+	else
+	{
+		int id = j["Id"];
+		return shapeJson;
+	}
+	return std::string();
+}
+
+SceneObject* ShapesService::UpdateShape(std::string shapeJson)
+{
+	json j = json::parse(shapeJson);
+	int shapeId = j["Id"];
 	SceneObject sh = _shapes[shapeId];
 	DeleteShape(shapeId);
-	SceneObject newShape = CreateShape(shapeId, j["TopologyType"], j["PainterType"]);
-	newShape.Top2d->Deserialize(j["Topology"].dump());
-	newShape.Painter->Deserialize(j["Painter"].dump());
-	newShape.Handle=newShape.Painter->Draw(_pWindow->GetCanvas(), newShape.Top2d);
-
-
-	
+	SceneObject* newShape = CreateShape(shapeId, j["TopologyType"], j["PainterType"]);
+	newShape->Top2d->Deserialize(j["Topology"].dump());
+	newShape->Painter->Deserialize(j["Painter"].dump());
+	newShape->Handle=newShape->Painter->Draw(_pWindow->GetCanvas(), newShape->Top2d);
+	return newShape;
 }
+
+
+
+
 
 void ShapesService::DeleteShape(int shapeId)
 {

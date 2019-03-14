@@ -4,6 +4,7 @@ import actions from './actions'
 import mutations from './mutations'
 import {StoreOptions} from 'vuex';
 import {StoreRootState} from './models'
+import getters from './getters'
 
 
 Vue.use(Vuex);
@@ -14,7 +15,8 @@ const store: StoreOptions<StoreRootState> = {
         TopologyTypes:[]
     },
     actions,
-    mutations
+    mutations,
+    getters
 };
 
 export default new Vuex.Store<StoreRootState>(store);

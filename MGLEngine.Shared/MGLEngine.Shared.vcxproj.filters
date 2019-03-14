@@ -159,6 +159,9 @@
     <ClInclude Include="Interfaces\IShapeHandle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\UniqueNameGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utils\Exception.cpp">

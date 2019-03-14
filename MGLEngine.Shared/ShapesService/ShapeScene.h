@@ -11,8 +11,9 @@ public:
 	IShapeHandle *Handle;
 	std::string TopologyType;
 	std::string PainterType;
+	std::string Name;
 public:
-	SceneObject(int id,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
+	SceneObject(int id,std::string name,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
 	SceneObject(){}
 	~SceneObject();
 	std::string Serialize();
