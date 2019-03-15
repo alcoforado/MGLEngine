@@ -22,3 +22,13 @@ export interface StoreRootState {
 }
 
 
+export interface SceneObject {
+    TopologyType:string;
+    PainterType:string;
+    Topology:any;
+    Painter:any;
+    Id:number;
+    Name:string;
+}
+
+
