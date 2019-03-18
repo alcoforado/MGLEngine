@@ -42,7 +42,9 @@
       </md-app-drawer>
 
       <md-app-content>
-        
+        <shape-browser>
+
+        </shape-browser>
         <m-modal title="Create Shape" cancelButtonText="" confirmButtonText=""> 
           <m-select-list :items="topologiesList"></m-select-list>
 
@@ -60,15 +62,10 @@
 .page-container {
   height:100%;
 }
-@import "~vue-material/dist/theme/all"; // Apply the theme
-@import "./scss/fonts.scss";
+
+
 @import "./scss/material-icons.scss";
-
-
-
- 
-
-
+@import "./scss/fonts.scss";
   
 
 
@@ -87,6 +84,7 @@ import * as Models from './store/models';
 import MModal from './components/modal.vue';
 import MSelectList from './components/MSelectList.vue'
 import {MSelectListItem} from './components/mmodels'
+import ShapeBrowser from './app-components/ShapeBrowser.vue'
 Vue.use(VueMaterial);
 
 
@@ -94,7 +92,8 @@ Vue.use(VueMaterial);
 @Component ({
   components:{
     MModal,
-    MSelectList
+    MSelectList,
+    ShapeBrowser
   }
 })
 export default class App extends Vue {

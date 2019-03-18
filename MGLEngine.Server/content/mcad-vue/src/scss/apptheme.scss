@@ -7,7 +7,7 @@ $app_theme: (
     theme: dark,
     background: md-get-palette-color(grey, A400),
     background-variant: #303030,
-    background-highlight: darken(md-get-palette-color(grey,A400),5%)
+    background-highlight: lighten(md-get-palette-color(grey,A400),5%)
   );
 
   @include md-register-theme("default", $app-theme);
@@ -21,3 +21,9 @@ $app_theme: (
         }
     }
 
+@import "~vue-material/dist/theme/all"; // Apply the theme
+
+
+
+
+ 
