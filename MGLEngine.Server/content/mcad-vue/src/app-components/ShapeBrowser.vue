@@ -1,12 +1,22 @@
 <template>
 <div class="shape-browser">
     <div class="master-panel" draggable="false" >
-        Shapes
+        <md-toolbar class="md-dense md-accent" md-elevation="0">
+            Shapes
+            <md-button  @click="$emit('addShape')" class="md-icon-button">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-toolbar>
     </div>
     <div class="separator" draggable="false" >
     </div>
     <div class="detail-panel" draggable="false" >
-        Form Here
+        <md-toolbar class="md-dense md-accent" md-elevation="0">
+            <h4 class="md-title" style="flex: 1">Shape Details</h4>
+            <md-button  @click="$emit('addShape')" class="md-icon-button">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-toolbar>
     </div>
 </div>
     
@@ -31,12 +41,12 @@ export default class ShapeBrowser extends Vue {
     height:100%;
     width:100%;
     .master-panel {
-        width:100px;
+        width:200px;
         
     }
 
     .separator {
-        width:5px;
+        width:0px;
         border-right: 2px white solid;
         cursor: ew-resize;
     }

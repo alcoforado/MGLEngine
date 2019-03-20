@@ -12,7 +12,7 @@ module.exports = {
     css: {
           loaderOptions: {
             sass: {
-              data: `@import "@/scss/apptheme.scss";`
+              data: `@import "@/scss/main.scss";`
             }
           }
         },

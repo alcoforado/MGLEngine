@@ -1,6 +1,6 @@
 <template>
     <md-dialog  :md-active.sync="showDialog" :md-backdrop="false">
-        <md-toolbar class="md-accent">
+        <md-toolbar class="md-accent" md-elevation="0">
             <h3 class="md-title" style="flex: 1">{{title}}</h3>
             <md-button  @click="$emit('cancel')" class="md-icon-button">
                 <md-icon>clear</md-icon>
