@@ -12,7 +12,9 @@ Vue.use(Vuex);
 const store: StoreOptions<StoreRootState> = {
     state: {
         PaiterTypes:[],
-        TopologyTypes:[]
+        TopologyTypes:[],
+        SObjects:[],
+        DisplayCreateShapeDialog:false
     },
     actions,
     mutations,

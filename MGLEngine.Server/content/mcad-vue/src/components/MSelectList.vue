@@ -61,7 +61,7 @@ export default class MSelectList extends Vue {
     @Prop({default:[]}) items!:MSelectListItem[];
     itemSelected(item:MSelectListItem){
      
-     this.$emit("itemSelected",item)
+     this.$emit("item_selected",item)
     }
 }
 </script>

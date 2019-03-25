@@ -19,16 +19,18 @@ export interface TopologyType {
 export interface StoreRootState {
     PaiterTypes:PainterType[];
     TopologyTypes:TopologyType[];
+    SObjects:SceneObject[];
+    DisplayCreateShapeDialog:boolean;
 }
 
 
-export interface SceneObject {
-    TopologyType:string;
-    PainterType:string;
-    Topology:any;
-    Painter:any;
-    Id:number;
-    Name:string;
+export class SceneObject {
+    TopologyType:string="";
+    PainterType:string="";
+    Topology:any=null;
+    Painter:any=null;
+    Id:string="";
+    Name:string="";
 }
 
 

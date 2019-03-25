@@ -20,6 +20,14 @@ const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
         return await Promise.all([p1,p2]);
     },
 
+
+    async [Actions.CREATE_SHAPE]({commit},shapeType:string ){
+        var sh = new Model.SceneObject();
+        sh.TopologyType=shapeType;
+        commit(Mutations.ADD_SHAPE,shapeType);
+    },
+
+
     async [Actions.SAVE_SHAPE]({commit},shape) {
         return axios.post('/api/shape',shape);
     }

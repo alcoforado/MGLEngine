@@ -5,7 +5,7 @@
         <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
           <md-icon>menu</md-icon>
         </md-button>
-        <span class="md-title">My Title</span>
+        <span class="md-title">MCad</span>
 
         <div class="md-toolbar-section-end">
             <md-button class="md-icon-button">
@@ -45,8 +45,9 @@
         <shape-browser>
 
         </shape-browser>
-        <m-modal title="Create Shape" cancelButtonText="" confirmButtonText=""> 
-          <m-select-list :items="topologiesList"></m-select-list>
+        
+        <m-modal title="Create Shape" v-on:cancel="showCreateShapeDialog(false)"  :showDialog="$store.state.DisplayCreateShapeDialog" cancelButtonText="" confirmButtonText=""> 
+          <m-select-list v-on:item_selected="createShape" :items="topologiesList"></m-select-list>
 
         </m-modal>
 
@@ -66,7 +67,10 @@
 
 @import "./scss/material-icons.scss";
 @import "./scss/fonts.scss";
-  
+
+.md-app-content {
+  padding:0;
+}
 
 
 </style>
@@ -104,6 +108,14 @@ export default class App extends Vue {
 
   get topologiesList():MSelectListItem[] {
     return this.$store.getters.topologiesList;
+  }
+
+  showCreateShapeDialog(b:boolean) {
+    this.$store.commit(Mutations.DISPLAY_CREATE_SHAPE_DIALOG,b);
+  }
+  createShape(it:MSelectListItem)
+  {
+    this.$store.dispatch(Actions.CREATE_SHAPE,it.text);
   }
 
   created(){
