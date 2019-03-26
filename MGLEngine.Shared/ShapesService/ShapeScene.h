@@ -5,7 +5,7 @@
 class SceneObject 
 {
 public:
-	int Id;
+	std::string Id;
 	ITopology2D *Top2d;
 	IPainter2D *Painter;
 	IShapeHandle *Handle;
@@ -13,7 +13,7 @@ public:
 	std::string PainterType;
 	std::string Name;
 public:
-	SceneObject(int id,std::string name,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
+	SceneObject(std::string id,std::string name,ITopology2D *top2d,IPainter2D *painter,IShapeHandle *handle,std::string topType, std::string pntType);
 	SceneObject(){}
 	~SceneObject();
 	std::string Serialize();

@@ -1,7 +1,7 @@
 #include <MGLEngine.Shared/ShapesService/ShapesService.h>
 #include "ShapesManager.h"
 #include <msclr\marshal_cppstd.h>
-
+#include <MGLEngine.CLR/Mappers/Mapper.h>
 using namespace MGLEngineCLR;
 using namespace System;
 using namespace System::Collections::Generic;
@@ -30,9 +30,9 @@ System::String ^ MGLEngineCLR::ShapesManager::SaveShape(String ^shapeJson)
 }
 
 
-void MGLEngineCLR::ShapesManager::DeleteShape(int shapeId)
+void MGLEngineCLR::ShapesManager::DeleteShape(String^ shapeId)
 {
-	_sh->DeleteShape(shapeId);
+	_sh->DeleteShape(msclr::interop::marshal_as<std::string>(shapeId));
 }
 
 List<RenderType^>^ MGLEngineCLR::ShapesManager::GetRenderTypes()
@@ -52,6 +52,7 @@ List<RenderType^>^ MGLEngineCLR::ShapesManager::GetRenderTypes()
 
 
 
+
 List<ShapeType^>^ MGLEngineCLR::ShapesManager::GetShapeTypes()
 {
 	List<ShapeType^>^ result = gcnew List<ShapeType^>();
@@ -65,6 +66,19 @@ List<ShapeType^>^ MGLEngineCLR::ShapesManager::GetShapeTypes()
 	}
 	return result;
 
+	
+}
+
+String ^ MGLEngineCLR::ShapesManager::ReserveShapeId(String^ topologyType)
+{
+	try {
+		std::string result=_sh->ReserveShapeId(msclr::interop::marshal_as<std::string>(topologyType));
+		return Mapper::Map(result);
+	}
+	catch (std::exception &e)
+	{
+		throw Mapper::Map(e);
+	}
 	
 }
 

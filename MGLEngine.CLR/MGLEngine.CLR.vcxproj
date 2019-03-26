@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
+    <ClInclude Include="Mappers\Mapper.h" />
     <ClInclude Include="Mappers\BasicTypesMapper.h" />
     <ClInclude Include="Models\RenderType.h" />
     <ClInclude Include="ShapeHandle.h" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="Mappers\Mapper.cpp" />
     <ClCompile Include="ShapeHandle.cpp" />
     <ClCompile Include="ShapesManager.cpp" />
     <ClCompile Include="Window.cpp" />

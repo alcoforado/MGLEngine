@@ -25,8 +25,9 @@ namespace MGLEngineCLR {
 		ShapesManager(Window^ w);
 		~ShapesManager();
 		String^ SaveShape(String^ shapeJson);
-		void DeleteShape(int shapeId);
+		void DeleteShape(String^ shapeId);
 		List<RenderType^>^ GetRenderTypes();
 		List<ShapeType^>^ GetShapeTypes();
+		String^ ReserveShapeId(String^ topologyType);
 	};
 }
