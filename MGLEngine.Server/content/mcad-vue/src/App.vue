@@ -89,6 +89,7 @@ import MModal from './components/modal.vue';
 import MSelectList from './components/MSelectList.vue'
 import {MSelectListItem} from './components/mmodels'
 import ShapeBrowser from './app-components/ShapeBrowser.vue'
+import SvgIcon from './components/SvgIcon.vue'
 Vue.use(VueMaterial);
 
 
@@ -97,13 +98,14 @@ Vue.use(VueMaterial);
   components:{
     MModal,
     MSelectList,
-    ShapeBrowser
+    ShapeBrowser,
+    SvgIcon
   }
 })
 export default class App extends Vue {
   private menuVisible: boolean = false;
   public $store!:Store<Models.StoreRootState>;
-  public its:MSelectListItem[]= [{image: "/images/icon-font/theme-white/triangle2d.svg",text: "text1"},{image: "/images/icon-font/theme-white/square2d.svg",text: "text2"}];
+  
   
 
   get topologiesList():MSelectListItem[] {

@@ -54,7 +54,7 @@ public:
 
 	std::string ReserveShapeId(std::string topologyType)
 	{
-		eassert(mstd::Does(_shapes).Have(topologyType),"Topology does not exist");
+		eassert(mstd::Does(_topologies2D).Have(topologyType),"Topology does not exist");
 	    return _nameGen.GenerateName(topologyType);
 	}
 

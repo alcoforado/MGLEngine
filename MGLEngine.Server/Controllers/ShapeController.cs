@@ -29,7 +29,12 @@ namespace MGLEngine.Server.Controllers
             return _mngr.GetRenderTypes();
         }
 
-       
+       [HttpGet]
+       [Route("api/shape/reserveid/{topologyType}")]
+       public string ReserveId(string topologyType)
+        {
+            return _mngr.ReserveShapeId(topologyType);
+        }
 
 
 

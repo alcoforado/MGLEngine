@@ -8,9 +8,14 @@
             </md-button>
         </md-toolbar>
         <md-divider></md-divider>
-        <div v-bind:key="item.Id" v-for="item in $store.SObjects">
-            <span>{{item.Name}}</span> 
-        </div>
+        <md-list>
+        <md-list-item v-bind:key="item.Id" v-for="item in $store.state.SObjects">
+            <svg-icon :src="item.TopologyType"></svg-icon><span class="md-list-item-text">{{item.Name}}</span> 
+        </md-list-item>
+
+
+
+        </md-list>
 
 
 
@@ -33,8 +38,12 @@ import {Store} from 'vuex';
 import store from '../store/store';
 import {Mutations,Actions} from '../store/constants'
 import * as Models from '../store/models';
-
-@Component({})
+import SvgIcon from '../components/SvgIcon.vue';
+@Component({
+    components:{
+    SvgIcon
+    }
+})
 export default class ShapeBrowser extends Vue {
     public $store!:Store<Models.StoreRootState>;
 

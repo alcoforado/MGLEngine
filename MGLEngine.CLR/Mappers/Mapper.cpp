@@ -4,6 +4,7 @@
 #include <msclr\marshal_cppstd.h>
 
 using namespace System;
+using namespace MGLEngineCLR;
 System::String^ Mapper::Map(std::string str)
 {
 	return gcnew System::String(str.c_str());

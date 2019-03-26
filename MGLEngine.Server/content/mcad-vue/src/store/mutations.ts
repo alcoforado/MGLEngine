@@ -15,7 +15,7 @@ const mutations: MutationTree<Model.StoreRootState> = {
     },
     [Mutations.ADD_SHAPE](state:Model.StoreRootState,sh:Model.SceneObject)
     {
-        state.SObjects.push()
+        state.SObjects.push(sh);
     }
 
 };

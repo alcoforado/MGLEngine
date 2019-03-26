@@ -24,7 +24,11 @@ const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
     async [Actions.CREATE_SHAPE]({commit},shapeType:string ){
         var sh = new Model.SceneObject();
         sh.TopologyType=shapeType;
-        commit(Mutations.ADD_SHAPE,shapeType);
+
+        var response=await axios.get('/api/shape/reserveid/'+shapeType);
+        sh.Id=response.data;
+        sh.Name=response.data;
+        commit(Mutations.ADD_SHAPE,sh);
     },
 
 

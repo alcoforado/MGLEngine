@@ -18,7 +18,8 @@ public:
 			_nameCount[name] = 0;
 		}
 		std::stringstream ss;
-		ss << name << "_" << _nameCount[name]++;
+		ss << name << "_" << _nameCount[name];
+		_nameCount[name]++;
 		return ss.str();
 	}
 };
