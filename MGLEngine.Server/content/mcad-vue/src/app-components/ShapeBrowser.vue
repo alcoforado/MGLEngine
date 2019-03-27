@@ -9,7 +9,8 @@
         </md-toolbar>
         <md-divider></md-divider>
         <md-list>
-        <md-list-item v-bind:class="item.UI.Selected" v-bind:key="item.Id" v-for="item in $store.state.SObjects">
+        <md-list-item :class="{selected: item.UI.Selected}" @click="selectObject(item.Id)" v-bind:key="item.Id" v-for="item in $store.state.SObjects">
+           
             <svg-icon :src="item.TopologyType"></svg-icon><span class="md-list-item-text">{{item.Name}}</span> 
         </md-list-item>
 
@@ -40,12 +41,13 @@
     width:100%;
     .master-panel {
         width:200px;
-        .md-list-item-content {
+        .md-list-item {
+            margin: 5px 0px;
             &:hover {
-                background-color: var(--md-theme-default-primary-hover);
+                background-color: var(--md-theme-default-background-highlight);
             }
         }
-        .md-list-item-content.selected {
+        .md-list-item.selected {
             background-color: var(--md-theme-default-primary);
             &:hover {
                 background-color: var(--md-theme-default-primary);
@@ -83,6 +85,11 @@ export default class ShapeBrowser extends Vue {
 
     addShape(){
         this.$store.commit(Mutations.DISPLAY_CREATE_SHAPE_DIALOG,true);
+    }
+
+    selectObject(id:string)
+    {
+        this.$store.commit(Mutations.SELECT_SOBJECT,id);
     }
 
     created() {

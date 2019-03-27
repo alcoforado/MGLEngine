@@ -3,11 +3,11 @@
 $app_theme: (
     primary: md-get-palette-color(blue, A700), // The primary color of your application
     accent: md-get-palette-color(purple, 800), // The accent or secondary color
-    primary-hover: rgba(md-get-palette-color(blue, A700),0.1),
+    
     theme: dark,
     background: md-get-palette-color(grey, 900),
     background-variant: md-get-palette-color(grey, 900),
-    background-highlight: darken(md-get-palette-color(grey,A400),5%),
+    background-highlight: rgba(md-get-palette-color(blue, A700),0.3),
     toolbarvariant: lighten(md-get-palette-color(grey,900),0%),
     divider: rgba(255, 255, 255, 0.2)
   );

@@ -19,13 +19,14 @@ export interface TopologyType {
 export interface StoreRootState {
     PaiterTypes:PainterType[];
     TopologyTypes:TopologyType[];
-    SObjects:SceneObject[];
+    SObjects:{[id:string]:SceneObject};
     DisplayCreateShapeDialog:boolean;
 }
 
 export class UIState 
 {
     Selected:boolean=false;
+    Invalid:boolean=true;
 }
 
 export class SceneObject {

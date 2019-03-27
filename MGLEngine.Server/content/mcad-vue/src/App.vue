@@ -109,6 +109,7 @@ export default class App extends Vue {
   
 
   get topologiesList():MSelectListItem[] {
+    
     return this.$store.getters.topologiesList;
   }
 

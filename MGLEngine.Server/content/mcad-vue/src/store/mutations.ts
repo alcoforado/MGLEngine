@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 import * as Model from './models'
 import {Mutations} from './constants'
-
+import { Vue } from 'vue-property-decorator'
 
 const mutations: MutationTree<Model.StoreRootState> = {
     [Mutations.SET_PAINTER_TYPES](state:Model.StoreRootState, payload:Array<Model.PainterType>) {
@@ -15,9 +15,23 @@ const mutations: MutationTree<Model.StoreRootState> = {
     },
     [Mutations.ADD_SHAPE](state:Model.StoreRootState,sh:Model.SceneObject)
     {
-        state.SObjects.push(sh);
+        Vue.set(state.SObjects,sh.Id,sh);
+        Object.keys(state.SObjects).forEach(key => {
+            state.SObjects[key].UI.Selected // value of the current key
+        
+        })
+        var newArray = [...state.SObjects];
+        newArray.forEach(x=>x.UI.Selected=false);
+        newArray.push(sh);
+        state.SObjects=newArray;
     }
 
+    [Mutations.SELECT_SOBJECT](state:Model.StoreRootState,sh:Model.SceneObject)
+    {
+        state.SObjects.in
+        Vue.set(state.SObjects)
+        state.SObjects=newArray;
+    }
 };
 
 export default mutations;
