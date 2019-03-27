@@ -46,8 +46,12 @@
             
         }
         .md-list-item.selected {
+            .md-list-item-button {
             background-color: var(--md-theme-default-primary);
-           
+            &:hover {
+                 background-color: var(--md-theme-default-primary) !important;
+            }
+            }
         }
     }
     
