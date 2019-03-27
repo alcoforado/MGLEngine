@@ -13,7 +13,7 @@ const store: StoreOptions<StoreRootState> = {
     state: {
         PaiterTypes:[],
         TopologyTypes:[],
-        SObjects:[],
+        SObjects:{},
         DisplayCreateShapeDialog:false
     },
     actions,

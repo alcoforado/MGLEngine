@@ -15,22 +15,20 @@ const mutations: MutationTree<Model.StoreRootState> = {
     },
     [Mutations.ADD_SHAPE](state:Model.StoreRootState,sh:Model.SceneObject)
     {
-        Vue.set(state.SObjects,sh.Id,sh);
+       
         Object.keys(state.SObjects).forEach(key => {
-            state.SObjects[key].UI.Selected // value of the current key
+            state.SObjects[key].UI.Selected=false; // value of the current key
         
         })
-        var newArray = [...state.SObjects];
-        newArray.forEach(x=>x.UI.Selected=false);
-        newArray.push(sh);
-        state.SObjects=newArray;
-    }
+        Vue.set(state.SObjects,sh.Id,sh);
+    },
 
-    [Mutations.SELECT_SOBJECT](state:Model.StoreRootState,sh:Model.SceneObject)
+    [Mutations.SELECT_SOBJECT](state:Model.StoreRootState,itemId:string)
     {
-        state.SObjects.in
-        Vue.set(state.SObjects)
-        state.SObjects=newArray;
+        Object.keys(state.SObjects).forEach(key => {
+            state.SObjects[key].UI.Selected=false; // value of the current key
+        })
+        state.SObjects[itemId].UI.Selected=true;
     }
 };
 
