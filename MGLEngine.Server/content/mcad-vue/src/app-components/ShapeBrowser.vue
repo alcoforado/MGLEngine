@@ -9,7 +9,7 @@
         </md-toolbar>
         <md-divider></md-divider>
         <md-list>
-        <md-list-item v-bind:key="item.Id" v-for="item in $store.state.SObjects">
+        <md-list-item v-bind:class="item.UI.Selected" v-bind:key="item.Id" v-for="item in $store.state.SObjects">
             <svg-icon :src="item.TopologyType"></svg-icon><span class="md-list-item-text">{{item.Name}}</span> 
         </md-list-item>
 
@@ -31,6 +31,39 @@
 </div>
     
 </template>
+
+<style lang="scss">
+.shape-browser {
+    display:flex;
+    flex-wrap:wap;
+    height:100%;
+    width:100%;
+    .master-panel {
+        width:200px;
+        .md-list-item-content {
+            &:hover {
+                background-color: var(--md-theme-default-primary-hover);
+            }
+        }
+        .md-list-item-content.selected {
+            background-color: var(--md-theme-default-primary);
+            &:hover {
+                background-color: var(--md-theme-default-primary);
+            }
+        }
+    }
+    
+    .separator {
+        width:4px;
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: ew-resize;
+    }
+    .detail-panel {
+        flex-grow: 1;
+    }
+
+}
+</style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -59,25 +92,3 @@ export default class ShapeBrowser extends Vue {
 }
 </script>
 
-<style lang="scss">
-.shape-browser {
-    display:flex;
-    flex-wrap:wap;
-    height:100%;
-    width:100%;
-    .master-panel {
-        width:200px;
-        
-    }
-
-    .separator {
-        width:4px;
-        background-color: rgba(255, 255, 255, 0.2);
-        cursor: ew-resize;
-    }
-    .detail-panel {
-        flex-grow: 1;
-    }
-
-}
-</style>

@@ -30,10 +30,11 @@ getSourcePath():string {
 </script>
 
 <style lang="scss">
-.svg-icon {
-    height:1.25em;
-    padding-left:5px;
-    padding-right:5px;
+.md-list-item-content {
+    .svg-icon {
+        width:1.25em;
+        margin-right:15px;
+    }
 }
 </style>
 

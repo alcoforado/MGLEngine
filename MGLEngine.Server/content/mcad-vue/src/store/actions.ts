@@ -28,6 +28,7 @@ const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
         var response=await axios.get('/api/shape/reserveid/'+shapeType);
         sh.Id=response.data;
         sh.Name=response.data;
+        sh.UI.Selected=true;
         commit(Mutations.ADD_SHAPE,sh);
     },
 

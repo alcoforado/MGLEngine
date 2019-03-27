@@ -23,6 +23,10 @@ export interface StoreRootState {
     DisplayCreateShapeDialog:boolean;
 }
 
+export class UIState 
+{
+    Selected:boolean=false;
+}
 
 export class SceneObject {
     TopologyType:string="";
@@ -31,6 +35,7 @@ export class SceneObject {
     Painter:any=null;
     Id:string="";
     Name:string="";
+    UI:UIState=new UIState();
 }
 
 
