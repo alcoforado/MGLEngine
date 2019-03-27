@@ -43,15 +43,11 @@
         width:200px;
         .md-list-item {
             margin: 5px 0px;
-            &:hover {
-                background-color: var(--md-theme-default-background-highlight);
-            }
+            
         }
         .md-list-item.selected {
             background-color: var(--md-theme-default-primary);
-            &:hover {
-                background-color: var(--md-theme-default-primary);
-            }
+           
         }
     }
     
