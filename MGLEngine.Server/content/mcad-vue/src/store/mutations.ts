@@ -29,7 +29,17 @@ const mutations: MutationTree<Model.StoreRootState> = {
             state.SObjects[key].UI.Selected=false; // value of the current key
         })
         state.SObjects[itemId].UI.Selected=true;
+    },
+    
+    [Mutations.UPDATE_SHAPE](state:Model.StoreRootState,sh:Model.SceneObject)
+    {
+        if (typeof state.SObjects[sh.Id] === 'undefined')
+        {
+            throw "shape to be updated doesn't exist or has empty id";
+        }
+        Vue.set(state.SObjects,sh.Id,sh);
     }
+
 };
 
 export default mutations;

@@ -35,7 +35,7 @@
                     <svg-icon :src="item.TopologyType"></svg-icon>
                     
 
-                    <div class="md-title">{{item.Name}}</div>
+                    <edit-label class="md-title" :text="item.Name" v-on:labelChange="nameChange($event,item)"></edit-label>
                     <div class="md-subhead">{{item.TopologyType}}</div>
                 </md-card-header>
 
@@ -117,6 +117,12 @@ import SvgIcon from '../components/SvgIcon.vue';
 export default class ShapeBrowser extends Vue {
     public $store!:Store<Models.StoreRootState>;
 
+    nameChange(newText:string,sh:Models.SceneObject)
+    {
+        var nSh={...sh};
+        nSh.Name=newText;
+        this.$store.commit(Mutations.UPDATE_SHAPE, nSh);
+    }
 
     addShape(){
         this.$store.commit(Mutations.DISPLAY_CREATE_SHAPE_DIALOG,true);

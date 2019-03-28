@@ -3,7 +3,8 @@ export enum Mutations {
     SET_TOPOLOGY_TYPES = "setTopologyTypes",
     DISPLAY_CREATE_SHAPE_DIALOG="displayShapeDialog",
     ADD_SHAPE="addShape",
-    SELECT_SOBJECT="selectObject"
+    SELECT_SOBJECT="selectObject",
+    UPDATE_SHAPE="updateShape"
 }
 
 export enum Actions {
