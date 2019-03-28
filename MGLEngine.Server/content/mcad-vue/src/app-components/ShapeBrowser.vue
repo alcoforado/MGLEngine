@@ -28,6 +28,34 @@
             <h4 class="md-title" style="flex: 1">Shape Details</h4>
         </md-toolbar>
         <md-divider></md-divider>
+        <div class=forms-container>
+            <md-card v-bind:key="item.Id" v-for="item in $store.getters.visibleShapes">
+                <md-card-header>
+                    
+                    <svg-icon :src="item.TopologyType"></svg-icon>
+                    
+
+                    <div class="md-title">{{item.Name}}</div>
+                    <div class="md-subhead">{{item.TopologyType}}</div>
+                </md-card-header>
+
+                <md-card-media>
+                    <img src="/assets/examples/card-image-1.jpg" alt="People">
+                </md-card-media>
+
+                <md-card-content>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea nostrum.
+                </md-card-content>
+
+                <md-card-actions>
+                    <md-button>Action</md-button>
+                    <md-button>Action</md-button>
+                </md-card-actions>
+            </md-card>
+
+
+        </div>
+
     </div>
 </div>
     
