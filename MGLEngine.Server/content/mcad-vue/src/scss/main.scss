@@ -13,6 +13,7 @@ $app_theme: (
     divider-on-background:rgba(md-get-palette-color(grey, 700),0.8)
   );
 
+
 @include md-register-theme("default", $app-theme);
 
 
@@ -27,6 +28,18 @@ $app_theme: (
 @import "~vue-material/dist/theme/all"; // Apply the theme
 
 
+.md-card-header.big {
+  >img~.md-title {
+    font-size:20px;
+    line-height: 24px;
+  }
+  >img~.md-title~.md-subhead {
+    margin-top:4px;
 
+  }
+  >img {
+      border-radius:0;
+      width:43px;
+   }
+}
 
- 

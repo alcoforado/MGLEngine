@@ -29,8 +29,8 @@
         </md-toolbar>
         <md-divider></md-divider>
         <div class=forms-container>
-            <md-card v-bind:key="item.Id" v-for="item in $store.getters.visibleShapes">
-                <md-card-header>
+            <md-card class="md-elevation-16" v-bind:key="item.Id" v-for="item in $store.getters.visibleShapes">
+                <md-card-header class="big">
                     
                     <svg-icon :src="item.TopologyType"></svg-icon>
                     
@@ -90,6 +90,13 @@
     }
     .detail-panel {
         flex-grow: 1;
+        
+        .forms-container {
+            margin:10px 5px;
+        }
+        .md-card {
+            border: solid 1px rgba(255,255,255,0.1);
+        }
     }
 
 }
