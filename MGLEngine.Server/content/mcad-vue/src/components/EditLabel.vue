@@ -2,8 +2,8 @@
     <div class="edit-label">
         
         
-        <md-field v-if="showEdit" @blur="labelChange">
-            <md-input v-model="text"></md-input>
+        <md-field v-if="showEdit" >
+            <md-input :value="value" @input="valueChange" @blur="exitEdit"></md-input>
         </md-field>
         <div v-else class="slot-placeholder">
             {{value}}
@@ -16,7 +16,12 @@
 
 <style lang="scss">
     .edit-label {
-        
+        .md-field {
+            padding-top:0px;
+            margin:0px;
+            width:80%;
+            min-height:0px;
+        }
         .slot-placeholder {
             display:inline-block;
             margin-right: 10px;
@@ -35,14 +40,19 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class EditLabel extends Vue {
-    @Prop({default:false}) showEdit!:boolean;
+    showEdit:boolean=false;
     @Prop({default:''}) value!:string;
+    
     editLabel(){
         this.showEdit=true;
     }
-    labelChange(){
-        this.$emit('label-change',this.value);
+    valueChange(v:string){
+        this.value=v;
+    }
+    exitEdit()
+    {
         this.showEdit=false;
+        this.$emit("input",this.value)
     }
 }
 </script>

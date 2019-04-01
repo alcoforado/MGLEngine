@@ -35,7 +35,7 @@
                     <svg-icon :src="item.TopologyType"></svg-icon>
                     
 
-                    <edit-label class="md-title" :value="item.Name" v-on:labelChange="nameChange($event,item)"></edit-label>
+                    <edit-label class="md-title" v-model="item.Name" v-on:input="nameChange($event,item)"></edit-label>
                     <div class="md-subhead">{{item.TopologyType}}</div>
                 </md-card-header>
 
