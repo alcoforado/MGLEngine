@@ -39,9 +39,7 @@
                     <div class="md-subhead">{{item.TopologyType}}</div>
                 </md-card-header>
 
-                <md-card-media>
-                    <img src="/assets/examples/card-image-1.jpg" alt="People">
-                </md-card-media>
+              
 
                 <md-card-content>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea nostrum.

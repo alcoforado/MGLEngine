@@ -3,7 +3,7 @@
         
         
         <md-field v-if="showEdit" >
-            <md-input :value="value" @input="valueChange" @blur="exitEdit"></md-input>
+            <md-input class="editInput" ref="editInput" spellcheck="false" :value="value" @input="valueChange" @blur="exitEdit"></md-input>
         </md-field>
         <div v-else class="slot-placeholder">
             {{value}}
@@ -45,6 +45,8 @@ export default class EditLabel extends Vue {
     
     editLabel(){
         this.showEdit=true;
+        debugger;
+        setTimeout(()=>((this.$refs.editInput as Vue).$el as HTMLElement).focus(),0);
     }
     valueChange(v:string){
         this.value=v;
