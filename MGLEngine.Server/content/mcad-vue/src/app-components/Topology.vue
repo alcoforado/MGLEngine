@@ -1,12 +1,13 @@
 <template>
 <section class="topology">
-<component :is="dynamicRender" top="topology"></component>
+<component :is="dynamicRender" :value="topology"></component>
 
 </section>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import Triangle2D from './topologies/Triangle2D.vue';
 import {Store} from 'vuex';
 import store from '../store/store';
 import {Mutations,Actions} from '../store/constants'

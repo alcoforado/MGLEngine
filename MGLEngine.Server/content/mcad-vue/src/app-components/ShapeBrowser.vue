@@ -42,7 +42,7 @@
               
 
                 <md-card-content>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea nostrum.
+                    <topology :shapeId="item.Id"></topology>
                 </md-card-content>
 
                 <md-card-actions>
@@ -115,9 +115,11 @@ import store from '../store/store';
 import {Mutations,Actions} from '../store/constants'
 import * as Models from '../store/models';
 import SvgIcon from '../components/SvgIcon.vue';
+import Topology from './Topology.vue'
 @Component({
     components:{
-    SvgIcon
+    SvgIcon,
+    Topology
     }
 })
 export default class ShapeBrowser extends Vue {

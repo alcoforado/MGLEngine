@@ -8,9 +8,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 @Component
 export default class Triangle2D extends Vue {
-    @Prop() top:any;
+    @Prop() value:any;
 }
 </script>
 

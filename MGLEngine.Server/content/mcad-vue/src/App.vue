@@ -85,7 +85,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import store from './store/store';
 import {Mutations,Actions} from './store/constants'
 import * as Models from './store/models';
-import MModal from './components/modal.vue';
+import MModal from './components/MModal.vue';
 import MSelectList from './components/MSelectList.vue'
 import {MSelectListItem} from './components/mmodels'
 import ShapeBrowser from './app-components/ShapeBrowser.vue'
