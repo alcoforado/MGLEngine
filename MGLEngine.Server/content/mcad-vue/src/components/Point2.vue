@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
-export default class Point2D extends Vue {
+export default class Point2 extends Vue {
     @Prop() value:any;
 
     valueChangeX(v:string){

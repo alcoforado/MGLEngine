@@ -24,6 +24,7 @@
     <div class="separator" draggable="false" >
     </div>
     <div class="detail-panel" draggable="false" >
+        
         <md-toolbar class="md-dense" md-elevation="0">
             <h4 class="md-title" style="flex: 1">Shape Details</h4>
         </md-toolbar>
@@ -130,6 +131,10 @@ export default class ShapeBrowser extends Vue {
         var nSh={...sh};
         nSh.Name=newText;
         this.$store.commit(Mutations.UPDATE_SHAPE, nSh);
+    }
+
+    d() {
+        return {x:0,y:1};
     }
 
     addShape(){
