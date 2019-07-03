@@ -133,9 +133,7 @@ export default class ShapeBrowser extends Vue {
         this.$store.commit(Mutations.UPDATE_SHAPE, nSh);
     }
 
-    d() {
-        return {x:0,y:1};
-    }
+   
 
     addShape(){
         this.$store.commit(Mutations.DISPLAY_CREATE_SHAPE_DIALOG,true);

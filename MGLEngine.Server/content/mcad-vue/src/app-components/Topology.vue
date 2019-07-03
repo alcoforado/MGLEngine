@@ -1,6 +1,7 @@
 <template>
 <section class="topology">
-<component :is="dynamicRender" :value="topology"></component>
+
+<component :is="dynamicRender" :value="topology()"></component>
 
 </section>
 </template>
@@ -12,7 +13,10 @@ import {Store} from 'vuex';
 import store from '../store/store';
 import {Mutations,Actions} from '../store/constants'
 import * as Models from '../store/models';
-@Component
+@Component({
+    components:{
+    }
+})
 export default class Topology extends Vue {
     public $store!:Store<Models.StoreRootState>;
     @Prop() shapeId:string;
@@ -21,10 +25,11 @@ export default class Topology extends Vue {
     {
         if (this.$store.state.SObjects[this.shapeId])
         {
-            return this.$store.state.SObjects[this.shapeId].TopologyType;
+            const type=this.$store.state.SObjects[this.shapeId].TopologyType;
+            return import(`./topologies/${type}.vue`)
 
         }
-        return "Empty";
+        throw "Topology not found."
 
     }
     topology():any {
@@ -38,5 +43,11 @@ export default class Topology extends Vue {
 </script>
 
 <style lang="scss">
-
+.topology {
+    .top-label {
+    position:relative;
+    top:6px;
+    margin-right:4px;
+    }
+}
 </style>

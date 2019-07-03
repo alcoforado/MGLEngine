@@ -29,6 +29,7 @@ const actions: ActionTree<Model.StoreRootState, Model.StoreRootState> = {
         sh.Id=response.data;
         sh.Name=response.data;
         sh.UI.Selected=true;
+        sh.Topology=null;
         commit(Mutations.ADD_SHAPE,sh);
     },
 
