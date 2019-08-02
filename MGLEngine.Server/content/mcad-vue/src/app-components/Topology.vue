@@ -45,9 +45,10 @@ export default class Topology extends Vue {
 <style lang="scss">
 .topology {
     .top-label {
-    position:relative;
-    top:6px;
+    display:inline-block;
+   
     margin-right:4px;
+    height:32px;
     }
 }
 </style>

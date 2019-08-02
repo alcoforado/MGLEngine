@@ -45,7 +45,6 @@ export default class EditLabel extends Vue {
     
     editLabel(){
         this.showEdit=true;
-        debugger;
         setTimeout(()=>((this.$refs.editInput as Vue).$el as HTMLElement).focus(),0);
     }
     valueChange(v:string){

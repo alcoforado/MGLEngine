@@ -1,14 +1,14 @@
 <template>
 <div>
     <div class="row">
-        <label class="top-label">Point0: </label> <point2 v-model="top.P0"/>
+        <span class="top-label">Point0: </span> <point2 v-model="top.P0"/>
     </div>
     <div class="row">
-    <label class="top-label">Point1: </label> <point2 v-model="top.P1"/>
+    <span class="top-label">Point1: </span> <point2 v-model="top.P1"/>
     </div>
 
     <div class="row">
-    <label class="top-label">Point2: </label> <point2 v-model="top.P2"/>
+    <span class="top-label">Point2: </span> <point2 v-model="top.P2"/>
     </div>
 </div>
 </template>
@@ -29,5 +29,8 @@ export default class Triangle2D extends Vue {
 </script>
 
 <style lang="scss">
-
+.row {
+    position:relative;
+    vertical-align:middle;
+}
 </style>
