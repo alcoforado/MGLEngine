@@ -1,24 +1,7 @@
 <template>
-     
-     <div class="point2d">
-         
-         
-         
-         <md-field :class="hasErrorX ? 'md-invalid':''">
-         
+         <md-field :class="hasError ? 'md-invalid':''">
             <md-input  spellcheck="false" :value="value.x" @input="valueChangeX" ></md-input>
          </md-field>
-        
-         <span class="field-separator">, </span> 
-         
-        
-         <md-field :class="hasErrorY ? 'md-invalid':''"> 
-         
-            <md-input  spellcheck="false" :value="value.y" @input="valueChangeY"></md-input>
-            
-        </md-field>
-       
-     </div>
 </template>
 
 <script lang="ts">
@@ -28,12 +11,10 @@ export default class Point2 extends Vue {
     @Prop({default:{x:null,y:null}}) value:any;
    
     public _value:any=null;
-    public hasErrorX:boolean=false;
-    public hasErrorY:boolean=false;
+    public hasError:boolean=false;
    
     get displayValue() {
        return  this._value ? this._value : this.value;
-
     }
 
     
