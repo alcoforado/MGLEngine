@@ -1,75 +1,57 @@
 <template>
          <md-field :class="hasError ? 'md-invalid':''">
-            <md-input  spellcheck="false" :value="value.x" @input="valueChangeX" ></md-input>
+            <md-input  spellcheck="false" :value="displayValue" @input="valueChange" ></md-input>
          </md-field>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import {MForm} from '../shared/forms/MForm';
 @Component
 export default class Point2 extends Vue {
     @Prop({default:{x:null,y:null}}) value:any;
    
     public _value:any=null;
-    public hasError:boolean=false;
-   
-    get displayValue() {
-       return  this._value ? this._value : this.value;
-    }
-
+    public mForm:MForm;
     
-
-    sendEvent(){
-            if (this.hasErrorY || this.hasErrorX)
-                this.$emit("error","Expect number");
-            else
-                this.$emit('input',this.value);
+    constructor()
+    {
+        super();
+        this.mForm=new MForm(this);
     }
-   
-    valueChangeX(v:string){
-        if (this.value.x && this.value.y)
-        {
-        
-        this._value = {
-            x: v,
-            y: this.value.y.toString()
-        };
-        
-        var regexp = /[+-]?[0-9]+(.[0-9]*)?([eE][+-][0-9]+)?/;
-        var content = regexp.exec(v);
-
-        if (content!= null && content[0]==v.trim())
-        {
-
-        }
-        
-        this._value
-
-
-        var x=parseFloat(v.trim());
-        if (isNaN(this.value.x)){
-            this.value.x=null;
-            this.hasErrorX=true;
-        }
-        else {
-            this.hasErrorX=false;
-        }
-        this.sendEvent();
+    
+    
+    get displayValue() {
+       return  this.mForm.GetValue(this.value,'',this.map);
     }
-    valueChangeY(v:string){
-        if (this.value==null)
-            this.value={x:null,y:null};
-        this.value.y=parseFloat(v);
-        if (isNaN(this.value.y))
-        {
-            this.value.y=null;
-            this.hasErrorY=true;
-        }
-        else {
-            this.hasErrorY=false;
-        }
-        this.sendEvent();
+    get hasError() {
+        return this.mForm.HasError(this.value);
+    }
 
+    map(v:string):number
+    {
+        if (v!=null)
+        {
+            var vt = v.trim().toLowerCase();
+            var regexp = /[+-]?[0-9]+(.[0-9]*)?([eE][+-][0-9]+)?/;
+            var content= regexp.exec(vt);
+            if (content[0]==vt)
+            {
+
+                 var x=parseFloat(v.trim());
+                if (isNaN(this.value.x)){
+                    throw 'Not a Number'
+                return x;
+                }
+            }
+            throw 'Not a Number'
+        }
+        throw 'required'
+
+    }
+    valueChange(v:string)
+    {
+        this.mForm.valueChane(v,'',this.map);
     }
 }
 </script>
