@@ -5,10 +5,11 @@ export interface MFormValue {
   value: any;
 }
 
+
 export class MForm {
   
     constructor(public component:Vue){}
-    
+    private _root:any;
     GetValuePrimitive(obj: any, map: (v: any) => any): any {
     try {
       if (obj) {
@@ -29,7 +30,7 @@ export class MForm {
     }
   }
 
-  GetValue(obj: any, field: string, map: (v: any) => any): any {
+  private GetValueBase(obj: any, field: string, map: (v: any) => any,isRoot:boolean): any {
     if (field == null || field.trim() == "") {
       return this.GetValuePrimitive(obj, map);
     }
@@ -42,6 +43,24 @@ export class MForm {
     }
     return this.GetValuePrimitive(obj[field],map);              
   }
+
+  public GetValue(obj: any, field: string, map: (v: any) => any):any
+  {
+    return this.GetValueBase(obj,field,map,false);
+  }
+
+  public Root(rootObj: object):object
+  {
+    if (!rootObj)
+      throw "Root object cannot be null";
+    if (typeof rootObj !== "object")
+      throw "Root must be an object"
+    this._root=rootObj;
+    return this._root;
+  }
+
+  
+
 
   HasError(value: any): any {
     if (value==null)
