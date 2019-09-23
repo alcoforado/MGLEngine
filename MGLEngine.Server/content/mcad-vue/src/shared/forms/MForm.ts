@@ -5,6 +5,11 @@ export interface MFormValue {
   value: any;
 }
 
+export interface AddFieldEvent {
+  eventName:string,
+  fieldPath:string[]
+  value:any;
+}
 
 export class MForm {
   
@@ -37,7 +42,7 @@ export class MForm {
     if (obj == null || typeof obj[field] == 'undefined') {
         this.component.$emit('input', {
             eventName:'createField',
-            fieldName:field
+            fieldPath:[field]
         });
         return null;
     }
@@ -59,7 +64,24 @@ export class MForm {
     return this._root;
   }
 
-  
+  public onChange(event:AddFieldEvent,obj:any,field?:string)
+  {
+    var result={...event};
+    result.fieldPath=[field,...result.fieldPath];
+    this.component.$emit('input',result);
+    if (event.eventName && event.eventName == 'createField' )
+    {
+      if (field && field!='')
+      { 
+        var result={...event};
+        result.fieldPath=[field,...result.fieldPath];
+      }
+    }
+    else if (event.eventName && event.eventName == 'valueChange')
+    {
+
+    }
+  }  
 
 
   HasError(value: any): any {
