@@ -15,10 +15,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
+import {MForm} from '../../shared/forms/MForm'
 @Component
 export default class Triangle2D extends Vue {
     @Prop() value:any;
+    mform:MForm=null    ;
+    
+    created() {
+        this.mform=new MForm(this);
+    }
 
     get top() {
         return this.value == null ? {P0:null,P1:null,P2:null} : this.value;
