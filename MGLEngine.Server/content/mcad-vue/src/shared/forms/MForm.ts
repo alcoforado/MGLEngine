@@ -1,48 +1,6 @@
 import {  Vue } from 'vue-property-decorator';
 
-export class MFormValue {
-  isError: boolean;
-  value: any;
-  message:string;
-  isMFormValue:boolean;
-  
 
-  static createError(message:string,value?:any):MFormValue
-  {
-    var result = new MFormValue();
-    result.isError=true;
-    result.isMFormValue=true;
-    result.message=message;
-    result.value=value
-    return result;
-  }
-
-  static createValue(value:any):MFormValue{
-    if (value && value.isMFormValue)
-      return value;
-    
-    var result = new MFormValue();
-    result.isError=false;
-    result.isMFormValue=true;
-    result.value=value;
-    return result;
-  }
-
-  static getRaw(value:any):any {
-    if (!value)
-      return value;
-    
-    if (value.isMFormValue)
-    {
-      return value.value;
-    }
-    else
-    {
-      return value;
-    }
-  }
-
-}
 export enum PropertyType {
   Object = "object",
   Array = "array",
@@ -135,10 +93,10 @@ export class MFormNode {
     return this.isDefined() && this.children[p] && this.children[p].isDefined();
   }
 
-  private createUndefinedProperty(fieldName: string): MFormNode {
+  private createUndefinedProperty(field: string|number): MFormNode {
     
     var result=new MFormNode();
-    result.field = new PropertyInfo(fieldName,null)
+    result.field = new PropertyInfo(field,null)
     result.hasError=false;
     result.errorMessage=null;
     result.fieldValue=null; //Value not defined yet.
