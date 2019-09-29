@@ -44,32 +44,230 @@ export class MFormValue {
 
 }
 export enum PropertyType {
-  Object="object",
-  Array="array",
+  Object = "object",
+  Array = "array",
+  Primitive = "primitive"
 }
 
 
-export interface PropertyInfo {
-  name:string;
+export class PropertyInfo {
+  private name:string;
   type:PropertyType;
-  index?:number;
+  private index:number;
 
+  constructor(field:string|number,type:PropertyType)
+  {
+    this.type=type;
+    this.setField(field);
+  }
+
+  clone():PropertyInfo{
+    return new PropertyInfo(this.getFieldId(),this.type);
+  }
+  getFieldId():string|number
+  {
+    if (this.name!=null) return this.name;
+    return this.index;
+  }
+
+  getField():string {
+    if (this.name!=null)
+      return this.name
+   if (this.index!=null)
+    return this.index.toString()
+   else
+    return ''
+  }
+
+  isIndex():boolean {return this.index!=null};
+  isName():boolean {return this.name!=null};
+  setField(field:string|number)
+    {
+      if (typeof field == "number")
+        {
+          this.index=field;
+          this.name=null;
+        }
+      else 
+      {
+        this.name=field;
+        this.index=null;
+      }      
+    }
+}
+
+export interface MFormChangeEvent {
+  sourceNode:MFormNode;
+  value:any;
 }
 
 
 export class MFormNode {
-  field:PropertyInfo
-  fieldValue:MFormValue;
-  path:PropertyInfo[];
   
+  field:PropertyInfo
+  fieldValue:any;
+  parent:MFormNode;
+  hasError:boolean;
+  errorMessage:string;
+  isMFormNode:boolean = true;
+  children:{[key:string]:MFormNode}
 
+  constructor(){
+    this.field=new PropertyInfo('',null);
+    this.isMFormNode=true;
+    this.fieldValue=null;
+    this.parent=null;
+    this.children={};
+  }
 
-  isRoot():boolean {
-    return this.path==null || this.path.length == 0;
+  private isRoot():boolean {
+    return this.parent == null;
+  }
+
+  private isDefined():boolean
+  {
+    return this.field.type!=null;
   }
 
 
-  DelegateField(fieldName:string):MFormNode
+  private hasProperty(p:string|number):boolean
+  {
+    return this.isDefined() && this.children[p] && this.children[p].isDefined();
+  }
+
+  private createUndefinedProperty(fieldName: string): MFormNode {
+    
+    var result=new MFormNode();
+    result.field = new PropertyInfo(fieldName,null)
+    result.hasError=false;
+    result.errorMessage=null;
+    result.fieldValue=null; //Value not defined yet.
+    result.parent=this;
+    result.children={};
+    return result;
+  }
+  
+  private setValue(value:any)
+  {
+    if (this.hasChildren())
+      throw `Can't set value at Node ${this.getStringPath()}, node has children`;
+    
+    var vtype:PropertyType= MFormNode.getType(value);
+    if (this.field.type==null)
+    {
+      this.field.type=vtype;
+    }
+    if (vtype == this.field.type)
+    {
+      this.fieldValue=value;
+      if (!this.isRoot())
+      {
+        if (!this.parent.fieldValue)
+          throw `Can't set value at ${this.getStringPath()}, the parent is not allocated`
+        this.parent.fieldValue[this.field.getField()]=value;
+      }
+    }
+    else
+      throw `Error on set value for node ${this.getStringPath}, type incompatibility between ${vtype} and ${this.field.type}`
+  }
+  
+  
+  private getRoot():MFormNode
+  {
+    var it:MFormNode=this;
+    while(it.isRoot())
+    {
+      it=it.parent;
+    }
+    return it;
+  }
+  private getPath():PropertyInfo[] 
+  {
+    var result:PropertyInfo[]= [];
+    var it:MFormNode = this;
+    while (it)
+    {
+      result.push(it.field.clone());
+      it=it.parent;
+    }
+    return result.reverse();
+  }
+  
+  private getStringPath():string {
+    var path = this.getPath();
+    var result="";
+    path.forEach(p=>{result+="/"+p.getField()})
+    return result;
+  }
+  
+
+  private static getType(value: any): PropertyType {
+    if (value == null)
+      return null;
+    if (typeof value != "object")
+      return PropertyType.Primitive;
+    else 
+    {
+      return Array.isArray(value)  ? PropertyType.Array : PropertyType.Object;
+    }
+    
+    throw new Error("Method not implemented.");
+  }
+  private hasChildren():boolean {
+    return Object.keys(this.children).length > 0;
+  }
+  
+  private  getOrCreateChild(field: PropertyInfo): MFormNode {
+    
+    if (!this.isDefined())  //the node is not defined, set as an object or an array so it can have fields
+    {
+      this.field.type=field.isIndex() ? PropertyType.Array : PropertyType.Object
+      this.fieldValue=field.isIndex() ? [] : {};
+      if (!this.isRoot())
+      {
+        if (this.parent.isDefined())
+          this.parent.fieldValue[this.field.getFieldId()]=this.fieldValue;
+      }
+    }
+
+   
+      
+      if (this.field.type !== PropertyType.Object && this.field.type !== PropertyType.Array)
+        throw `Cannot create field property for ${this.getStringPath()}, node is not an object or array`
+      if (this.children[field.getFieldId()])
+      {
+        var child=this.children[field.getFieldId()]
+        if (child.field.type != field.type)
+          throw `Expect children ${child.field.getField()} to be ${child.field.type}, but it is ${field.type}`
+        return this.children[field.getFieldId()];
+      }
+      else //create child
+      {
+        var child:MFormNode = new MFormNode();
+        child.field=field.clone();
+        child.parent=this;
+        this.children[field.getFieldId()]=child;
+        return child;
+      }
+    
+  }
+
+  public onChange(v:any):MFormNode
+  {
+    if (!v.isMFormNode)
+    {
+       this.setValue(v);
+       return this;
+    }
+    else if (!this.isRoot()) //v is a Node move it up in the component tree
+      return v;
+    else //root found, process object
+    {
+      this.onChangeRoot(v);
+      return null;
+    }
+  }
+  public delegateField(fieldName:string):MFormNode
   {
     if (this.field.type != null)
     {
@@ -80,163 +278,80 @@ export class MFormNode {
     }
     
     var result = new MFormNode();
-    if (this.fieldValue && this.fieldValue.value && !this.fieldValue.isError && typeof this.fieldValue.value[fieldName]!=="undefined")
+    if (this.hasProperty(fieldName))
     {
-      result.fieldValue=MFormValue.createValue(this.fieldValue.value[fieldName]);
-      
+      return this.children[fieldName];
     }
     else
-      result.fieldValue=null //Value not defined yet.
-    result.field.name=fieldName;
-    
-
-
-  }
-}
-
-export class MForm {
-  
-
-    static Root(value:any):MFormNode
     {
-      if (!value)
-        throw "Value must not be null"
-      var result = new MFormNode();
+      return this.createUndefinedProperty(fieldName);
+    }
+  }
+
+  
+  public onChangeRoot(ev: MFormChangeEvent) 
+  {
+    var v=ev.sourceNode;
+    var value = ev.value;
+    var path = v.getPath();
+    var it:MFormNode = this;
+    for (var i=1;i<path.length;i++)
+    {
+      var field:PropertyInfo = path[i];
+      var child:MFormNode = it.getOrCreateChild(field);
+      it=child;
+    }
+    it.setValue(ev.value)
+    //Ok define the type of the last child based on the value changed
+  }
+  
+  
+  public static createMFormTree(obj:any):MFormNode
+  {
+    var objectsTraversed:any[]=[];
+    var createNodeAux = (parent:MFormNode,field:string|number,obj:any)=>{
+
+
+      var n = new MFormNode();
+      n.fieldValue=obj;
+      n.field.setField(field);
+
+
+      n.parent=parent;
+      if (parent!=null)
+        parent.children[field]=n;
       
-      var typeName = typeof value;
-      if (typeName == "object")
-        result.field.type=PropertyType.Object
-      else if (Array.isArray(value))
-        result.field.type=PropertyType.Array
-      else
-        throw "Value must be object or array"
-      result.field.name="/";
-      result.path=[];
-      result.fieldValue = MFormValue.createValue(value);
-
-    }
-
-
-    constructor(public component:Vue){}
-    private _root:any;
-    GetValuePrimitive(obj: any, map: (v: any) => any): any {
-    try {
-      if (obj) {
-        if (obj.isError) {
-          return obj;
-        } else {
-          return map == null ? obj : map(obj);
-        }
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return {
-        isError: true,
-        message: e,
-        value: obj
-      };
-    }
-  }
-
-  private GetValueBase(obj: any, field: string, map: (v: any) => any,isRoot:boolean): any {
-    if (field == null || field.trim() == "") {
-      return this.GetValuePrimitive(obj, map);
-    }
-    if (obj == null || typeof obj[field] == 'undefined') {
-        this.component.$emit('input', {
-            eventName:'createField',
-            fieldPath:[{
-              name:field,
-              type:PropertyType.Object
-            }],
-            fieldValue: {
-              value:null
-            }
-        } as ChangeEvent);
-        return null;
-    }
-    return this.GetValuePrimitive(obj[field],map);              
-  }
-
-  public GetValue(obj: any, field: string, map: (v: any) => any):any
-  {
-    return this.GetValueBase(obj,field,map,false);
-  }
-
-  public Root(rootObj: object):object
-  {
-    if (!rootObj)
-      throw "Root object cannot be null";
-    if (typeof rootObj !== "object")
-      throw "Root must be an object"
-    this._root=rootObj;
-    return this._root;
-  }
-
-  public onChange(event:ChangeEvent,obj:any,field?:string,map?: (v: any) => any)
-  {
-    var result={...event};
-    if (field)
-    {
-      var p:PropertyInfo= {
-        name:field,
-        type:PropertyType.Object
-      };
-      result.fieldPath=[p,...result.fieldPath];
-    }
-    this.component.$emit('input',result);
-  }  
-
-  public onChangeRoot(event:ChangeEvent,rootObj:any,field?:string)
-  {
-
-    var result:ChangeEvent={...event};
-    if (field)
-    {
-      var p:PropertyInfo = {name:field,type:PropertyType.Object};
-      result.fieldPath=[p,...result.fieldPath];
-    }
-    var it=rootObj;
-    for (var i=0;i<result.fieldPath.length;i++)
-    {
-      var p = result.fieldPath[i];
-      if(typeof it[p.name] == 'undefined')
+      if (obj!=null)
       {
-        it[p.name]=p.type == PropertyType.Object ? {} : [];  
+        n.field.type = MFormNode.getType(obj)
+        
+        if (n.field.type == PropertyType.Object)
+        {
+          if (objectsTraversed.indexOf(obj)!=-1) throw 'object is recursive';
+
+          objectsTraversed.push(obj);
+          var keys=Object.keys(obj);
+          for (var i=0;i<keys.length;i++){
+            var k = keys[i];
+            createNodeAux(n,k,obj[k])
+          }
+        }
+        else if (n.field.type == PropertyType.Array)
+        {
+          if (objectsTraversed.indexOf(obj)!=-1) throw 'object is recursive';
+          objectsTraversed.push(obj);
+          var a = obj as any[];
+          for (var i=0;i<a.length;i++)
+          {
+            createNodeAux(n,i,a[i]);
+          }
+        }
+
       }
-      it = it[p.name];
+      return n;
     }
 
-
-
-  }
-
-  HasError(value: any): any {
-    if (value==null)
-        return false; 
-    
-    if (value.isError)
-     {
-         return true;
-     }
-
-     if (typeof value == "object")
-     {
-         var keys=Object.keys(value);
-         for(var key in keys)
-         {
-             if (this.HasError(value[key]))
-                return true;
-         }
-     }
-     return false;
-
-
-
-  }
-
-
-
-  
+    return createNodeAux(null,'',obj);
+  }  
 }
+
