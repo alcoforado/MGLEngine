@@ -1,32 +1,32 @@
 <template>
          <md-field :class="hasError ? 'md-invalid':''">
-            <md-input  spellcheck="false" :value="displayValue" @input="valueChange" ></md-input>
+            <md-input  spellcheck="false" :value="value.getValue()" @input="valueChange" ></md-input>
          </md-field>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import {MForm} from '../shared/forms/MForm';
+import {MFormNode} from '../shared/forms/MForm';
 @Component
-export default class Point2 extends Vue {
-    @Prop({default:{x:null,y:null}}) value:any;
+export default class InputNumber extends Vue {
+    @Prop({default:{x:null,y:null}}) value:MFormNode;
    
-    public _value:any=null;
-    public mForm:MForm;
+    
     
     constructor()
     {
         super();
-        this.mForm=new MForm(this);
+        
     }
     
+    valueChange(v:string)
+    {
+        var n = this.map(v);
+        var ev = this.value.toMFormEvent(n);
+        this.$emit("input",ev);
+
+    }
     
-    get displayValue() {
-       return  this.mForm.GetValue(this.value,'',this.map);
-    }
-    get hasError() {
-        return this.mForm.HasError(this.value);
-    }
 
     map(v:string):number
     {
@@ -39,20 +39,17 @@ export default class Point2 extends Vue {
             {
 
                  var x=parseFloat(v.trim());
-                if (isNaN(this.value.x)){
+                if (isNaN(x)){
                     throw 'Not a Number'
                 return x;
                 }
             }
             throw 'Not a Number'
         }
-        throw 'required'
+        return null;
 
     }
-    valueChange(v:string)
-    {
-        this.mForm.valueChane(v,'',this.map);
-    }
+    
 }
 </script>
 

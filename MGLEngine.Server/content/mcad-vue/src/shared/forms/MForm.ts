@@ -61,6 +61,9 @@ export interface MFormChangeEvent {
 
 
 export class MFormNode {
+  toMFormEvent(n: number) {
+    throw new Error("Method not implemented.");
+  }
   
   field:PropertyInfo
   fieldValue:any;

@@ -23,9 +23,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import {MFormNode} from '../shared/forms/MForm'
 @Component
 export default class Point2 extends Vue {
-    @Prop({default:{x:null,y:null}}) value:any;
+    @Prop() value:MFormNode;
    
     public _value:any=null;
     public hasErrorX:boolean=false;

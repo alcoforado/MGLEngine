@@ -1,33 +1,29 @@
 <template>
 <div>
     <div class="row">
-        <span class="top-label">Point0: </span> <point2 v-model="top.P0"/>
+        <span class="top-label">Point0: </span> <point2 :value="mform.delegateField('P0')"/>
     </div>
     <div class="row">
-    <span class="top-label">Point1: </span> <point2 v-model="top.P1"/>
+    <span class="top-label">Point1: </span> <point2 :value="mform.delegateField('P1')"/>
     </div>
 
     <div class="row">
-    <span class="top-label">Point2: </span> <point2 v-model="top.P2"/>
+    <span class="top-label">Point2: </span> <point2 :value="mform.delegateField('P2')"/>
     </div>
 </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import {MForm} from '../../shared/forms/MForm'
+import {MFormNode} from '../../shared/forms/MForm'
 @Component
 export default class Triangle2D extends Vue {
     @Prop() value:any;
-    mform:MForm=null    ;
+    mform:MFormNode=new MFormNode();
     
-    created() {
-        this.mform=new MForm(this);
-    }
+    
 
-    get top() {
-        return this.value == null ? {P0:null,P1:null,P2:null} : this.value;
-    }
+    
 
     
 }
