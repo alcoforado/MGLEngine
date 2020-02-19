@@ -9,7 +9,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import {MFormNode} from '../shared/forms/MForm';
 @Component
 export default class InputNumber extends Vue {
-    @Prop({default:{x:null,y:null}}) value:MFormNode;
+    @Prop() value:MFormNode;
    
     
     

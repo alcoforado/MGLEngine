@@ -61,9 +61,7 @@ export interface MFormChangeEvent {
 
 
 export class MFormNode {
-  toMFormEvent(n: number) {
-    throw new Error("Method not implemented.");
-  }
+  
   
   field:PropertyInfo
   fieldValue:any;
@@ -136,7 +134,7 @@ export class MFormNode {
   private getRoot():MFormNode
   {
     var it:MFormNode=this;
-    while(it.isRoot())
+    while(!it.isRoot())
     {
       it=it.parent;
     }
@@ -228,7 +226,7 @@ export class MFormNode {
       return null;
     }
   }
-  public delegateField(fieldName:string):MFormNode
+  public member(fieldName:string):MFormNode
   {
     if (this.field.type != null)
     {
