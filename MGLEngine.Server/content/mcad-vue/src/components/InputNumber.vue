@@ -6,10 +6,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import {MFormNode} from '../shared/forms/MForm';
+import {IMFormNode} from '../shared/forms/MForm';
 @Component
 export default class InputNumber extends Vue {
-    @Prop() value:MFormNode;
+    @Prop() value:IMFormNode;
    
     
     
@@ -22,8 +22,8 @@ export default class InputNumber extends Vue {
     valueChange(v:string)
     {
         var n = this.map(v);
-        var ev = this.value.toMFormEvent(n);
-        this.$emit("input",ev);
+        var ev = this.value.change(n);
+        
 
     }
     
