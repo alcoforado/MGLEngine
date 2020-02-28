@@ -21,7 +21,9 @@ export default class InputNumber extends Vue {
     
     valueChange(v:string)
     {
-        var n = this.map(v);
+        try {
+            var n = this.map(v);
+        }
         var ev = this.value.change(n);
         
 

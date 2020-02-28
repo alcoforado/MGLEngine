@@ -4,17 +4,17 @@
          
          
          
-         <md-field :class="hasErrorX ? 'md-invalid':''">
+         <md-field>
          
-            <input-number  spellcheck="false" :value="value.member('x')" @input="valueChangeX" ></input-number>
+            <input-number  spellcheck="false" :value="value.member('x')"  ></input-number>
          </md-field>
         
          <span class="field-separator">, </span> 
          
         
-         <md-field :class="hasErrorY ? 'md-invalid':''"> 
+         <md-field>
          
-            <input-number  spellcheck="false" :value="value.member('y')" @input="valueChangeY"></input-number>
+            <input-number  spellcheck="false" :value="value.member('y')" ></input-number>
             
         </md-field>
        
