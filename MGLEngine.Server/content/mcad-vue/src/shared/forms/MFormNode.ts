@@ -57,15 +57,17 @@ export class PropertyInfo {
 export interface IMFormChangeEvent {
   sourceNode:MFormNode;
   value:any;
+  error:string;
 }
 
 
 
 export interface IMFormNode {
   change(value:any):void
+  setError(value:any,message:string):void
   value():any
   member(fieldName:string):IMFormNode
-  
+  error:string;
 }
 
 export class MFormNode implements IMFormNode{
@@ -73,11 +75,16 @@ export class MFormNode implements IMFormNode{
   bus:Vue;
   field:PropertyInfo
   parent:MFormNode;
-  hasError:boolean;
-  errorMessage:string;
+  error:string;
   isMFormNode:boolean = true;
   children:{[key:string]:MFormNode}
   primitiveValue:any=null;
+
+  
+
+
+
+
   constructor(pMasterComponent:Vue){
     this.field=new PropertyInfo('',null);
     this.isMFormNode=true;
@@ -105,8 +112,7 @@ export class MFormNode implements IMFormNode{
     
     var result=new MFormNode(this.bus);
     result.field = new PropertyInfo(field,null)
-    result.hasError=false;
-    result.errorMessage=null;
+    result.error=null;
     result.parent=this;
     result.children={};
     return result;
@@ -223,13 +229,15 @@ export class MFormNode implements IMFormNode{
         var field = new PropertyInfo(path[i],isLast?PropertyType.Primitive:PropertyType.Object);
         cNode=cNode.getOrCreateChild(field);
     }
-    cNode.setPrimitiveValue(ev.value);   
+    cNode.setPrimitiveValue(ev.value); 
+    cNode.error=ev.error;  
 }
  
   public change(value:any):void{
     this.bus.$emit("change",{
       sourceNode: this,
-      value:value
+      value:value,
+      error:null
     } as IMFormChangeEvent)
   }
   
@@ -241,7 +249,16 @@ export class MFormNode implements IMFormNode{
       return this.primitiveValue;
   }
  
- 
+ public setError(value:any,message:string)
+ {
+  this.bus.$emit("change",{
+    sourceNode: this,
+    value:value,
+    error:message
+  } as IMFormChangeEvent)
+ }
+
+
   public member(fieldName:string):IMFormNode
   {
     if (this.field.type != null)

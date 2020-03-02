@@ -1,5 +1,5 @@
 <template>
-         <md-field :class="hasError ? 'md-invalid':''">
+         <md-field :class="value.error ? 'md-invalid':''">
             <md-input  spellcheck="false" :value="value.getValue()" @input="valueChange" ></md-input>
          </md-field>
 </template>
@@ -11,6 +11,7 @@ import {IMFormNode} from '../shared/forms/MForm';
 export default class InputNumber extends Vue {
     @Prop() value:IMFormNode;
    
+
     
     
     constructor()
@@ -23,8 +24,13 @@ export default class InputNumber extends Vue {
     {
         try {
             var n = this.map(v);
+            this.value.change(n);
         }
-        var ev = this.value.change(n);
+        catch(message)
+        {
+            this.value.setError(v, message as string) 
+
+        }
         
 
     }

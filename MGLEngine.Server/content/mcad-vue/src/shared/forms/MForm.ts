@@ -12,7 +12,12 @@ export class MForm implements IMFormNode {
     change(value:any):void    {this.root.change(value)}
     value():any{return this.root.value()}
     member(fieldName:string):IMFormNode{return this.root.member(fieldName)}
+    setError(value:any,message:string)
+    {
+        this.root.error(value,message);
+    }
 
+    error get
 
     constructor(model:any)
     {
