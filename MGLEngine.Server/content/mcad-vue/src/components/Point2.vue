@@ -6,7 +6,7 @@
          
          <md-field>
          
-            <input-number  spellcheck="false" :value="value.member('x')"  ></input-number>
+            <input-number  spellcheck="false" :field="value.member('x')"  ></input-number>
          </md-field>
         
          <span class="field-separator">, </span> 
@@ -14,7 +14,7 @@
         
          <md-field>
          
-            <input-number  spellcheck="false" :value="value.member('y')" ></input-number>
+            <input-number  spellcheck="false" :field="value.member('y')" ></input-number>
             
         </md-field>
        

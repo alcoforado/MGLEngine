@@ -67,7 +67,7 @@ export interface IMFormNode {
   setError(value:any,message:string):void
   value():any
   member(fieldName:string):IMFormNode
-  error:string;
+  error():string;
 }
 
 export class MFormNode implements IMFormNode{
@@ -75,7 +75,8 @@ export class MFormNode implements IMFormNode{
   bus:Vue;
   field:PropertyInfo
   parent:MFormNode;
-  error:string;
+  _error:string=null;
+ 
   isMFormNode:boolean = true;
   children:{[key:string]:MFormNode}
   primitiveValue:any=null;
@@ -92,6 +93,8 @@ export class MFormNode implements IMFormNode{
     this.children={};
     this.bus=pMasterComponent;
   }
+
+
 
    isRoot():boolean {
     return this.parent == null;
@@ -112,7 +115,6 @@ export class MFormNode implements IMFormNode{
     
     var result=new MFormNode(this.bus);
     result.field = new PropertyInfo(field,null)
-    result.error=null;
     result.parent=this;
     result.children={};
     return result;
@@ -166,8 +168,12 @@ export class MFormNode implements IMFormNode{
    getStringPath():string {
     var path = this.getPath();
     var result="";
-    path.forEach(p=>{result+=p.getField()+"."})
-    result.substr(0,result.length-1); // remove last trailing .
+    
+    path.forEach(p=>{
+      if (p.getField() && p.getField()!="")
+          result+=p.getField()+"."
+    })
+    result=result.substr(0,result.length-1); // remove last trailing .
     return result;
   }
   
@@ -221,6 +227,7 @@ export class MFormNode implements IMFormNode{
 
 
   onModelChange(ev: IMFormChangeEvent) {
+    
     var path=ev.sourceNode.getStringPath().split(".");
     var cNode=this as MFormNode;
     for (var i=0;i<path.length;i++)
@@ -230,7 +237,8 @@ export class MFormNode implements IMFormNode{
         cNode=cNode.getOrCreateChild(field);
     }
     cNode.setPrimitiveValue(ev.value); 
-    cNode.error=ev.error;  
+    debugger;
+    cNode._error=ev.error;  
 }
  
   public change(value:any):void{
@@ -257,7 +265,7 @@ export class MFormNode implements IMFormNode{
     error:message
   } as IMFormChangeEvent)
  }
-
+ public error():string {return this._error;}
 
   public member(fieldName:string):IMFormNode
   {

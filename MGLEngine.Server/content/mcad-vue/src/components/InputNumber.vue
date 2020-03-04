@@ -1,6 +1,7 @@
 <template>
-         <md-field :class="value.error ? 'md-invalid':''">
-            <md-input  spellcheck="false" :value="value.getValue()" @input="valueChange" ></md-input>
+         <md-field :class="field.error() ? 'md-invalid':''">
+            <div>{{field.error()}}</div>
+            <md-input  spellcheck="false" :value="field.value()" @input="valueChange" ></md-input>
          </md-field>
 </template>
 
@@ -9,7 +10,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import {IMFormNode} from '../shared/forms/MForm';
 @Component
 export default class InputNumber extends Vue {
-    @Prop() value:IMFormNode;
+    @Prop() field:IMFormNode;
    
 
     
@@ -24,11 +25,12 @@ export default class InputNumber extends Vue {
     {
         try {
             var n = this.map(v);
-            this.value.change(n);
+            this.field.change(n);
         }
         catch(message)
         {
-            this.value.setError(v, message as string) 
+            console.log("Error found")
+            this.field.setError(v, message as string) 
 
         }
         
@@ -41,16 +43,16 @@ export default class InputNumber extends Vue {
         if (v!=null)
         {
             var vt = v.trim().toLowerCase();
-            var regexp = /[+-]?[0-9]+(.[0-9]*)?([eE][+-][0-9]+)?/;
+            var regexp = /[+-]?[0-9]+([.][0-9]*)?([eE][+-][0-9]+)?/g;
             var content= regexp.exec(vt);
-            if (content[0]==vt)
+            if (content && content[0]==vt)
             {
 
                  var x=parseFloat(v.trim());
                 if (isNaN(x)){
                     throw 'Not a Number'
-                return x;
                 }
+                return x;
             }
             throw 'Not a Number'
         }

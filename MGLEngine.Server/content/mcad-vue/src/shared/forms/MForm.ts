@@ -14,10 +14,12 @@ export class MForm implements IMFormNode {
     member(fieldName:string):IMFormNode{return this.root.member(fieldName)}
     setError(value:any,message:string)
     {
-        this.root.error(value,message);
+        this.root.setError(value,message);
     }
 
-    error get
+    error():string {
+        return this.root.error();
+    }
 
     constructor(model:any)
     {
