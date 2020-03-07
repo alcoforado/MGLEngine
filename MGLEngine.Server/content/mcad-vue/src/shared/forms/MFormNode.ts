@@ -219,7 +219,7 @@ export class MFormNode implements IMFormNode{
         var child:MFormNode = new MFormNode(this.bus);
         child.field=field.clone();
         child.parent=this;
-        this.children[field.getFieldId()]=child;
+        Vue.set(this.children,field.getFieldId(),child)
         return child;
       }
     

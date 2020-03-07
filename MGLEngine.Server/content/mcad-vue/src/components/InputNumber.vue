@@ -1,7 +1,7 @@
 <template>
          <md-field :class="field.error() ? 'md-invalid':''">
-            <div>{{field.error()}}</div>
-            <md-input  spellcheck="false" :value="field.value()" @input="valueChange" ></md-input>
+           
+            <md-input  spellcheck="false" :value="getValue()" @input="valueChange" ></md-input>
          </md-field>
 </template>
 
@@ -20,6 +20,15 @@ export default class InputNumber extends Vue {
         super();
         
     }
+
+    getValue():string {
+        var value = this.field.value();
+        if (value == null || typeof value == "string")
+            return value;
+        else 
+            return value.toString();
+    }
+
     
     valueChange(v:string)
     {
@@ -30,7 +39,7 @@ export default class InputNumber extends Vue {
         catch(message)
         {
             console.log("Error found")
-            this.field.setError(v, message as string) 
+            this.field.setError(v, message.toString()) 
 
         }
         
@@ -42,6 +51,7 @@ export default class InputNumber extends Vue {
     {
         if (v!=null)
         {
+            debugger;
             var vt = v.trim().toLowerCase();
             var regexp = /[+-]?[0-9]+([.][0-9]*)?([eE][+-][0-9]+)?/g;
             var content= regexp.exec(vt);

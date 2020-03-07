@@ -3,20 +3,12 @@
      <div class="point2d">
          
          
-         
-         <md-field>
-         
-            <input-number  spellcheck="false" :field="value.member('x')"  ></input-number>
-         </md-field>
+        <input-number  spellcheck="false" :field="value.member('x')"  ></input-number>
         
-         <span class="field-separator">, </span> 
+        <span class="field-separator">, </span> 
          
-        
-         <md-field>
-         
-            <input-number  spellcheck="false" :field="value.member('y')" ></input-number>
+        <input-number  spellcheck="false" :field="value.member('y')" ></input-number>
             
-        </md-field>
        
      </div>
 </template>
