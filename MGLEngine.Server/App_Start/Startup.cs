@@ -13,6 +13,7 @@ using Microsoft.Owin.StaticFiles;
 using Microsoft.Practices.Unity;
 using Owin;
 using Unity.WebApi;
+using Microsoft.Owin.Cors;
 
 namespace TestApp.App_Config
 {
@@ -55,7 +56,8 @@ namespace TestApp.App_Config
             };
 
             appBuilder.UseFileServer(options);
-
+            appBuilder.UseCors(CorsOptions.AllowAll);
+            appBuilder.MapSignalR();
 
         }
     }
