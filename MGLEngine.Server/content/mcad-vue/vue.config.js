@@ -5,8 +5,13 @@ module.exports = {
                 target: 'http://localhost:9000',
                 ws: true,
                 changeOrigin: true
-            }
-        }
+            },
+            '^/signalr': {
+              target: 'http://localhost:9000',
+              ws: true,
+              changeOrigin: true
+          }
+
     },
     lintOnSave: false,
     css: {

@@ -11,9 +11,6 @@ import {IMFormNode} from '../shared/forms/MForm';
 @Component
 export default class InputNumber extends Vue {
     @Prop() field:IMFormNode;
-   
-
-    
     
     constructor()
     {
