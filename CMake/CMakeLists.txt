@@ -6,7 +6,7 @@ find_package(Git)
 if (NOT Git_FOUND)
     message("git not found please install git yourservel and rerun the installer")
 endif()
-
+SET(CMAKE_CXX_STANDARD 14)
 
 if (NOT EXISTS "${VCPKG_INSTALL_FOLDER}/README.md")
     message("======= Downloading vcpkg =======")
