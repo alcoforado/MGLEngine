@@ -1,6 +1,8 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
-set(VCPKG_INSTALL_FOLDER "${CMAKE_CURRENT_BINARY_DIR}/vcpkg")
-set(CMAKE_GENERATOR_PLATFORM "x64")
+
+if (NOT DEFINED VCPKG_INSTALL_FOLDER)
+    set(VCPKG_INSTALL_FOLDER "${CMAKE_SOURCE_DIR}/../vcpkg")
+endif()
 
 find_package(Git)
 if (NOT Git_FOUND)
@@ -11,8 +13,10 @@ SET(CMAKE_CXX_STANDARD 14)
 if (NOT EXISTS "${VCPKG_INSTALL_FOLDER}/README.md")
     message("======= Downloading vcpkg =======")
     execute_process(COMMAND ${GIT_EXECUTABLE} clone https://github.com/Microsoft/vcpkg.git
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                    WORKING_DIRECTORY "${VCPKG_INSTALL_FOLDER}/../"
                     RESULT_VARIABLE GIT_SUBMOD_RESULT)
+else()
+    message("VCPKG found at ${VCPKG_INSTALL_FOLDER}")
 endif()
 
 
