@@ -37,15 +37,15 @@ set(VERBOSE "1")
 project(MGLEngine)
 
 message("CMake BuildList: ${CMAKE_CURRENT_LIST_DIR} ")
+message("Toolchain set to ${CMAKE_TOOLCHAIN_FILE}")
 
 add_subdirectory(MGLEngine.HttpServer)
 add_subdirectory(MGLEngine.Shared)
+add_subdirectory(MGLEngine.Vulkan)
 
 
 
 
 
-
-message("Toolchain set to ${CMAKE_TOOLCHAIN_FILE}")
 
 

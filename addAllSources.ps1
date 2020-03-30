@@ -1,6 +1,7 @@
 ﻿param (
     [Parameter(Mandatory=$True)]
-    [string]$root 
+    [string]$root,
+    [int]$nCols=130  
 )
 
 if (-not (Test-Path  -Path $root)) {    
@@ -17,10 +18,16 @@ $files = Get-ChildItem -Path $root -Recurse -File |
          Foreach {$_.FullName.replace("${fp}\","").replace("\","/")}
 
 $CMakeExpr = "set(SOURCES "
-
+$count=0;
 foreach($file in $files){
-
-    $CMakeExpr+= """$file"" " ;
+    $add="""$file"" "
+    $count+=$add.Length;
+    if ($count -ge $nCols)
+    {
+        $count=$add.Length;
+        $CMakeExpr+="`n" #break line
+    }
+    $CMakeExpr+= $add;
 }
 $CMakeExpr+=")"
 return $CMakeExpr;
