@@ -24,9 +24,9 @@ void RunServer()
 int main()
 {
     
-    //std::thread(RunServer).join();
+    std::thread(RunServer).detach();
     MGL::Window window;
-   // window.SetSize(800, 800);
+   window.SetSize(800, 800);
    window.EasyRun();
 
     return -1;

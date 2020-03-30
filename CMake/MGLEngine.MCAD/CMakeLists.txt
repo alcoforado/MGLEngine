@@ -3,7 +3,7 @@ project(MGLEngine.MCAD)
 
 
 # Create the executable
-add_executable(${PROJECT_NAME}  "main.cpp")
+add_executable(${PROJECT_NAME}  "main.cpp" )
 
 
 include_directories("../../References/include" "../")
@@ -11,6 +11,9 @@ include_directories("../../References/include" "../")
 message("======= Requiring Boost =======")
 find_package("Boost" REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
+
+
+
 
 target_link_libraries	(${PROJECT_NAME} 
 	                    MGLEngine.HttpServer

@@ -1,7 +1,8 @@
 #include "ShaderColor2D.h"
 #include <vector>
 #include "IVulkanRenderContext.h"
-#include "../SPIR-V/shaders_bytecode.h"
+#include "../SPIR-V/canvas2d_frag.h"
+#include "../SPIR-V/canvas2d_vert.h"
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
