@@ -1,7 +1,7 @@
 #include "WebApiMiddletier.h"
 #include "WebApiContext.h"
-#include "HttpResponses.h"
-void WebApiMiddletier::Process(HttpContext& cntx)
+#include "HttpResponse.h"
+void WebApiMiddleware::process(HttpContext& cntx)
 {
 	auto requestUrl = cntx.request.target().to_string();
 	Url rUrl(requestUrl);
@@ -15,7 +15,7 @@ void WebApiMiddletier::Process(HttpContext& cntx)
 			cntx.send(match->handlerFunction(apiCtx));
 		}
 		catch (const std::exception& e) {
-			cntx.send(HttpResponses::Http500(e.what(), cntx.request.version(), cntx.request.keep_alive()));
+			cntx.send(HttpResponse::Http500(e.what(), cntx.request.version(), cntx.request.keep_alive()));
 			
 		}
 		

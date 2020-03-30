@@ -39,6 +39,8 @@ project(MGLEngine)
 message("CMake BuildList: ${CMAKE_CURRENT_LIST_DIR} ")
 
 add_subdirectory(MGLEngine.HttpServer)
+add_subdirectory(MGLEngine.Shared)
+
 
 
 

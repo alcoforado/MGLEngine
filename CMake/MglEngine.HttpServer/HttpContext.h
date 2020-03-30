@@ -1,7 +1,7 @@
 #pragma once
 
 #include "boost_deps.h"
-
+#include "HttpResponse.h"
 
 class HttpContext {
 	bool _close;
@@ -59,12 +59,13 @@ public:
 	}
 	
 
-	template<class Body, class Fields>
-	void send(boost::beast::http::response<Body, Fields>&& msg)
+	void send(HttpResponse&& msg)
 	{
+		if (_processed)
+			throw std::exception("Trying to send request twice");
 		_close = msg.need_eof();
 		_processed = true;
-		http::serializer<false, Body, Fields> sr{ msg };
+		http::serializer<false, http::string_body> sr{ msg };
 		http::write(_socket, sr, _erc);
 	}
 

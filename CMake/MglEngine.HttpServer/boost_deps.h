@@ -11,11 +11,12 @@
 #include <memory>
 #include <string>
 #include <thread>
-
+#include <memory.h>
 namespace asio = boost::asio;
 namespace http = boost::beast::http;
 
-
+template<class T>
+using s_ptr = std::shared_ptr<T>;
 
 
 

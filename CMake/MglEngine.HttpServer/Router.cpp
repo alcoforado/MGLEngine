@@ -16,13 +16,13 @@ std::string getKeyPath(Url& url)
 	return trim(keyPath, "/");
 }
 
-void Router::Map_GET(const std::string& relativePath, ControllerCall f)
+void Router::Map(http::verb method,const std::string& relativePath, ControllerCall f)
 {
 	Url url(relativePath);
 	std::string keyPath = getKeyPath(url);
 
 
-	Router::RouterInfo info{ keyPath,"GET",f,url };
+	Router::RouterInfo info{ keyPath,HttpMethodToString(method),f,url };
 	Table.push_back(info);
 
 
@@ -70,3 +70,39 @@ std::shared_ptr<Router::RouteMatch> Router::MatchRoute(Url& url,std::string meth
 	return NULL;
 
 }
+
+std::string Router::HttpMethodToString(http::verb method)
+{
+	switch (method)
+	{
+	case http::verb::get:
+		return "GET";
+	case http::verb::post:
+		return "POST";
+	case http::verb::put:
+		return "PUT";
+	case http::verb::delete_:
+		return "DELETE";
+	default:
+		return "SomethingElse";
+	}
+	return std::string();
+}
+
+http::verb Router::parseHttpMethod(std::string method)
+	{
+		if (method == "GET")
+			return http::verb::get;
+		else if (method == "POST")
+			return http::verb::post;
+		else if (method == "PUT")
+			return http::verb::put;
+		else if (method == "DELETE")
+			return http::verb::delete_;
+		else if (method == "PUT")
+			return http::verb::post;
+		else
+			throw std::exception("invalid method");
+
+	}
+	

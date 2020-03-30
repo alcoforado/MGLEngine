@@ -20,7 +20,14 @@ void HttpServer::process_request(asio::ip::tcp::socket& socket)
 			return;
 		}
 			
-		
+		HttpContext context(socket, req);
+
+		for (auto m : _middlewares)
+		{
+			m->process(context);
+			if (context.isRequestProcessed())
+				break;
+		}
 
 
 
@@ -31,6 +38,14 @@ HttpServer::HttpServer(int port)
 	:_ioc(2),
 	_host{ boost::asio::ip::make_address_v4("127.0.0.1"), static_cast<unsigned short>(port) }
 {
+	this->AddWebApi();
+}
+
+HttpServer& HttpServer::AddWebApi()
+{
+	_webapi = std::make_shared<WebApiMiddleware>();
+	_middlewares.push_back(_webapi);
+	return *this;
 }
 	
 
@@ -44,7 +59,6 @@ void HttpServer::run()
 
 		boost::asio::ip::tcp::socket socket(_ioc);
 		acceptor.accept(socket);
-			
 		std::thread(std::bind(&HttpServer::process_request, this, std::move(socket))).detach();
 
 	}

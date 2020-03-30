@@ -11,5 +11,6 @@ public:
 
 	const std::map<std::string, std::string>& getRouteParameters() { return _routeParams; }
 
+	HttpResponse HttpOk(std::string message);
 };
 

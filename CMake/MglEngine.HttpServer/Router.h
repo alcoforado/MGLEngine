@@ -9,13 +9,15 @@
 #include "boost_deps.h"
 #include "WebApiContext.h"
 #include "Url.h"
+#include "HttpResponse.h"
+
 
 
 
 class Router
 {
 public:
-	using ControllerCall = std::function<http::response<http::string_body>(WebApiContext&)>;
+	using ControllerCall = std::function<HttpResponse(WebApiContext&)>;
 
 private:
 	struct RouterInfo {
@@ -36,10 +38,12 @@ private:
 	RouteTable Table;
 public:
 	Router() {}
-	void Map_GET(const std::string& relativePath, ControllerCall f);
+	void Map(http::verb method,const std::string& relativePath, ControllerCall f);
 	std::shared_ptr<RouteMatch> MatchRoute(Url& url,std::string method);
 
-	
+	static std::string HttpMethodToString(http::verb method);
+	static http::verb parseHttpMethod(std::string method);
+
 	
 	
 

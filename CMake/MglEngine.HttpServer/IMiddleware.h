@@ -9,6 +9,7 @@ namespace http = boost::beast::http;
 
 class IMiddleware
 {
-	virtual void Process(HttpContext* cntx) = 0;
+public:
+	virtual void process(HttpContext& cntx) = 0;
 
 };

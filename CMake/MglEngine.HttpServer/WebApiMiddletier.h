@@ -1,10 +1,7 @@
 #pragma once
 #include "IMiddleware.h"
 #include "Router.h"
-class RouterEntry {
 
-
-};
 
 
 
@@ -12,12 +9,13 @@ class RouterEntry {
 
 
 #pragma once
-class WebApiMiddletier : public IMiddleware
+class WebApiMiddleware : public IMiddleware
 {
 	
-private:
+public:
 	Router RouteTable;
 public:
-	virtual void Process(HttpContext& cntx);
+	virtual void process(HttpContext& cntx) override;
+	
 
 };
