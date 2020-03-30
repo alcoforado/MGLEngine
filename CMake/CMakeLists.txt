@@ -42,6 +42,8 @@ message("Toolchain set to ${CMAKE_TOOLCHAIN_FILE}")
 add_subdirectory(MGLEngine.HttpServer)
 add_subdirectory(MGLEngine.Shared)
 add_subdirectory(MGLEngine.Vulkan)
+add_subdirectory(MGLEngine.MCAD)
+
 
 
 
