@@ -65,6 +65,7 @@ public:
 
 	VkPipelineVertexInputStateCreateInfo* GetPipelineInputAssmeblyStateCreateInfo()
 	{
+		VertexInputInfo = {};
 		VertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 		VertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(_vBindings.size());
 		VertexInputInfo.pVertexBindingDescriptions =  _vBindings.data(); // Optional

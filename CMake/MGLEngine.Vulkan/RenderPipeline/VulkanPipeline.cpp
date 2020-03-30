@@ -15,8 +15,9 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderBy
 
 {
 	_isLoaded = false;
+	pipelineInfo = {};
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-
+	
 
 
 	VertShaderStageInfo = {};

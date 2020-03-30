@@ -12,10 +12,14 @@ message("======= Requiring Boost =======")
 find_package("Boost" REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
-
 target_link_libraries	(${PROJECT_NAME} 
-						optimized ${Boost_LIBRARY_DIRS}/boost_system-vc140-mt.lib
-						debug ${Boost_LIBRARY_DIRS}/../debug/lib/boost_system-vc140-mt-gd.lib
-						)
+	                    MGLEngine.HttpServer
+	                    MGLEngine.Shared
+						MGLEngine.Vulkan
+						${LOCAL_EXTERNAL_LIBS}/vulkan-1.lib
+						${LOCAL_EXTERNAL_LIBS}/glfw3.lib
+						debug ${Boost_LIBRARY_DIRS}/../debug/lib/boost_system-vc140-mt-gd.lib)
+
+
 
 

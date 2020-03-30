@@ -28,7 +28,8 @@ public:
 	{
 		for (auto h : _handles)
 		{
-			delete h;
+			delete h->_data;
+			h->_data = nullptr;
 		}
 		for (T* elem : _allocated)
 		{

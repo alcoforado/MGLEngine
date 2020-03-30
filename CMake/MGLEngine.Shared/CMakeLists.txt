@@ -20,8 +20,4 @@ add_library(${PROJECT_NAME} STATIC "IMGLContainer.h" "IMGLEngine.h" "DrawTree/Dr
 
 include_directories("../../References/include" "../")
 
-target_link_libraries	(${PROJECT_NAME} 
-						optimized ${Boost_LIBRARY_DIRS}/boost_system-vc140-mt.lib
-						debug ${Boost_LIBRARY_DIRS}/../debug/lib/boost_system-vc140-mt-gd.lib
-						)
 

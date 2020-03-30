@@ -33,7 +33,7 @@ set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALL_FOLDER}/scripts/buildsystems/vcpkg.cma
 
 cmake_minimum_required (VERSION 3.5)
 set(VERBOSE "1")
-
+set(LOCAL_EXTERNAL_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/../References/lib/x64")
 project(MGLEngine)
 
 message("CMake BuildList: ${CMAKE_CURRENT_LIST_DIR} ")
@@ -42,7 +42,22 @@ message("Toolchain set to ${CMAKE_TOOLCHAIN_FILE}")
 add_subdirectory(MGLEngine.HttpServer)
 add_subdirectory(MGLEngine.Shared)
 add_subdirectory(MGLEngine.Vulkan)
+add_subdirectory(MGLEngine.Tests)
 add_subdirectory(MGLEngine.MCAD)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
