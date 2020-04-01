@@ -28,6 +28,18 @@ VulkanDescriptorSet::~VulkanDescriptorSet()
 	
 }
 
+ IVulkanSlotBinding* VulkanDescriptorSet::GetBinding(IVulkanRenderSlot* pSlot)
+{
+	int index = 0;
+	for (IVulkanRenderSlot* s : _pLayout->GetSlots())
+	{
+		if (s == pSlot)
+			return _bindings[index];
+		index++;
+	}
+	throw std::exception("Bind not found");
+}
+
 void VulkanDescriptorSet::LoadIfNeeded()
 {
 	for (auto b : _bindings)

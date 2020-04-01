@@ -43,7 +43,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
 		.RefColorAttachement("color", VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
 
-	_pPipeline->GetSlotManager()->AddLayout({ _pGT });
+	_pPipeline->GetSlotManager()->RegisterDescriptorSetLayout("perFrame",{ _pGT });
 
 	
 	_pPipeline->Load();

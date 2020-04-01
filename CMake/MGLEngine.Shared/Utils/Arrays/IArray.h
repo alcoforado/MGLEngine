@@ -11,17 +11,17 @@ class IArray
 
 protected:
 	IArray() { _ptr = NULL; _size = 0; }
-	OfType *_ptr;
+	OfType* _ptr;
 	size_t _size;
 	size_t _capacity;
 public:
-	IArray(OfType *p,size_t size)
+	IArray(OfType* p, size_t size)
 	{
 		_ptr = p;
 		_size = size;
 		_capacity = size;
 	}
-	
+
 	explicit IArray(std::vector<OfType>& src)
 	{
 		_capacity = _size = src.size();
@@ -29,7 +29,7 @@ public:
 	}
 
 
-	IArray(OfType *p, size_t size,size_t capacity)
+	IArray(OfType* p, size_t size, size_t capacity)
 	{
 		assert(size <= capacity);
 		_ptr = p;
@@ -39,7 +39,7 @@ public:
 
 
 
-	bool overlaps(IArray<OfType> &a)
+	bool overlaps(IArray<OfType>& a)
 	{
 		return ((a._ptr + a._size - 1) < _ptr) || ((_ptr + _size - 1) < a._ptr);
 	}
@@ -54,7 +54,7 @@ public:
 
 	OfType& operator[](size_t i)
 	{
-		assert(i<_size);
+		assert(i < _size);
 		return _ptr[i];
 	}
 	size_t size() const { return _size; }
@@ -78,11 +78,21 @@ public:
 		_ptr = nullptr;
 	}
 
-	void copyFrom(const std::vector<OfType> &v)
+	void copyFrom(const std::vector<OfType>& v)
 	{
 		assert(_size == v.size()); //Sizes must match
-		memcpy(_ptr, v.data(), _size*sizeof(OfType));
+		memcpy(_ptr, v.data(), _size * sizeof(OfType));
 	}
+
+
+	void copyFrom(const IArray<OfType>& a)
+	{
+		assert(_size == v.size())
+		
+			memcpy(_ptr, a._ptr, _size * sizeof(OfType));
+		
+	}
+
 };
 
 #endif // IARRAY_H

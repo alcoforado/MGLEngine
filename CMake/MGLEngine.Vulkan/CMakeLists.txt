@@ -57,11 +57,7 @@ foreach (sh IN LISTS SHADERS )
 	list(APPEND SHADERS_HEADERS "${HEADER_NAME}")
 endforeach()
 
-	add_custom_command(
-	OUTPUT "SPIR-V/shaders_bytecode"
-	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-	)
-
+	
 
 
 

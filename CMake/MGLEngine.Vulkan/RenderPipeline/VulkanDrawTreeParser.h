@@ -36,12 +36,12 @@ class VulkanDrawTreeParser
 	OPointer<VulkanSemaphore> _sm;
 
 	VulkanRenderResourceLoadContext _renderLoadContext;
-	int _oncePerFrameLayoutIndex;
+	std::string _oncePerFrameDescriptSetLayout;
 private:
 	
 
 public:
-	VulkanDrawTreeParser(IVulkanRenderContext* context, VulkanPipeline* pipeline, DrawTree<T>& tree,int oncePerFrameLayoutIndex=-1)
+	VulkanDrawTreeParser(IVulkanRenderContext* context, VulkanPipeline* pipeline, DrawTree<T>& tree,std::string  oncePerFrameDescriptSetLayout="")
 		:_pContext(context), _pPipeline(pipeline), _tree(tree)
 	{
 		_pVerticesBuffer = nullptr;
@@ -49,11 +49,11 @@ public:
 		_pVerticesBuffer = new VulkanMappedAutoSyncBuffer<T>(context->GetMemoryManager(), 0, 100,{VK_BUFFER_USAGE_VERTEX_BUFFER_BIT});
 		_sm = new VulkanSemaphore(context->GetLogicalDevice());
 		_perFrameData = std::vector<PerFrameData>(pipeline->GetVulkanSwapChainFramebuffers()->Size(),PerFrameData());
-		_oncePerFrameLayoutIndex = oncePerFrameLayoutIndex;
+		_oncePerFrameDescriptSetLayout = oncePerFrameDescriptSetLayout;
 
-		if (oncePerFrameLayoutIndex != -1)
+		if (oncePerFrameDescriptSetLayout != "")
 		{
-			_pPipeline->GetSlotManager()->AllocateDescritorSets(oncePerFrameLayoutIndex, (int) _perFrameData.size());
+			_pPipeline->GetSlotManager()->AllocateDescritorSets(oncePerFrameDescriptSetLayout, (int) _perFrameData.size());
 		}
 	}
 
@@ -73,9 +73,9 @@ public:
 		int frameIndex = drawContext->GetFrameIndex();
 		
 		//update resources if necessary
-		if (_oncePerFrameLayoutIndex != INVALID_INDEX)
+		if (_oncePerFrameDescriptSetLayout != "")
 		{
-			VulkanDescriptorSet* set = _pPipeline->GetSlotManager()->GetDescriptorSet(_oncePerFrameLayoutIndex, frameIndex);
+			VulkanDescriptorSet* set = _pPipeline->GetSlotManager()->GetDescriptorSet(_oncePerFrameDescriptSetLayout, frameIndex);
 			set->LoadIfNeeded();
 		}
 		
@@ -109,8 +109,8 @@ public:
 			VulkanCommandBuffer *comm = _pContext->GetLogicalDevice()->GetGraphicCommandPool()->CreateCommandBuffer(VulkanCommandBufferOptions().SimultaneousUse());
 			comm->BeginRenderPass(framebuffer, glm::vec4(0, 0, 0, 1.0));
 			comm->BindPipeline(_pPipeline);
-			if (_oncePerFrameLayoutIndex != INVALID_INDEX) //If we have a resource layout that changes once per frame bind it
-				comm->BindDescriptorSet(_pPipeline, _oncePerFrameLayoutIndex, frameIndex);
+			if (_oncePerFrameDescriptSetLayout != "") //If we have a resource layout that changes once per frame bind it
+				comm->BindDescriptorSet(_pPipeline, _oncePerFrameDescriptSetLayout, frameIndex);
 			comm->BindVertexBuffer(pVerticeBuffer->GetHandle());
 			
 			comm->Draw(static_cast<uint32_t>(_pVerticesBuffer->size()), 1, 0, 0);

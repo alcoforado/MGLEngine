@@ -4,14 +4,16 @@
 #include  <MGLEngine.Vulkan/RenderPipeline/VulkanPipeline.h>
 
 VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(const VulkanLogicalDevice* device,
+	std::string name,
 	const std::vector<IVulkanRenderSlot*>& v)
 {
+	_name = name;
 	_dev = device;
 	_slots = v;
 	std::vector<VkDescriptorSetLayoutBinding> vLayout;
-	for (auto r : v)
+	for (auto slot : v)
 	{
-		vLayout.push_back(r->GetVkDescriptorSetLayoutBinding());
+		vLayout.push_back(slot->GetVkDescriptorSetLayoutBinding());
 	}
 	VkDescriptorSetLayoutCreateInfo layoutInfo = {};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;

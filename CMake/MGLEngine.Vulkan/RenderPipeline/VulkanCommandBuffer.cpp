@@ -80,10 +80,10 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline* pip
 	return *this;
 }
 
-VulkanCommandBuffer & VulkanCommandBuffer::BindDescriptorSet(VulkanPipeline *pipeline,int layoutNumber, int dsNumber)
+VulkanCommandBuffer & VulkanCommandBuffer::BindDescriptorSet(VulkanPipeline *pipeline,std::string  layoutName, int dsNumber)
 {
 	AssertIsOpen();
-	VkDescriptorSet dsSetHandle = pipeline->GetSlotManager()->GetDescriptorSet(layoutNumber,dsNumber)->GetHandle();
+	VkDescriptorSet dsSetHandle = pipeline->GetSlotManager()->GetDescriptorSet(layoutName,dsNumber)->GetHandle();
 	vkCmdBindDescriptorSets(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetSlotManager()->GetVkPipelineLayoutHandle(), 0, 1, &dsSetHandle, 0, nullptr);
 	return *this;
 }

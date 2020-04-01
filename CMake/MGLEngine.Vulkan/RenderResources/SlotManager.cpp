@@ -11,6 +11,16 @@
 
 
 
+SlotManager::LayoutData& SlotManager::GetLayoutData(std::string name)
+{
+	for (auto& ld : _data)
+	{
+		if (ld.pLayout->GetName() == name)
+			return ld;
+	}
+	throw std::exception("Layout not found ");
+}
+
 SlotManager::SlotManager(VulkanPipeline* pipeline, std::vector<IVulkanRenderSlot*> allSlots)
 {
 	_pDev = pipeline->GetLogicalDevice();
@@ -34,36 +44,47 @@ std::vector<IVulkanRenderSlot*> SlotManager::GetSlotsByFrequence(ResourceWriteFr
 }
 
 
-int SlotManager::AddLayout(std::vector<IVulkanRenderSlot*> slots)
+void SlotManager::RegisterDescriptorSetLayout(std::string name,std::vector<IVulkanRenderSlot*> slots)
 {
 	eassert(std::includes(_allSlots.begin(), _allSlots.end(), slots.begin(), slots.end()), "One or more slots passed do not belong to the actually pipeline");
 	eassert(!IsLoaded(),"Cannot add more layouts to the pipeline because it is already loaded")
 	LayoutData ld;
-	ld.pLayout = new VulkanDescriptorSetLayout(_pDev,slots);
+	ld.pLayout = new VulkanDescriptorSetLayout(_pDev,name,slots);
 	_data.push_back(ld);
 
-	return static_cast<int>(_data.size() - 1);
+	
 }
 
-void SlotManager::AllocateDescritorSets(int layoutNumber, int descriptorSetsCount)
+void SlotManager::AllocateDescritorSets(std::string  layoutName, int descriptorSetsCount)
 {
-	eassert(layoutNumber < _data.size(),"Error layoutNumber " << layoutNumber << " out of range [0," << _data.size()-1);
+	
+	SlotManager::LayoutData& data = GetLayoutData(layoutName);
 	for(int i=0;i<descriptorSetsCount;i++)
 	{
-		_data[layoutNumber].vDescSets.push_back	(new VulkanDescriptorSet(_data[layoutNumber].pLayout));
+		data.vDescSets.push_back(new VulkanDescriptorSet(data.pLayout));
 	}
 	
 }
 
 
 
-VulkanDescriptorSet* SlotManager::GetDescriptorSet(int iLayout,int iDescSet)
+VulkanDescriptorSet* SlotManager::GetDescriptorSet(int iLayout, int iDescSet)
 {
 	eassert(iLayout < _data.size(), "Error layoutNumber " << iLayout << " out of range [0," << _data.size() - 1);
 	eassert(iDescSet < _data[iLayout].vDescSets.size(), "Error descriptor set index out of range");
 	return _data[iLayout].vDescSets[iDescSet];
 
 }
+
+
+VulkanDescriptorSet* SlotManager::GetDescriptorSet(std::string layoutName, int iDescSet)
+{
+	SlotManager::LayoutData ld = GetLayoutData(layoutName);
+	eassert(iDescSet < ld.vDescSets.size(), "Error descriptor set index out of range");
+	return ld.vDescSets[iDescSet];
+
+}
+
 
 void SlotManager::Load()
 {

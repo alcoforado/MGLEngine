@@ -4,6 +4,7 @@
 #include "VulkanDescriptorSet.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
 #include <algorithm>
+#include <string>
 class VulkanPipeline;
 class SlotManager
 {
@@ -17,22 +18,23 @@ class SlotManager
 private:
 	struct LayoutData
 	{
-		VulkanDescriptorSetLayout *pLayout;
-		std::vector<VulkanDescriptorSet*> vDescSets;
+		VulkanDescriptorSetLayout *pLayout;                  //The descreiptorset layout
+		std::vector<VulkanDescriptorSet*> vDescSets;         //DescriptorSets allocated havin pLayout as their layout
 
 	};
 
 	std::vector<LayoutData> _data;
+	LayoutData& GetLayoutData(std::string name);
 
 public:
 	SlotManager(VulkanPipeline *pipeline, std::vector<IVulkanRenderSlot*> allSlots);
 	std::vector<IVulkanRenderSlot*> GetSlotsByFrequence(ResourceWriteFrequency freq);
-	int AddLayout(std::vector<IVulkanRenderSlot*> slots);
-	void AllocateDescritorSets(int layoutNumber, int descriptorSetsCount);
+	void RegisterDescriptorSetLayout(std::string name, std::vector<IVulkanRenderSlot*> slots);
+	void AllocateDescritorSets(std::string layoutName, int descriptorSetsCount);
 	VulkanDescriptorSet* GetDescriptorSet(int iLayout, int iDescSet);
+	VulkanDescriptorSet* GetDescriptorSet(std::string layoutName, int iDescSet);
+
 	void Load();
-	void OnCommandBufferOpen(VulkanCommandBuffer *cb, int frameIndex);
-	void OnFrameStart(int iFrame);
 	~SlotManager();
 	bool IsLoaded() const {
 		return _vkPipelineLayout != VK_NULL_HANDLE;

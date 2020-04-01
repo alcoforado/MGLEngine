@@ -29,10 +29,12 @@ class UniformBufferSlot : public IVulkanRenderSlot
 	Observable<bool> _onChange;
 private:
 
-	/**Vulkan Slot Binding inner implementation for UniformBuffer.
-	 *
-	*/
-	class UniformSlotBinding : public IVulkanSlotBinding
+	/**Vulkan Slot Binding, the class that acutally contaings the memory to store variables in the slot. 
+	   It is one binding for every descriptorset that contains the slot as part of its layout
+	   Bindings are created and assigned to descriptorsets by using the "Binding" function, once they are intialized
+	   by the descritporset pool
+	   */
+	class SlotBinding : public IVulkanSlotBinding
 	{
 	public:
 		Listener<bool> _slotListener;
@@ -51,11 +53,22 @@ private:
 			data.copyFrom(this->pSlot->_data);
 			pBuffer->Flush();
 			bNeedUpdate = false;
-			int o=sizeof(glm::vec3);
 
 		}
 
-		virtual ~UniformSlotBinding()
+
+		virtual void Update(const IArray<Data> &d) 
+		{
+			eassert(d.size() == (size_t) pSlot->_nElems,"Size mismatch");
+			IArray<Data> data = pBuffer->Map();
+			data.copyFrom(this->pSlot->_data);
+			pBuffer->Flush();
+			bNeedUpdate = false;
+
+		}
+
+
+		virtual ~SlotBinding()
 		{
 
 		}
@@ -66,14 +79,22 @@ private:
 	};
 
 public:
+
+
+	
+
+
 	/*
 	 * This function is used internally to bind the vulkan descriptor set with the buffer.
 	 * This only happens after the descriptorsetpool is finally allocated, which allocates all descritpor sets,
-	 * which in turn, call the bind function for every of its resources.
+	 * which in turn, call the bind function for every of its resources. The bin class actually has the buffers with real data.
+	 * every descriptor set has a set of bindings corresponding to the slots they have.
+	 * The bindings are also listening to the slot onchange event which are triggered everytime a new value is assigned to the slot.
+	 * When that happens the bindigns automatically flag themselves as dirty.
 	 */
 	virtual IVulkanSlotBinding* Bind(VulkanDescriptorSet *dsSet) override
 	{
-		UniformSlotBinding *binding = new UniformSlotBinding();
+		SlotBinding *binding = new SlotBinding();
 		if (this->_memoryType == MAPPED_MEMORY)
 			binding->pBuffer = new VulkanMappedBuffer<Data>(_dev->GetMemoryManager(), _nElems, { VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT });
 		else if (this->_memoryType == AUTO_SYNC_MEMORY)
