@@ -67,7 +67,8 @@ public:
 
 	VulkanCommandBuffer& BindPipeline(const VulkanPipeline* pipeline);
 
-	VulkanCommandBuffer & BindDescriptorSet(VulkanPipeline * pipeline, std::string layoutNumber, int dsNumber);
+	VulkanCommandBuffer& BindDescriptorSet(VulkanPipeline * pipeline, std::string layoutNumber, int dsNumber);
+	VulkanCommandBuffer& BindDescriptorSet(VulkanPipeline* pipeline, VulkanDescriptorSet* ds);
 
 
 	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);

@@ -10,14 +10,14 @@
 #include <MGLEngine.Shared/VerticeData/Color2D.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 
-#include "../RenderPipeline/VulkanDrawTreeParser.h"
+#include "../DrawTree/VulkanDrawTreeParser.h"
 #include "MGLEngine.Vulkan/RenderResources/UniformBufferSlot.h"
 #include "IVulkanShader.h"
 class IVulkanRenderContext;
 
 
 
-class ShaderColor2D : public DrawTree<Color2D>, public IVulkanShader
+class ShaderColor2D : public VulkanDrawTree<Color2D>, public IVulkanShader
 {
 	OPointer<VulkanDrawTreeParser<Color2D>> _treeParser;
 	OPointer<VulkanPipeline> _pPipeline;

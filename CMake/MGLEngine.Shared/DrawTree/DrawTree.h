@@ -9,21 +9,24 @@
 
 	
 
-template<class VerticeData>
+template<class VerticeData,class EngineData>
 class DrawTree : public  IShader2D<VerticeData>
 {
-	typedef NTreeNode<DrawInfo<VerticeData>> Node;
+public:
+	typedef NTreeNode<DrawInfo<VerticeData,EngineData>> Node;
+	typedef DrawInfo<VerticeData, EngineData> DrawInfoT;
+private:	
 	Node _root;
-;
+
 
 private:
 
 	class ShapeHandle : public IShapeHandle
 	{
-		NTreeNode<DrawInfo<VerticeData>> *_node;
+		Node *_node;
 	public:
 
-		ShapeHandle(NTreeNode<DrawInfo<VerticeData>> *node)
+		ShapeHandle(Node *node)
 		{
 			assert(node);
 			assert(node->GetData().IsShape());
@@ -36,7 +39,7 @@ private:
 			{
 				throw new ::Exception("Shape Handle was already deleted");
 			}
-			_node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
+			_node->ForItselfAndAllParents([](Node* pNode)->void {
 				pNode->GetData().NeedRedraw = true;
 			});
 
@@ -59,7 +62,7 @@ public:
 	typedef VerticeData VerticeType;
 
 	DrawTree()
-		:_root(DrawInfo<VerticeData>::CreateRoot())
+		:_root(DrawInfoT::CreateRoot())
 	{
 
 
@@ -69,16 +72,16 @@ public:
 	{
 		return _root.GetData().NeedRedraw;
 	}
-	NTreeNode<DrawInfo<VerticeData>>* GetRoot() { return &_root; }
+	Node* GetRoot() { return &_root; }
 
 
 	void ComputeSizes()
 	{
 		int offI = 0;
 		int offV = 0;
-		_root.ForAllInOrder([&](NTreeNode<DrawInfo<VerticeData>>* pNode) {
+		_root.ForAllInOrder([&](Node* pNode) {
 		
-			DrawInfo<VerticeData>& info = pNode->GetData();
+			DrawInfoT& info = pNode->GetData();
 			info.Current = info.Future;
 			if (info.IsShape())
 			{
@@ -97,7 +100,7 @@ public:
 				
 				info.Future.SizeI = 0;
 				info.Future.SizeV = 0;
-				for(NTreeNode<DrawInfo<VerticeData>>* child : pNode->GetChilds())
+				for(Node* child : pNode->GetChilds())
 				{
 					info.Future.SizeI += child->GetData().Future.SizeI;
 					info.Future.SizeV += child->GetData().Future.SizeV;
@@ -111,7 +114,7 @@ public:
 			if (info.IsRoot())
 			{
 				info.Future.SizeI = info.Future.SizeV = 0;
-				for (NTreeNode<DrawInfo<VerticeData>>* child : pNode->GetChilds())
+				for (Node* child : pNode->GetChilds())
 				{
 					info.Future.SizeI += child->GetData().Future.SizeI;
 					info.Future.SizeV += child->GetData().Future.SizeV;
@@ -143,9 +146,9 @@ public:
 
 		//To contain which regions we should copy
 		std::vector<CopyRegion> copiesV,copiesI;
-		std::list<DrawInfo<VerticeData>*> shapesToRedraw;
-		_root.ForAllPreOrderControlDescent([&](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
-			DrawInfo<VerticeData>& info = pNode->GetData();
+		std::list<DrawInfoT*> shapesToRedraw;
+		_root.ForAllPreOrderControlDescent([&](Node* pNode)->bool {
+			DrawInfoT& info = pNode->GetData();
 			if (info.NeedRedraw)
 			{
 				if (info.IsShape())
@@ -229,8 +232,8 @@ public:
 		//To contain which regions we should copy to dst vector
 		std::vector<CopyRegion> copiesV, copiesI;
 
-		_root.ForAllPreOrderControlDescent([&](NTreeNode<DrawInfo<VerticeData>>* pNode)->bool {
-			DrawInfo<VerticeData>& info = pNode->GetData();
+		_root.ForAllPreOrderControlDescent([&](Node* pNode)->bool {
+			DrawInfoT& info = pNode->GetData();
 			if (info.NeedRedraw)
 			{
 				if (info.IsShape())
@@ -287,8 +290,8 @@ public:
 
 	virtual IShapeHandle* Add(ITopology2D *topology,IShaderDataWriter<VerticeData> *render) override 
 	{
-		DrawInfo<VerticeData> data = DrawInfo<VerticeData>::CreateShape(topology, render);
-		auto node = new NTreeNode<DrawInfo<VerticeData>>(data);
+		DrawInfoT data = DrawInfoT::CreateShape(topology, render);
+		auto node = new Node(data);
 
 
 		//Try to find a batch to add the node
@@ -305,14 +308,14 @@ public:
 		if (!foundBatch)
 		{
 			//no batch found, create one and add the node to it.
-			Node *batch = new Node(DrawInfo<VerticeData>::CreateBatch(topType));
+			Node *batch = new Node(DrawInfoT::CreateBatch(topType));
 			_root.AppendChild(batch);
 			batch->AppendChild(node);
 		}
 
 
 		//Notify all the way to the root that the shape was changed.
-		node->ForItselfAndAllParents([](NTreeNode<DrawInfo<VerticeData>>* pNode)->void {
+		node->ForItselfAndAllParents([](Node *pNode)->void {
 			pNode->GetData().NeedRedraw = true;
 		});
 		return new ShapeHandle(node);

@@ -55,14 +55,17 @@ void SlotManager::RegisterDescriptorSetLayout(std::string name,std::vector<IVulk
 	
 }
 
-void SlotManager::AllocateDescritorSets(std::string  layoutName, int descriptorSetsCount)
+std::vector<VulkanDescriptorSet*> SlotManager::AllocateDescritorSets(std::string  layoutName, int descriptorSetsCount)
 {
-	
+	std::vector<VulkanDescriptorSet*> r;
 	SlotManager::LayoutData& data = GetLayoutData(layoutName);
 	for(int i=0;i<descriptorSetsCount;i++)
 	{
-		data.vDescSets.push_back(new VulkanDescriptorSet(data.pLayout));
+		VulkanDescriptorSet *p=new VulkanDescriptorSet(data.pLayout);
+		data.vDescSets.push_back(p);
+		r.push_back(p);
 	}
+	return r;
 	
 }
 

@@ -20,6 +20,10 @@
 template<class Data>
 class UniformBufferSlot : public IVulkanRenderSlot
 {
+public:
+	using ElemData = Data;
+private:	
+	
 	const VulkanLogicalDevice *_dev;
 	std::vector<Data> _data;
 	bool _dirty;
@@ -27,7 +31,7 @@ class UniformBufferSlot : public IVulkanRenderSlot
 	GPUMemoryType _memoryType;
 	VkDescriptorSetLayoutBinding _ubo = {};
 	Observable<bool> _onChange;
-private:
+public:
 
 	/**Vulkan Slot Binding, the class that acutally contaings the memory to store variables in the slot. 
 	   It is one binding for every descriptorset that contains the slot as part of its layout
@@ -175,7 +179,9 @@ public:
 		return _ubo;
 	}
 
-
+	size_t size() {
+		return (size_t) _nElems;
+	}
 
 	virtual GPUMemoryType MemoryType() override
 	{

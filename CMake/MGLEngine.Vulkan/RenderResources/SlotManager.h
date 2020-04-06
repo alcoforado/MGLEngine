@@ -30,7 +30,7 @@ public:
 	SlotManager(VulkanPipeline *pipeline, std::vector<IVulkanRenderSlot*> allSlots);
 	std::vector<IVulkanRenderSlot*> GetSlotsByFrequence(ResourceWriteFrequency freq);
 	void RegisterDescriptorSetLayout(std::string name, std::vector<IVulkanRenderSlot*> slots);
-	void AllocateDescritorSets(std::string layoutName, int descriptorSetsCount);
+	std::vector<VulkanDescriptorSet*>  AllocateDescritorSets(std::string layoutName, int descriptorSetsCount);
 	VulkanDescriptorSet* GetDescriptorSet(int iLayout, int iDescSet);
 	VulkanDescriptorSet* GetDescriptorSet(std::string layoutName, int iDescSet);
 

@@ -6,7 +6,6 @@
 #include <type_traits>
 #include <assert.h>
 #include <MGLEngine.Shared/DrawTree/IRenderResource.h>
-
 struct ArrayLocation
 {
 	Index OffI;
@@ -100,7 +99,7 @@ public:
 
 
 
-template<class VerticeData>
+template<class VerticeData,class EngineData>
 class DrawInfo
 {
 	ShapeInfo<VerticeData> _shape;
@@ -110,8 +109,8 @@ class DrawInfo
 		DrawInfoType = Root;
 	}
 
-	std::list<IRenderResource*> Resources;
 	TOPOLOGY_TYPE _batchTopologyType;
+	EngineData _engineData;
 
 public:
 	ArrayLocation Current;
@@ -120,7 +119,9 @@ public:
 	bool NeedRedraw;
 	
 
-	DrawInfo(const DrawInfo<VerticeData>& data)
+	EngineData& InternalEngineData() { return _engineData; }
+
+	DrawInfo(const DrawInfo<VerticeData,EngineData>& data)
 	{
 		*this = data;
 	}
@@ -181,34 +182,34 @@ public:
 	}
 
 
-	static DrawInfo<VerticeData> CreateShape(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType> top, std::shared_ptr<IShaderDataWriter<VerticeData>> render)
+	static DrawInfo<VerticeData,EngineData> CreateShape(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType> top, std::shared_ptr<IShaderDataWriter<VerticeData>> render)
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,EngineData> info;
 		info.DrawInfoType = Shape;
 		info._shape = ShapeInfo<VerticeData>(top,render);
 		return info;
 	}
 
-	static DrawInfo<VerticeData> CreateShape(typename ShapeInfo<VerticeData>::TopologyType *top, IShaderDataWriter<VerticeData> *render)
+	static DrawInfo<VerticeData,EngineData> CreateShape(typename ShapeInfo<VerticeData>::TopologyType *top, IShaderDataWriter<VerticeData> *render)
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,EngineData> info;
 		info.DrawInfoType = Shape;
 		info._shape = ShapeInfo<VerticeData>(std::shared_ptr<typename ShapeInfo<VerticeData>::TopologyType>(top) , std::shared_ptr<IShaderDataWriter<VerticeData>>(render));
 		return info;
 	}
 
-	static DrawInfo<VerticeData> CreateRoot()
+	static DrawInfo<VerticeData,EngineData> CreateRoot()
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,EngineData> info;
 		info.DrawInfoType = Root;
 		info.NeedRedraw = true;
 
 		return info;
 	}
 	
-	static DrawInfo<VerticeData> CreateBatch(TOPOLOGY_TYPE topType)
+	static DrawInfo<VerticeData,EngineData> CreateBatch(TOPOLOGY_TYPE topType)
 	{
-		DrawInfo<VerticeData> info;
+		DrawInfo<VerticeData,EngineData> info;
 		info.DrawInfoType = Batch;
 		info.NeedRedraw = true;
 		info._batchTopologyType = topType;

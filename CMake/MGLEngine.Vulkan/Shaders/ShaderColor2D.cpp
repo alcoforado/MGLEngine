@@ -6,15 +6,12 @@
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
 #include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
-
+#include <MGLEngine.Vulkan\DrawTree\VulkanResourceLoader.h>
 ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
  :_vertexByteCode(*renderContext->GetLogicalDevice(), canvas2D_vert, sizeof(canvas2D_vert)),
   _fragShaderCode(*renderContext->GetLogicalDevice(), canvas2D_frag, sizeof(canvas2D_frag))
 {
 	_pGT = new UniformBufferSlot<glm::mat4>(renderContext->GetMemoryManager(), 0, 1, { VK_SHADER_STAGE_VERTEX_BIT }, MAPPED_MEMORY, ONCE_PER_FRAME);
-
-	
-	
 
 	_pPipeline = new VulkanPipeline(renderContext->GetSwapChain(), _vertexByteCode, _fragShaderCode,{_pGT});
 
@@ -48,8 +45,13 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
 	
 	_pPipeline->Load();
 
-	
+	//Setting the ResourceLoaders
+	//allocate descriptor sets
+	auto ds =_pPipeline->GetSlotManager()->AllocateDescritorSets("perFrame", 3);
+	this->GetRoot()->GetData().InternalEngineData().AddResourceLoaderPerFrame(*_pGT, ds);
 	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, _pPipeline, *this,0);
+
+
 
 }
 

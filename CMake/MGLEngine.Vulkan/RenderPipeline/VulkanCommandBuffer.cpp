@@ -88,6 +88,15 @@ VulkanCommandBuffer & VulkanCommandBuffer::BindDescriptorSet(VulkanPipeline *pip
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSet(VulkanPipeline* pipeline, VulkanDescriptorSet *ds)
+{
+	AssertIsOpen();
+	VkDescriptorSet dsSetHandle = ds->GetHandle();
+	vkCmdBindDescriptorSets(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetSlotManager()->GetVkPipelineLayoutHandle(), 0, 1, &dsSetHandle, 0, nullptr);
+	return *this;
+}
+
+
 void VulkanCommandBuffer::End()
 {
 	auto err = vkEndCommandBuffer(_vkCommandBuffer);

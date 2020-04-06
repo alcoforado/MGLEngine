@@ -1,0 +1,1 @@
+#include "C:\Users\Marcos\workspace\MGLEngine\MGLEngine.Shared\Utils\CommitTag.h"
