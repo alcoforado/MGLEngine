@@ -45,16 +45,18 @@ public:
 	}
 
 	const std::vector<std::string>& getPath() { return _vpath; }
-	const std::map<std::string, std::string>& getQuery() { return _query; }
+	std::map<std::string, std::string>& getQuery() { return _query; }
 
 	std::string relativePath() 
 	{
 		std::string acum = "";
 		for (auto s : _vpath)
 		{
-			acum += s;
+			acum += s+"/";
 		}
-		return acum;
+		if (acum.length() > 0)
+			return acum.substr(0, acum.length() - 1);
+		return "";
 	}
 
 

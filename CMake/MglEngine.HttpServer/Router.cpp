@@ -53,7 +53,7 @@ std::shared_ptr<Router::RouteMatch> Router::MatchRoute(Url& url,std::string meth
 						isMatch = false;
 						break;
 					}
-
+					it++;
 				}
 				if (isMatch) {
 					auto p = std::shared_ptr<Router::RouteMatch>(new Router::RouteMatch());

@@ -3,7 +3,7 @@ project(MGLEngine.MCAD)
 
 
 # Create the executable
-add_executable(${PROJECT_NAME}  "main.cpp" )
+add_executable(${PROJECT_NAME}  "main.cpp"  "ShapesController.h" "ShapesController.cpp")
 
 
 include_directories("../../References/include" "../")

@@ -28,7 +28,8 @@ void HttpServer::process_request(asio::ip::tcp::socket& socket)
 			if (context.isRequestProcessed())
 				break;
 		}
-
+		if (!context.isRequestProcessed())
+			context.send(HttpResponse::Http404("File not found",req.version(),req.keep_alive()));
 
 
 	}
@@ -48,9 +49,6 @@ HttpServer& HttpServer::AddWebApi()
 	return *this;
 }
 	
-
-
-
 void HttpServer::run()
 {
 	std::cout << "Listening at 127.0.0.1:" << _host.port() << std::endl;

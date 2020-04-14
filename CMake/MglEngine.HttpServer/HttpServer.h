@@ -1,7 +1,7 @@
 #include "boost_deps.h"
 #include "IMiddleware.h"
 #include "WebApiMiddletier.h"
-
+#include "IController.h"
 
 class HttpServer
 {
@@ -13,6 +13,7 @@ private:
 
 	std::list<std::shared_ptr<IMiddleware>> _middlewares;
 	std::shared_ptr<WebApiMiddleware> _webapi;
+	std::list<s_ptr<IController>> _controllers;
 	HttpServer& AddWebApi();
 
 public:
@@ -22,6 +23,7 @@ public:
 	void MapRoute(std::string method, std::string path, s_ptr<Controller> cntrl, HttpResponse (Controller::* f)(WebApiContext&)) {
 		using std::placeholders::_1;
 		auto call = std::bind(f, cntrl,_1);
+
 		_webapi->RouteTable.Map(Router::parseHttpMethod(method), path, call);
 		
 	}

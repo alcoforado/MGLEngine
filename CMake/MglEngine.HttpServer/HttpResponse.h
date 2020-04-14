@@ -10,7 +10,10 @@ public:
 	
 	HttpResponse() {}
 	
-	static HttpResponse Http500(std::string content,  int version, bool keep_alive);
+	static HttpResponse Http500(std::string content, int version, bool keep_alive);
+	static HttpResponse Http404(std::string content,  int version, bool keep_alive);
 	static HttpResponse HttpOk(std::string content, int version, bool keep_alive);
+	static HttpResponse HttpJson(std::string content, int version, bool keep_alive);
+
 
 };

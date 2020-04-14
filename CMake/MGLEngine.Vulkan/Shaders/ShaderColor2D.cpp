@@ -49,7 +49,7 @@ ShaderColor2D::ShaderColor2D(IVulkanRenderContext* renderContext)
 	//allocate descriptor sets
 	auto ds =_pPipeline->GetSlotManager()->AllocateDescritorSets("perFrame", 3);
 	this->GetRoot()->GetData().InternalEngineData().AddResourceLoaderPerFrame(*_pGT, ds);
-	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, _pPipeline, *this,0);
+	_treeParser = new VulkanDrawTreeParser<Color2D>(renderContext, _pPipeline, *this,"perFrame");
 
 
 

@@ -49,9 +49,7 @@ namespace glm {
 
 
 
-		v.x = j["x"];
-		v.y = j["y"];
-		v.z = j["z"];
+		
 	}
 
 }
