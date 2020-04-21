@@ -15,7 +15,7 @@ public:
 void RunServer(MGL::Window *pWindow)
 {
 
-    HttpServer server(8765);
+    HttpServer server(9000);
 
    s_ptr<HelloWorldC> hello = std::make_shared<HelloWorldC>();
    server.MapRoute("GET", "hello", hello, &HelloWorldC::HelloWorld);
@@ -24,8 +24,9 @@ void RunServer(MGL::Window *pWindow)
     s_ptr<ShapesService> shService = std::make_shared<ShapesService>(pWindow);
     s_ptr<ShapesController> shapesC = std::make_shared<ShapesController>(shService);
 
-    server.MapRoute("GET", "api/shapemngr/shapetypes", shapesC, &ShapesController::GetShapeTypes);
-    server.MapRoute("GET", "api/shapemngr/rendertypes", shapesC, &ShapesController::GetRenderTypes);
+    server.MapRoute("GET", "api/shape/rendertypes", shapesC, &ShapesController::GetRenderTypes);
+    server.MapRoute("GET", "api/shape/topologytypes", shapesC, &ShapesController::GetShapeTypes);
+    server.MapRoute("GET", "api/shape/reserveid/{shapeType}", shapesC, &ShapesController::ReserveId);
 
 
 

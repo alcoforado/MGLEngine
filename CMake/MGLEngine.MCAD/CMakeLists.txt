@@ -3,7 +3,7 @@ project(MGLEngine.MCAD)
 
 
 # Create the executable
-add_executable(${PROJECT_NAME}  "main.cpp"  "ShapesController.h" "ShapesController.cpp")
+add_executable(${PROJECT_NAME}  "main.cpp"  "ShapesController.h" "ShapesController.cpp" "settings.json")
 
 
 include_directories("../../References/include" "../")
@@ -14,6 +14,7 @@ include_directories(${Boost_INCLUDE_DIR})
 
 
 
+configure_file("settings.json" ${CMAKE_CURRENT_BINARY_DIR} COPY_ONLY)
 
 target_link_libraries	(${PROJECT_NAME} 
 	                    MGLEngine.HttpServer

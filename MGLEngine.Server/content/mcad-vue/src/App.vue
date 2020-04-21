@@ -120,6 +120,7 @@ export default class App extends Vue {
   createShape(it:MSelectListItem)
   {
     this.$store.dispatch(Actions.CREATE_SHAPE,it.text);
+    this.showCreateShapeDialog(false);
   }
 
   created(){

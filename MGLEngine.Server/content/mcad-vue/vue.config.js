@@ -11,6 +11,7 @@ module.exports = {
               ws: true,
               changeOrigin: true
           }
+        }
 
     },
     lintOnSave: false,

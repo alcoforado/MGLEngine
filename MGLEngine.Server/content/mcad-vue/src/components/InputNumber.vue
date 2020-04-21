@@ -22,7 +22,7 @@ export default class InputNumber extends Vue {
         var value = this.field.value();
         if (value == null || typeof value == "string")
             return value;
-        else 
+        else (typeof value == "number")
             return value.toString();
     }
 

@@ -26,6 +26,7 @@
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
+    background-color: 
 }
 .md-flat {
     text-decoration:underline;

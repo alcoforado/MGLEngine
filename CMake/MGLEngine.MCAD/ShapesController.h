@@ -15,6 +15,7 @@ public:
 
 	HttpResponse GetShapeTypes(WebApiContext &context);
 
+	HttpResponse ReserveId(WebApiContext& context);
 
 
 

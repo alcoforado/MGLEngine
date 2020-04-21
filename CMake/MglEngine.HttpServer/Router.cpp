@@ -45,7 +45,8 @@ std::shared_ptr<Router::RouteMatch> Router::MatchRoute(Url& url,std::string meth
 				{
 					if (delimitedBy(*it, "{", "}"))
 					{
-						routeParams[*it] = urlPart;
+						std::string pName=trim(*it, "{}");
+						routeParams[pName] = urlPart;
 
 					}
 					else if (urlPart != *it)

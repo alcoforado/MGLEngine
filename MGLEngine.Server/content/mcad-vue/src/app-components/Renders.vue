@@ -1,6 +1,7 @@
 <template>
-<section class="topology">
-    <component :is="dynamicRender" :value="topology()"></component>
+<section class="render">
+
+    <component v-if="isPainterTypeDefined()" :is="dynamicRender" :value="render()"></component>
 </section>
 </template>
 
@@ -15,25 +16,29 @@ import * as Models from '../store/models';
     components:{
     }
 })
-export default class Topology extends Vue {
+export default class Render extends Vue {
     public $store!:Store<Models.StoreRootState>;
     @Prop() shapeId:string;
+
+    isPainterTypeDefined() {
+        return this.$store.state.SObjects[this.shapeId] && this.$store.state.SObjects[this.shapeId].PainterType;
+    }
 
     dynamicRender()
     {
         if (this.$store.state.SObjects[this.shapeId])
         {
-            const type=this.$store.state.SObjects[this.shapeId].TopologyType;
-            return import(`./topologies/${type}.vue`)
+            const type=this.$store.state.SObjects[this.shapeId].PainterType;
+            return import(`./renders/${type}.vue`)
 
         }
         throw "Topology not found."
 
     }
-    topology():any {
+    render():any {
         if (this.$store.state.SObjects[this.shapeId])
         {
-           return this.$store.state.SObjects[this.shapeId].Topology;
+           return this.$store.state.SObjects[this.shapeId].Painter;
         }
         return {};
     }
@@ -41,7 +46,7 @@ export default class Topology extends Vue {
 </script>
 
 <style lang="scss">
-.topology {
+.render {
     .top-label {
     display:inline-block;
    

@@ -9,7 +9,7 @@ private:
 public:
 	WebApiContext(HttpContext& pContext,std::map<std::string,std::string> &routeParams) :_context(pContext),_routeParams(routeParams) {}
 
-	const std::map<std::string, std::string>& getRouteParameters() { return _routeParams; }
+	std::map<std::string, std::string>& getRouteParameters() { return _routeParams; }
 
 	HttpResponse HttpOk(std::string message);
 	HttpResponse HttpJson(std::string message);

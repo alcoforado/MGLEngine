@@ -6,6 +6,10 @@ const getters: GetterTree<Model.StoreRootState,Model.StoreRootState> = {
     topologiesList(state):MSelectListItem[] {
         return state.TopologyTypes.map(x=>{return {image:`/images/icon-font/theme-white/${x.Name}.svg`,text:x.Name}})
     },
+    paintersList(state):MSelectListItem[] {
+        console.log(state.PaiterTypes);
+        return state.PaiterTypes.map(x=>{return {image:`/images/icon-font/theme-white/${x.Name}.svg`,text:x.Name}})
+    },
     
     visibleShapes(state):Model.SceneObject[] {
         console.log('visibleShapes Called');

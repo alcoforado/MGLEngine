@@ -44,6 +44,11 @@
 
                 <md-card-content>
                     <topology :shapeId="item.Id"></topology>
+                    <md-field>
+                        <md-select v-model="item.PainterType" placeholder="Render">
+                            <md-option v-bind:key="option.text" :value="option.text" v-for="option in $store.getters.paintersList">{{option.text}}</md-option>
+                        </md-select>
+                    </md-field> 
                 </md-card-content>
 
                 <md-card-actions>

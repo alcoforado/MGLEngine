@@ -289,10 +289,7 @@ export class MFormNode implements IMFormNode{
   }
 
   public buildObject() {
-
       
-
-
   }
   
   

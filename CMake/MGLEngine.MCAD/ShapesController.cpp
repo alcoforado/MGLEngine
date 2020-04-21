@@ -19,6 +19,15 @@ HttpResponse ShapesController::GetShapeTypes(WebApiContext& context)
 	
 }
 
+HttpResponse ShapesController::ReserveId(WebApiContext& context)
+{
+	
+	std::string shapeType = context.getRouteParameters()["shapeType"];
+	std::string r=_pService->ReserveShapeId(shapeType);
+	json v = r;
+	return context.HttpJson(v.dump());
+}
+
 
 HttpResponse ShapesController::GetRenderTypes(WebApiContext& context)
 {

@@ -36,14 +36,14 @@ TEST_CASE("URL Class")
 TEST_CASE("Router") {
 
 	Router::ControllerCall f1 = [](WebApiContext& context) {
-		return context.HttpOk("Ola");
+		return context.HttpOk("Ola1");
 	};
 	Router::ControllerCall f2 = [](WebApiContext& context) {
-		return context.HttpOk("Ola");
+		return context.HttpOk("Ola2");
 	};
 
 	Router::ControllerCall f3 = [](WebApiContext& context) {
-		return context.HttpOk("Ola");
+		return context.HttpOk("Ola3");
 	};
 
 	SECTION("No Matching routes return null")
@@ -54,8 +54,9 @@ TEST_CASE("Router") {
 
 		auto rm1 = r.MatchRoute(Url("url4"), "GET");
 		auto rm2 = r.MatchRoute(Url("url2"), "GET");
+		
 		REQUIRE(!rm1);
-		REQUIRE(!rm2);
+		REQUIRE(!r.MatchRoute(Url("url1"),"POST"));
 
 
 	}
@@ -81,5 +82,25 @@ TEST_CASE("Router") {
 			
 
 	}
+
+	SECTION("Routers Parameters should be available")
+	{
+		Router r;
+		r.Map(http::verb::get, "url1", f1);
+		r.Map(http::verb::get, "url2/{url3}", f2);
+
+		auto rm1 = r.MatchRoute(Url("url1"), "GET");
+		auto rm2 = r.MatchRoute(Url("url2/match1"), "GET");
+
+		REQUIRE(rm1->RouteParameters.size() == 0);
+		REQUIRE(rm2->RouteParameters.size() == 1);
+		REQUIRE(rm2->RouteParameters["url3"] == "match1");
+
+
+
+	}
+
+
+
 
 }
