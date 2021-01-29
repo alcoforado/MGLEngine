@@ -15,7 +15,7 @@ public:
 	CyclicColor(){}
 	virtual ~CyclicColor() override {}
 
-
+	
 	
 };
 
@@ -28,4 +28,5 @@ void CyclicColor<VerticeData>::Write(IArray<VerticeData>& array)
 		array[i].Color = Colors[i%size];
 	}
 }
+
 

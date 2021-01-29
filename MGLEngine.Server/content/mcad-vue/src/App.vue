@@ -93,6 +93,7 @@ import EditLabel from './components/EditLabel.vue'
 import SvgIcon from './components/SvgIcon.vue'
 Vue.use(VueMaterial);
 
+
 Vue.component('edit-label',EditLabel)
 
 @Component ({

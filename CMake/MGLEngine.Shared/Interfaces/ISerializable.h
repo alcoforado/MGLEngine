@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <MGLEngine.Shared/Utils/JsonParser/mjson.h>
 class ISerializable
 {
 public:

@@ -6,12 +6,13 @@ $app_theme: (
     
     theme: dark,
     background: md-get-palette-color(grey, 900),
-    background-variant: md-get-palette-color(grey, 800),
+    background-variant: md-get-palette-color(grey, 900),
     background-highlight: rgba(md-get-palette-color(blue, A700),0.3),
     toolbarvariant: lighten(md-get-palette-color(grey,900),0%),
-    divider: rgba(255, 255, 255, 0.2),
+    divider: rgba(255, 255, 255, 0.1),
     divider-on-background:rgba(md-get-palette-color(grey, 700),0.8)
   );
+
 
 
 @include md-register-theme("default", $app-theme);
@@ -42,4 +43,6 @@ $app_theme: (
       width:43px;
    }
 }
+
+
 

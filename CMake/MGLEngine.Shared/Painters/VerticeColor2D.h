@@ -10,9 +10,9 @@ class VerticeColor2D : public IPainter2D, public CyclicColor<Color2D>
 public:
 	
 
-	std::string Serialize() override;
-	void Deserialize(std::string str) override;
-	IShapeHandle* Draw(ICanvas* canvas, ITopology2D* top) override;
+	IShapeHandle* RegisterInShader(ICanvas* canvas, ITopology2D* top) override;
+	virtual std::string Serialize() override;
+	virtual void Deserialize(std::string str) override;
 
 	virtual ~VerticeColor2D(){}
 };

@@ -6,7 +6,7 @@ class IShapeHandle;
 class IPainter2D : public ISerializable
 {
 public:
-	virtual IShapeHandle* Draw(ICanvas *canvas,ITopology2D *top) =0;
+	virtual IShapeHandle* RegisterInShader(ICanvas *canvas,ITopology2D *top) =0;
 	
 	
 };

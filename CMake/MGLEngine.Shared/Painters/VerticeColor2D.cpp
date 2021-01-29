@@ -16,7 +16,9 @@ void VerticeColor2D::Deserialize(std::string str)
 	Colors = j["Colors"].get<std::vector<glm::vec3>>();;
 }
 
-IShapeHandle* VerticeColor2D::Draw(ICanvas* canvas, ITopology2D* top)
+IShapeHandle* VerticeColor2D::RegisterInShader(ICanvas* canvas, ITopology2D* top)
 {
 	return canvas->GetColor2DShader()->Add(top, this);
 }
+
+

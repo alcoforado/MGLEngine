@@ -26,12 +26,15 @@
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
-    background-color: 
+   
 }
 .md-flat {
     text-decoration:underline;
 }
 
+.md-dialog-container {
+     border: 1px solid var(--md-theme-default-divider);
+}
 
 </style>
 

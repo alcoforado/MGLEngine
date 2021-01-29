@@ -15,7 +15,7 @@ void ShapesService::registerTopologies()
 
 void ShapesService::registerPainters2D()
 {
-	_painters2d.insert({ "CyclicColor2D",{[]() {return new VerticeColor2D(); }} });
+	_painters2d.insert({ "VerticeColor2D",{[]() {return new VerticeColor2D(); }} });
 }
 
 
@@ -43,7 +43,7 @@ SceneObject* ShapesService::CreateShape(std::string shapeId,std::string topology
 	{
 		ITopology2D* top = _topologies2D[topologyType].Create();
 		IPainter2D *painter = _painters2d[renderType].Create();
-		IShapeHandle *handler = painter->Draw(_pWindow->GetCanvas(), top);
+		IShapeHandle *handler = painter->RegisterInShader(_pWindow->GetCanvas(), top);
 		SceneObject sceneObj(shapeId,shapeId, top, painter, handler, topologyType, renderType);
 		_shapes[sceneObj.Id] = sceneObj;
 		return &(_shapes[sceneObj.Id]);
@@ -86,7 +86,7 @@ SceneObject* ShapesService::UpdateShape(std::string shapeJson)
 	SceneObject* newShape = CreateShape(shapeId, j["TopologyType"], j["PainterType"]);
 	newShape->Top2d->Deserialize(j["Topology"].dump());
 	newShape->Painter->Deserialize(j["Painter"].dump());
-	newShape->Handle=newShape->Painter->Draw(_pWindow->GetCanvas(), newShape->Top2d);
+	newShape->Handle=newShape->Painter->RegisterInShader(_pWindow->GetCanvas(), newShape->Top2d);
 	return newShape;
 }
 

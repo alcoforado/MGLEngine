@@ -52,8 +52,8 @@
                 </md-card-content>
 
                 <md-card-actions>
-                    <md-button>Action</md-button>
-                    <md-button>Action</md-button>
+                    <md-button>Delete</md-button>
+                    <md-button>Create</md-button>
                 </md-card-actions>
             </md-card>
 
