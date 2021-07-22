@@ -1,6 +1,6 @@
 #pragma once
 #include "VulkanCommandPool.h"
-#include <glm/detail/type_vec4.hpp>
+#include <glm/vec4.hpp>
 #include "VulkanSemaphore.h"
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 

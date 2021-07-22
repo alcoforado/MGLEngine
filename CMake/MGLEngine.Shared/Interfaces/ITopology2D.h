@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/detail/type_vec.hpp>
+#include <glm/glm.hpp>
 #include "../Utils/Arrays/IArray.h"
 #include "../Utils/Arrays/Indices.h"
 #include "../Utils/Arrays/ArraySelect.h"

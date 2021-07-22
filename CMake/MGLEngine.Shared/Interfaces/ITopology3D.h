@@ -1,6 +1,6 @@
 #pragma once
 #include "../Utils/Arrays/ArraySelect.h"
-#include <glm/detail/type_vec.hpp>
+#include <glm/glm.hpp>
 
 class ITopology3D
 {

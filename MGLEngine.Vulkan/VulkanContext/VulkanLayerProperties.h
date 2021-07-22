@@ -2,6 +2,7 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
+#include <string>
 struct VulkanLayerProperties {
 	VkLayerProperties layer;
 	std::vector<VkExtensionProperties> extensions;

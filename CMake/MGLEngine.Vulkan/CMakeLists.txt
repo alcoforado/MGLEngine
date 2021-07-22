@@ -38,7 +38,9 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 
 
 
-include_directories("../../References/include" "../")
+include_directories( "../" "${Vulkan_INCLUDE_DIRS}")
+
+
 
 message("====== Looking for Vulkan Shader compiler  =====")
 set(SHADER_COMPILER_EXEC "$ENV{VULKAN_SDK}/Bin/glslangValidator.exe")

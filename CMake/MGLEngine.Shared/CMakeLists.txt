@@ -4,7 +4,7 @@ project(MGLEngine.Shared)
 
 
 # Create the executable
-add_library(${PROJECT_NAME} STATIC "IMGLContainer.h" "IMGLEngine.h" "DrawTree/DrawInfo.h" "DrawTree/DrawTree.h" "DrawTree/IRenderResource.h" "Interfaces/IPainter2D.h" 
+add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h" "DrawTree/DrawInfo.h" "DrawTree/DrawTree.h" "DrawTree/IRenderResource.h" "Interfaces/IPainter2D.h" 
 "Interfaces/ISerializable.h" "Interfaces/IShaderDataWriter.h" "Interfaces/IShape3D.cpp" "Interfaces/IShape3D.h" "Interfaces/IShapeHandle.h" "Interfaces/ITopology2D.cpp" 
 "Interfaces/ITopology2D.h" "Interfaces/ITopology3D.cpp" "Interfaces/ITopology3D.h" "Painters/CyclicColor.h" "Painters/VerticeColor2D.cpp" "Painters/VerticeColor2D.h" 
 "RenderPipeline/ICompiler.cpp" "RenderPipeline/ICompiler.h" "Shaders/IShader2D.h" "ShapesService/ShapeScene.cpp" "ShapesService/ShapeScene.h" "ShapesService/ShapesService.cpp" 
@@ -21,6 +21,6 @@ add_library(${PROJECT_NAME} STATIC "IMGLContainer.h" "IMGLEngine.h" "DrawTree/Dr
 
 
 
-include_directories("../../References/include" "../")
+include_directories( "../"  )
 
 

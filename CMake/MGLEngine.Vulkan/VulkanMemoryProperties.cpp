@@ -4,6 +4,7 @@
 
 
 
+
 VulkanMemoryProperties::VulkanMemoryProperties(VkFlags flags, VkMemoryHeap heap)
 {
 	MemType = flags;

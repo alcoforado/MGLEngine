@@ -4,10 +4,9 @@ project(MGLEngine.Tests)
 
 
 
-include_directories("../../References/include" "../")
+include_directories(${Vulkan_INCLUDE_DIRS}  "../")
 
-message("======= Requiring Boost =======")
-find_package("Boost" REQUIRED)
+
 include_directories(${Boost_INCLUDE_DIR})
 message("Boost libraries found at ${Boost_LIBRARY_DIRS}")
 
@@ -21,7 +20,7 @@ target_link_libraries	(${PROJECT_NAME}
 	                    MGLEngine.Shared
 						MGLEngine.Vulkan
 						MGLEngine.HttpServer
-						${LOCAL_EXTERNAL_LIBS}/vulkan-1.lib
+						${Vulkan_LIBRARIES}
 						${LOCAL_EXTERNAL_LIBS}/glfw3.lib
 						debug ${Boost_LIBRARY_DIRS}/../debug/lib/boost_system-vc140-mt-gd.lib)
 
