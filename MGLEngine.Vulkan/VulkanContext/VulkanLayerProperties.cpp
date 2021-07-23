@@ -1,6 +1,0 @@
-#include "VulkanLayerProperties.h"
-
-
-
-
-

@@ -1,12 +1,22 @@
 import { createStore } from 'vuex'
+import {StoreRootState} from './models'
+import actions from './actions'
+import mutations from './mutations'
+import getters from './getters'
 
-export default createStore({
-  state: {
+export default createStore<StoreRootState>({
+  state() {
+    return ({
+      PaiterTypes:[],
+      TopologyTypes:[],
+      SObjects:{},
+      DisplayCreateShapeDialog:false
+    }) as StoreRootState;
   },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+  actions,
+  mutations,
+  getters
 })
+
+
+

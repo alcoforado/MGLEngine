@@ -1,1 +1,0 @@
-{"version":3,"file":"triangle2d.component.js","sourceRoot":"","sources":["triangle2d.component.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,sCAAkD;AAOlD;IAEE;IAAgB,CAAC;IAEjB,sCAAQ,GAAR;IACA,CAAC;IALU,mBAAmB;QAL/B,gBAAS,CAAC;YACT,QAAQ,EAAE,MAAM,CAAC,EAAE;YACnB,QAAQ,EAAE,gBAAgB;YAC1B,WAAW,EAAE,6BAA6B;SAC3C,CAAC;;OACW,mBAAmB,CAO/B;IAAD,0BAAC;CAAA,AAPD,IAOC;AAPY,kDAAmB"}

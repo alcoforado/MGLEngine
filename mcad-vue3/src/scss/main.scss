@@ -1,0 +1,45 @@
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+$app_theme: (
+    primary: md-get-palette-color(blue, A700), // The primary color of your application
+    accent: md-get-palette-color(purple, 800), // The accent or secondary color
+    
+    theme: dark,
+    background: md-get-palette-color(grey, 900),
+    background-variant: md-get-palette-color(grey, 900),
+    background-highlight: rgba(md-get-palette-color(blue, A700),0.3),
+    toolbarvariant: lighten(md-get-palette-color(grey,900),0%),
+    divider: rgba(255, 255, 255, 0.2),
+    divider-on-background:rgba(md-get-palette-color(grey, 700),0.8)
+  );
+
+
+@include md-register-theme("default", $app-theme);
+
+
+@mixin debug-map($map) {
+    
+        @each $key, $value in $map {
+                @warn "#{$key}: #{$value}";
+            
+        }
+    }
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
+
+
+.md-card-header.big {
+  >img~.md-title {
+    font-size:20px;
+    line-height: 24px;
+  }
+  >img~.md-title~.md-subhead {
+    margin-top:4px;
+
+  }
+  >img {
+      border-radius:0;
+      width:43px;
+   }
+}
+
