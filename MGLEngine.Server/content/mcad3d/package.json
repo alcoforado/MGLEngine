@@ -27,7 +27,7 @@
     "core-js": "^2.4.1",
     "rxjs": "^5.5.3",
     "zone.js": "^0.8.14",
-    "bootstrap": "4.1.0",
+    "bootstrap": "4.3.1",
     "mdbootstrap": "4.5.0",
     "systemjs": "0.20.19",
     "jquery": "^2.2.0",
