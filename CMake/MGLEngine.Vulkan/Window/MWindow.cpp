@@ -10,9 +10,6 @@
 #include <MGLEngine.Shared/ShapesService/ShapesService.h>
 bool MGL::Window::isGLFWInitialized = false;
 
-#define VK_MAKE_VERSION(major, minor, patch) \
-    (((major) << 22) | ((minor) << 12) | (patch))
-#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
 void window_size_callback(GLFWwindow* window, int width, int height)
 {

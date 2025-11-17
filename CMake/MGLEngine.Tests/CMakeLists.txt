@@ -15,14 +15,20 @@ add_executable(${PROJECT_NAME}  "ArrayTest.cpp" "MGLEngine.Test.cpp" "MJsonTest.
 "targetver.h" "TemplateTests.cpp" "TestDefragArray.cpp" "Vulkan/SemaphorePoolTest.cpp" "Vulkan/VulkanContextTests.cpp" 
 "Vulkan/VulkanTestsHelper.cpp" "Vulkan/VulkanTestsHelper.h" "HttpServerTest.cpp")
 
+message ("GLF3 ${glfw3_DIR}")
+
+
+
 message("Vulkan lib at ${LOCAL_EXTERNAL_LIBS}/vulkan-1.lib")
+
+find_package("glfw3")
+
 target_link_libraries	(${PROJECT_NAME} 
 	                    MGLEngine.Shared
 						MGLEngine.Vulkan
 						MGLEngine.HttpServer
 						${Vulkan_LIBRARIES}
-						${LOCAL_EXTERNAL_LIBS}/glfw3.lib
-						debug ${Boost_LIBRARY_DIRS}/../debug/lib/boost_system-vc140-mt-gd.lib)
+						glfw)
 
 
 

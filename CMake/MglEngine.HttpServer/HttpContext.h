@@ -20,7 +20,7 @@ public:
 	bool isRequestProcessed() { return _processed; }
 
 	std::string httpMethod() {
-
+		
 		switch (request.method())
 		{
 		case http::verb::get:

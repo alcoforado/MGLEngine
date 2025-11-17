@@ -1,5 +1,14 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
 
+IF (WIN32)
+    add_compile_definitions(_WIN32_WINNT=0x0A00 )
+ENDIF()
+
+if(POLICY CMP0167)  
+  cmake_policy(SET CMP0167 NEW)
+endif()
+
+
 if (NOT DEFINED VCPKG_INSTALL_FOLDER)
     set(VCPKG_INSTALL_FOLDER "${CMAKE_SOURCE_DIR}/../vcpkg")
 endif()
@@ -43,10 +52,7 @@ set(VCPKG_TARGET_TRIPLET "x64-windows-static")
  
 
 macro(install_if_not_found PACKAGE_NAME VCPKG_NAME)
-  
-    
-   
-    find_package(${PACKAGE_NAME}  QUIET)
+    find_package(${PACKAGE_NAME}   QUIET)
     set(found "${${PACKAGE_NAME}_FOUND}")
     if (NOT found)
         message("Package ${PACKAGE_NAME} not found, installing.....")
@@ -55,7 +61,6 @@ macro(install_if_not_found PACKAGE_NAME VCPKG_NAME)
     else()
         message("Package ${PACKAGE_NAME} found")
     endif()
-    
 endmacro()
 
 
@@ -65,14 +70,13 @@ endmacro()
 
 
 
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.10)
 set(VERBOSE "1")
 set(LOCAL_EXTERNAL_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/../References/lib/x64")
 project(MGLEngine)
 
 
 set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
-include_directories("${VCPKG_INCLUDE_DIR}")
 
 install_if_not_found("Boost" "boost-beast")
 install_if_not_found("glm" "GLM")
@@ -80,9 +84,9 @@ install_if_not_found("glfw3" "glfw3")
 
 
 
-
 find_package(Vulkan REQUIRED)
 
+include_directories("${VCPKG_INCLUDE_DIR}")
 
 
 
@@ -100,13 +104,12 @@ add_subdirectory(MGLEngine.MCAD)
 
 
 
-
-
-get_cmake_property(_variableNames VARIABLES)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
-
+macro(print_all_variables)
+    get_cmake_property(_variableNames VARIABLES)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
+endmacro()
 
 
 

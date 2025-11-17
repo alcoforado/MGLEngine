@@ -2,6 +2,7 @@
 #include <MGLEngine.Shared/Window/IWindow.h>
 #include <MGLEngine.Shared/Utils/opointer.h>
 #include "MGLEngine.Vulkan/VulkanContext/VulkanInstance.h"
+#include <string>
 class ICanvas;
 class VulkanCanvas;
 class IWindowEventHandler;
@@ -9,8 +10,33 @@ class VulkanContext;
 struct GLFWwindow;
 
 namespace MGL {
+	using std::string;
+	class IWindowConfigure {
+	public:
+		virtual void SetSize(int width, int height) = 0;
+		virtual void SetFullScreen() = 0;
+		virtual void SetTitle(string str) = 0;
+	};
+
+	class  WindowConfigure: IWindowConfigure {
+	public:
+		int Height; 
+		int Width;
+		bool FullScreen;
+		string Title;
+
+	public: 
+		virtual void SetSize(int width, int height) { Height = height; Width = width; }
+		virtual void SetFullScreen() { FullScreen = true; }
+		virtual void SetTitle(string str) { Title = str; }
+	};
+
+	
+
+
 	class Window : public IWindow
 	{
+
 		static void window_mouse_move_callback(GLFWwindow* window, double x, double y);
 	private :
 		GLFWwindow *_window;

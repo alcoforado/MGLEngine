@@ -21,6 +21,6 @@ add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h" "DrawTree/D
 
 
 
-include_directories( "../"  )
+target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 
