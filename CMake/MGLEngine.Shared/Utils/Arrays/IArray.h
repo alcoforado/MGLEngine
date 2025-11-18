@@ -87,7 +87,7 @@ public:
 
 	void copyFrom(const IArray<OfType>& a)
 	{
-		assert(_size == v.size())
+		assert(_size == a.size());
 		
 			memcpy(_ptr, a._ptr, _size * sizeof(OfType));
 		

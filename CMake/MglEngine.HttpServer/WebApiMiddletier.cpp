@@ -3,7 +3,7 @@
 #include "HttpResponse.h"
 void WebApiMiddleware::process(HttpContext& cntx)
 {
-	auto requestUrl = cntx.request.target().to_string();
+	auto requestUrl = cntx.request.target();
 	Url rUrl(requestUrl);
 	auto match = RouteTable.MatchRoute(rUrl, cntx.httpMethod());
 

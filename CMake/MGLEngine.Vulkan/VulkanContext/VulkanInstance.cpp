@@ -4,8 +4,7 @@
 #include <glfw/glfw3.h>
 #include <cassert>
 #include <MGLEngine.Shared/Utils/eassert.h>
-#define VK_MAKE_VERSION(major, minor, patch) \
-    (((major) << 22) | ((minor) << 12) | (patch))
+
 //#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
 
 int VulkanInstance::nErrors = 0;

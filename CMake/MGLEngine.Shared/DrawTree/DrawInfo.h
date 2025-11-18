@@ -125,10 +125,7 @@ public:
 	{
 		*this = data;
 	}
-	const std::list<IRenderResource*>& GetResources()
-	{
-		return Resources;
-	}
+	
 
 	TOPOLOGY_TYPE GetTopology()
 	{

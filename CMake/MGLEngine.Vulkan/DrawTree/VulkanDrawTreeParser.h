@@ -54,7 +54,7 @@ private:
 
 		_tree.GetRoot()->ForAllPreOrderControlDescent([&](VulkanDrawTree<T>::Node* pNode)->bool {
 
-			VulkanDrawTree<T>::DrawInfoT& info = pNode->GetData();
+			typename VulkanDrawTree<T>::DrawInfoT& info = pNode->GetData();
 			if (info.IsBatch() || info.IsRoot())
 			{
 				for (s_ptr<IVulkanResourceLoader> loader : info.InternalEngineData().resourceLoaders)
@@ -115,7 +115,7 @@ public:
 
 
 
-		VulkanDrawTree<T>::Node* root = _tree.GetRoot();
+		typename VulkanDrawTree<T>::Node* root = _tree.GetRoot();
 		_tree.ComputeSizes();
 		bool needRedraw = _tree.NeedRedraw();
 
@@ -181,13 +181,13 @@ public:
 
 	VulkanCommandBuffer* GetCommandForFrame(uint32_t index)
 	{
-		assert(index < _commands.size());
-		return _commands[index];
+		assert(index < this->_perFrameData.size());
+		return this->_perFrameData[index].CB;
 	}
 
 	const VulkanBuffer<T>* Serialize()
 	{
-		VulkanDrawTree<T>::Node* root = _tree.GetRoot();
+		typename VulkanDrawTree<T>::Node* root = _tree.GetRoot();
 		_tree.ComputeSizes();
 
 		if (_tree.NeedRedraw())

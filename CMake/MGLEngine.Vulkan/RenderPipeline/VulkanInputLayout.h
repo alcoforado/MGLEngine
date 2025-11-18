@@ -1,7 +1,7 @@
 #pragma once
 #include <vulkan/vulkan.h>
 #include <vector>
-#include <glm/detail/type_vec2.hpp>
+#include <glm/glm.hpp>
 #include <typeinfo>
 #include <MGLEngine.Shared/Utils/Exception.h>
 class VulkanInputLayout;

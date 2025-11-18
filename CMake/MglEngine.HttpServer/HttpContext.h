@@ -6,6 +6,7 @@
 class HttpContext {
 	bool _close;
 	bool _processed;
+	
 	boost::asio::ip::tcp::socket& _socket;
 	boost::beast::error_code _erc;
 public:

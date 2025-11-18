@@ -104,15 +104,15 @@ std::vector<VkQueueFamilyProperties> VulkanPhysicalDevice::FindQueuesWithType(Vk
 
 uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(uint32_t allowedMemoryTypes, std::vector<enum VkMemoryPropertyFlagBits> flags) const
 {
-	VkFlags and = 0;
+	VkFlags mask = 0;
 	for (auto fl : flags)
 	{
-		and = and | fl;
+		mask = mask | fl;
 	}
 	
 	for (uint32_t i=0;i<this->_memProperties.size();i++)
 	{
-		if ( ((allowedMemoryTypes & (1 << i))!=0 ) && ((_memProperties[i].MemType & and) == and))
+		if ( ((allowedMemoryTypes & (1 << i))!=0 ) && ((_memProperties[i].MemType & mask) == mask))
 		{
 			return i;
 		}

@@ -1,4 +1,5 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
+SET(CMAKE_CXX_STANDARD 20)
 
 IF (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00 )
@@ -17,7 +18,6 @@ find_package(Git)
 if (NOT Git_FOUND)
     message("git not found please install git yourservel and rerun the installer")
 endif()
-SET(CMAKE_CXX_STANDARD 14)
 
 
 
