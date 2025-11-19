@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 #include <MGLEngine.Shared/Utils/Arrays/IArray.h>
 #include "MGLEngine.Shared/Utils/Arrays/ArraySelect.h"
 

@@ -44,10 +44,10 @@ public:
 		
 	}
 
-	const std::vector<std::string>& getPath() { return _vpath; }
-	std::map<std::string, std::string>& getQuery() { return _query; }
+	const std::vector<std::string>& getPath() const { return _vpath; }
+	const std::map<std::string, std::string>& getQuery() const { return _query; }
 
-	std::string relativePath() 
+	std::string relativePath()  const
 	{
 		std::string acum = "";
 		for (auto s : _vpath)

@@ -11,6 +11,7 @@ struct GLFWwindow;
 
 namespace MGL {
 	using std::string;
+	
 	class IWindowConfigure {
 	public:
 		virtual void SetSize(int width, int height) = 0;
@@ -24,7 +25,6 @@ namespace MGL {
 		int Width;
 		bool FullScreen;
 		string Title;
-
 	public: 
 		virtual void SetSize(int width, int height) { Height = height; Width = width; }
 		virtual void SetFullScreen() { FullScreen = true; }

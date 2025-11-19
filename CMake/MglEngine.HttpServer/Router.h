@@ -39,7 +39,7 @@ private:
 public:
 	Router() {}
 	void Map(http::verb method,const std::string& relativePath, ControllerCall f);
-	std::shared_ptr<RouteMatch> MatchRoute(Url& url,std::string method);
+	std::shared_ptr<RouteMatch> MatchRoute(const Url& url,std::string method);
 
 	static std::string HttpMethodToString(http::verb method);
 	static http::verb parseHttpMethod(std::string method);

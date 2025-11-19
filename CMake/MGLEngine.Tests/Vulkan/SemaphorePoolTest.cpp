@@ -1,5 +1,5 @@
 
-#include "../catch.hpp"
+#include <catch.hpp>
 #include "VulkanTestsHelper.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphorePool.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanContext.h>

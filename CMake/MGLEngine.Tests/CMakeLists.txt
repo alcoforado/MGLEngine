@@ -28,6 +28,7 @@ target_link_libraries	(${PROJECT_NAME}
 						MGLEngine.Vulkan
 						MGLEngine.HttpServer
 						${Vulkan_LIBRARIES}
+						Catch2::Catch2
 						glfw)
 
 

@@ -1,4 +1,4 @@
-#include "../catch.hpp"
+#include <catch.hpp>
 #include <MGLEngine.Vulkan/Window/MWindow.h>
 #include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanContext.h>

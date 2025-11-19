@@ -19,14 +19,14 @@ TEST_CASE("URL Class")
 	SECTION("Url with one query parameter should have that parameter in the query")
 	{
 		Url url("/path1/path2?param1=value1");
-		REQUIRE((url.getQuery())["param1"]=="value1");
+		REQUIRE((url.getQuery()).at("param1")=="value1");
 	};
 
 	SECTION("Url with 2 query parameter should have both parameters in the query")
 	{
 		Url url("/path1/path2?param1=value1&param2=value2");
-		REQUIRE((url.getQuery())["param1"] == "value1");
-		REQUIRE((url.getQuery())["param2"] == "value2");
+		REQUIRE((url.getQuery()).at("param1") == "value1");
+		REQUIRE((url.getQuery()).at("param2") == "value2");
 
 	};
 

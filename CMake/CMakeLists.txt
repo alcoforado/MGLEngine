@@ -1,6 +1,7 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
 SET(CMAKE_CXX_STANDARD 20)
-
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+SET(BUILD_SHARED_LIBS OFF)
 IF (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00 )
 ENDIF()
@@ -81,6 +82,7 @@ set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
 install_if_not_found("Boost" "boost-beast")
 install_if_not_found("glm" "GLM")
 install_if_not_found("glfw3" "glfw3")
+install_if_not_found("Catch2" "catch2")
 
 
 
