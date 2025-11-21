@@ -1,7 +1,6 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
 SET(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-SET(BUILD_SHARED_LIBS OFF)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
 IF (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00 )
 ENDIF()
@@ -92,17 +91,19 @@ include_directories("${VCPKG_INCLUDE_DIR}")
 
 
 
+
 message("Configuring MGLEngine.HttpServer")
 add_subdirectory(MGLEngine.HttpServer)
 message("Configuring MGLEngine.Shared")
 add_subdirectory(MGLEngine.Shared)
 message("Configuring MGLEngine.Vulkan")
 add_subdirectory(MGLEngine.Vulkan)
-message("Configuring MGLEngine.Tests")
-add_subdirectory(MGLEngine.Tests)
-message("Configuring MGLEngine.MCADs")
-add_subdirectory(MGLEngine.MCAD)
-
+#message("Configuring MGLEngine.Tests")
+#add_subdirectory(MGLEngine.Tests)
+#message("Configuring MGLEngine.MCADs")
+#add_subdirectory(MGLEngine.MCAD)
+message("Configuring MGLEngine.Core")
+add_subdirectory(MGLEngine.Core)
 
 
 
@@ -114,7 +115,7 @@ macro(print_all_variables)
 endmacro()
 
 
-
+print_all_variables()
 
 
 

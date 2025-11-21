@@ -10,7 +10,7 @@ list (TRANSFORM SHADER_HEADERS_1  APPEND  ".h" OUTPUT_VARIABLE SHADER_HEADERS )
 
 # Create the executable
 add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
-"MGLContainerVulkan.cpp" "MGLContainerVulkan.h" "MGLEngineVulkan.cpp" "MGLEngineVulkan.h" "VulkanMemoryProperties.cpp" "VulkanMemoryProperties.h" 
+    "VulkanMemoryProperties.cpp" "VulkanMemoryProperties.h"  "Window/MWindow.cpp"
 "VulkanUtils.cpp" "VulkanUtils.h" "MemoryManager/IMappedMemory.h" "MemoryManager/VulkanBuffer.h" "MemoryManager/VulkanGPUBuffer.h" 
 "MemoryManager/VulkanMappedAutoSyncBuffer.h" "MemoryManager/VulkanMappedBuffer.h" "MemoryManager/VulkanMemoryManager.cpp" 
 "MemoryManager/VulkanMemoryManager.h" "RenderPipeline/Compiler.cpp" "RenderPipeline/Compiler.h" "RenderPipeline/FragmentShaderByteCode.cpp" 
@@ -31,9 +31,8 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "VulkanContext/VulkanContext.h" "VulkanContext/VulkanInstance.cpp" "VulkanContext/VulkanInstance.h" "VulkanContext/VulkanLayerProperties.cpp" 
 "VulkanContext/VulkanLayerProperties.h" "VulkanContext/VulkanLogicalDevice.cpp" "VulkanContext/VulkanLogicalDevice.h" "VulkanContext/VulkanPhysicalDevice.cpp" 
 "VulkanContext/VulkanPhysicalDevice.h" "VulkanContext/VulkanQueue.cpp" "VulkanContext/VulkanQueue.h" "VulkanContext/VulkanSurface.cpp" 
-"VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h" "Window/MWindow.cpp" "Window/MWindow.h" 
-"Window/VulkanCanvas.cpp" "Window/VulkanCanvas.h"   "DrawTree/VulkanResourceLoader.h" "DrawTree/VulkanResourceLoader.cpp" "DrawTree/IVulkanResourceLoader.h" "DrawTree/TreeExecutionContext.h"
-
+"VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h"   
+    "DrawTree/VulkanResourceLoader.h" "DrawTree/VulkanResourceLoader.cpp" "DrawTree/IVulkanResourceLoader.h" "DrawTree/TreeExecutionContext.h"
  "DrawTree/VulkanInternalData.h")
 
 

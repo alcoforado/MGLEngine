@@ -12,8 +12,8 @@ message("Boost libraries found at ${Boost_LIBRARY_DIRS}")
 
 # Create the executable
 add_executable(${PROJECT_NAME}  "ArrayTest.cpp" "MGLEngine.Test.cpp" "MJsonTest.cpp" "ObservableTest.cpp" "ShapesTests.cpp" "stdafx.cpp" "stdafx.h" 
-"targetver.h" "TemplateTests.cpp" "TestDefragArray.cpp" "Vulkan/SemaphorePoolTest.cpp" "Vulkan/VulkanContextTests.cpp" 
-"Vulkan/VulkanTestsHelper.cpp" "Vulkan/VulkanTestsHelper.h" "HttpServerTest.cpp")
+"targetver.h" "TemplateTests.cpp" "TestDefragArray.cpp"  "Vulkan/VulkanContextTests.cpp" 
+  "HttpServerTest.cpp")
 
 message ("GLF3 ${glfw3_DIR}")
 
