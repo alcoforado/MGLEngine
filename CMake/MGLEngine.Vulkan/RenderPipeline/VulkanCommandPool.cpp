@@ -9,7 +9,9 @@ VulkanCommandPool::VulkanCommandPool(const VulkanLogicalDevice& device)
 {
 	VkCommandPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	poolInfo.queueFamilyIndex = device.GetPhysicalDevice().FindGraphicsQueueIndex();
+	poolInfo.queueFamilyIndex = device.GetPhysicalDevice().FindQueueFamilyIndex([](auto family) {
+		return family.IsGraphic;
+	});
 	poolInfo.flags = 0; 
 
 	vkCreateCommandPool(device.GetHandle(), &poolInfo, nullptr, &_vkPool);

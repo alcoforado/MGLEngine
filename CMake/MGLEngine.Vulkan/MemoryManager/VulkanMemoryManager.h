@@ -126,7 +126,7 @@ public:
 	VulkanMemoryManager(VulkanLogicalDevice& device, int blockSizeInBytes);
 	~VulkanMemoryManager();
 	const VulkanLogicalDevice* GetLogicalDevice() const { return &_device; }
-	MemoryHandle Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags);
+	MemoryHandle Allocate(VkBuffer buffer, const std::vector<enum VkMemoryPropertyFlagBits>& flags);
 };
 
 

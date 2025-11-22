@@ -23,11 +23,13 @@ std::vector<T> Concat(const std::vector<T> &a,const std::vector<T> &b)
 	return ret;
 }
 
+template<typename T>
+concept Integral = std::is_integral_v<T>;
 
-template<class T>
-int FromBitFlagsToInt(const std::vector<T> v)
+template<typename T>
+VkFlags BitwiseOr(const std::vector<T> v)
 {
-	int r = 0;
+	VkFlags r = 0;
 	for (T e : v)
 	{
 		r |= e;

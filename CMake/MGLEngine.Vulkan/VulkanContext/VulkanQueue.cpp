@@ -56,7 +56,7 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 		submitInfo.pWaitSemaphores = &w;
 		submitInfo.waitSemaphoreCount = 1;
 	}
-	VkFlags dstStageMask= FromBitFlagsToInt(waitStages);
+	VkFlags dstStageMask= BitwiseOr(waitStages);
 	submitInfo.pWaitDstStageMask = &dstStageMask;
 	
 	VkResult result = vkQueueSubmit(_handle, 1, &submitInfo, fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);

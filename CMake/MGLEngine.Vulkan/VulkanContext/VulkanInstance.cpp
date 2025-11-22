@@ -58,6 +58,7 @@ const char* VulkanInstance::DEBUG_REPORT_EXTENSION = "VK_EXT_debug_report";
 VulkanInstance::VulkanInstance()
 {
 	_vkLayers = this->ComputeAvailableLayers();
+
 	//Get GLFW Necessary Vulkan extensions and layers
 	std::vector<const char*> vulkan_extensions;
 	std::vector<const char*> device_extensions;
@@ -73,7 +74,7 @@ VulkanInstance::VulkanInstance()
 	//If Debug mode, add validation layers and set report function
 #ifdef _DEBUG
 	
-	eassert(this->SupportLayer(LUNAR_VALIDATION_LAYER), "Vulkan Instance does not support VK_LAYER_LUNARG_standard_validation");
+	eassert(this->HasLayer(LUNAR_VALIDATION_LAYER), "Vulkan Instance does not support VK_LAYER_LUNARG_standard_validation");
 	vulkan_layers.push_back(LUNAR_VALIDATION_LAYER);
 	vulkan_extensions.push_back(DEBUG_REPORT_EXTENSION);
 #endif
@@ -128,8 +129,8 @@ VulkanInstance::VulkanInstance()
 
 	AssertionFailureException::SetOutput(&vulkanError);
 
-
 	_vkPhysicalDevices = ComputePhysicalDevices();
+
 
 	
 
@@ -166,7 +167,7 @@ std::vector<VulkanPhysicalDevice> VulkanInstance::ComputePhysicalDevices() const
 
 
 
-std::vector<VulkanLayerProperties> VulkanInstance::ComputeAvailableLayers() const
+std::vector<MVulkanLayer> VulkanInstance::ComputeAvailableLayers() const
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -180,54 +181,47 @@ std::vector<VulkanLayerProperties> VulkanInstance::ComputeAvailableLayers() cons
 	* entries loaded into the data pointer - in case the number
 	* of layers went down or is smaller than the size given.
 	*/
-	VkLayerProperties *vk_props = NULL;
+	std::vector<VkLayerProperties> vk_props;
 	VkResult res;
 	uint32_t instance_layer_count = 0;
-	do {
 		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, NULL);
 		AssertVulkanSuccess(res);
 
 		if (instance_layer_count == 0) {
-			return std::vector<VulkanLayerProperties>();
+			return std::vector<MVulkanLayer>();
 		}
+		vk_props.clear();
+		vk_props.resize(instance_layer_count);
 
-		vk_props = (VkLayerProperties *)realloc(vk_props, instance_layer_count * sizeof(VkLayerProperties));
-
-		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, vk_props);
-	} while (res == VK_INCOMPLETE);
+		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, vk_props.data());
+		AssertVulkanSuccess(res);
 
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
-	std::vector<VulkanLayerProperties> result;
+	std::vector<MVulkanLayer> result;
 
-	for (uint32_t i = 0; i < instance_layer_count; i++) {
-		VulkanLayerProperties elem;
-		elem.layer = vk_props[i];
-
-
-		do {
+	for (uint32_t i = 0; i < vk_props.size(); i++) {
 			uint32_t instance_extension_count;
-			res = vkEnumerateInstanceExtensionProperties(elem.layer.layerName, &instance_extension_count, NULL);
+			res = vkEnumerateInstanceExtensionProperties(vk_props[i].layerName, &instance_extension_count, NULL);
 			AssertVulkanSuccess(res);
+			std::vector<VkExtensionProperties>  extensions;
+			extensions.resize(instance_extension_count);
 
-			if (instance_extension_count != 0) {
-				elem.extensions.resize(instance_extension_count);
-				VkExtensionProperties *instance_extensions = elem.extensions.data();
-				res = vkEnumerateInstanceExtensionProperties(elem.layer.layerName, &instance_extension_count, instance_extensions);
-			}
+			res = vkEnumerateInstanceExtensionProperties(vk_props[i].layerName, &instance_extension_count, extensions.data());
+			AssertVulkanSuccess(res);
+			MVulkanLayer elem(vk_props[i], extensions);
 			result.push_back(elem);
-		} while (res == VK_INCOMPLETE);
 	}
-	free(vk_props);
+	
 	return result;
 }
 
-bool VulkanInstance::SupportLayer(std::string layerName) const
+bool VulkanInstance::HasLayer(std::string layerName) const
 {
-	for (const VulkanLayerProperties& elem : _vkLayers)
+	for (const MVulkanLayer& elem : _vkLayers)
 	{
-		if (elem.getName() == layerName)
+		if (elem.Name == layerName)
 			return true;
 	}
 	return false;

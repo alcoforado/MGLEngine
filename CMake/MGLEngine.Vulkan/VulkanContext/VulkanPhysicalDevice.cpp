@@ -4,8 +4,24 @@
 #include <MGLEngine.Shared/Utils/Exception.h>
 
 
+VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst, VkPhysicalDevice handler)
+	:_vulkanInstance(inst)
+{
+	_handler = handler;
+	this->ComputeMemoryProperties();
+	this->ComputeFamilyQueues();
+	this->ComputeLayers();
+	vkGetPhysicalDeviceProperties(_handler, &_graphicProperties);
+	vkGetPhysicalDeviceFeatures(_handler, &_features);
 
-std::vector<VulkanLayerProperties> VulkanPhysicalDevice::GetAvailableLayerProperties()
+	_graphic_family_index=this->FindQueueFamilyIndex([](auto family) {
+		return family.IsGraphic;
+	});
+}
+
+#pragma region Private Methods
+
+void VulkanPhysicalDevice::ComputeLayers()
 {
 	/*
 	* It's possible, though very rare, that the number of
@@ -20,7 +36,7 @@ std::vector<VulkanLayerProperties> VulkanPhysicalDevice::GetAvailableLayerProper
 	* of layers went down or is smaller than the size given.
 	*/
 	VkPhysicalDevice dev = _handler;
-	VkLayerProperties *vk_props = NULL;
+	std::vector<VkLayerProperties> vk_props;
 	VkResult res;
 	uint32_t device_layer_count = 0;
 	do {
@@ -28,111 +44,117 @@ std::vector<VulkanLayerProperties> VulkanPhysicalDevice::GetAvailableLayerProper
 		AssertVulkanSuccess(res);
 
 		if (device_layer_count == 0) {
-			return std::vector<VulkanLayerProperties>();
+			return;
 		}
 
-		vk_props = (VkLayerProperties *)realloc(vk_props, device_layer_count * sizeof(VkLayerProperties));
+		vk_props.resize(device_layer_count);
 
-		res = vkEnumerateDeviceLayerProperties(dev, &device_layer_count, vk_props);
+		res = vkEnumerateDeviceLayerProperties(dev, &device_layer_count, vk_props.data());
 	} while (res == VK_INCOMPLETE);
 
 	/*
 	* Now gather the extension list for each instance layer.
 	*/
-	std::vector<VulkanLayerProperties> result;
-
+	_layers.clear();
 	for (uint32_t i = 0; i < device_layer_count; i++) {
-		VulkanLayerProperties elem;
-		elem.layer = vk_props[i];
-
-
-		do {
+		
+			
 			uint32_t device_extension_count;
-			res = vkEnumerateDeviceExtensionProperties(dev, elem.layer.layerName, &device_extension_count, NULL);
+			std::vector<VkExtensionProperties>  extend_props;
+			res = vkEnumerateDeviceExtensionProperties(dev, vk_props[i].layerName, &device_extension_count, NULL);
 			AssertVulkanSuccess(res);
 
 			if (device_extension_count != 0) {
-				elem.extensions.resize(device_extension_count);
-				res = vkEnumerateDeviceExtensionProperties(dev, elem.layer.layerName, &device_extension_count, elem.extensions.data());
+				extend_props.resize(device_extension_count);
+				res = vkEnumerateDeviceExtensionProperties(dev, vk_props[i].layerName, &device_extension_count, extend_props.data());
+				AssertVulkanSuccess(res);
 			}
-			result.push_back(elem);
-		} while (res == VK_INCOMPLETE);
+			MVulkanLayer vulkanLayer(vk_props[i],extend_props);
+			_layers.push_back(vulkanLayer);
+		
 	}
-	free(vk_props);
-	return result;
 }
 
 
-VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst,VkPhysicalDevice handler)
-	:_vulkanInstance(inst)
+void VulkanPhysicalDevice::ComputeFamilyQueues()
 {
-	_handler = handler;
-	uint32_t family_count;
+	uint32_t family_count = 0;
 	//get physical queues
 	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, NULL);
 	assert(family_count >= 1);
-	_queueFamilyProperties.resize(family_count);
-	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, _queueFamilyProperties.data());
+	std::vector<VkQueueFamilyProperties> queueFamilyPropertiesLocal;
+	queueFamilyPropertiesLocal.resize(family_count);
+	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, queueFamilyPropertiesLocal.data());
+
+	for(auto queueFamily : queueFamilyPropertiesLocal)
+	{
+		VulkanQueueFamily result = {
+			.queueFlags = queueFamily.queueFlags,
+			.numberOfQueues = queueFamily.queueCount,
+			.timestampValidBits = queueFamily.timestampValidBits,
+			.minImageTransferGranularity = queueFamily.minImageTransferGranularity,
+			.IsGraphic = (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0,
+			.IsCompute = (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT) != 0,
+			.IsTransfer = (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT) != 0,
+			.IsSparseBinding = (queueFamily.queueFlags & VK_QUEUE_SPARSE_BINDING_BIT) != 0,
+			.IsProtected = (queueFamily.queueFlags & VK_QUEUE_PROTECTED_BIT) != 0,
+			.IsVideoDecode = (queueFamily.queueFlags & VK_QUEUE_VIDEO_DECODE_BIT_KHR) != 0,
+			.IsVideoEncode = (queueFamily.queueFlags & VK_QUEUE_VIDEO_ENCODE_BIT_KHR) != 0,
+			.IsOpticalFlow = (queueFamily.queueFlags & VK_QUEUE_OPTICAL_FLOW_BIT_NV) != 0,
+			.IsDataGraph = (queueFamily.queueFlags & VK_QUEUE_DATA_GRAPH_BIT_ARM) != 0
+
+		};
+		this->_queueFamilies.push_back(result);
+	}
+}
+
+void VulkanPhysicalDevice::ComputeMemoryProperties() {
+	VkPhysicalDeviceMemoryProperties _memoryProperties;
 	vkGetPhysicalDeviceMemoryProperties(_handler, &_memoryProperties);
-	vkGetPhysicalDeviceProperties(_handler, &_graphicProperties);
-	
-	for(uint32_t i=0;i<_memoryProperties.memoryTypeCount;i++)
+	for (uint32_t i = 0; i < _memoryProperties.memoryTypeCount; i++)
 	{
 		_memProperties.push_back(
 			VulkanMemoryProperties(
 				_memoryProperties.memoryTypes[i].propertyFlags,
 				_memoryProperties.memoryHeaps[_memoryProperties.memoryTypes[i].heapIndex]));
 	}
-	_layerProperties = this->GetAvailableLayerProperties();
-	vkGetPhysicalDeviceFeatures(_handler, &_features);
 
 }
 
-std::vector<VkQueueFamilyProperties> VulkanPhysicalDevice::FindQueuesWithType(VkFlags flags) const
+#pragma endregion
+
+
+
+
+uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const
 {
-	std::vector<VkQueueFamilyProperties> result;
-	for (int i = 0; i < _queueFamilyProperties.size(); i++)
+	for (uint32_t i = 0; _memProperties.size(); i++)
 	{
-		if (_queueFamilyProperties[i].queueFlags & flags)
-		{
-			result.push_back(_queueFamilyProperties[i]);
-		}
-	}
-	return result;
-}
-
-
-uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(uint32_t allowedMemoryTypes, std::vector<enum VkMemoryPropertyFlagBits> flags) const
-{
-	VkFlags mask = 0;
-	for (auto fl : flags)
-	{
-		mask = mask | fl;
-	}
-	
-	for (uint32_t i=0;i<this->_memProperties.size();i++)
-	{
-		if ( ((allowedMemoryTypes & (1 << i))!=0 ) && ((_memProperties[i].MemType & mask) == mask))
-		{
-			return i;
-		}
-	}
-	throw new Exception("Device Memory with specified requirements not found.");
-
-
-}
-
-uint32_t VulkanPhysicalDevice::FindQueueFamilyIndexWithType(VkFlags flags) const
-{
-	for (int i = 0; i < _queueFamilyProperties.size(); i++)
-	{
-		if (_queueFamilyProperties[i].queueFlags & flags)
+		if (selector(_memProperties[i]))
 		{
 			return i;
 		}
 	}
 	return -1;
 }
+
+uint32_t VulkanPhysicalDevice::FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const
+{
+	for (uint32_t i = 0; _queueFamilies.size(); i++)
+	{
+		if (selector(_queueFamilies[i]))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+
+
+
+
 
 
 VulkanLogicalDevice* VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const

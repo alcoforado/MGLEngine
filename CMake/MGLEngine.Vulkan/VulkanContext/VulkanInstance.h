@@ -22,7 +22,7 @@ class VulkanInstance
 
 
 	VkInstance _vkInstance;
-	std::vector<VulkanLayerProperties> _vkLayers;
+	std::vector<MVulkanLayer> _vkLayers;
 	std::vector<VulkanPhysicalDevice>  _vkPhysicalDevices;
 	
 
@@ -32,16 +32,16 @@ class VulkanInstance
 
 
 	std::vector<VulkanPhysicalDevice> ComputePhysicalDevices() const;
-	std::vector<VulkanLayerProperties> ComputeAvailableLayers() const;
+	std::vector<MVulkanLayer> ComputeAvailableLayers() const;
 
 	
 
 public:
 	static bool HasErrors() { return nErrors != 0; }
 	static bool HasWarnings() { return nWarning != 0; }
-	bool SupportLayer(std::string layerName) const;
+	bool HasLayer(std::string layerName) const;
 	VulkanVersion GetVulkanVersion() const;
-	const std::vector<VulkanLayerProperties>& GetAvailableLayers() const { return _vkLayers; }
+	const std::vector<MVulkanLayer>& GetAvailableLayers() const { return _vkLayers; }
 	const std::vector<VulkanPhysicalDevice>& GetPhysicalDevices() const { return _vkPhysicalDevices; }
 	VkInstance GetHandle() const { return _vkInstance; }
 	VulkanInstance();

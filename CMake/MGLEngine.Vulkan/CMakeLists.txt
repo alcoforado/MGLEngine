@@ -1,11 +1,43 @@
 set(CMAKE_GENERATOR_PLATFORM "x64")
 project(MGLEngine.Vulkan)
 
-#list the shader files
-set (SHADERS  "SPIR-V/canvas2D.vert" "SPIR-V/canvas2D.frag")
-list (TRANSFORM SHADERS  REPLACE "[.]" "_" OUTPUT_VARIABLE SHADER_HEADERS_1 )
-list (TRANSFORM SHADER_HEADERS_1  APPEND  ".h" OUTPUT_VARIABLE SHADER_HEADERS )
 
+
+
+include_directories( "../" "${Vulkan_INCLUDE_DIRS}")
+
+message("====== Looking for Vulkan Shader compiler  =====")
+set(SHADER_COMPILER_EXEC "$ENV{VULKAN_SDK}/Bin/glslangValidator.exe")
+if (EXISTS ${SHADER_COMPILER_EXEC})
+	message("===== Vulkan Compiler  found at ${SHADER_COMPILER_EXEC}")
+else()
+	message("====== Error, Vulkan SDK not found =====")
+endif()
+
+
+
+
+message("====== Compiling Shaders to Headers =====")
+file(GLOB_RECURSE SHADERS "${PROJECT_SOURCE_DIR}/SPIR-V/*.frag" "${PROJECT_SOURCE_DIR}/SPIR-V/*.vert")
+
+
+foreach (sh IN LISTS SHADERS )
+	string(REPLACE ".vert" "_vert" VAR_NAME ${sh})
+	string(REPLACE ".frag" "_frag" VAR_NAME ${VAR_NAME})
+	string(REPLACE "/SPIR-V/" "/SPIR-V/headers/" HEADER_FILE ${VAR_NAME})
+	string(REPLACE "${PROJECT_SOURCE_DIR}/SPIR-V/" "" VAR_NAME ${VAR_NAME})
+	message("\t\tProcessing Shader File: ${sh} to Header: ${HEADER_FILE}.h Into Variable ${VAR_NAME}")
+	add_custom_command(
+	OUTPUT "${HEADER_FILE}.h" 
+	COMMAND ${SHADER_COMPILER_EXEC} ARGS -V --vn ${VAR_NAME} -o "${HEADER_FILE}.h"  ${sh}
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+	DEPENDS "${sh}" 
+	)
+	list(APPEND SHADERS_HEADERS "${HEADER_FILE}.h")
+endforeach()
+
+add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
+	
 
 
 # Create the executable
@@ -34,38 +66,6 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h"   
     "DrawTree/VulkanResourceLoader.h" "DrawTree/VulkanResourceLoader.cpp" "DrawTree/IVulkanResourceLoader.h" "DrawTree/TreeExecutionContext.h"
  "DrawTree/VulkanInternalData.h")
-
-
-
-include_directories( "../" "${Vulkan_INCLUDE_DIRS}")
-
-
-
-message("====== Looking for Vulkan Shader compiler  =====")
-set(SHADER_COMPILER_EXEC "$ENV{VULKAN_SDK}/Bin/glslangValidator.exe")
-if (EXISTS ${SHADER_COMPILER_EXEC})
-	message("===== Vulkan Compiler  found at ${SHADER_COMPILER_EXEC}")
-else()
-	message("====== Error, Vulkan SDK not found =====")
-endif()
-
-
-
-
-foreach (sh IN LISTS SHADERS )
-	string(REPLACE "." "_" HEADER_NAME ${sh})
-	string(REGEX MATCH "[^/]+$" VAR_NAME ${HEADER_NAME})
-	add_custom_command(
-	OUTPUT "${HEADER_NAME}.h" 
-	COMMAND ${SHADER_COMPILER_EXEC} ARGS -V --vn ${VAR_NAME} -o "${HEADER_NAME}.h"  ${sh}
-	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-	)
-	list(APPEND SHADERS_HEADERS "${HEADER_NAME}")
-endforeach()
-
-	
-
-
 
 
 

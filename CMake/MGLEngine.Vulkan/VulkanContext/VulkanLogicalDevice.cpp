@@ -24,7 +24,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	auto instHandle = physicalDevice.GetVulkanInstance().GetHandle();
 
 	VulkanSurface surface(physicalDevice, window);
-	auto familyGraphicsIndex = physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
+	auto familyGraphicsIndex = physicalDevice.GetGraphicFamilyQueueIndex();
 	auto presentation_indices= surface.FindQueueFamilyIndicesThatSupportPresentation();
 	auto presentation_index = std::find(presentation_indices.begin(), presentation_indices.end(), familyGraphicsIndex);
 
@@ -36,7 +36,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	queue_info.pNext = NULL;
 	queue_info.queueCount = 1;
 	queue_info.pQueuePriorities = queue_priorities;
-	queue_info.queueFamilyIndex = physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
+	queue_info.queueFamilyIndex = physicalDevice.GetGraphicFamilyQueueIndex();
 	queue_info.flags = 0;
 	queues.push_back(queue_info);
 	//Add presentaion queue if it is different from the graphic queue.
@@ -59,9 +59,9 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	device_info.ppEnabledLayerNames = NULL;
 	device_info.pEnabledFeatures = NULL;
 
-	if (!glfwGetPhysicalDevicePresentationSupport(instHandle, physicalDevice.GetHandle(), physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT)))
+	if (!glfwGetPhysicalDevicePresentationSupport(instHandle, physicalDevice.GetHandle(), physicalDevice.GetGraphicFamilyQueueIndex()))
 	{
-		throw new Exception("Vulkan does not support GLFW, Ending application");
+		throw new Exception("This Vulkan Implementation does not support GLFW, Ending application");
 	}
 	//create device;
 	VkResult err = vkCreateDevice(physicalDevice.GetHandle(), &device_info, NULL, &_vkDevice);
@@ -92,7 +92,7 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
 
 const VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() const
 {
-	auto index=_physicalDevice.FindGraphicsQueueIndex();
+	auto index=_physicalDevice.GetGraphicFamilyQueueIndex();
 	for (int i=0;i<_queues.size();i++)
 	{
 		if (_queues[i].GetFamilyIndex() == index)

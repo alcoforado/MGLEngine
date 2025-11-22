@@ -182,13 +182,29 @@ MemoryHandle VulkanMemoryManager::Allocate(uint32_t memoryTypeIndex, uint64_t al
 }
 
 
-MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, std::vector<enum VkMemoryPropertyFlagBits> flags)
+
+
+MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, const std::vector<enum VkMemoryPropertyFlagBits>& vFlags)
 {
+	VkFlags flags = BitwiseOr(vFlags);
 	VkMemoryRequirements memRequirements;
 	vkGetBufferMemoryRequirements(this->GetLogicalDevice()->GetHandle(), buffer, &memRequirements);
 
-	uint32_t memoryTypeIndex = this->GetLogicalDevice()->GetPhysicalDevice().FindMemoryPropertyIndex(
-		memRequirements.memoryTypeBits, flags);
+	auto memoryProperties = this->GetLogicalDevice()->GetPhysicalDevice().GetFamilyProperties();
+	uint32_t memoryTypeIndex;
+	for (memoryTypeIndex=0; memoryTypeIndex<memoryProperties.size(); memoryTypeIndex++)
+	{
+		if (memRequirements.memoryTypeBits & (1 << memoryTypeIndex))
+		{
+			if ((memoryProperties[memoryTypeIndex].queueFlags & flags) == flags)
+			{
+				break;
+			}
+		}
+	}
+
+
+
 
 
 

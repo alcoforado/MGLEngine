@@ -115,7 +115,7 @@ macro(print_all_variables)
 endmacro()
 
 
-print_all_variables()
+#print_all_variables()
 
 
 

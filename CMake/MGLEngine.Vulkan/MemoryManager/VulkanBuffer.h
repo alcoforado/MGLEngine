@@ -41,7 +41,7 @@ public:
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferInfo.size = _sizeInBytes;
-		bufferInfo.usage = FromBitFlagsToInt(bufferUsage);
+		bufferInfo.usage = BitwiseOr(bufferUsage);
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		auto err = vkCreateBuffer(mngr->GetLogicalDevice()->GetHandle(), &bufferInfo, nullptr, &_handle);
 		AssertVulkanSuccess(err);

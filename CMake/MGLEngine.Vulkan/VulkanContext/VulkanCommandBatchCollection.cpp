@@ -23,7 +23,7 @@ void VulkanCommandBatchCollection::AddBatch(const std::vector<VulkanCommandBuffe
 	{
 		bi->_waits.push_back(pWait->GetHandle());
 	}
-	bi->_waitStages.push_back(FromBitFlagsToInt(waitStages));
+	bi->_waitStages.push_back(BitwiseOr(waitStages));
 
 	VkSubmitInfo submitInfo = {};
 

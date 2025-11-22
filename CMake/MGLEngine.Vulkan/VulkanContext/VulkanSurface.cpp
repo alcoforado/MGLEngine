@@ -108,7 +108,7 @@ std::vector<uint32_t> VulkanSurface::FindQueueFamilyIndicesThatSupportPresentati
 PresentationGraphicsFamilyIndices VulkanSurface::GetPresentationAndGraphicsQueusFamilyIndices() const
 {
 	auto presentations = this->FindQueueFamilyIndicesThatSupportPresentation();
-	auto graphic_index = _physicalDevice.FindQueueFamilyIndexWithType(VK_QUEUE_GRAPHICS_BIT);
+	auto graphic_index = _physicalDevice.FindQueueFamilyIndex([](auto family) {return family.IsGraphic; });
 	PresentationGraphicsFamilyIndices result;
 	if (std::find(presentations.begin(),presentations.end(),graphic_index) != presentations.end())
 	{
