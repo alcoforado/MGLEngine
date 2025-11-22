@@ -1,5 +1,4 @@
-module VulkanApp;
-
+	#include "VulkanApp.h"
 
 MGL::VulkanApp::~VulkanApp() {
 	// Destructor implementation (if needed)
@@ -12,5 +11,13 @@ MGL::VulkanApp::VulkanApp() {
 	_windowOptions.Title = "Vulkan Application";
 }
 
+void MGL::VulkanApp::Init() {
+		_pWindow = new Window(_windowOptions);
+		_pVulkanInstance = new VulkanInstance(
+			_vulkanConfiguration.Name, 
+			_vulkanConfiguration.EnableDebug);
+
+		
+}
 
 

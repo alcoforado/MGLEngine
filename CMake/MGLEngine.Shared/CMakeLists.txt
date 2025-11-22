@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h" "DrawTree/D
 "Utils/UniqueNameGenerator.h" "Utils/Arrays/ArrayFunctions.h" "Utils/Arrays/ArraySelect.cpp" "Utils/Arrays/ArraySelect.h" "Utils/Arrays/FlagBitVector.h" "Utils/Arrays/IArray.h" 
 "Utils/Arrays/Indices.cpp" "Utils/Arrays/Indices.h" "Utils/DefragArray/ArrayRegion.h" "Utils/DefragArray/CopyPlanSequenceDetail.h" "Utils/DefragArray/CopyRegion.h" 
 "Utils/DefragArray/DefragArray.h" "Utils/JsonParser/mjson.cpp" "Utils/JsonParser/mjson.h" "VerticeData/Color2D.h" "Window/ICanvas.h" "Window/IWindow.h" "Window/IWindowEventHandler.cpp" 
-"Window/IWindowEventHandler.h" "Utils/CommitTag.h" "Utils/CommitTag.cpp" )
+"Window/IWindowEventHandler.h" "Utils/CommitTag.h" "Utils/CommitTag.cpp"  "Shaders/IShader.h")
 
 
 

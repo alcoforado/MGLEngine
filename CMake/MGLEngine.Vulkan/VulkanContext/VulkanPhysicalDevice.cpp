@@ -86,7 +86,7 @@ void VulkanPhysicalDevice::ComputeFamilyQueues()
 	queueFamilyPropertiesLocal.resize(family_count);
 	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, queueFamilyPropertiesLocal.data());
 
-	for(auto queueFamily : queueFamilyPropertiesLocal)
+	for(auto& queueFamily : queueFamilyPropertiesLocal)
 	{
 		VulkanQueueFamily result = {
 			.queueFlags = queueFamily.queueFlags,
@@ -162,4 +162,17 @@ VulkanLogicalDevice* VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *windo
 	return new VulkanLogicalDevice(window, *this);
 }
 
+bool VulkanPhysicalDevice::IsDiscrete() {
+	return (_graphicProperties.deviceType&VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
+}
 
+bool VulkanPhysicalDevice::IsIntegrated() {
+	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
+} 
+bool VulkanPhysicalDevice::IsCPU() {
+	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_CPU) == VK_PHYSICAL_DEVICE_TYPE_CPU;
+}
+bool VulkanPhysicalDevice::IsVirtual() {
+	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU;
+}
+	 

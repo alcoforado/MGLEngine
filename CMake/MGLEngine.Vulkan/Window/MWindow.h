@@ -17,9 +17,9 @@ namespace MGL {
 
 	class  WindowOptions: IWindowOptions {
 	public:
-		int Height; 
-		int Width;
-		bool FullScreen;
+		int Height=800; 
+		int Width=800;
+		bool FullScreen=false;
 		string Title;
 	public: 
 		virtual void SetSize(int width, int height) { Height = height; Width = width; }

@@ -4,7 +4,7 @@
 #include "VulkanLayerProperties.h"
 #include "VulkanLogicalDevice.h"
 #include <glfw/glfw3.h>
-#include "../VulkanMemoryProperties.h"
+#include "VulkanMemoryProperties.h"
 #include <functional>
 
 class VulkanInstance;
@@ -59,9 +59,11 @@ public:
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
 	uint32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
 	uint32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;
-	uint32_t GetGraphicFamilyQueueIndex() const {
-		return _graphic_family_index;
-	}
+	uint32_t GetGraphicFamilyQueueIndex() const {return _graphic_family_index;}
+	bool IsDiscrete();
+	bool IsIntegrated();
+	bool IsCPU();
+	bool IsVirtual();
 
 
 

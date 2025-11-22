@@ -45,6 +45,8 @@ public:
 	const std::vector<VulkanPhysicalDevice>& GetPhysicalDevices() const { return _vkPhysicalDevices; }
 	VkInstance GetHandle() const { return _vkInstance; }
 	VulkanInstance();
+	VulkanInstance(std::string appName, bool enableDebug);
+
 	~VulkanInstance();
 };
 

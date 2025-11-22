@@ -40,9 +40,10 @@ add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
 	
 
 
+
 # Create the executable
-add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
-    "VulkanMemoryProperties.cpp" "VulkanMemoryProperties.h"  "Window/MWindow.cpp"
+add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS} "VulkanApp.cpp"
+    "VulkanContext/VulkanMemoryProperties.cpp" "VulkanContext/VulkanMemoryProperties.h"  "Window/MWindow.cpp"
 "VulkanUtils.cpp" "VulkanUtils.h" "MemoryManager/IMappedMemory.h" "MemoryManager/VulkanBuffer.h" "MemoryManager/VulkanGPUBuffer.h" 
 "MemoryManager/VulkanMappedAutoSyncBuffer.h" "MemoryManager/VulkanMappedBuffer.h" "MemoryManager/VulkanMemoryManager.cpp" 
 "MemoryManager/VulkanMemoryManager.h" "RenderPipeline/Compiler.cpp" "RenderPipeline/Compiler.h" "RenderPipeline/FragmentShaderByteCode.cpp" 
@@ -65,7 +66,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "VulkanContext/VulkanPhysicalDevice.h" "VulkanContext/VulkanQueue.cpp" "VulkanContext/VulkanQueue.h" "VulkanContext/VulkanSurface.cpp" 
 "VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h"   
     "DrawTree/VulkanResourceLoader.h" "DrawTree/VulkanResourceLoader.cpp" "DrawTree/IVulkanResourceLoader.h" "DrawTree/TreeExecutionContext.h"
- "DrawTree/VulkanInternalData.h")
+ "DrawTree/VulkanInternalData.h" "VulkanApp.cpp" "VulkanApp.h" "VulkanContext/VulkanConfiguration.h")
 
 
 
