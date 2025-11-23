@@ -44,7 +44,7 @@ class VulkanPhysicalDevice {
 	VkPhysicalDeviceFeatures _features;
 	VkPhysicalDeviceProperties _graphicProperties;
 	std::vector<MVulkanLayer> _layers;
-	uint32_t _graphic_family_index;
+	int32_t _graphic_family_index;
 	private:
 		void ComputeMemoryProperties();
 		void ComputeFamilyQueues();
@@ -54,16 +54,18 @@ public:
 	const VulkanInstance& GetVulkanInstance() const { return _vulkanInstance; }
 	VkPhysicalDevice GetHandle() const  { return _handler; }
 	const std::vector<VulkanQueueFamily>& GetFamilyProperties() const { return _queueFamilies; }
-
+	VkPhysicalDeviceProperties GetProperties() const { return _graphicProperties; }
 	VulkanLogicalDevice* CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
-	uint32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
-	uint32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;
-	uint32_t GetGraphicFamilyQueueIndex() const {return _graphic_family_index;}
-	bool IsDiscrete();
-	bool IsIntegrated();
-	bool IsCPU();
-	bool IsVirtual();
+	int32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
+	int32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;
+	int32_t GetGraphicFamilyQueueIndex() const {return _graphic_family_index;}
+	bool IsDiscrete() const;
+	bool IsIntegrated() const;
+	bool IsCPU() const;
+	bool IsVirtual() const;
+	bool HasGhraphicsQueue() const;
+	bool HasComputeQueue() const;
 
 
 

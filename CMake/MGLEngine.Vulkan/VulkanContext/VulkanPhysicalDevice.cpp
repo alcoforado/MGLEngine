@@ -126,7 +126,7 @@ void VulkanPhysicalDevice::ComputeMemoryProperties() {
 
 
 
-uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const
+int32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const
 {
 	for (uint32_t i = 0; _memProperties.size(); i++)
 	{
@@ -138,7 +138,7 @@ uint32_t VulkanPhysicalDevice::FindMemoryPropertyIndex(std::function<bool(const 
 	return -1;
 }
 
-uint32_t VulkanPhysicalDevice::FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const
+int32_t VulkanPhysicalDevice::FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const
 {
 	for (uint32_t i = 0; _queueFamilies.size(); i++)
 	{
@@ -150,7 +150,18 @@ uint32_t VulkanPhysicalDevice::FindQueueFamilyIndex(std::function<bool(const Vul
 	return -1;
 }
 
-
+bool VulkanPhysicalDevice::HasGhraphicsQueue() const
+{
+	return this->FindQueueFamilyIndex([](auto family) {
+		return family.IsGraphic;
+	}) != -1;
+}
+bool VulkanPhysicalDevice::HasComputeQueue() const
+{
+	return this->FindQueueFamilyIndex([](auto family) {
+		return family.IsCompute;
+	}) != -1;
+}
 
 
 
@@ -162,17 +173,17 @@ VulkanLogicalDevice* VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *windo
 	return new VulkanLogicalDevice(window, *this);
 }
 
-bool VulkanPhysicalDevice::IsDiscrete() {
+bool VulkanPhysicalDevice::IsDiscrete() const {
 	return (_graphicProperties.deviceType&VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
 }
 
-bool VulkanPhysicalDevice::IsIntegrated() {
+bool VulkanPhysicalDevice::IsIntegrated() const {
 	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU;
 } 
-bool VulkanPhysicalDevice::IsCPU() {
+bool VulkanPhysicalDevice::IsCPU() const {
 	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_CPU) == VK_PHYSICAL_DEVICE_TYPE_CPU;
 }
-bool VulkanPhysicalDevice::IsVirtual() {
+bool VulkanPhysicalDevice::IsVirtual() const {
 	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU;
 }
 	 
