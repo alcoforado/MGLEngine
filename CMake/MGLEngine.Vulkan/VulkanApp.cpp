@@ -22,9 +22,28 @@ void MGL::VulkanApp::Init() {
 			_vulkanConfiguration.Name, 
 			_vulkanConfiguration.EnableDebug);
 		ChoosePhysicalDevice();
-
+		CreateVulkanSurface();
+		CreateGraphicsQueue();
 		
 }
+
+void MGL::VulkanApp::CreateVulkanSurface() {
+	_pVulkanSurface = new VulkanSurface(*_pPhysicalDevice, *_pWindow);
+}
+
+void MGL::VulkanApp::CreateGraphicsQueue() {
+	auto& queues = _pPhysicalDevice->GetQueueFamilies();
+	for (auto i = 0; i < queues.size();i++)
+	{
+		if (queues[i].IsGraphic && queues[i]
+		{
+			_pVulkanSurface->IsQueueCompatible(i);
+		}
+	}
+	_pVulkanSurface = new VulkanSurface(*_pPhysicalDevice, *_pWindow);
+
+}
+
 
 
 int deviceScore(const VulkanPhysicalDevice& device) {
@@ -69,5 +88,4 @@ void MGL::VulkanApp::ChoosePhysicalDevice()
 		return scoreA > scoreB;
 	});
 	_pPhysicalDevice =  &(v[suitableDevices[0]]);
-	
 }

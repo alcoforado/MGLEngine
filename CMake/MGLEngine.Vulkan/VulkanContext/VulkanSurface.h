@@ -22,7 +22,7 @@ class VulkanSurface
 	uint32_t _windowHeight;
 	
 public:
-	VulkanSurface(const VulkanPhysicalDevice& device,GLFWwindow* window);
+	VulkanSurface(const VulkanInstance& device,GLFWwindow* window);
 	void UpdateWindowDims(int width, int height);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }

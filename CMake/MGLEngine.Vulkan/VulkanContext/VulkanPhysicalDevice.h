@@ -13,6 +13,7 @@ struct VulkanQueueFamily {
 	uint32_t	queueFlags;
 	uint32_t    numberOfQueues;
 	uint32_t    timestampValidBits;
+	uint32_t    index;
 	VkExtent3D  minImageTransferGranularity;
 	bool IsGraphic;
 	bool IsCompute;
@@ -53,7 +54,7 @@ class VulkanPhysicalDevice {
 public:
 	const VulkanInstance& GetVulkanInstance() const { return _vulkanInstance; }
 	VkPhysicalDevice GetHandle() const  { return _handler; }
-	const std::vector<VulkanQueueFamily>& GetFamilyProperties() const { return _queueFamilies; }
+	const std::vector<VulkanQueueFamily>& GetQueueFamilies() const { return _queueFamilies; }
 	VkPhysicalDeviceProperties GetProperties() const { return _graphicProperties; }
 	VulkanLogicalDevice* CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
@@ -66,6 +67,9 @@ public:
 	bool IsVirtual() const;
 	bool HasGhraphicsQueue() const;
 	bool HasComputeQueue() const;
+	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(VulkanSurface& surface) const;
+	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const
+
 
 
 

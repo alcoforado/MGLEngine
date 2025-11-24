@@ -86,12 +86,14 @@ void VulkanPhysicalDevice::ComputeFamilyQueues()
 	queueFamilyPropertiesLocal.resize(family_count);
 	vkGetPhysicalDeviceQueueFamilyProperties(_handler, &family_count, queueFamilyPropertiesLocal.data());
 
-	for(auto& queueFamily : queueFamilyPropertiesLocal)
+	for(int i=0;i< queueFamilyPropertiesLocal.size();i++)
 	{
+		auto& queueFamily = queueFamilyPropertiesLocal[i];
 		VulkanQueueFamily result = {
 			.queueFlags = queueFamily.queueFlags,
 			.numberOfQueues = queueFamily.queueCount,
 			.timestampValidBits = queueFamily.timestampValidBits,
+			.index=i,
 			.minImageTransferGranularity = queueFamily.minImageTransferGranularity,
 			.IsGraphic = (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0,
 			.IsCompute = (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT) != 0,
@@ -104,6 +106,8 @@ void VulkanPhysicalDevice::ComputeFamilyQueues()
 			.IsDataGraph = (queueFamily.queueFlags & VK_QUEUE_DATA_GRAPH_BIT_ARM) != 0
 
 		};
+
+
 		this->_queueFamilies.push_back(result);
 	}
 }
@@ -161,6 +165,27 @@ bool VulkanPhysicalDevice::HasComputeQueue() const
 	return this->FindQueueFamilyIndex([](auto family) {
 		return family.IsCompute;
 	}) != -1;
+}
+
+VkSurfaceCapabilitiesKHR VulkanPhysicalDevice::GetCapabilitiesForSurface(VulkanSurface &surface) const
+{
+	VkSurfaceCapabilitiesKHR result;
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(this->GetHandle(), surface.GetHandle(), &result);
+
+	return result;
+}
+
+std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetCompatibleSurfaceFormats(VulkanSurface &surface) const
+{
+	uint32_t formatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(GetHandle(), surface.GetHandle(), &formatCount, nullptr);
+	std::vector<VkSurfaceFormatKHR> formats;
+	if (formatCount != 0) {
+		formats.resize(formatCount);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(GetHandle(), surface.GetHandle(), &formatCount, formats.data());
+	}
+	return formats;
+	
 }
 
 

@@ -6,22 +6,14 @@
 #include <algorithm>
 
 
-VulkanSurface::VulkanSurface(const VulkanPhysicalDevice& device, GLFWwindow* window)
-	:_physicalDevice(device)
+VulkanSurface::VulkanSurface(const VulkanInstance& instance, GLFWwindow* window)
 {
-	VkResult err = glfwCreateWindowSurface(device.GetVulkanInstance().GetHandle(), window, NULL, &_vkSurface);
+	VkResult err = glfwCreateWindowSurface(instance.GetHandle(), window, NULL, &_vkSurface);
 	AssertVulkanSuccess(err);
 
 	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device.GetHandle(), _vkSurface, &_capabilities);
 
 
-	uint32_t formatCount;
-	vkGetPhysicalDeviceSurfaceFormatsKHR(device.GetHandle(), _vkSurface, &formatCount, nullptr);
-
-	if (formatCount != 0) {
-		_formats.resize(formatCount);
-		vkGetPhysicalDeviceSurfaceFormatsKHR(device.GetHandle(), _vkSurface, &formatCount, _formats.data());
-	}
 
 	uint32_t presentModeCount;
 	vkGetPhysicalDeviceSurfacePresentModesKHR(device.GetHandle(), _vkSurface, &presentModeCount, nullptr);

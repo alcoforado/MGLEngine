@@ -48,7 +48,6 @@ namespace MGL {
 		virtual ~Window();
 
 
-		
 		void Redraw();
 		void AttachEventHandler(IWindowEventHandler *eh);
 		void DetachEventHandler(IWindowEventHandler *eb);
