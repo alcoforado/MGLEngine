@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <list>
+#include <vulkan/vulkan.h>
 class IWindowEventHandler;
 struct GLFWwindow;
 
@@ -47,7 +48,7 @@ namespace MGL {
 		Window(const WindowOptions& options);
 		virtual ~Window();
 
-
+		GLFWwindow* GLFWHandler() { return _window; }
 		void Redraw();
 		void AttachEventHandler(IWindowEventHandler *eh);
 		void DetachEventHandler(IWindowEventHandler *eb);

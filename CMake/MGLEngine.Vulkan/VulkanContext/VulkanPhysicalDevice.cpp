@@ -1,8 +1,9 @@
 #include "VulkanPhysicalDevice.h"
+#include "VulkanInstance.h"
 #include "../VulkanUtils.h"
 #include <cassert>
 #include <MGLEngine.Shared/Utils/Exception.h>
-
+#include <glfw/glfw3.h>
 
 VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst, VkPhysicalDevice handler)
 	:_vulkanInstance(inst)
@@ -93,7 +94,7 @@ void VulkanPhysicalDevice::ComputeFamilyQueues()
 			.queueFlags = queueFamily.queueFlags,
 			.numberOfQueues = queueFamily.queueCount,
 			.timestampValidBits = queueFamily.timestampValidBits,
-			.index=i,
+			.index=(unsigned int) i,
 			.minImageTransferGranularity = queueFamily.minImageTransferGranularity,
 			.IsGraphic = (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0,
 			.IsCompute = (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT) != 0,
@@ -103,8 +104,8 @@ void VulkanPhysicalDevice::ComputeFamilyQueues()
 			.IsVideoDecode = (queueFamily.queueFlags & VK_QUEUE_VIDEO_DECODE_BIT_KHR) != 0,
 			.IsVideoEncode = (queueFamily.queueFlags & VK_QUEUE_VIDEO_ENCODE_BIT_KHR) != 0,
 			.IsOpticalFlow = (queueFamily.queueFlags & VK_QUEUE_OPTICAL_FLOW_BIT_NV) != 0,
-			.IsDataGraph = (queueFamily.queueFlags & VK_QUEUE_DATA_GRAPH_BIT_ARM) != 0
-
+			.IsDataGraph = (queueFamily.queueFlags & VK_QUEUE_DATA_GRAPH_BIT_ARM) != 0,
+			.SupportPresentation = glfwGetPhysicalDevicePresentationSupport(_vulkanInstance.GetHandle(), _handler, i) == GLFW_TRUE
 		};
 
 
@@ -185,6 +186,20 @@ std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetCompatibleSurfaceFormat
 		vkGetPhysicalDeviceSurfaceFormatsKHR(GetHandle(), surface.GetHandle(), &formatCount, formats.data());
 	}
 	return formats;
+	
+}
+
+std::vector<VkPresentModeKHR> VulkanPhysicalDevice::GetPresentModes(VulkanSurface& surface) const
+{
+
+	uint32_t presentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(_handler, surface.GetHandle(), &presentModeCount, nullptr);
+	std::vector<VkPresentModeKHR> result;
+	if (presentModeCount != 0) {
+		result.resize(presentModeCount);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(_handler, surface.GetHandle(), &presentModeCount, result.data());
+	}
+	return result;
 	
 }
 

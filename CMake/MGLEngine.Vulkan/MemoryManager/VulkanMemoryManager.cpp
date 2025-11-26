@@ -1,5 +1,6 @@
 #include "VulkanMemoryManager.h"
 #include "../VulkanContext/VulkanLogicalDevice.h"
+#include "../VulkanContext/VulkanPhysicalDevice.h"
 #include <algorithm>
 #include "../VulkanUtils.h"
 #include <MGLEngine.Shared/Utils/Exception.h>
@@ -190,13 +191,13 @@ MemoryHandle VulkanMemoryManager::Allocate(VkBuffer buffer, const std::vector<en
 	VkMemoryRequirements memRequirements;
 	vkGetBufferMemoryRequirements(this->GetLogicalDevice()->GetHandle(), buffer, &memRequirements);
 
-	auto memoryProperties = this->GetLogicalDevice()->GetPhysicalDevice().GetFamilyProperties();
+	auto memoryProperties = this->GetLogicalDevice()->GetPhysicalDevice().GetMemoryProperties();
 	uint32_t memoryTypeIndex;
 	for (memoryTypeIndex=0; memoryTypeIndex<memoryProperties.size(); memoryTypeIndex++)
 	{
 		if (memRequirements.memoryTypeBits & (1 << memoryTypeIndex))
 		{
-			if ((memoryProperties[memoryTypeIndex].queueFlags & flags) == flags)
+			if ((memoryProperties[memoryTypeIndex].MemFlags & flags) == flags)
 			{
 				break;
 			}

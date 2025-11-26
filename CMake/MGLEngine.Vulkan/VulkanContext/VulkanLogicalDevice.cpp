@@ -9,7 +9,7 @@
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 #include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
-VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysicalDevice& physicalDevice, long MemoryManagerMaxBlockSize)
+VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDevice,uint32_t graphicQueueFamilyIndex)
 	:_physicalDevice(physicalDevice)
 {
 	//Create Device with the Queues
@@ -21,12 +21,11 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 
 
 	//Get instance
-	auto instHandle = physicalDevice.GetVulkanInstance().GetHandle();
+	auto vkInstanceHandle = physicalDevice.GetVulkanInstance().GetHandle();
 
-	VulkanSurface surface(physicalDevice, window);
-	auto familyGraphicsIndex = physicalDevice.GetGraphicFamilyQueueIndex();
-	auto presentation_indices= surface.FindQueueFamilyIndicesThatSupportPresentation();
-	auto presentation_index = std::find(presentation_indices.begin(), presentation_indices.end(), familyGraphicsIndex);
+	assert(graphicQueueFamilyIndex <  physicalDevice.GetQueueFamilies().size());
+	const auto& graphicQueueFamily = physicalDevice.GetQueueFamilies()[graphicQueueFamilyIndex];
+	assert(graphicQueueFamily.IsGraphic && graphicQueueFamily.SupportPresentation);
 
 	std::vector<VkDeviceQueueCreateInfo> queues;
 
@@ -36,16 +35,10 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	queue_info.pNext = NULL;
 	queue_info.queueCount = 1;
 	queue_info.pQueuePriorities = queue_priorities;
-	queue_info.queueFamilyIndex = physicalDevice.GetGraphicFamilyQueueIndex();
+	queue_info.queueFamilyIndex = graphicQueueFamilyIndex;
 	queue_info.flags = 0;
 	queues.push_back(queue_info);
-	//Add presentaion queue if it is different from the graphic queue.
-	if (*presentation_index != familyGraphicsIndex)
-	{
-		throw new Exception("Graphic queue should be presentation queue");
-		//queue_info.queueFamilyIndex = *presentation_index;
-		//queues.push_back(queue_info);
-	}
+	
 
 	auto enabled_extensions= ConvertToVectorChar(_enabledExtensions);
 	VkDeviceCreateInfo device_info = {};
@@ -59,10 +52,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 	device_info.ppEnabledLayerNames = NULL;
 	device_info.pEnabledFeatures = NULL;
 
-	if (!glfwGetPhysicalDevicePresentationSupport(instHandle, physicalDevice.GetHandle(), physicalDevice.GetGraphicFamilyQueueIndex()))
-	{
-		throw new Exception("This Vulkan Implementation does not support GLFW, Ending application");
-	}
+	
 	//create device;
 	VkResult err = vkCreateDevice(physicalDevice.GetHandle(), &device_info, NULL, &_vkDevice);
 	AssertVulkanSuccess(err);
@@ -77,7 +67,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(GLFWwindow *window,const VulkanPhysical
 
 	_pDescriptorSetPool = new VulkanDescriptorSetPool(this);
 
-	_pMemoryManager = new VulkanMemoryManager(*this, MemoryManagerMaxBlockSize);
+	_pMemoryManager = new VulkanMemoryManager(*this, 100000);
 }
 
 

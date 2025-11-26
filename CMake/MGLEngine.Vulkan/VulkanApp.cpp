@@ -23,24 +23,20 @@ void MGL::VulkanApp::Init() {
 			_vulkanConfiguration.EnableDebug);
 		ChoosePhysicalDevice();
 		CreateVulkanSurface();
-		CreateGraphicsQueue();
+		CreateQueues();
 		
 }
 
 void MGL::VulkanApp::CreateVulkanSurface() {
-	_pVulkanSurface = new VulkanSurface(*_pPhysicalDevice, *_pWindow);
+	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
 
-void MGL::VulkanApp::CreateGraphicsQueue() {
-	auto& queues = _pPhysicalDevice->GetQueueFamilies();
-	for (auto i = 0; i < queues.size();i++)
-	{
-		if (queues[i].IsGraphic && queues[i]
-		{
-			_pVulkanSurface->IsQueueCompatible(i);
-		}
-	}
-	_pVulkanSurface = new VulkanSurface(*_pPhysicalDevice, *_pWindow);
+void MGL::VulkanApp::CreateQueues() {
+	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
+		return family.IsGraphic && family.SupportPresentation;
+	});
+	_pLogicalDevice = new VulkanLogicalDevice(*_pPhysicalDevice, graphicQueueIndex);
+	
 
 }
 

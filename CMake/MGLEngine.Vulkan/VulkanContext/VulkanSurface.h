@@ -2,9 +2,8 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <glfw/glfw3.h>
-
-class VulkanPhysicalDevice;
-
+#include <MGLEngine.Vulkan/Window/MWindow.h>
+class VulkanInstance;
 struct PresentationGraphicsFamilyIndices
 {
 	uint32_t GraphicQueueFamily;
@@ -13,25 +12,11 @@ struct PresentationGraphicsFamilyIndices
 
 class VulkanSurface
 {
-	const VulkanPhysicalDevice& _physicalDevice;
 	VkSurfaceKHR _vkSurface;
-	VkSurfaceCapabilitiesKHR _capabilities;
-	std::vector<VkSurfaceFormatKHR> _formats;
-	std::vector<VkPresentModeKHR> _presentModes;
-	uint32_t _windowWidth;
-	uint32_t _windowHeight;
-	
+	VkInstance _vkInstance;
 public:
-	VulkanSurface(const VulkanInstance& device,GLFWwindow* window);
-	void UpdateWindowDims(int width, int height);
+	VulkanSurface(const VulkanInstance* pInstance,MGL::Window* window);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
-	bool SupportsFormat(VkFormat format, VkColorSpaceKHR colorSpace)const;
-	bool SupportsPresentation(enum VkPresentModeKHR present) const;
-	bool SupportsImageCount(uint32_t i) const;
-	VkExtent2D GetExtent() const;
-	std::vector<uint32_t> FindQueueFamilyIndicesThatSupportPresentation() const;
-	PresentationGraphicsFamilyIndices GetPresentationAndGraphicsQueusFamilyIndices() const;
-	VkSurfaceCapabilitiesKHR GetCapabilities() const { return _capabilities; }
 };
 

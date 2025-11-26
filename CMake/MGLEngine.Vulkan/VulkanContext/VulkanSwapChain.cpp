@@ -18,22 +18,11 @@ _surface(device.GetPhysicalDevice(),window)
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 
-	auto pgQueues = _surface.GetPresentationAndGraphicsQueusFamilyIndices();
-	std::vector<uint32_t> queues;
-	if (pgQueues.GraphicQueueFamily == pgQueues.PresentationQueueFamily)
-	{
+	
 		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0; // Optional
 		createInfo.pQueueFamilyIndices = nullptr; // Optional
-	}
-	else
-	{
-		queues.push_back(pgQueues.GraphicQueueFamily);
-		queues.push_back(pgQueues.PresentationQueueFamily);
-		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-		createInfo.queueFamilyIndexCount = 2;
-		createInfo.pQueueFamilyIndices = queues.data();
-	}
+	
 	createInfo.preTransform = _surface.GetCapabilities().currentTransform;
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 	createInfo.presentMode = _surface.SupportsPresentation(VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;

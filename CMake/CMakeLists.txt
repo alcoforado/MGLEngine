@@ -78,7 +78,7 @@ project(MGLEngine)
 
 set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
 
-install_if_not_found("Boost" "boost-beast")
+install_if_not_found("boost_beast" "boost-beast")
 install_if_not_found("glm" "GLM")
 install_if_not_found("glfw3" "glfw3")
 install_if_not_found("Catch2" "catch2")
@@ -92,8 +92,8 @@ include_directories("${VCPKG_INCLUDE_DIR}")
 
 
 
-message("Configuring MGLEngine.HttpServer")
-add_subdirectory(MGLEngine.HttpServer)
+#message("Configuring MGLEngine.HttpServer")
+#add_subdirectory(MGLEngine.HttpServer)
 message("Configuring MGLEngine.Shared")
 add_subdirectory(MGLEngine.Shared)
 message("Configuring MGLEngine.Vulkan")
@@ -115,7 +115,7 @@ macro(print_all_variables)
 endmacro()
 
 
-#print_all_variables()
+print_all_variables()
 
 
 

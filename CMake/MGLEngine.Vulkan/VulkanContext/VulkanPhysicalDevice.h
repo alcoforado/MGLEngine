@@ -24,6 +24,7 @@ struct VulkanQueueFamily {
 	bool IsVideoEncode;
 	bool IsOpticalFlow;
 	bool IsDataGraph;
+	bool SupportPresentation;;
 	bool HasMaxGranularity() {
 		return minImageTransferGranularity.width == minImageTransferGranularity.height == 	minImageTransferGranularity.depth == 1;
 	}
@@ -68,7 +69,9 @@ public:
 	bool HasGhraphicsQueue() const;
 	bool HasComputeQueue() const;
 	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(VulkanSurface& surface) const;
-	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const
+	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const;
+	std::vector<VkPresentModeKHR> GetPresentModes(VulkanSurface& surface) const;
+
 
 
 

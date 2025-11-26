@@ -11,19 +11,21 @@
  namespace MGL {
 	class VulkanApp {
 		private:
-			Window* _pWindow=nullptr;
+			MGL::Window* _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
-			VulkanSurface* _pVulkanSurface;
+			VulkanSurface* _pVulkanSurface=nullptr;
+			VulkanLogicalDevice* _pLogicalDevice=nullptr;
 			WindowOptions _windowOptions;
 			VulkanConfiguration _vulkanConfiguration;
 			std::unordered_map<std::string, ShaderContext> _shaders;
-
+			int _graphicQueueIndex;
+			
 
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
-			void CreateGraphicsQueue();
+			void CreateQueues();
 		public:
 			void WindowConfig(std::function<void(WindowOptions&)>& config)
 			{
