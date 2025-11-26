@@ -203,15 +203,35 @@ std::vector<VkPresentModeKHR> VulkanPhysicalDevice::GetPresentModes(VulkanSurfac
 	
 }
 
-
-
-
-
-
-VulkanLogicalDevice* VulkanPhysicalDevice::CreateLogicalDevice(GLFWwindow *window) const
+bool VulkanPhysicalDevice::IsFormatCompatibleWithSurface(VulkanSurface& surface, VkSurfaceFormatKHR format)
 {
-	return new VulkanLogicalDevice(window, *this);
+	auto formats=GetCompatibleSurfaceFormats(surface);
+	for (auto& f : formats)
+	{
+		if (f.format == format.format && f.colorSpace == format.colorSpace)
+		{
+			return true;
+		}
+	}
+	return false;
 }
+
+bool VulkanPhysicalDevice::IsPresentModeAvailableForSurface(VulkanSurface& surface, VkPresentModeKHR format)
+{
+	auto presentModes = GetPresentModes(surface);
+	for (auto& f : presentModes)
+	{
+		if (f == format)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
 
 bool VulkanPhysicalDevice::IsDiscrete() const {
 	return (_graphicProperties.deviceType&VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;

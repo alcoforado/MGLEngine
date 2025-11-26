@@ -1,5 +1,6 @@
 	#include "VulkanApp.h"
 #include<algorithm>
+#include <MGLEngine.Shared/Utils/Exception.h>
 using namespace MGL;
 MGL::VulkanApp::~VulkanApp() {
 	// Destructor implementation (if needed)
@@ -35,6 +36,9 @@ void MGL::VulkanApp::CreateQueues() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic && family.SupportPresentation;
 	});
+	if (graphicQueueIndex == -1) {
+		throw new Exception("No suitable graphic queue found that supports presentation.");
+	}
 	_pLogicalDevice = new VulkanLogicalDevice(*_pPhysicalDevice, graphicQueueIndex);
 	
 

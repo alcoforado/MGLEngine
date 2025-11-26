@@ -57,7 +57,6 @@ public:
 	VkPhysicalDevice GetHandle() const  { return _handler; }
 	const std::vector<VulkanQueueFamily>& GetQueueFamilies() const { return _queueFamilies; }
 	VkPhysicalDeviceProperties GetProperties() const { return _graphicProperties; }
-	VulkanLogicalDevice* CreateLogicalDevice(GLFWwindow *window) const;
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
 	int32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
 	int32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;
@@ -71,6 +70,8 @@ public:
 	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(VulkanSurface& surface) const;
 	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const;
 	std::vector<VkPresentModeKHR> GetPresentModes(VulkanSurface& surface) const;
+	bool IsFormatCompatibleWithSurface(VulkanSurface& surface, VkSurfaceFormatKHR format);
+	bool IsPresentModeAvailableForSurface(VulkanSurface& surface, VkPresentModeKHR format);
 
 
 
