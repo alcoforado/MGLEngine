@@ -47,7 +47,8 @@ namespace MGL {
 		void OnResize(int width, int heiight);
 		Window(const WindowOptions& options);
 		virtual ~Window();
-
+		int Height(){ return _height; }
+		int Width() { return _width; }
 		GLFWwindow* GLFWHandler() { return _window; }
 		void Redraw();
 		void AttachEventHandler(IWindowEventHandler *eh);

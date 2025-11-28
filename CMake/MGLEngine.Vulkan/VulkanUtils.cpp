@@ -4,9 +4,9 @@
 #include "VulkanUtils.h"
 #include <map>
 #include <fstream>
+#include <boost/stacktrace.hpp>
 #include <MGLEngine.Shared/Utils/eassert.h>
 std::ofstream vulkanError("vulkan_log.txt", std::ofstream::trunc);
-
 
 
 std::vector<std::string> ConvertToVectorString(std::vector<const char*> user)
@@ -36,7 +36,7 @@ void AssertVulkanSuccess(VkResult res)
 {
 	if (res != VK_SUCCESS)
 	{
-		throw new Exception("Error Result: %s", MapVkResultToString(res));
+		throw new Exception("Error Result: %s %s", MapVkResultToString(res),boost::stacktrace::stacktrace());
 	}
 }
 std::string MapVkResultToString(VkResult result)  

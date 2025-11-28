@@ -28,8 +28,6 @@ struct VulkanQueueFamily {
 	bool HasMaxGranularity() {
 		return minImageTransferGranularity.width == minImageTransferGranularity.height == 	minImageTransferGranularity.depth == 1;
 	}
-
-
 };
 
 
@@ -67,11 +65,11 @@ public:
 	bool IsVirtual() const;
 	bool HasGhraphicsQueue() const;
 	bool HasComputeQueue() const;
-	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(VulkanSurface& surface) const;
+	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(const VulkanSurface& surface) const;
 	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const;
 	std::vector<VkPresentModeKHR> GetPresentModes(VulkanSurface& surface) const;
-	bool IsFormatCompatibleWithSurface(VulkanSurface& surface, VkSurfaceFormatKHR format);
-	bool IsPresentModeAvailableForSurface(VulkanSurface& surface, VkPresentModeKHR format);
+	bool IsFormatCompatibleWithSurface(const VulkanSurface& surface, VkSurfaceFormatKHR format) const ;
+	bool IsPresentModeAvailableForSurface(const VulkanSurface& surface, VkPresentModeKHR format) const;
 
 
 

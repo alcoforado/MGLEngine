@@ -168,7 +168,7 @@ bool VulkanPhysicalDevice::HasComputeQueue() const
 	}) != -1;
 }
 
-VkSurfaceCapabilitiesKHR VulkanPhysicalDevice::GetCapabilitiesForSurface(VulkanSurface &surface) const
+VkSurfaceCapabilitiesKHR VulkanPhysicalDevice::GetCapabilitiesForSurface(const VulkanSurface &surface) const
 {
 	VkSurfaceCapabilitiesKHR result;
 	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(this->GetHandle(), surface.GetHandle(), &result);
@@ -203,7 +203,7 @@ std::vector<VkPresentModeKHR> VulkanPhysicalDevice::GetPresentModes(VulkanSurfac
 	
 }
 
-bool VulkanPhysicalDevice::IsFormatCompatibleWithSurface(VulkanSurface& surface, VkSurfaceFormatKHR format)
+bool VulkanPhysicalDevice::IsFormatCompatibleWithSurface(const VulkanSurface& surface, VkSurfaceFormatKHR format) const
 {
 	auto formats=GetCompatibleSurfaceFormats(surface);
 	for (auto& f : formats)
@@ -216,7 +216,7 @@ bool VulkanPhysicalDevice::IsFormatCompatibleWithSurface(VulkanSurface& surface,
 	return false;
 }
 
-bool VulkanPhysicalDevice::IsPresentModeAvailableForSurface(VulkanSurface& surface, VkPresentModeKHR format)
+bool VulkanPhysicalDevice::IsPresentModeAvailableForSurface(const VulkanSurface& surface, VkPresentModeKHR format) const
 {
 	auto presentModes = GetPresentModes(surface);
 	for (auto& f : presentModes)

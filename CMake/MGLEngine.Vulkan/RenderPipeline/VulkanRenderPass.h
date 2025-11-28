@@ -8,6 +8,7 @@
 class VulkanLogicalDevice;
 
 class VulkanRenderPass
+
 {
 	const VulkanLogicalDevice& _logicalDevice;
 

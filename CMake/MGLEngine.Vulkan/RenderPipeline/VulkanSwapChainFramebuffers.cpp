@@ -16,7 +16,7 @@ VulkanSwapChainFramebuffers::VulkanSwapChainFramebuffers(const VulkanRenderPass&
 		framebufferInfo.renderPass = renderPass.GetHandle();
 		framebufferInfo.attachmentCount = 1;
 		framebufferInfo.pAttachments = &imageView;
-		framebufferInfo.width = swapChain.GetExtent().width;
+		framebufferInfo.width = swapChain..GetExtent().width;
 		framebufferInfo.height = swapChain.GetExtent().height;
 		framebufferInfo.layers = 1;
 		

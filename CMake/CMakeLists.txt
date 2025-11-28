@@ -9,6 +9,7 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
 
+add_compile_options(-DBOOST_ENABLE_ASSERT_DEBUG_HANDLER)
 
 if (NOT DEFINED VCPKG_INSTALL_FOLDER)
     set(VCPKG_INSTALL_FOLDER "${CMAKE_SOURCE_DIR}/../vcpkg")
@@ -79,6 +80,7 @@ project(MGLEngine)
 set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
 
 install_if_not_found("boost_beast" "boost-beast")
+install_if_not_found("boost_stacktrace_basic","boost-stacktrace")
 install_if_not_found("glm" "GLM")
 install_if_not_found("glfw3" "glfw3")
 install_if_not_found("Catch2" "catch2")

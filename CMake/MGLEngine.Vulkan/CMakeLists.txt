@@ -60,13 +60,12 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS} "VulkanApp.cpp"
 "RenderResources/VulkanDescriptorSetLayout.h" "RenderResources/VulkanDescriptorSetPool.cpp" "RenderResources/VulkanDescriptorSetPool.h" 
  "Shaders/IVulkanRenderContext.cpp" "Shaders/IVulkanRenderContext.h" "Shaders/IVulkanShader.h" 
 "Shaders/ShaderColor2D.cpp" "Shaders/ShaderColor2D.h" "SPIR-V/shaders_bytecode.h" "VulkanContext/IDrawContext.h" 
-"VulkanContext/VulkanCommandBatchCollection.cpp" "VulkanContext/VulkanCommandBatchCollection.h" "VulkanContext/VulkanContext.cpp" 
-"VulkanContext/VulkanContext.h" "VulkanContext/VulkanInstance.cpp" "VulkanContext/VulkanInstance.h" "VulkanContext/VulkanLayerProperties.cpp" 
+"VulkanContext/VulkanCommandBatchCollection.cpp" "VulkanContext/VulkanCommandBatchCollection.h"  "VulkanContext/VulkanInstance.cpp" "VulkanContext/VulkanInstance.h" "VulkanContext/VulkanLayerProperties.cpp" 
 "VulkanContext/VulkanLayerProperties.h" "VulkanContext/VulkanLogicalDevice.cpp" "VulkanContext/VulkanLogicalDevice.h" "VulkanContext/VulkanPhysicalDevice.cpp" 
 "VulkanContext/VulkanPhysicalDevice.h" "VulkanContext/VulkanQueue.cpp" "VulkanContext/VulkanQueue.h" "VulkanContext/VulkanSurface.cpp" 
 "VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h"   
     "DrawTree/VulkanResourceLoader.h" "DrawTree/VulkanResourceLoader.cpp" "DrawTree/IVulkanResourceLoader.h" "DrawTree/TreeExecutionContext.h"
- "DrawTree/VulkanInternalData.h" "VulkanApp.cpp" "VulkanApp.h" "VulkanContext/VulkanConfiguration.h" "ShaderContext.h" "PipelineOptions.h")
+ "DrawTree/VulkanInternalData.h" "VulkanApp.cpp" "VulkanApp.h" "VulkanContext/VulkanConfiguration.h" "ShaderContext.h" "PipelineOptions.h" "VulkanContext/VulkanSwapChainOptions.h" "VulkanContext/VulkanSurfaceCapability.h")
 
 
 

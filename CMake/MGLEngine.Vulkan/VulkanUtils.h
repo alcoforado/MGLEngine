@@ -4,6 +4,9 @@
 #include <fstream>
 #include  <vector>
 #include <algorithm>
+#include <iostream>     // std::cerr
+
+
 void AssertVulkanSuccess(VkResult res);
 
 std::string MapVkResultToString(VkResult result);
