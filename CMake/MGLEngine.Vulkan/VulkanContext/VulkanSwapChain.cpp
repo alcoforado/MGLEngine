@@ -27,7 +27,7 @@ VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogic
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 	if (options.VSync)
 	{
-		createInfo.presentMode = _logicalDevice.GetPhysicalDevice().IsFormatCompatibleWithSurface(surface,VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;
+		createInfo.presentMode = _logicalDevice.GetPhysicalDevice().IsPresentModeAvailableForSurface(surface,VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;
 	}
 	else
 	{

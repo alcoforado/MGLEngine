@@ -80,7 +80,7 @@ project(MGLEngine)
 set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
 
 install_if_not_found("boost_beast" "boost-beast")
-install_if_not_found("boost_stacktrace_basic","boost-stacktrace")
+install_if_not_found("boost_stacktrace_basic" "boost-stacktrace")
 install_if_not_found("glm" "GLM")
 install_if_not_found("glfw3" "glfw3")
 install_if_not_found("Catch2" "catch2")

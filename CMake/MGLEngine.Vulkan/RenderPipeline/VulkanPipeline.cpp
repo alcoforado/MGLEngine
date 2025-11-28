@@ -47,14 +47,14 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderBy
 
 	Viewport.x = 0.0f;
 	Viewport.y = 0.0f;
-	Viewport.width = static_cast<float>(pSwapChain->GetExtent().width);
-	Viewport.height = static_cast<float>(pSwapChain->GetExtent().height);
+	Viewport.width = static_cast<float>(pSwapChain->GetExtent2D().width);
+	Viewport.height = static_cast<float>(pSwapChain->GetExtent2D().height);
 	Viewport.minDepth = 0.0f;
 	Viewport.maxDepth = 1.0f;
 
 	Scissor = {};
 	Scissor.offset = { 0, 0 };
-	Scissor.extent = pSwapChain->GetExtent();
+	Scissor.extent = pSwapChain->GetExtent2D();
 
 
 
@@ -178,9 +178,9 @@ void VulkanPipeline::OnSwapChainReload(const VulkanSwapChain *pNewSwapChain)
 {
 	this->Dispose();
 	_swapChain = pNewSwapChain;
-	this->Viewport.width = static_cast<float>(_swapChain->GetExtent().width);
-	this->Viewport.height = static_cast<float>(_swapChain->GetExtent().height);
-	Scissor.extent = _swapChain->GetExtent();
+	this->Viewport.width = static_cast<float>(_swapChain->GetExtent2D().width);
+	this->Viewport.height = static_cast<float>(_swapChain->GetExtent2D().height);
+	Scissor.extent = _swapChain->GetExtent2D();
 	this->Load();
 }
 

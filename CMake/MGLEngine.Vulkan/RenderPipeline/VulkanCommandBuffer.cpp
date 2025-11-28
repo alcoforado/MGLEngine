@@ -50,7 +50,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VulkanFramebuffer fram
 	renderPassInfo.renderPass = framebuffer.GetRenderPass().GetHandle();
 	renderPassInfo.framebuffer = framebuffer.GetHandle();;
 	renderPassInfo.renderArea.offset = { 0, 0 };
-	renderPassInfo.renderArea.extent = framebuffer.GetSwapChain().GetExtent();
+	renderPassInfo.renderArea.extent = framebuffer.GetSwapChain().GetExtent2D();
 	renderPassInfo.clearValueCount = 1;
 	renderPassInfo.pClearValues = &cl;
 

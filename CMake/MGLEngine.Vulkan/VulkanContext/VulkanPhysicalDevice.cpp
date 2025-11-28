@@ -176,7 +176,7 @@ VkSurfaceCapabilitiesKHR VulkanPhysicalDevice::GetCapabilitiesForSurface(const V
 	return result;
 }
 
-std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetCompatibleSurfaceFormats(VulkanSurface &surface) const
+std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetCompatibleSurfaceFormats(const VulkanSurface &surface) const
 {
 	uint32_t formatCount;
 	vkGetPhysicalDeviceSurfaceFormatsKHR(GetHandle(), surface.GetHandle(), &formatCount, nullptr);
@@ -189,7 +189,7 @@ std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetCompatibleSurfaceFormat
 	
 }
 
-std::vector<VkPresentModeKHR> VulkanPhysicalDevice::GetPresentModes(VulkanSurface& surface) const
+std::vector<VkPresentModeKHR> VulkanPhysicalDevice::GetPresentModes(const VulkanSurface& surface) const
 {
 
 	uint32_t presentModeCount;

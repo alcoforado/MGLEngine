@@ -66,8 +66,8 @@ public:
 	bool HasGhraphicsQueue() const;
 	bool HasComputeQueue() const;
 	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(const VulkanSurface& surface) const;
-	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(VulkanSurface& surface) const;
-	std::vector<VkPresentModeKHR> GetPresentModes(VulkanSurface& surface) const;
+	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(const VulkanSurface& surface) const;
+	std::vector<VkPresentModeKHR> GetPresentModes(const VulkanSurface& surface) const;
 	bool IsFormatCompatibleWithSurface(const VulkanSurface& surface, VkSurfaceFormatKHR format) const ;
 	bool IsPresentModeAvailableForSurface(const VulkanSurface& surface, VkPresentModeKHR format) const;
 

@@ -21,7 +21,7 @@ class VulkanSwapChain
 		VulkanSwapChain(const VulkanSurface &surface,const VulkanLogicalDevice& device, VulkanSwapChainOptions options);
 		const VulkanLogicalDevice* GetLogicalDevice()const { return &_logicalDevice; }
 		~VulkanSwapChain();
-		VkExtent2D GetExtend2D() { return _dims; }
+		VkExtent2D GetExtent2D() const { return _dims; }
 		VkFormat GetImageFormat() const { return _imageFormat; }
 		std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
 		void  NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence *fenceToSignal);
