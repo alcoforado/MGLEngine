@@ -1,10 +1,10 @@
 #include <functional>
 #include <memory>
-#include "Window/MWindow.h"
-#include "VulkanContext/VulkanConfiguration.h"
-#include "VulkanContext/VulkanInstance.h"
-#include "VulkanContext/VulkanPhysicalDevice.h"
-#include "VulkanContext/VulkanSurface.h"
+#include  <MGLEngine.Vulkan/Window/MWindow.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanConfiguration.h>
+#include  <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
+#include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
+#include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
 
 #include <unordered_map>
 #include "ShaderContext.h"
