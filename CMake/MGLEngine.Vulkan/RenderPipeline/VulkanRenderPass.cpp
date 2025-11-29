@@ -79,7 +79,7 @@ VkRenderPass VulkanRenderPass::Load()
 		VkSubpassDescription vkpass = {};
 		vkpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 		std::vector<VkAttachmentReference> v;
-		for(auto ref: subpass.GetColorAttachements())
+		for(VulkanAttachmentReference ref: subpass.GetColorAttachements())
 		{
 			VkAttachmentReference result;
 			result.attachment = static_cast<uint32_t>(this->_colorNameMapping[ref.name]);
