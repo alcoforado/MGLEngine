@@ -17,9 +17,7 @@ class VulkanRenderPass
 
 	std::map<std::string, size_t> _subpassesNameMapping;
 	std::vector<VulkanSubPass> _subpasses;
-
-	VkRenderPass _renderPass;
-	bool _isLoaded;
+	VkRenderPass _renderPass=VK_NULL_HANDLE;
 public:
 	VulkanRenderPass(const VulkanLogicalDevice* device);
 	~VulkanRenderPass();

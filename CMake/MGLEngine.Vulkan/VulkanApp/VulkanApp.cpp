@@ -26,6 +26,10 @@ void MGL::VulkanApp::Init() {
 		ChoosePhysicalDevice();
 		CreateVulkanSurface();
 		CreateQueues();
+		CreateSwapChain();
+		CreateSwapChainImageViews();
+		CreateRenderPass();
+		CreateFramebuffers();
 		
 }
 
@@ -95,17 +99,16 @@ void MGL::VulkanApp::CreateSwapChain() {
 
 void MGL::VulkanApp::CreateSwapChainImageViews() {
 	//Get The imageds handlers
-
+	std::vector<VkImage> images;
 	uint32_t imagesCount;
 	vkGetSwapchainImagesKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, &imagesCount, nullptr);
-	_swapChain.images.resize(imagesCount);
-	vkGetSwapchainImagesKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, &imagesCount, _swapChain.images.data());
+	images.resize(imagesCount);
+	vkGetSwapchainImagesKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, &imagesCount, images.data());
 
 
 	//Get images view;
-	for (auto img : _swapChain.images)
+	for (auto img : images)
 	{
-
 		VkImageViewCreateInfo createViewInfo = {};
 		createViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		createViewInfo.image = img;
@@ -127,32 +130,68 @@ void MGL::VulkanApp::CreateSwapChainImageViews() {
 		VkImageView view;
 		auto err = vkCreateImageView(_pLogicalDevice->GetHandle(), &createViewInfo, nullptr, &view);
 		AssertVulkanSuccess(err);
-
-		_swapChain.imagesviews.push_back(view);
+		FrameData frame;
+		frame.image = img;
+		frame.imageView = view;
+		_swapChain.frames.push_back(frame);
 	}
-
 }
 
-void MGL::VulkanApp::ChoosePhysicalDevice()
+void MGL::VulkanApp::CreateRenderPass() 
 {
-	auto &v=_pVulkanInstance->GetPhysicalDevices();
-	std::vector<int> suitableDevices;
-	for (int i = 0; i < v.size(); i++) {
-		suitableDevices.push_back(i);
+	VkAttachmentDescription colorAttachment{};
+	colorAttachment.format = _swapChain.imageFormat;
+	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+	
+	VkAttachmentReference colorAttachmentRef{};
+	colorAttachmentRef.attachment = 0;
+	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	
+	VkSubpassDescription subpass{};
+	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subpass.colorAttachmentCount = 1;
+	subpass.pColorAttachments = &colorAttachmentRef;
 
-	}
-	std::sort(suitableDevices.begin(),suitableDevices.end(),[v](int a, int b) {
-		int scoreA = deviceScore(v[a]);
-	    int scoreB=deviceScore(v[b]);
-		if (scoreA == scoreB)
-		{
-			return v[a].GetProperties().limits.maxImageDimension1D > v[b].GetProperties().limits.maxImageDimension1D;
-		}
-		return scoreA > scoreB;
-	});
-	_pPhysicalDevice =  &(v[suitableDevices[0]]);
+	VkRenderPassCreateInfo passInfo{};
+	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	passInfo.attachmentCount = 1;
+	passInfo.pAttachments = &colorAttachment;
+	passInfo.subpassCount = 1; 
+	passInfo.pSubpasses = &subpass;
+	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_renderPassHandle);
 }
 
+void MGL::VulkanApp::CreateFramebuffers() {
+	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
+		VkImageView attachments[] = {
+			_swapChain.frames[i].imageView
+		};
+
+		VkFramebufferCreateInfo framebufferInfo{};
+		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		framebufferInfo.renderPass = _renderPassHandle;
+		framebufferInfo.attachmentCount = 1;
+		framebufferInfo.pAttachments = attachments;
+		framebufferInfo.width = _swapChain.dims.width;
+		framebufferInfo.height = _swapChain.dims.height;
+		framebufferInfo.layers = 1;
+
+		if (vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &(_swapChain.frames[i].framebuffer)) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create framebuffer!");
+		}
+	}
+}
+
+void MGL::VulkanApp::CreatePipelines()
+{
+
+}
 int deviceScore(const VulkanPhysicalDevice& device) {
 	int score = 0;
 	// Example criteria for scoring
@@ -176,4 +215,133 @@ int deviceScore(const VulkanPhysicalDevice& device) {
 	
 	return score;
 }
+
+void MGL::VulkanApp::ChoosePhysicalDevice()
+{
+	auto &v=_pVulkanInstance->GetPhysicalDevices();
+	std::vector<int> suitableDevices;
+	for (int i = 0; i < v.size(); i++) {
+		suitableDevices.push_back(i);
+
+	}
+	std::sort(suitableDevices.begin(),suitableDevices.end(),[v](int a, int b) {
+		int scoreA = deviceScore(v[a]);
+	    int scoreB=deviceScore(v[b]);
+		if (scoreA == scoreB)
+		{
+			return v[a].GetProperties().limits.maxImageDimension1D > v[b].GetProperties().limits.maxImageDimension1D;
+		}
+		return scoreA > scoreB;
+	});
+	_pPhysicalDevice =  &(v[suitableDevices[0]]);
+}
+
+VkPipeline CreatePipeline(ShaderContext ctx)
+{
+	VkShaderModuleCreateInfo vertexShaderMod = {};
+	vertexShaderMod.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	vertexShaderMod.codeSize = ctx.verticeShader.size;
+	vertexShaderMod.pCode = ctx.verticeShader.byteCode;
+	auto err = vkCreateShaderModule(_pLogicalDevice->GetHandle(), &vertexShaderMod, nullptr, &_vkModule);
+	AssertVulkanSuccess(err);
+
+
+	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
+	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	VertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+	VertShaderStageInfo.module = vertexCode.GetHandle();
+	VertShaderStageInfo.pName = "main";
+
+	VkPipelineShaderStageCreateInfo FragShaderStageInfo = {};
+	FragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	FragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+	FragShaderStageInfo.module = fragment.GetHandle();
+	FragShaderStageInfo.pName = "main";
+
+	std::vector<VkPipelineShaderStageCreateInfo> ShaderStages.push_back(VertShaderStageInfo);
+	ShaderStages.push_back(FragShaderStageInfo);
+
+
+
+
+	InputAssembly = {};
+	InputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+	InputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	InputAssembly.primitiveRestartEnable = VK_FALSE;
+
+	//Set Viewport
+
+	Viewport.x = 0.0f;
+	Viewport.y = 0.0f;
+	Viewport.width = static_cast<float>(pSwapChain->GetExtent2D().width);
+	Viewport.height = static_cast<float>(pSwapChain->GetExtent2D().height);
+	Viewport.minDepth = 0.0f;
+	Viewport.maxDepth = 1.0f;
+
+	Scissor = {};
+	Scissor.offset = { 0, 0 };
+	Scissor.extent = pSwapChain->GetExtent2D();
+
+
+
+	Rasterizer = {};
+	Rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+	Rasterizer.depthClampEnable = VK_FALSE;
+	Rasterizer.rasterizerDiscardEnable = VK_FALSE;
+	Rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+	Rasterizer.lineWidth = 1.0f;
+	Rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+	Rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+	Rasterizer.depthBiasEnable = VK_FALSE;
+	Rasterizer.depthBiasConstantFactor = 0.0f; // Optional
+	Rasterizer.depthBiasClamp = 0.0f; // Optional
+	Rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
+
+	Multisampling = {};
+	Multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+	Multisampling.sampleShadingEnable = VK_FALSE;
+	Multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+	Multisampling.minSampleShading = 1.0f; // Optional
+	Multisampling.pSampleMask = nullptr; /// Optional
+	Multisampling.alphaToCoverageEnable = VK_FALSE; // Optional
+	Multisampling.alphaToOneEnable = VK_FALSE; // Optional
+
+	ColorBlendAttachment = {};
+	ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	ColorBlendAttachment.blendEnable = VK_FALSE;
+	ColorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+	ColorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+	ColorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optional
+	ColorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+	ColorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
+	ColorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
+
+	ColorBlending = {};
+	ColorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+	ColorBlending.logicOpEnable = VK_FALSE;
+	ColorBlending.logicOp = VK_LOGIC_OP_COPY; // Optional
+	ColorBlending.attachmentCount = 1;
+	ColorBlending.pAttachments = &ColorBlendAttachment;
+	ColorBlending.blendConstants[0] = 0.0f; // Optional
+	ColorBlending.blendConstants[1] = 0.0f; // Optional
+	ColorBlending.blendConstants[2] = 0.0f; // Optional
+	ColorBlending.blendConstants[3] = 0.0f; // Optional
+
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+
+}
+
+VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
+{
+	VkShaderModule result;
+	VkShaderModuleCreateInfo shaderMod = {};
+	shaderMod.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	shaderMod.codeSize = byteCode.size;
+	shaderMod.pCode = byteCode.byteCode;
+	auto err = vkCreateShaderModule(_pLogicalDevice->GetHandle(), &shaderMod, nullptr, &result);
+	AssertVulkanSuccess(err);
+
+}
+
 

@@ -19,8 +19,9 @@
 			std::unordered_map<std::string, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;
-
-
+			
+			VkRenderPass _renderPassHandle;
+			
 			//configuraion options
 			WindowOptions _windowOptions;
 			VulkanConfiguration _vulkanConfiguration;
@@ -32,7 +33,13 @@
 			void CreateSwapChain();
 			void CreateSwapChainImageViews();
 			void CreateRenderPass();
-			void CreateRenderPassFramebuffers();
+			void CreateFramebuffers();
+			void CreatePipelines();
+
+		private:
+			VkPipeline CreatePipeline(ShaderContext ctx);
+			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
+			std::vector<>
 		public:
 			void WindowConfig(std::function<void(WindowOptions&)>& config)
 			{

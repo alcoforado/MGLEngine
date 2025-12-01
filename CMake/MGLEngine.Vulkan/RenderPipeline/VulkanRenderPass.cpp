@@ -7,13 +7,12 @@
 VulkanRenderPass::VulkanRenderPass(const VulkanLogicalDevice* device)
 	:_logicalDevice(*device)
 {
-	_isLoaded = false;
 }
 
 
 VulkanRenderPass::~VulkanRenderPass()
 {
-	if (_isLoaded)
+	if (_renderPass!=VK_NULL_HANDLE)
 	{
 		vkDestroyRenderPass(_logicalDevice.GetHandle(), _renderPass, nullptr);
 	}
@@ -45,7 +44,7 @@ VulkanSubPass& VulkanRenderPass::GetSubpass(std::string name)
 
 VkRenderPass VulkanRenderPass::GetHandle() const
 {
-	if (!_isLoaded)
+	if (_renderPass == VK_NULL_HANDLE)
 	{
 		throw new Exception("Render Pass was not loaded yet. Call Load method before you can get a handle");
 	}
@@ -66,7 +65,7 @@ void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescrip
 
 VkRenderPass VulkanRenderPass::Load()
 {
-	if (_isLoaded)
+	if (_renderPass != VK_NULL_HANDLE)
 	{
 		vkDestroyRenderPass(_logicalDevice.GetHandle(), _renderPass, nullptr);
 	}
@@ -113,7 +112,6 @@ VkRenderPass VulkanRenderPass::Load()
 
 	auto err=vkCreateRenderPass(_logicalDevice.GetHandle(), &renderPassInfo, nullptr, &_renderPass);
 	AssertVulkanSuccess(err);
-	_isLoaded = true;
 	return _renderPass;
 	
 
