@@ -1,5 +1,13 @@
 #include "PipelineOptions.h"
 #include <MGLEngine.Shared/Shaders/IShader.h>
+
+struct ShaderByteCode {
+	uint32_t* byteCode;
+	uint32_t size;
+	ShaderByteCode() {}
+};
+
+
 class ShaderContext {
 public:
 	IShader& shader;
@@ -24,9 +32,4 @@ public:
 
 };
 
-struct ShaderByteCode {
-	uint32_t* byteCode;
-	uint32_t size;
-	ShaderByteCode() {}
-};
 
