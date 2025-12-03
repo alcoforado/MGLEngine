@@ -35,12 +35,14 @@
 			void CreateRenderPass();
 			void CreateFramebuffers();
 			void InitShaders();
-			void CreatePipelines();
 
 		private:
-			VkPipeline CreatePipeline(ShaderContext ctx);
+			VkPipeline CreatePipeline(const ShaderConfiguration& config);
+			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const ShaderConfiguration& config);
+			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const ShaderConfiguration& config);
+			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
-			std::vector<VkShaderModule>  CreatePipelineStages(ShaderContext& ctx);
+
 		public:
 			void WindowConfig(std::function<void(WindowOptions&)>& config)
 			{

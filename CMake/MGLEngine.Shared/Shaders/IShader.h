@@ -1,5 +1,6 @@
 #pragma once
 #include "IShaderConfiguration.h"
 class IShader {
-	virtual void Init(IShaderConfiguration& config) = 0;
+	public:
+		virtual void Init(IShaderConfiguration& config) = 0;
 };

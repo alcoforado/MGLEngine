@@ -190,15 +190,14 @@ void MGL::VulkanApp::CreateFramebuffers() {
 
 void MGL::VulkanApp::InitShaders() {
 	for (auto& pair : _shaders) {
-		ShaderContext& ctx=pair.second;
-		ctx.shader.init(ctx.options);
+		ShaderConfiguration options = {};
+		ShaderContext& ctx = pair.second;
+		ctx.shader.Init(options);
+		ctx.pipeline = CreatePipeline(options);
+
 	}
 }
 
-void MGL::VulkanApp::CreatePipelines()
-{
-
-}
 int deviceScore(const VulkanPhysicalDevice& device) {
 	int score = 0;
 	// Example criteria for scoring
@@ -243,20 +242,60 @@ void MGL::VulkanApp::ChoosePhysicalDevice()
 	_pPhysicalDevice =  &(v[suitableDevices[0]]);
 }
 
-VkPipeline VulkanApp::CreatePipeline(ShaderContext ctx)
+
+std::vector<VkVertexInputBindingDescription> MGL::VulkanApp::CreatePipelineVertexInputBinding(const ShaderConfiguration& config)
+{
+	std::vector<VkVertexInputBindingDescription> result;
+	result.push_back({
+		.binding = 0,
+		.stride = config.GetTotalAttributesSize(),
+		.inputRate = VK_VERTEX_INPUT_RATE_VERTEX
+	});
+	return result;
+}
+
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanApp::CreatePipelineVertexInputAttributes(const ShaderConfiguration& config)
+{
+	std::vector<VkVertexInputAttributeDescription> result;
+	for (const auto& attr : config.vertexAttributes)
+	{
+		result.push_back({
+			.location = attr.location,
+			.binding = 0,
+			.format = attr.format,
+			.offset = attr.offset
+		});
+	}
+	return result;
+}
+
+VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
+{
+	VkShaderModule result;
+	VkShaderModuleCreateInfo shaderMod = {};
+	shaderMod.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	shaderMod.codeSize = byteCode.size;
+	shaderMod.pCode = byteCode.byteCode;
+	auto err = vkCreateShaderModule(_pLogicalDevice->GetHandle(), &shaderMod, nullptr, &result);
+	AssertVulkanSuccess(err);
+	return result;
+
+}
+
+VkPipeline VulkanApp::CreatePipeline(const ShaderConfiguration& config)
 {
 	
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	VertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	VertShaderStageInfo.module = CreatePipelineShader(ctx.verticeShader);
+	VertShaderStageInfo.module = CreatePipelineShader(config.verticeShader);
 	VertShaderStageInfo.pName = "main";
 
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo = {};
 	FragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	FragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	FragShaderStageInfo.module = CreatePipelineShader(ctx.fragmentShader);
+	FragShaderStageInfo.module = CreatePipelineShader(config.fragmentShader);
 	FragShaderStageInfo.pName = "main";
 
 	std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
@@ -337,12 +376,24 @@ VkPipeline VulkanApp::CreatePipeline(ShaderContext ctx)
 	ColorBlending.blendConstants[2] = 0.0f; // Optional
 	ColorBlending.blendConstants[3] = 0.0f; // Optional
 
+	//
+	VkPipelineVertexInputStateCreateInfo _pipelineVertexInputState = {};
+	auto bindingDescriptions   = CreatePipelineVertexInputBinding(config);
+	auto attributeDescriptions = CreatePipelineVertexInputAttributes(config);
+	_pipelineVertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	_pipelineVertexInputState.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());
+	_pipelineVertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	_pipelineVertexInputState.pVertexBindingDescriptions   = bindingDescriptions.data();
+	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
+
+
+
 	//Create Pipeline
 	VkGraphicsPipelineCreateInfo pipelineInfo = {};
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	pipelineInfo.stageCount = static_cast<uint32_t>(ShaderStages.size());
 	pipelineInfo.pStages = ShaderStages.data();
-	pipelineInfo.pVertexInputState = VertexInputInfo.GetPipelineInputAssmeblyStateCreateInfo();
+	pipelineInfo.pVertexInputState = &_pipelineVertexInputState;
 	pipelineInfo.pInputAssemblyState = &InputAssembly;
 
 	pipelineInfo.renderPass = _vkRenderPass;
@@ -365,16 +416,6 @@ VkPipeline VulkanApp::CreatePipeline(ShaderContext ctx)
 	return vkPipeline;
 }
 
-VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
-{
-	VkShaderModule result;
-	VkShaderModuleCreateInfo shaderMod = {};
-	shaderMod.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	shaderMod.codeSize = byteCode.size;
-	shaderMod.pCode = byteCode.byteCode;
-	auto err = vkCreateShaderModule(_pLogicalDevice->GetHandle(), &shaderMod, nullptr, &result);
-	AssertVulkanSuccess(err);
 
-}
 
 
