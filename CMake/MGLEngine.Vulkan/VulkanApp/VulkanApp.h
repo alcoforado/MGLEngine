@@ -34,6 +34,7 @@
 			void CreateSwapChainImageViews();
 			void CreateRenderPass();
 			void CreateFramebuffers();
+			void InitShaders();
 			void CreatePipelines();
 
 		private:

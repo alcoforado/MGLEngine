@@ -188,6 +188,13 @@ void MGL::VulkanApp::CreateFramebuffers() {
 	}
 }
 
+void MGL::VulkanApp::InitShaders() {
+	for (auto& pair : _shaders) {
+		ShaderContext& ctx=pair.second;
+		ctx.shader.init(ctx.options);
+	}
+}
+
 void MGL::VulkanApp::CreatePipelines()
 {
 
