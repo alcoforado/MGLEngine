@@ -46,7 +46,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanMemoryProperties.cpp" "VulkanContext/VulkanMemoryProperties.h"  "Window/MWindow.cpp"
 "VulkanUtils.cpp" "VulkanUtils.h" "MemoryManager/IMappedMemory.h" "MemoryManager/VulkanBuffer.h" "MemoryManager/VulkanGPUBuffer.h" 
 "MemoryManager/VulkanMappedAutoSyncBuffer.h" "MemoryManager/VulkanMappedBuffer.h" "MemoryManager/VulkanMemoryManager.cpp" 
-"MemoryManager/VulkanMemoryManager.h" "RenderPipeline/Compiler.cpp" "RenderPipeline/Compiler.h" "RenderPipeline/FragmentShaderByteCode.cpp" 
+"MemoryManager/VulkanMemoryManager.h"   "RenderPipeline/FragmentShaderByteCode.cpp" 
 "RenderPipeline/FragmentShaderByteCode.h" "RenderPipeline/VertexShaderByteCode.cpp" "RenderPipeline/VertexShaderByteCode.h" 
 "RenderPipeline/VulkanCommandBuffer.cpp" "RenderPipeline/VulkanCommandBuffer.h" "RenderPipeline/VulkanCommandPool.cpp" "RenderPipeline/VulkanCommandPool.h" 
 "RenderPipeline/VulkanCommands.cpp" "RenderPipeline/VulkanCommands.h" "DrawTree/VulkanDrawTreeParser.h" "RenderPipeline/VulkanFence.cpp" 
