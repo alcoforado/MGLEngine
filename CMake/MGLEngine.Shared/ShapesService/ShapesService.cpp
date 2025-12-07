@@ -1,6 +1,5 @@
 #include "ShapesService.h"
 #include "MGLEngine.Shared/Topologies/Triangle2D.h"
-#include "MGLEngine.Shared/Painters/VerticeColor2D.h"
 #include <MGLEngine.Shared/Utils/collection_functions.h>
 #include "ShapeScene.h"
 #include "MGLEngine.Shared/Utils/JsonParser/mjson.h"
@@ -15,7 +14,6 @@ void ShapesService::registerTopologies()
 
 void ShapesService::registerPainters2D()
 {
-	_painters2d.insert({ "VerticeColor2D",{[]() {return new VerticeColor2D(); }} });
 }
 
 
