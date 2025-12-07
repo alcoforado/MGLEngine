@@ -1,5 +1,6 @@
 #include <MglEngine.HttpServer\HttpServer.h>
 #include <MGLEngine.Vulkan/Window/MWindow.h>
+
 #include <MGLEngine.Shared\ShapesService\ShapesService.h>
 #include "ShapesController.h"
 #include <thread>
@@ -40,9 +41,7 @@ int main()
     
     MGL::Window window;
    window.SetSize(800, 800);
-   std::thread(RunServer,&window).detach();
   
-   window.EasyRun();
 
     return -1;
 }

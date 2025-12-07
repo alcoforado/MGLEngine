@@ -2,6 +2,7 @@
 #include<algorithm>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
+
 using namespace MGL;
 MGL::VulkanApp::~VulkanApp() {
 	// Destructor implementation (if needed)
@@ -33,6 +34,7 @@ void MGL::VulkanApp::Init() {
 		
 }
 
+#pragma region Init Aux Functions
 void MGL::VulkanApp::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
@@ -188,14 +190,17 @@ void MGL::VulkanApp::CreateFramebuffers() {
 	}
 }
 
-void MGL::VulkanApp::InitShaders() {
-	for (auto& pair : _shaders) {
-		ShaderConfiguration options = {};
-		ShaderContext& ctx = pair.second;
-		ctx.shader.Init(options);
-		ctx.pipeline = CreatePipeline(options);
+void MGL::VulkanApp::CreateVulkanMemoryAllocator()
+{
+	VmaAllocatorCreateInfo allocatorCreateInfo = {};
+	allocatorCreateInfo.flags = VMA_ALLOCATOR_CREATE_EXT_MEMORY_BUDGET_BIT;
+	allocatorCreateInfo.vulkanApiVersion = VK_API_VERSION_1_0;
+	allocatorCreateInfo.physicalDevice = _pPhysicalDevice->GetHandle();
+	allocatorCreateInfo.device = _pLogicalDevice->GetHandle();
+	allocatorCreateInfo.instance = _pVulkanInstance->GetHandle();
 
-	}
+	VkResult err = vmaCreateAllocator(&allocatorCreateInfo, &_allocator);
+	AssertVulkanSuccess(err);
 }
 
 int deviceScore(const VulkanPhysicalDevice& device) {
@@ -241,6 +246,20 @@ void MGL::VulkanApp::ChoosePhysicalDevice()
 	});
 	_pPhysicalDevice =  &(v[suitableDevices[0]]);
 }
+#pragma endregion
+
+void MGL::VulkanApp::InitShaders() {
+	for (auto& pair : _shaders) {
+		ShaderContext& ctx = pair.second;
+		
+		ShaderConfiguration options = {};
+		ctx.shader.Init(options);
+		ctx.pipeline = CreatePipeline(options);
+		ctx.vBuffer = CreateVertexBuffer(ctx.GetVerticesDataSize());
+	}
+}
+
+#pragma region Init Shaders Aux Functions
 
 
 std::vector<VkVertexInputBindingDescription> MGL::VulkanApp::CreatePipelineVertexInputBinding(const ShaderConfiguration& config)
@@ -280,6 +299,29 @@ VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
 	AssertVulkanSuccess(err);
 	return result;
 
+}
+
+VulkanBuffer MGL::VulkanApp::CreateVertexBuffer(uint64_t sizeInBytes)
+{
+	VmaAllocationCreateInfo allocInfo = {};
+	allocInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
+
+	VkBufferCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+	createInfo.size = sizeInBytes;
+	createInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+
+
+	VkBuffer buffer;
+	VmaAllocation allocation;
+	VmaAllocationInfo allocInfoResult;
+	vmaCreateBuffer(_allocator, &createInfo, &allocInfo, &buffer, &allocation, &allocInfoResult);
+	VulkanBuffer vb;
+	vb.buffer = buffer;
+	vb.size = (uint32_t)sizeInBytes;
+	vb.allocation = allocation;
+	vb.deviceMemoryTypeIndex = this->_pPhysicalDevice->GetMemoryProperties()[allocInfoResult.memoryType].DeviceLocal;
+	return vb;
 }
 
 VkPipeline VulkanApp::CreatePipeline(const ShaderConfiguration& config)
@@ -417,5 +459,5 @@ VkPipeline VulkanApp::CreatePipeline(const ShaderConfiguration& config)
 }
 
 
-
+#pragma endregion
 

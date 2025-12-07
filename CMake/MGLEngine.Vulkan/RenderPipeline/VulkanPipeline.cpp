@@ -5,10 +5,8 @@
 #include "../VulkanUtils.h"
 #include <cassert>
 #include <MGLEngine.Shared/Utils/Exception.h>
-#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSet.h>
-#include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
 
-VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment, std::vector<IVulkanRenderSlot*> allSlots)
+VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderByteCode& vertexCode,FragmentShaderByteCode& fragment)
 	:_swapChain(pSwapChain),
 	RenderPass(pSwapChain->GetLogicalDevice()),
 	_pLogicalDevice((pSwapChain->GetLogicalDevice()))
@@ -109,7 +107,6 @@ VulkanPipeline::VulkanPipeline(const VulkanSwapChain *pSwapChain, VertexShaderBy
 		this->OnSwapChainReload(pSwapChain);
 	});
 
-	_pSlotManager = new SlotManager(this, allSlots);
 
 
 }
@@ -140,10 +137,7 @@ void VulkanPipeline::Load()
 	pipelineInfo.pColorBlendState = &ColorBlending;
 	pipelineInfo.pDynamicState = nullptr;
 
-	//Create Layout
-	if (!_pSlotManager->IsLoaded())
-		_pSlotManager->Load();
-	pipelineInfo.layout = _pSlotManager->GetVkPipelineLayoutHandle();
+	
 	
 	auto renderHandle = RenderPass.Load();
 	pipelineInfo.renderPass = renderHandle;

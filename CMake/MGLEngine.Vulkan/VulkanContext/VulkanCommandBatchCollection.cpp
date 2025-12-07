@@ -1,7 +1,7 @@
 
 #include "VulkanCommandBatchCollection.h"
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
-
+#include <MGLEngine.Vulkan/VulkanUtils.h>
 void VulkanCommandBatchCollection::AddBatch(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages)
 {
 

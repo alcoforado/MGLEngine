@@ -126,7 +126,6 @@ VulkanInstance::VulkanInstance(std::string appName, bool enableDebug)
 	}
 
 
-	AssertionFailureException::SetOutput(&vulkanError);
 
 	_vkPhysicalDevices = ComputePhysicalDevices();
 
@@ -205,7 +204,6 @@ VulkanInstance::VulkanInstance()
 
 #endif
 
-	AssertionFailureException::SetOutput(&vulkanError);
 
 	_vkPhysicalDevices = ComputePhysicalDevices();
 

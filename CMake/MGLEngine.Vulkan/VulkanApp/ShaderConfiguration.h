@@ -1,4 +1,4 @@
-#include <MGLEngine.Shared/Shaders/IShaderConfiguration.h>
+#include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
 
 struct ShaderByteCode {
 	uint32_t* byteCode;

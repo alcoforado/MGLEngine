@@ -5,7 +5,6 @@
 #include "VulkanQueue.h"
 #include "VulkanSurface.h"
 #include <MGLEngine.Shared/Utils/opointer.h>
-#include <MGLEngine.Vulkan/MemoryManager/VulkanMemoryManager.h>
 class VulkanCommandPool;
 class VulkanDescriptorSetPool;
 struct GLFWwindow;
@@ -21,7 +20,6 @@ private:
 	std::vector<VkImage> _images;
 	OPointer<VulkanCommandPool> _pCommandPool;
 	OPointer<VulkanDescriptorSetPool> _pDescriptorSetPool;
-	OPointer<VulkanMemoryManager> _pMemoryManager;
 	
 public:
 	VulkanLogicalDevice(const VulkanPhysicalDevice& physicalDevice, uint32_t graphicQueueFamilyIndex);
@@ -36,7 +34,6 @@ public:
 
 	VulkanCommandPool* GetGraphicCommandPool();
 	VulkanDescriptorSetPool* GetDescriptorSetPool() const { return _pDescriptorSetPool; }
-	VulkanMemoryManager* GetMemoryManager() const { return _pMemoryManager; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;
 	VulkanSemaphore* CreateSemaphore() const;

@@ -8,7 +8,6 @@
 #include <cassert>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
-#include <MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetPool.h>
 VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDevice,uint32_t graphicQueueFamilyIndex)
 	:_physicalDevice(physicalDevice)
 {
@@ -65,9 +64,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 		}
 	}
 
-	_pDescriptorSetPool = new VulkanDescriptorSetPool(this);
 
-	_pMemoryManager = new VulkanMemoryManager(*this, 100000);
 }
 
 

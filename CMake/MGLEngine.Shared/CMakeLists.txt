@@ -4,7 +4,7 @@ project(MGLEngine.Shared)
 
 
 # Create the executable
-add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h" "DrawTree/DrawInfo.h" "DrawTree/DrawTree.h" "DrawTree/IRenderResource.h" "Interfaces/IPainter2D.h" 
+add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h"    "Interfaces/IPainter2D.h" 
 "Interfaces/ISerializable.h" "Interfaces/IShaderDataWriter.h" "Interfaces/IShape3D.cpp" "Interfaces/IShape3D.h" "Interfaces/IShapeHandle.h" "Interfaces/ITopology2D.cpp" 
 "Interfaces/ITopology2D.h" "Interfaces/ITopology3D.cpp" "Interfaces/ITopology3D.h" "Painters/CyclicColor.h" "Painters/VerticeColor2D.cpp" "Painters/VerticeColor2D.h" 
 "RenderPipeline/ICompiler.cpp" "RenderPipeline/ICompiler.h" "Shaders/IShader2D.h" "ShapesService/ShapeScene.cpp" "ShapesService/ShapeScene.h" "ShapesService/ShapesService.cpp" 
@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC  "IMGLContainer.h" "IMGLEngine.h" "DrawTree/D
 "Utils/UniqueNameGenerator.h" "Utils/Arrays/ArrayFunctions.h" "Utils/Arrays/ArraySelect.cpp" "Utils/Arrays/ArraySelect.h" "Utils/Arrays/FlagBitVector.h" "Utils/Arrays/IArray.h" 
 "Utils/Arrays/Indices.cpp" "Utils/Arrays/Indices.h" "Utils/DefragArray/ArrayRegion.h" "Utils/DefragArray/CopyPlanSequenceDetail.h" "Utils/DefragArray/CopyRegion.h" 
 "Utils/DefragArray/DefragArray.h" "Utils/JsonParser/mjson.cpp" "Utils/JsonParser/mjson.h" "VerticeData/Color2D.h" "Window/ICanvas.h" "Window/IWindow.h" "Window/IWindowEventHandler.cpp" 
-"Window/IWindowEventHandler.h" "Utils/CommitTag.h" "Utils/CommitTag.cpp"  "Shaders/IShader.h" "Shaders/IShaderConfiguration.h")
+"Window/IWindowEventHandler.h" "Utils/CommitTag.h" "Utils/CommitTag.cpp"  "Interfaces/IShader.h" "Interfaces/IShaderConfiguration.h" "Interfaces/IMesh.h" "Interfaces/IDrawingObject.h" "Utils/Arrays/InterleavedMemoryStream.h" "Utils/Arrays/InterleavedMemoryStream.cpp" "Utils/Arrays/IndicesMemoryStream.h" "Utils/Arrays/IndicesMemoryStream.cpp" "Interfaces/IAppConfiguration.h")
 
 
 

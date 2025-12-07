@@ -1,3 +1,4 @@
+#include <vma/vk_mem_alloc.h>
 #include <functional>
 #include <memory>
 #include  <MGLEngine.Vulkan/Window/MWindow.h>
@@ -5,6 +6,7 @@
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
+#include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include  "SwapChainData.h"
 #include <unordered_map>
 #include "ShaderContext.h"
@@ -19,7 +21,7 @@
 			std::unordered_map<std::string, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;
-			
+			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
 			
 			//configuraion options
@@ -34,6 +36,7 @@
 			void CreateSwapChainImageViews();
 			void CreateRenderPass();
 			void CreateFramebuffers();
+			void CreateVulkanMemoryAllocator();
 			void InitShaders();
 
 		private:
@@ -42,14 +45,14 @@
 			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const ShaderConfiguration& config);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
-
+			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		public:
 			void WindowConfig(std::function<void(WindowOptions&)>& config)
 			{
 				config(_windowOptions);
 			}
 
-			void VulkanConfig(std::function<void(VulkanConfiguration&)>& config)
+			void VulkanConfig(std::function<void(IAppConfiguration&)>& config)
 			{
 				config(_vulkanConfiguration);
 			}

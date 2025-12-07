@@ -2,8 +2,7 @@
 #include "VulkanCommandPool.h"
 #include <glm/vec4.hpp>
 #include "VulkanSemaphore.h"
-#include <MGLEngine.Vulkan/MemoryManager/VulkanBuffer.h>
-
+#include <string>
 class VulkanDescriptorSet;
 class VulkanPipeline;
 class VulkanFramebuffer;

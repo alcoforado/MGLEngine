@@ -24,3 +24,20 @@ VulkanMemoryAllocator::~VulkanMemoryAllocator()
 {
 	vmaDestroyAllocator(_allocator);
 }
+
+VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaMemoryUsage vmaUsage, uint64_t sizeInBytes)
+{
+	VmaAllocationCreateInfo allocInfo = {};
+	allocInfo.usage = vmaUsage;
+
+	VkBuffer buffer;
+	VmaAllocation allocation;
+	VmaAllocationInfo allocInfoResult;
+	vmaCreateBuffer(_allocator, pCreateInfo, &allocInfo, &buffer, &allocation, &allocInfoResult);
+	VulkanBuffer vb;
+	vb.buffer = buffer;
+	vb.size = (uint32_t)sizeInBytes;
+	vb.allocation = allocation;
+	vb.deviceMemoryTypeIndex = allocInfoResult.memoryType;
+	return vb;
+}

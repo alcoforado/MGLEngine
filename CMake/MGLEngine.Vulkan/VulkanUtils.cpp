@@ -36,7 +36,7 @@ void AssertVulkanSuccess(VkResult res)
 {
 	if (res != VK_SUCCESS)
 	{
-		throw new Exception("Error Result: %s %s", MapVkResultToString(res),boost::stacktrace::stacktrace());
+		throw new Exception("Error Result: %s %s", MapVkResultToString(res));
 	}
 }
 std::string MapVkResultToString(VkResult result)  

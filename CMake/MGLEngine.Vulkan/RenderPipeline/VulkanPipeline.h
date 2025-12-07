@@ -7,8 +7,6 @@
 #include <glm/detail/type_vec4.hpp>
 #include "VulkanCommandBuffer.h"
 #include "VulkanInputLayout.h"
-#include "MGLEngine.Vulkan/RenderResources/VulkanDescriptorSetLayout.h"
-#include "MGLEngine.Vulkan/RenderResources/SlotManager.h"
 class VulkanDescriptorSet;
 
 class VulkanCommandPool;
@@ -24,7 +22,6 @@ class VulkanPipeline
 	bool _isLoaded;
 	VkPipeline _vkPipeline;
 	VkPipelineLayoutCreateInfo PipelineLayoutInfo;
-	SlotManager *_pSlotManager;
 public:
 	VkPipelineShaderStageCreateInfo FragShaderStageInfo;
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo;
@@ -45,7 +42,7 @@ public:
 	VkRect2D Scissor;
 	OPointer<VulkanSwapChainFramebuffers> _pFramebuffers;
 
-	VulkanPipeline(const VulkanSwapChain *pSwapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment, std::vector<IVulkanRenderSlot*> allSlots);
+	VulkanPipeline(const VulkanSwapChain *pSwapChain,VertexShaderByteCode& vertexCode, FragmentShaderByteCode& fragment);
 	VkPipeline GetHandle() const { return _vkPipeline; }
 
 	void Load();
@@ -58,7 +55,6 @@ public:
 	
 	void OnSwapChainReload(const VulkanSwapChain * pNewSwapChain);
 	
-	SlotManager* GetSlotManager() { return _pSlotManager; }
 
 	
 

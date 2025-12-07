@@ -2,7 +2,7 @@
 #include "VulkanLogicalDevice.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanFence.h"
-
+#include "MGLEngine.Vulkan/VulkanUtils.h"
 VulkanQueue::VulkanQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
 	:_logicalDevice(logicalDevice),_familyIndex(familyIndex),_queueIndex(queueIndex)
 {
