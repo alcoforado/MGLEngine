@@ -31,12 +31,12 @@ class ShaderConfiguration: public IShaderConfiguration {
 		}
 	
 	public: //virtual overrides for IShaderConfiguration 
-		void SetVerticeShader(uint32_t* bytecode, uint32_t size)
+		virtual void SetVerticeShader(uint32_t* bytecode, uint32_t size)
 		{
 			verticeShader.byteCode = bytecode;
 			verticeShader.size = size;
 		}
-		void SetFragmentShader(uint32_t* bytecode, uint32_t size)
+		virtual void SetFragmentShader(uint32_t* bytecode, uint32_t size)
 		{
 			fragmentShader.byteCode = bytecode;
 			fragmentShader.size = size;
@@ -44,7 +44,7 @@ class ShaderConfiguration: public IShaderConfiguration {
 
 	
 
-		void DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)
+		virtual void DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)
 		{
 			VertexAttribute attr = {
 				.name = name,
@@ -56,7 +56,7 @@ class ShaderConfiguration: public IShaderConfiguration {
 			currentOffset += attr.size;
 			vertexAttributes.push_back(attr);
 		}
-		void DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)
+		virtual void DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)
 		{
 			VertexAttribute attr = {
 				.name = name,

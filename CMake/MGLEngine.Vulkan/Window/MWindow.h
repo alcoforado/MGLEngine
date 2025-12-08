@@ -3,30 +3,15 @@
 #include <memory>
 #include <list>
 #include <vulkan/vulkan.h>
+#include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 class IWindowEventHandler;
 struct GLFWwindow;
 
 namespace MGL {
 	using std::string;
 	
-	class IWindowOptions {
-	public:
-		virtual void SetSize(int width, int height) = 0;
-		virtual void SetFullScreen() = 0;
-		virtual void SetTitle(string str) = 0;
-	};
-
-	class  WindowOptions: IWindowOptions {
-	public:
-		int Height=800; 
-		int Width=800;
-		bool FullScreen=false;
-		string Title;
-	public: 
-		virtual void SetSize(int width, int height) { Height = height; Width = width; }
-		virtual void SetFullScreen() { FullScreen = true; }
-		virtual void SetTitle(string str) { Title = str; }
-	};
+	
+	
 
 	
 

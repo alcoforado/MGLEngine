@@ -2,16 +2,16 @@
 #include <functional>
 #include <memory>
 #include  <MGLEngine.Vulkan/Window/MWindow.h>
-#include <MGLEngine.Vulkan/VulkanApp/VulkanConfiguration.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include  "SwapChainData.h"
+#include <MGLEngine.Shared/Interfaces/IVulkanApp.h>
+#include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <unordered_map>
-#include "ShaderContext.h"
+#include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
  namespace MGL {
-	class VulkanApp {
+	class VulkanApp: public IApp  {
 		private:
 			MGL::Window* _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
@@ -26,7 +26,7 @@
 			
 			//configuraion options
 			WindowOptions _windowOptions;
-			VulkanConfiguration _vulkanConfiguration;
+			AppConfiguration _vulkanConfiguration;
 
 		private:
 			void ChoosePhysicalDevice();
@@ -47,12 +47,12 @@
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		public:
-			void WindowConfig(std::function<void(WindowOptions&)>& config)
+			virtual void WindowConfig(const std::function<void(IWindowOptions&)>& config)
 			{
 				config(_windowOptions);
 			}
 
-			void VulkanConfig(std::function<void(IAppConfiguration&)>& config)
+			virtual void AppConfig(const std::function<void(IAppConfiguration&)>& config)
 			{
 				config(_vulkanConfiguration);
 			}
@@ -60,7 +60,7 @@
 			VulkanApp();
 		
 			~VulkanApp();
-			void Init();
+			virtual void Init();
 			
 	};
 }

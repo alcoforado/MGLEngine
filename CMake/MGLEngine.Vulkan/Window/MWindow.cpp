@@ -25,7 +25,7 @@ void MGL::Window::window_mouse_move_callback(GLFWwindow* window, double x, doubl
 }
 
 
-MGL::Window::Window(const MGL::WindowOptions &options)
+MGL::Window::Window(const WindowOptions &options)
 {
 	_width = options.Width;
 	_height = options.Height;

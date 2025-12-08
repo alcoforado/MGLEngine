@@ -1,5 +1,5 @@
 #include "ShapesService.h"
-#include "MGLEngine.Shared/Topologies/Triangle2D.h"
+#include "MGLEngine.Shared/Mesh/Triangle2D.h"
 #include <MGLEngine.Shared/Utils/collection_functions.h>
 #include "ShapeScene.h"
 #include "MGLEngine.Shared/Utils/JsonParser/mjson.h"
