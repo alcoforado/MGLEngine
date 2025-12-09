@@ -1,6 +1,10 @@
 #pragma once
 #include <cstdint>
 #include <vector>
+#include <array>
+#include <MGLEngine.Shared/Utils/eassert.h>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 enum ElementType {
 	TYPE_UINT=0,
@@ -44,10 +48,9 @@ public:
 	InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum ElementType elemType);
 	
 	InterleavedMemoryStream& operator<<(float value);
-
+	InterleavedMemoryStream& operator<<(const glm::vec2 &v);
+	InterleavedMemoryStream& operator<<(const glm::vec4 &v);
 	InterleavedMemoryStream& operator<<(const std::vector<float>&v);
-	
-
 	~InterleavedMemoryStream() {}
 	
 };

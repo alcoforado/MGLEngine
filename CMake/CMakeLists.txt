@@ -93,6 +93,13 @@ find_package(Vulkan REQUIRED)
 include_directories("${VCPKG_INCLUDE_DIR}")
 
 
+macro(print_all_variables)
+    get_cmake_property(_variableNames VARIABLES)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
+endmacro()
+print_all_variables()
 
 
 #message("Configuring MGLEngine.HttpServer")
@@ -110,15 +117,8 @@ add_subdirectory(MGLEngine.Core)
 
 
 
-macro(print_all_variables)
-    get_cmake_property(_variableNames VARIABLES)
-    foreach (_variableName ${_variableNames})
-        message(STATUS "${_variableName}=${${_variableName}}")
-    endforeach()
-endmacro()
 
 
-print_all_variables()
 
 
 

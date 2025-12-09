@@ -1,7 +1,7 @@
 #include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
 
 struct ShaderByteCode {
-	uint32_t* byteCode;
+	const uint32_t* byteCode;
 	uint32_t size;
 	ShaderByteCode() {}
 };
@@ -31,12 +31,12 @@ class ShaderConfiguration: public IShaderConfiguration {
 		}
 	
 	public: //virtual overrides for IShaderConfiguration 
-		virtual void SetVerticeShader(uint32_t* bytecode, uint32_t size)
+		virtual void SetVerticeShader(const uint32_t* bytecode, uint32_t size) override
 		{
 			verticeShader.byteCode = bytecode;
 			verticeShader.size = size;
 		}
-		virtual void SetFragmentShader(uint32_t* bytecode, uint32_t size)
+		virtual void SetFragmentShader(const uint32_t* bytecode, uint32_t size) override 
 		{
 			fragmentShader.byteCode = bytecode;
 			fragmentShader.size = size;

@@ -1,10 +1,14 @@
 #include <cstdint>
+#include <MGLEngine.Shared/Interfaces/IRenderDataContext.h>
+#include <MGLEngine.Shared/Interfaces/IDrawContext.h>
+#pragma once
 class IDrawingObject
 {
 	public:
-		virtual uint32_t numberOfVertices() = 0;
-		virtual uint32_t numberOfIndices() = 0;
-
-		virtual ~IDrawingObject() {}
-	virtual void Draw() = 0;
+		virtual uint32_t NVertices() = 0;
+		virtual uint32_t NIndices() = 0;
+		virtual void RenderData(IRenderDataContext &context ) = 0;
+		virtual void Draw(IDrawContext& context) = 0;
+		virtual std::type_info ShaderType() = 0;
 };
+

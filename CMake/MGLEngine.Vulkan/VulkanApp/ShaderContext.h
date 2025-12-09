@@ -15,7 +15,7 @@ public:
 	uint32_t GetVerticesDataSize() const {
 		uint32_t nVertices = 0;
 		for (auto &elem:objects) {
-			nVertices += elem->numberOfVertices();
+			nVertices += elem->NVertices();
 		}
 		return nVertices * options.GetTotalAttributesSize();
 	}
