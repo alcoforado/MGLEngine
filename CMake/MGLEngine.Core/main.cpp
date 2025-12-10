@@ -17,7 +17,7 @@ int main()
 	app.AppConfig([](IAppConfiguration &config) {
 		config.EnableDebugLayer(true);
 		config.EnableVSync(true);
-		config.AddShader("ShaderColor2D", new ShaderColor2D());
+		config.AddShader(new ShaderColor2D());
 	});
 
 

@@ -1,6 +1,7 @@
 #include <MGLEngine.Shared/Interfaces/IMesh.h>
 #include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
 #include <glm/glm.hpp>
+#include <typeinfo>
 class VertexColor2D : public IDrawingObject {
 private:
 	IMesh& _mesh;

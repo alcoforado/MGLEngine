@@ -4,7 +4,7 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <typeinfo>
 #include <typeindex>
-
+#include <MGLEngine.Shared/Utils/eassert.h>
 class IAppConfiguration {
 	public:
 		virtual void EnableDebugLayer(bool flag) = 0;
@@ -26,7 +26,10 @@ public:
 public:
 	virtual void EnableDebugLayer(bool flag) { EnableDebug = flag; }
 	virtual void AppName(std::string name) { Name = name; }
-	virtual void AddShader(IShader* pShader) { Shaders[id] = pShader; }
+	virtual void AddShader(IShader* pShader) {
+		eassert(pShader != nullptr, "Null pointer passed as shader");
+		Shaders[std::type_index(typeid(*pShader))] = pShader;
+	}
 	virtual void SetDoubleBuffer() { SwapChainSize = 2; }
 	virtual void SetTrippleBuffer() { SwapChainSize = 3; }
 	virtual void EnableVSync(bool flag) { VSync = flag; }
