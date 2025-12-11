@@ -8,7 +8,7 @@ int main()
 {
 	MGLContainer container;
 	auto pApp = container.GetApp();
-	IApp &app = *pApp;
+	IAppBuilder &app = *pApp;
 
 	app.WindowConfig([](IWindowOptions &options) {
 		options.SetSize(800,800);
@@ -17,7 +17,7 @@ int main()
 	app.AppConfig([](IAppConfiguration &config) {
 		config.EnableDebugLayer(true);
 		config.EnableVSync(true);
-		config.AddShader(new ShaderColor2D());
+		config.AddShader<ShaderColor2D>();
 	});
 
 

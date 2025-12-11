@@ -6,12 +6,13 @@
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include <MGLEngine.Shared/Interfaces/IVulkanApp.h>
+#include <MGLEngine.Shared/Interfaces/IAppBuilder.h>
+#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
  namespace MGL {
-	class VulkanApp: public IApp  {
+	class VulkanEngine: public IMGLEngine  {
 		private:
 			MGL::Window* _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
@@ -47,20 +48,13 @@
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		public:
-			virtual void WindowConfig(const std::function<void(IWindowOptions&)>& config)
-			{
-				config(_windowOptions);
-			}
+			
 
-			virtual void AppConfig(const std::function<void(IAppConfiguration&)>& config)
-			{
-				config(_vulkanConfiguration);
-			}
-
-			VulkanApp();
+			~VulkanEngine();
 		
-			~VulkanApp();
-			virtual void Init();
+			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
+			
+			
 			
 	};
 }

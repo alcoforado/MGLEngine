@@ -1,11 +1,12 @@
 #pragma once
 #include <functional>
+#include <memory>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 #include <MGLEngine.Shared/Interfaces/IAppConfiguration.h>
-
-class IApp {
+#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
+class IAppBuilder {
 public:
 	virtual void WindowConfig(const std::function<void(IWindowOptions&)>& config) = 0;
 	virtual void AppConfig(const std::function<void(IAppConfiguration&)>& config) = 0;
-	virtual void Init()=0;
+	virtual std::shared_ptr<IMGLEngine> Init()=0;
 };

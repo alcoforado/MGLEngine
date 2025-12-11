@@ -1,45 +1,38 @@
-	#include "VulkanApp.h"
+#include "VulkanEngine.h"
 #include<algorithm>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 
 using namespace MGL;
-MGL::VulkanApp::~VulkanApp() {
+MGL::VulkanEngine::~VulkanEngine() {
 	// Destructor implementation (if needed)
 }
 
 
-MGL::VulkanApp::VulkanApp() {
-	//default values for options
-	_windowOptions.Width = 800;
-	_windowOptions.Height = 60;
-	_windowOptions.FullScreen= false;
-	_windowOptions.Title = "Vulkan Application";
-	_pWindow = nullptr;
-	_pVulkanInstance = nullptr;
+MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
+	: _windowOptions(woptions), _vulkanConfiguration(coptions)
+{
+	_pWindow = new Window(_windowOptions);
+	_pVulkanInstance = new VulkanInstance(
+		_vulkanConfiguration.Name,
+		_vulkanConfiguration.EnableDebug);
+	ChoosePhysicalDevice();
+	CreateVulkanSurface();
+	CreateQueues();
+	CreateSwapChain();
+	CreateSwapChainImageViews();
+	CreateRenderPass();
+	CreateFramebuffers();
 }
 
-void MGL::VulkanApp::Init() {
-		_pWindow = new Window(_windowOptions);
-		_pVulkanInstance = new VulkanInstance(
-			_vulkanConfiguration.Name, 
-			_vulkanConfiguration.EnableDebug);
-		ChoosePhysicalDevice();
-		CreateVulkanSurface();
-		CreateQueues();
-		CreateSwapChain();
-		CreateSwapChainImageViews();
-		CreateRenderPass();
-		CreateFramebuffers();
-		
-}
+
 
 #pragma region Init Aux Functions
-void MGL::VulkanApp::CreateVulkanSurface() {
+void MGL::VulkanEngine::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
 
-void MGL::VulkanApp::CreateQueues() {
+void MGL::VulkanEngine::CreateQueues() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic && family.SupportPresentation;
 	});
@@ -51,7 +44,7 @@ void MGL::VulkanApp::CreateQueues() {
 
 }
 
-void MGL::VulkanApp::CreateSwapChain() {
+void MGL::VulkanEngine::CreateSwapChain() {
 		VkSwapchainCreateInfoKHR createInfo = {};
 		auto capabilities = _pLogicalDevice->GetPhysicalDevice().GetCapabilitiesForSurface(*_pVulkanSurface);
 		uint32_t imageCount = _vulkanConfiguration.SwapChainSize;
@@ -99,7 +92,7 @@ void MGL::VulkanApp::CreateSwapChain() {
 
 }
 
-void MGL::VulkanApp::CreateSwapChainImageViews() {
+void MGL::VulkanEngine::CreateSwapChainImageViews() {
 	//Get The imageds handlers
 	std::vector<VkImage> images;
 	uint32_t imagesCount;
@@ -139,7 +132,7 @@ void MGL::VulkanApp::CreateSwapChainImageViews() {
 	}
 }
 
-void MGL::VulkanApp::CreateRenderPass() 
+void MGL::VulkanEngine::CreateRenderPass() 
 {
 	VkAttachmentDescription colorAttachment{};
 	colorAttachment.format = _swapChain.imageFormat;
@@ -169,7 +162,7 @@ void MGL::VulkanApp::CreateRenderPass()
 	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_vkRenderPass);
 }
 
-void MGL::VulkanApp::CreateFramebuffers() {
+void MGL::VulkanEngine::CreateFramebuffers() {
 	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
 		VkImageView attachments[] = {
 			_swapChain.frames[i].imageView
@@ -190,7 +183,7 @@ void MGL::VulkanApp::CreateFramebuffers() {
 	}
 }
 
-void MGL::VulkanApp::CreateVulkanMemoryAllocator()
+void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
 	VmaAllocatorCreateInfo allocatorCreateInfo = {};
 	allocatorCreateInfo.flags = VMA_ALLOCATOR_CREATE_EXT_MEMORY_BUDGET_BIT;
@@ -227,7 +220,7 @@ int deviceScore(const VulkanPhysicalDevice& device) {
 	return score;
 }
 
-void MGL::VulkanApp::ChoosePhysicalDevice()
+void MGL::VulkanEngine::ChoosePhysicalDevice()
 {
 	auto &v=_pVulkanInstance->GetPhysicalDevices();
 	std::vector<int> suitableDevices;
@@ -248,7 +241,7 @@ void MGL::VulkanApp::ChoosePhysicalDevice()
 }
 #pragma endregion
 
-void MGL::VulkanApp::InitShaders() {
+void MGL::VulkanEngine::InitShaders() {
 	for (auto& pair : _shaders) {
 		ShaderContext& ctx = pair.second;
 		
@@ -262,7 +255,7 @@ void MGL::VulkanApp::InitShaders() {
 #pragma region Init Shaders Aux Functions
 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanApp::CreatePipelineVertexInputBinding(const ShaderConfiguration& config)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(const ShaderConfiguration& config)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
@@ -273,7 +266,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanApp::CreatePipelineVerte
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanApp::CreatePipelineVertexInputAttributes(const ShaderConfiguration& config)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(const ShaderConfiguration& config)
 {
 	std::vector<VkVertexInputAttributeDescription> result;
 	for (const auto& attr : config.vertexAttributes)
@@ -288,7 +281,7 @@ std::vector<VkVertexInputAttributeDescription> MGL::VulkanApp::CreatePipelineVer
 	return result;
 }
 
-VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
+VkShaderModule VulkanEngine::CreatePipelineShader(ShaderByteCode byteCode)
 {
 	VkShaderModule result;
 	VkShaderModuleCreateInfo shaderMod = {};
@@ -301,7 +294,7 @@ VkShaderModule VulkanApp::CreatePipelineShader(ShaderByteCode byteCode)
 
 }
 
-VulkanBuffer MGL::VulkanApp::CreateVertexBuffer(uint64_t sizeInBytes)
+VulkanBuffer MGL::VulkanEngine::CreateVertexBuffer(uint64_t sizeInBytes)
 {
 	VmaAllocationCreateInfo allocInfo = {};
 	allocInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
@@ -324,7 +317,7 @@ VulkanBuffer MGL::VulkanApp::CreateVertexBuffer(uint64_t sizeInBytes)
 	return vb;
 }
 
-VkPipeline VulkanApp::CreatePipeline(const ShaderConfiguration& config)
+VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
 	
 

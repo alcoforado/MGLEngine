@@ -4,32 +4,48 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <typeinfo>
 #include <typeindex>
+#include <memory>
 #include <MGLEngine.Shared/Utils/eassert.h>
 class IAppConfiguration {
-	public:
+	
+
+protected:
+	std::map<std::type_index, IShader*> Shaders;
+public:
 		virtual void EnableDebugLayer(bool flag) = 0;
 		virtual void AppName(std::string name) = 0;
-		virtual void AddShader(IShader* pShader) = 0;
 		virtual void SetDoubleBuffer() = 0;
 		virtual void SetTrippleBuffer() = 0;
 		virtual void EnableVSync(bool flag) = 0;
+		virtual void AddShader(IShader *pShader)
+		{
+			eassert(pShader != nullptr, "Shader pointer is null");
+			std::type_index typeIndex(typeid(*pShader));
+			eassert(Shaders.find(typeIndex) == Shaders.end(), "Shader of this type already added");
+			Shaders[typeIndex] = pShader;
+		}
+		
+		
+		template<typename T>
+		void AddShader()
+		{
+			IShader* pShader = new T();
+			AddShader(pShader);
+		}
 };
 
 class AppConfiguration : public IAppConfiguration {
 
 public:
 	std::string Name;
-	std::map<std::type_index, IShader*> Shaders;
+	
 	bool EnableDebug = false;
 	unsigned SwapChainSize = 0; //number of images buffers in the swap chain
 	bool VSync = true;
 public:
 	virtual void EnableDebugLayer(bool flag) { EnableDebug = flag; }
 	virtual void AppName(std::string name) { Name = name; }
-	virtual void AddShader(IShader* pShader) {
-		eassert(pShader != nullptr, "Null pointer passed as shader");
-		Shaders[std::type_index(typeid(*pShader))] = pShader;
-	}
+	
 	virtual void SetDoubleBuffer() { SwapChainSize = 2; }
 	virtual void SetTrippleBuffer() { SwapChainSize = 3; }
 	virtual void EnableVSync(bool flag) { VSync = flag; }

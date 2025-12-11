@@ -1,5 +1,5 @@
 #pragma once
-#include <MGLEngine.Shared\Interfaces\IVulkanApp.h>
+#include <MGLEngine.Shared\Interfaces\IAppBuilder.h>
 #include <memory>
 
 	class MGLContainer
@@ -7,7 +7,7 @@
 	public:
 
 		
-		std::shared_ptr<IApp> GetApp();
+		std::shared_ptr<IAppBuilder> GetApp();
 
 	};
 

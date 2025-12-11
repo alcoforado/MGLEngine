@@ -1,3 +1,4 @@
+#pragma once
 #include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
 
 struct ShaderByteCode {
