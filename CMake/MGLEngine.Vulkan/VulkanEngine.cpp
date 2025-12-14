@@ -23,6 +23,7 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateSwapChainImageViews();
 	CreateRenderPass();
 	CreateFramebuffers();
+	InitShaders();
 }
 
 
@@ -242,25 +243,29 @@ void MGL::VulkanEngine::ChoosePhysicalDevice()
 #pragma endregion
 
 void MGL::VulkanEngine::InitShaders() {
-	for (auto& pair : _shaders) {
-		ShaderContext& ctx = pair.second;
+	for (auto& pair : _vulkanConfiguration.GetShadersMap()) {
+		ShaderContext ctx(*pair.second);
+		
 		
 		ShaderConfiguration options = {};
+		
 		ctx.shader.Init(options);
+		ctx.options = options;
 		ctx.pipeline = CreatePipeline(options);
-		ctx.vBuffer = CreateVertexBuffer(ctx.GetVerticesDataSize());
+		//ctx.vBuffer = CreateVertexBuffer(ctx.GetVerticesDataSize());
+		//ctx.Binding = CreateBinding(options);
 	}
 }
 
 #pragma region Init Shaders Aux Functions
 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(const ShaderConfiguration& config)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(BindingManager &bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
 		.binding = 0,
-		.stride = config.GetTotalAttributesSize(),
+		.stride = (uint32_t)bindingManager.GetStride(),
 		.inputRate = VK_VERTEX_INPUT_RATE_VERTEX
 	});
 	return result;
@@ -268,6 +273,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVe
 
 std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(const ShaderConfiguration& config)
 {
+	static int VulkanFormatConversionTable
 	std::vector<VkVertexInputAttributeDescription> result;
 	for (const auto& attr : config.vertexAttributes)
 	{
@@ -413,7 +419,8 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 	//
 	VkPipelineVertexInputStateCreateInfo _pipelineVertexInputState = {};
-	auto bindingDescriptions   = CreatePipelineVertexInputBinding(config);
+	BindingManager binding(config.vertexAttributes)
+	auto bindingDescriptions   = CreatePipelineVertexInputBinding(binding);
 	auto attributeDescriptions = CreatePipelineVertexInputAttributes(config);
 	_pipelineVertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	_pipelineVertexInputState.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());

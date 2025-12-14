@@ -5,7 +5,7 @@
  namespace MGL {
 	class VulkanAppBuilder: public IAppBuilder  {
 		private:
-			
+			std::shared_ptr<IMGLEngine> _pEngine;
 			//configuraion options
 			WindowOptions _windowOptions;
 			AppConfiguration _vulkanConfiguration;
@@ -24,7 +24,7 @@
 
 			
 
-			virtual std::shared_ptr<IMGLEngine> Init();
+			virtual IMGLEngine& Init();
 			
 			
 	};

@@ -94,5 +94,11 @@ add_library(${PROJECT_NAME} STATIC
     "Window/IWindow.h"
     "Window/IWindowEventHandler.cpp"
     "Window/IWindowEventHandler.h"
- "Interfaces/IRenderDataContext.h" "Interfaces/IDrawContext.h" "Mesh/OrthoRect2D.h" "Shaders/Color2D/VertexColor2D.h" "Interfaces/IMGLEngine.h")
+ "Interfaces/IRenderDataContext.h" 
+ "Interfaces/IDrawContext.h" 
+ "Mesh/OrthoRect2D.h" 
+ "Shaders/Color2D/VertexColor2D.h" 
+ "Interfaces/IMGLEngine.h" 
+ "Shaders/FieldType.h"
+ "Shaders/BindingManager.h" "Shaders/BindingManager.cpp")
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)

@@ -42,7 +42,7 @@
 
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);
-			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const ShaderConfiguration& config);
+			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);
 			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const ShaderConfiguration& config);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);

@@ -1,6 +1,6 @@
 #include "IndicesMemoryStream.h"
 #include <MGLEngine.Shared/Utils/eassert.h>
-IndicesMemoryStream::IndicesMemoryStream(uint32_t* indices, size_t size, uint32_t offDisplacement)
+IndicesMemoryStream::IndicesMemoryStream(uint32_t* indices, size_t size, size_t offDisplacement)
 	:_indices(indices)
 	, _max_size(size)
 	, _offDisplacement(offDisplacement)

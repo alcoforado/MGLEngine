@@ -2,7 +2,7 @@
 #include "InterleavedMemoryStream.h"
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include "IndicesMemoryStream.h"
-InterleavedMemoryStream::InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum ElementType elemType)
+InterleavedMemoryStream::InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum FieldType elemType)
 {
 	_pData = pData;
 	_elementSize = elementSizeTable[elemType];

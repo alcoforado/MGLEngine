@@ -1,7 +1,11 @@
 #include "VulkanAppBuilder.h"
 #include <MGLEngine.Vulkan/VulkanEngine.h>
 
-std::shared_ptr<IMGLEngine> MGL::VulkanAppBuilder::Init()
+IMGLEngine& MGL::VulkanAppBuilder::Init()
 {
-	return std::make_shared<VulkanEngine>(_windowOptions, _vulkanConfiguration);
+	eassert(!_pEngine, "Init function must be called only once");
+	
+	_pEngine = std::make_shared<VulkanEngine>(_windowOptions, _vulkanConfiguration);
+		
+	return *_pEngine;
 }

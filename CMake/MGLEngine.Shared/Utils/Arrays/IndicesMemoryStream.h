@@ -5,10 +5,10 @@ class IndicesMemoryStream {
 
 	uint32_t* _indices;
 	size_t _max_size;
-	uint32_t _offDisplacement;
-	uint32_t _currentCount;
+	size_t _offDisplacement;
+	size_t _currentCount;
 public:
-	IndicesMemoryStream(uint32_t* indices, size_t size, uint32_t offDisplacement);
+	IndicesMemoryStream(uint32_t* indices, size_t size, size_t offDisplacement);
 
 
 

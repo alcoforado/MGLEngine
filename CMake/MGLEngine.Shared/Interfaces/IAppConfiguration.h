@@ -30,6 +30,9 @@ public:
 		void AddShader()
 		{
 			IShader* pShader = new T();
+			std::type_index typeIndex(typeid(*pShader));
+			eassert(Shaders.find(typeIndex) == Shaders.end(), "Shader of this type already added");
+			Shaders[typeIndex] = pShader;
 			AddShader(pShader);
 		}
 };
@@ -42,6 +45,8 @@ public:
 	bool EnableDebug = false;
 	unsigned SwapChainSize = 0; //number of images buffers in the swap chain
 	bool VSync = true;
+public:
+	std::map<std::type_index, IShader*>& GetShadersMap();
 public:
 	virtual void EnableDebugLayer(bool flag) { EnableDebug = flag; }
 	virtual void AppName(std::string name) { Name = name; }

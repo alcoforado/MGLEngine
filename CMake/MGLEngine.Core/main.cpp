@@ -20,7 +20,8 @@ int main()
 		config.AddShader<ShaderColor2D>();
 	});
 
-
+	IMGLEngine &engine=app.Init();
+	
 
 	try {
 		eassert(1 == 2, "Test eassert exception");
