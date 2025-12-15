@@ -12,6 +12,7 @@ MGL::VulkanEngine::~VulkanEngine() {
 MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
+
 	_pWindow = new Window(_windowOptions);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
@@ -271,18 +272,19 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVe
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(const ShaderConfiguration& config)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(BindingManager& binding)
 {
-	static int VulkanFormatConversionTable
+	
 	std::vector<VkVertexInputAttributeDescription> result;
-	for (const auto& attr : config.vertexAttributes)
+	for (const auto& attr : binding.GetVertexAttributes())
 	{
-		result.push_back({
+		VkVertexInputAttributeDescription elem = {
 			.location = attr.location,
 			.binding = 0,
-			.format = attr.format,
-			.offset = attr.offset
-		});
+			.format = ToVkFormat(attr.type),
+			.offset = static_cast<uint32_t>(attr.offset)
+		};
+		result.push_back(elem);
 	}
 	return result;
 }
@@ -321,6 +323,18 @@ VulkanBuffer MGL::VulkanEngine::CreateVertexBuffer(uint64_t sizeInBytes)
 	vb.allocation = allocation;
 	vb.deviceMemoryTypeIndex = this->_pPhysicalDevice->GetMemoryProperties()[allocInfoResult.memoryType].DeviceLocal;
 	return vb;
+}
+
+VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
+{
+	VkFormat tbl[4];
+	tbl[TYPE_UINT] = VK_FORMAT_R32_UINT;
+	tbl[TYPE_FLOAT] = VK_FORMAT_R32_SFLOAT;
+	tbl[TYPE_VEC_FLOAT_2] = VK_FORMAT_R32G32_SFLOAT;
+	tbl[TYPE_VEC_FLOAT_4] = VK_FORMAT_R32G32B32A32_SFLOAT;
+	eassert(type < 4, "Field Type conversion not supported");
+	return tbl[type];
+
 }
 
 VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
@@ -419,9 +433,9 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 	//
 	VkPipelineVertexInputStateCreateInfo _pipelineVertexInputState = {};
-	BindingManager binding(config.vertexAttributes)
+	BindingManager binding(config.vertexAttributes);
 	auto bindingDescriptions   = CreatePipelineVertexInputBinding(binding);
-	auto attributeDescriptions = CreatePipelineVertexInputAttributes(config);
+	auto attributeDescriptions = CreatePipelineVertexInputAttributes(binding);
 	_pipelineVertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	_pipelineVertexInputState.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());
 	_pipelineVertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());

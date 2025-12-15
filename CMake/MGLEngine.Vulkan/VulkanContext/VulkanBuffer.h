@@ -9,4 +9,5 @@ public:
 	bool isDeviceMemory;
 	uint32_t deviceMemoryTypeIndex;
 	VmaAllocation allocation;
+	VulkanBuffer() {}
 };

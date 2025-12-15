@@ -14,7 +14,7 @@ IndicesMemoryStream& IndicesMemoryStream::operator<<(const std::vector<uint32_t>
 	eassert(v.size()+_currentCount <= _max_size,"Memory Stream overflow detected")
 	for (size_t i = 0; i < v.size(); i++)
 	{
-		_indices[i] = v[i] + _offDisplacement;
+		_indices[i] = v[i] + (uint32_t) _offDisplacement;
 	}
 	_currentCount += v.size();
 	return *this;

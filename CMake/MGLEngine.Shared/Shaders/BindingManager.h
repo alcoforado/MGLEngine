@@ -27,4 +27,5 @@ public:
 	BindingManager(std::vector<VertexAttributeDeclaration> vAttribs);
 	BindingManager() { totalStride = 0; };
 	size_t GetStride() { return totalStride; }
+	const std::vector<VertexAttribute> GetVertexAttributes();
 };

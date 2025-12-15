@@ -46,7 +46,7 @@ public:
 	unsigned SwapChainSize = 0; //number of images buffers in the swap chain
 	bool VSync = true;
 public:
-	std::map<std::type_index, IShader*>& GetShadersMap();
+	const std::map<std::type_index, IShader*>& GetShadersMap() { return Shaders; }
 public:
 	virtual void EnableDebugLayer(bool flag) { EnableDebug = flag; }
 	virtual void AppName(std::string name) { Name = name; }

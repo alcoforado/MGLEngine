@@ -28,7 +28,6 @@
 			//configuraion options
 			WindowOptions _windowOptions;
 			AppConfiguration _vulkanConfiguration;
-
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
@@ -43,12 +42,12 @@
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);
-			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const ShaderConfiguration& config);
+			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(BindingManager &binding);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		public:
-			
+			VkFormat ToVkFormat(enum FieldType type);
 
 			~VulkanEngine();
 		

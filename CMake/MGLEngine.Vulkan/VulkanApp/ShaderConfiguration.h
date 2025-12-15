@@ -5,7 +5,10 @@
 struct ShaderByteCode {
 	const uint32_t* byteCode;
 	uint32_t size;
-	ShaderByteCode() {}
+	ShaderByteCode() {
+		byteCode = nullptr;
+		size = 0;
+	}
 };
 
 
@@ -20,6 +23,8 @@ class ShaderConfiguration: public IShaderConfiguration {
 
 	
 	public: //virtual overrides for IShaderConfiguration 
+		ShaderConfiguration() {}
+
 		virtual void SetVerticeShader(const uint32_t* bytecode, uint32_t size) override
 		{
 			verticeShader.byteCode = bytecode;

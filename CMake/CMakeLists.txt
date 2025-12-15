@@ -1,6 +1,7 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
 SET(CMAKE_CXX_STANDARD 20)
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
+#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded") 
 IF (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00 )
 ENDIF()
