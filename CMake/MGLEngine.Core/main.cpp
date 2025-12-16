@@ -4,8 +4,11 @@
 #include <MGLEngine.Shared/MGLContainer.h>
 #include <MGLEngine.Shared/Mesh/OrthoRect2D.h>
 #include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
+
+
 int main()
 {
+	
 	MGLContainer container;
 	auto pApp = container.GetApp();
 	IAppBuilder &app = *pApp;
@@ -32,3 +35,4 @@ int main()
 	}
 	return 1;
 }
+

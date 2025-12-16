@@ -6,7 +6,6 @@
 
 class ShaderContext {
 public:
-	IShader& shader;
 	ShaderConfiguration options;
 	VkPipeline pipeline;
 	std::vector<IDrawingObject*> objects;
@@ -14,7 +13,9 @@ public:
 
 	BindingManager Binding;
 
-	ShaderContext(IShader &shader):shader(shader) {}
+	ShaderContext() {
+		pipeline = VK_NULL_HANDLE;
+	}
 
 };
 

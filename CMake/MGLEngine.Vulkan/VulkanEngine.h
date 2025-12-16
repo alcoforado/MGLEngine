@@ -19,12 +19,11 @@
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
 			VulkanSurface* _pVulkanSurface=nullptr;
 			VulkanLogicalDevice* _pLogicalDevice=nullptr;
-			std::unordered_map<std::string, ShaderContext> _shaders;
+			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
-			
 			//configuraion options
 			WindowOptions _windowOptions;
 			AppConfiguration _vulkanConfiguration;

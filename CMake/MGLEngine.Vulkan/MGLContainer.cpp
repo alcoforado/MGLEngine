@@ -3,5 +3,6 @@
 
 std::shared_ptr<IAppBuilder> MGLContainer::GetApp()
 {
+
 	return std::make_shared<MGL::VulkanAppBuilder>();
 }

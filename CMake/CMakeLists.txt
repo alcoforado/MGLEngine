@@ -1,10 +1,14 @@
 set(CMAKE_SUPPRESS_REGENERATION true)
 SET(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded") 
+set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "" FORCE)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
+#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded") 
 IF (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0A00 )
 ENDIF()
+    add_link_options("/VERBOSE:LIB")
+
+
 
 if(POLICY CMP0167)  
   cmake_policy(SET CMP0167 NEW)
@@ -22,11 +26,12 @@ if (NOT Git_FOUND)
 endif()
 
 
-
+#VULKAN CHECK
 SET(VULKAN_SDK $ENV{VULKAN_SDK})
 if (NOT DEFINED VULKAN_SDK)
     message(FATAL_ERROR "Vulkan SDK not found, please define the VULKAN_SDK variable")
 endif()
+find_package(Vulkan REQUIRED)
 
 
 

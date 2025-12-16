@@ -244,17 +244,18 @@ void MGL::VulkanEngine::ChoosePhysicalDevice()
 #pragma endregion
 
 void MGL::VulkanEngine::InitShaders() {
+
 	for (auto& pair : _vulkanConfiguration.GetShadersMap()) {
-		ShaderContext ctx(*pair.second);
-		
+		ShaderContext ctx;
+		IShader* pShader = pair.second;
 		
 		ShaderConfiguration options = {};
 		
-		ctx.shader.Init(options);
+		pShader->Init(options);
 		ctx.options = options;
 		ctx.pipeline = CreatePipeline(options);
-		//ctx.vBuffer = CreateVertexBuffer(ctx.GetVerticesDataSize());
-		//ctx.Binding = CreateBinding(options);
+		ctx.Binding = BindingManager(options.vertexAttributes);
+		this->_shaders[pair.first] = ctx;
 	}
 }
 

@@ -1,4 +1,3 @@
-set(CMAKE_GENERATOR_PLATFORM "x64")
 project(MGLEngine.Vulkan)
 
 
@@ -41,7 +40,6 @@ add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
 
 
 
-# Create the executable
 add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanMemoryProperties.cpp" "VulkanContext/VulkanMemoryProperties.h"  "Window/MWindow.cpp"
 "VulkanUtils.cpp" "VulkanUtils.h"    
@@ -73,5 +71,5 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 
 
 
-target_link_libraries	(${PROJECT_NAME})
+#target_link_libraries	(${PROJECT_NAME})
 
