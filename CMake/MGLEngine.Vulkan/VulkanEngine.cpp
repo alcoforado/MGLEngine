@@ -2,7 +2,7 @@
 #include<algorithm>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
-
+#include <MGLEngine.Shared/Utils/eassert.h>
 using namespace MGL;
 MGL::VulkanEngine::~VulkanEngine() {
 	// Destructor implementation (if needed)
@@ -27,6 +27,15 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	InitShaders();
 }
 
+void MGL::VulkanEngine::AddShape(IDrawingObject* pObject)
+{
+	eassert(_shaders.contains(typeid(pObject->ShaderType())));
+	ShaderContext& ctx = _shaders[typeid(pObject->ShaderType())];
+	ctx.drawGraph.push_back(DrawElementContext(pObject));
+
+
+}
+
 
 
 #pragma region Init Aux Functions
@@ -37,60 +46,60 @@ void MGL::VulkanEngine::CreateVulkanSurface() {
 void MGL::VulkanEngine::CreateQueues() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic && family.SupportPresentation;
-	});
+		});
 	if (graphicQueueIndex == -1) {
 		throw new Exception("No suitable graphic queue found that supports presentation.");
 	}
 	_pLogicalDevice = new VulkanLogicalDevice(*_pPhysicalDevice, graphicQueueIndex);
-	
+
 
 }
 
 void MGL::VulkanEngine::CreateSwapChain() {
-		VkSwapchainCreateInfoKHR createInfo = {};
-		auto capabilities = _pLogicalDevice->GetPhysicalDevice().GetCapabilitiesForSurface(*_pVulkanSurface);
-		uint32_t imageCount = _vulkanConfiguration.SwapChainSize;
-		if (capabilities.minImageCount!=0)
-			imageCount = imageCount < capabilities.minImageCount ? capabilities.minImageCount : imageCount;
-		if (capabilities.maxImageCount != 0)
-			imageCount = imageCount > capabilities.maxImageCount ? capabilities.maxImageCount : imageCount;
-		
+	VkSwapchainCreateInfoKHR createInfo = {};
+	auto capabilities = _pLogicalDevice->GetPhysicalDevice().GetCapabilitiesForSurface(*_pVulkanSurface);
+	uint32_t imageCount = _vulkanConfiguration.SwapChainSize;
+	if (capabilities.minImageCount != 0)
+		imageCount = imageCount < capabilities.minImageCount ? capabilities.minImageCount : imageCount;
+	if (capabilities.maxImageCount != 0)
+		imageCount = imageCount > capabilities.maxImageCount ? capabilities.maxImageCount : imageCount;
 
-		//Create Swap Chain
-		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		createInfo.surface = _pVulkanSurface->GetHandle();
-		createInfo.minImageCount = _vulkanConfiguration.SwapChainSize;
-		createInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
-		createInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-		createInfo.imageExtent = _pVulkanSurface->GetExtent2D();
-		createInfo.imageArrayLayers = 1;
-		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		createInfo.queueFamilyIndexCount = 0; // Optional
-		createInfo.pQueueFamilyIndices = nullptr; // Optional
+	//Create Swap Chain
+	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.surface = _pVulkanSurface->GetHandle();
+	createInfo.minImageCount = _vulkanConfiguration.SwapChainSize;
+	createInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
+	createInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+	createInfo.imageExtent = _pVulkanSurface->GetExtent2D();
+	createInfo.imageArrayLayers = 1;
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		createInfo.preTransform = capabilities.currentTransform;
-		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-		if (_vulkanConfiguration.VSync)
-		{
-			createInfo.presentMode = _pLogicalDevice->GetPhysicalDevice().IsPresentModeAvailableForSurface(*_pVulkanSurface, VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;
-		}
-		else
-		{
-			createInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+	createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	createInfo.queueFamilyIndexCount = 0; // Optional
+	createInfo.pQueueFamilyIndices = nullptr; // Optional
 
-		}
-		createInfo.clipped = VK_TRUE;
-		createInfo.oldSwapchain = VK_NULL_HANDLE;
+	createInfo.preTransform = capabilities.currentTransform;
+	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	if (_vulkanConfiguration.VSync)
+	{
+		createInfo.presentMode = _pLogicalDevice->GetPhysicalDevice().IsPresentModeAvailableForSurface(*_pVulkanSurface, VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;
+	}
+	else
+	{
+		createInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
 
-		_swapChain.imageFormat = createInfo.imageFormat;
-		_swapChain.imageColorSpace = createInfo.imageColorSpace;
-		_swapChain.dims = createInfo.imageExtent;
-		auto err = vkCreateSwapchainKHR(_pLogicalDevice->GetHandle(), &createInfo, nullptr, &(_swapChain.handle));
-		AssertVulkanSuccess(err);
+	}
+	createInfo.clipped = VK_TRUE;
+	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-		//Implementation moved to constructor
+	_swapChain.imageFormat = createInfo.imageFormat;
+	_swapChain.imageColorSpace = createInfo.imageColorSpace;
+	_swapChain.dims = createInfo.imageExtent;
+	auto err = vkCreateSwapchainKHR(_pLogicalDevice->GetHandle(), &createInfo, nullptr, &(_swapChain.handle));
+	AssertVulkanSuccess(err);
+
+	//Implementation moved to constructor
 
 }
 
@@ -134,7 +143,7 @@ void MGL::VulkanEngine::CreateSwapChainImageViews() {
 	}
 }
 
-void MGL::VulkanEngine::CreateRenderPass() 
+void MGL::VulkanEngine::CreateRenderPass()
 {
 	VkAttachmentDescription colorAttachment{};
 	colorAttachment.format = _swapChain.imageFormat;
@@ -145,11 +154,11 @@ void MGL::VulkanEngine::CreateRenderPass()
 	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-	
+
 	VkAttachmentReference colorAttachmentRef{};
 	colorAttachmentRef.attachment = 0;
 	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-	
+
 	VkSubpassDescription subpass{};
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = 1;
@@ -159,7 +168,7 @@ void MGL::VulkanEngine::CreateRenderPass()
 	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	passInfo.attachmentCount = 1;
 	passInfo.pAttachments = &colorAttachment;
-	passInfo.subpassCount = 1; 
+	passInfo.subpassCount = 1;
 	passInfo.pSubpasses = &subpass;
 	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_vkRenderPass);
 }
@@ -217,29 +226,29 @@ int deviceScore(const VulkanPhysicalDevice& device) {
 	if (device.HasComputeQueue()) {
 		score += 500;
 	}
-	
-	
+
+
 	return score;
 }
 
 void MGL::VulkanEngine::ChoosePhysicalDevice()
 {
-	auto &v=_pVulkanInstance->GetPhysicalDevices();
+	auto& v = _pVulkanInstance->GetPhysicalDevices();
 	std::vector<int> suitableDevices;
 	for (int i = 0; i < v.size(); i++) {
 		suitableDevices.push_back(i);
 
 	}
-	std::sort(suitableDevices.begin(),suitableDevices.end(),[v](int a, int b) {
+	std::sort(suitableDevices.begin(), suitableDevices.end(), [v](int a, int b) {
 		int scoreA = deviceScore(v[a]);
-	    int scoreB=deviceScore(v[b]);
+		int scoreB = deviceScore(v[b]);
 		if (scoreA == scoreB)
 		{
 			return v[a].GetProperties().limits.maxImageDimension1D > v[b].GetProperties().limits.maxImageDimension1D;
 		}
 		return scoreA > scoreB;
-	});
-	_pPhysicalDevice =  &(v[suitableDevices[0]]);
+		});
+	_pPhysicalDevice = &(v[suitableDevices[0]]);
 }
 #pragma endregion
 
@@ -248,9 +257,9 @@ void MGL::VulkanEngine::InitShaders() {
 	for (auto& pair : _vulkanConfiguration.GetShadersMap()) {
 		ShaderContext ctx;
 		IShader* pShader = pair.second;
-		
+
 		ShaderConfiguration options = {};
-		
+
 		pShader->Init(options);
 		ctx.options = options;
 		ctx.pipeline = CreatePipeline(options);
@@ -262,20 +271,20 @@ void MGL::VulkanEngine::InitShaders() {
 #pragma region Init Shaders Aux Functions
 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(BindingManager &bindingManager)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(BindingManager& bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
 		.binding = 0,
 		.stride = (uint32_t)bindingManager.GetStride(),
 		.inputRate = VK_VERTEX_INPUT_RATE_VERTEX
-	});
+		});
 	return result;
 }
 
 std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(BindingManager& binding)
 {
-	
+
 	std::vector<VkVertexInputAttributeDescription> result;
 	for (const auto& attr : binding.GetVertexAttributes())
 	{
@@ -340,7 +349,7 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
-	
+
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -435,12 +444,12 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	//
 	VkPipelineVertexInputStateCreateInfo _pipelineVertexInputState = {};
 	BindingManager binding(config.vertexAttributes);
-	auto bindingDescriptions   = CreatePipelineVertexInputBinding(binding);
+	auto bindingDescriptions = CreatePipelineVertexInputBinding(binding);
 	auto attributeDescriptions = CreatePipelineVertexInputAttributes(binding);
 	_pipelineVertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	_pipelineVertexInputState.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.size());
 	_pipelineVertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
-	_pipelineVertexInputState.pVertexBindingDescriptions   = bindingDescriptions.data();
+	_pipelineVertexInputState.pVertexBindingDescriptions = bindingDescriptions.data();
 	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 
@@ -456,7 +465,7 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	pipelineInfo.renderPass = _vkRenderPass;
 	pipelineInfo.subpass = 0;
 
-	
+
 	pipelineInfo.pViewportState = &ViewportState;
 	pipelineInfo.pRasterizationState = &Rasterizer;
 	pipelineInfo.pMultisampleState = &Multisampling;
