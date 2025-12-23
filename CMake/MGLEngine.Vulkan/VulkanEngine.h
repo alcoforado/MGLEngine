@@ -51,8 +51,8 @@
 			~VulkanEngine();
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
-			void AddShape(IDrawingObject *pObject);
 			
+			virtual void AddShape(IDrawingObject& shape) override;
 			
 	};
 }
