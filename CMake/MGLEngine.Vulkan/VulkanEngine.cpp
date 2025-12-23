@@ -27,13 +27,12 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	InitShaders();
 }
 
-void MGL::VulkanEngine::AddShape(IDrawingObject* pObject)
+void  MGL::VulkanEngine::AddShape(IDrawingObject& shape) 
 {
-	eassert(_shaders.contains(typeid(pObject->ShaderType())));
-	ShaderContext& ctx = _shaders[typeid(pObject->ShaderType())];
-	ctx.drawGraph.push_back(DrawElementContext(pObject));
-
-
+	std::type_index i = std::type_index(shape.ShaderType());
+	eassert(_shaders.contains(i),std::format("The shader  {} was not registered",shape.ShaderType().name()));
+	ShaderContext& ctx = _shaders[i];
+	ctx.drawGraph.push_back(DrawElementContext(&shape));
 }
 
 

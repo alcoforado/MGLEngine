@@ -18,7 +18,7 @@ public:
 		return _mesh.NIndices();
 	}
 
-	virtual std::type_info ShaderType() override {
+	virtual const std::type_info& ShaderType() override {
 		return typeid(ShaderColor2D);
 	}
 
