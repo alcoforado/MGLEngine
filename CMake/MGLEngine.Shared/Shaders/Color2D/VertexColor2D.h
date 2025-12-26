@@ -1,5 +1,7 @@
 #include <MGLEngine.Shared/Interfaces/IMesh.h>
 #include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
+#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
+
 #include <glm/glm.hpp>
 #include <typeinfo>
 class VertexColor2D : public IDrawingObject {
@@ -8,8 +10,9 @@ private:
 	std::vector<glm::vec4> _colors;
 
 public:
-	VertexColor2D(IMesh& mesh, const std::vector<glm::vec4>& colors)
+	VertexColor2D(IMGLEngine &engine,IMesh& mesh, const std::vector<glm::vec4>& colors)
 		:_mesh(mesh), _colors(colors) {
+		engine.AddShape<ShaderColor2D>(*this);
 	}
 	virtual uint32_t NVertices() override {
 		return _mesh.NVertices();
@@ -18,9 +21,7 @@ public:
 		return _mesh.NIndices();
 	}
 
-	virtual const std::type_info& ShaderType() override {
-		return typeid(ShaderColor2D);
-	}
+	
 
 	virtual void RenderData(IRenderDataContext& context) override
 	{

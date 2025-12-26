@@ -14,7 +14,7 @@ public:
 		_width = width;
 		_height = height;
 	}
-	virtual ~OrthoRect2D();
+	virtual ~OrthoRect2D() {}
 
 	virtual uint32_t NVertices() override {
 		return 4;

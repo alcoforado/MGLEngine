@@ -36,7 +36,6 @@
 			void CreateRenderPass();
 			void CreateFramebuffers();
 			void CreateVulkanMemoryAllocator();
-			void InitShaders();
 
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);
@@ -45,6 +44,10 @@
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
+		protected: //IMGLEngine implementation
+			virtual void RegisterShader(std::unique_ptr<IShader> pShader) override;
+			virtual bool IsShaderRegistered(const std::type_index shaderType) override;
+			virtual void AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape) override;
 		public:
 			VkFormat ToVkFormat(enum FieldType type);
 
@@ -52,7 +55,7 @@
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
 			
-			 void AddShape(IDrawingObject& shape) override;
 			
+			void Draw() override;
 	};
 }

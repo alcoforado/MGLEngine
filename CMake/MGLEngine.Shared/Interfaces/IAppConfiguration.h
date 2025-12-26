@@ -17,24 +17,7 @@ public:
 		virtual void SetDoubleBuffer() = 0;
 		virtual void SetTrippleBuffer() = 0;
 		virtual void EnableVSync(bool flag) = 0;
-		virtual void AddShader(IShader *pShader)
-		{
-			eassert(pShader != nullptr, "Shader pointer is null");
-			std::type_index typeIndex(typeid(*pShader));
-			eassert(Shaders.find(typeIndex) == Shaders.end(), "Shader of this type already added");
-			Shaders[typeIndex] = pShader;
-		}
 		
-		
-		template<typename T>
-		void AddShader()
-		{
-			IShader* pShader = new T();
-			std::type_index typeIndex(typeid(*pShader));
-			eassert(Shaders.find(typeIndex) == Shaders.end(), "Shader of this type already added");
-			Shaders[typeIndex] = pShader;
-			AddShader(pShader);
-		}
 };
 
 class AppConfiguration : public IAppConfiguration {

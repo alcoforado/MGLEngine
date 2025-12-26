@@ -3,8 +3,7 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Shared/MGLContainer.h>
 #include <MGLEngine.Shared/Mesh/OrthoRect2D.h>
-#include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
-
+#include <MGLEngine.Shared/Shaders/Color2D/VertexColor2D.h>
 
 int main()
 {
@@ -20,19 +19,13 @@ int main()
 	app.AppConfig([](IAppConfiguration &config) {
 		config.EnableDebugLayer(true);
 		config.EnableVSync(true);
-		config.AddShader<ShaderColor2D>();
+	//	config.AddShader<ShaderColor2D>();
 	});
 
 	IMGLEngine &engine=app.Init();
 	
+	auto rect = OrthoRect2D(glm::vec2(0.0f, 0.0f), 1.0f, 1.0f);
+	auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,0,1,1) });
 
-	try {
-		eassert(1 == 2, "Test eassert exception");
-	}
-	catch (const std::exception& e) 
-	{
-		std::cout << "Exception caught " << e.what() << std::endl;
-	}
-	return 1;
 }
 

@@ -24,17 +24,7 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateSwapChainImageViews();
 	CreateRenderPass();
 	CreateFramebuffers();
-	InitShaders();
 }
-
-void  MGL::VulkanEngine::AddShape(IDrawingObject& shape) 
-{
-	std::type_index i = std::type_index(shape.ShaderType());
-	eassert(_shaders.contains(i),std::format("The shader  {} was not registered",shape.ShaderType().name()));
-	ShaderContext& ctx = _shaders[i];
-	ctx.drawGraph.push_back(DrawElementContext(&shape));
-}
-
 
 
 #pragma region Init Aux Functions
@@ -251,24 +241,36 @@ void MGL::VulkanEngine::ChoosePhysicalDevice()
 }
 #pragma endregion
 
-void MGL::VulkanEngine::InitShaders() {
-
-	for (auto& pair : _vulkanConfiguration.GetShadersMap()) {
-		ShaderContext ctx;
-		IShader* pShader = pair.second;
-
-		ShaderConfiguration options = {};
-
-		pShader->Init(options);
-		ctx.options = options;
-		ctx.pipeline = CreatePipeline(options);
-		ctx.Binding = BindingManager(options.vertexAttributes);
-		this->_shaders[pair.first] = ctx;
-	}
+#pragma region IMGLEngine Implementation
+void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
+{
+	eassert(pShader != nullptr, "Shader pointer is null");
+	std::type_index typeIndex(typeid(*pShader));
+	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
+	ShaderContext ctx;
+	ShaderConfiguration options = {};
+	pShader->Init(options);
+	ctx.options = options;
+	ctx.pipeline = CreatePipeline(options);
+	ctx.Binding = BindingManager(options.vertexAttributes);
+	this->_shaders[typeIndex] = ctx;
 }
 
-#pragma region Init Shaders Aux Functions
+bool MGL::VulkanEngine::IsShaderRegistered(const std::type_index shaderType)
+{
+	return _shaders.find(shaderType) != _shaders.end();
+}
 
+void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape)
+{
+
+	eassert(_shaders.contains(shaderTypeIndex), std::format("Shader for object {} was not registered", typeid(shape).name()));
+	ShaderContext& ctx = _shaders[shaderTypeIndex];
+	ctx.drawGraph.push_back(DrawElementContext(&shape));
+}
+#pragma endregion
+
+#pragma region Shaders Pipeline Creation 
 
 std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(BindingManager& bindingManager)
 {
@@ -484,3 +486,7 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 #pragma endregion
 
+void MGL::VulkanEngine::Draw()
+{
+	
+}
