@@ -29,7 +29,8 @@ public:
 	VulkanBuffer vBuffer;
 	bool needSerialize;
 	BindingManager Binding;
-
+	size_t totalVertices;
+	size_t totalIndices;
 	ShaderContext() {
 		pipeline = VK_NULL_HANDLE;
 		needSerialize = true;

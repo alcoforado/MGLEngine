@@ -488,5 +488,26 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 void MGL::VulkanEngine::Draw()
 {
-	
+	for (auto pair : _shaders)
+	{
+		ShaderContext& ctx = pair.second;
+		if (ctx.needSerialize)
+		{
+			size_t indicesOff = 0, verticesOff = 0;
+			for (auto& drawingContext : ctx.drawGraph)
+			{
+				IDrawingObject* shape = drawingContext.pObject;
+				drawingContext.allocatedIndices = shape->NIndices();
+				drawingContext.allocatedVertices = shape->NVertices();
+				drawingContext.startIndice = indicesOff;
+				drawingContext.startVertex = verticesOff;
+				verticesOff += drawingContext.allocatedVertices;
+				indicesOff += drawingContext.allocatedIndices;
+			}
+			ctx.totalVertices = verticesOff;
+			ctx.totalIndices = indicesOff;
+		}
+
+		
+	}
 }
