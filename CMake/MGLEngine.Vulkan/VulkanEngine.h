@@ -9,6 +9,8 @@
 #include <MGLEngine.Shared/Interfaces/IAppBuilder.h>
 #include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
+
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
  namespace MGL {
@@ -19,6 +21,7 @@
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
 			VulkanSurface* _pVulkanSurface=nullptr;
 			VulkanLogicalDevice* _pLogicalDevice=nullptr;
+			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
 			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;

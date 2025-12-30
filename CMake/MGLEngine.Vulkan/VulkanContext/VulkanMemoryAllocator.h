@@ -9,5 +9,8 @@ class VulkanMemoryAllocator {
 	public:
 		VulkanMemoryAllocator(const VulkanLogicalDevice& device);
 		~VulkanMemoryAllocator();
-		VulkanBuffer CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaMemoryUsage vmaUsage, uint64_t sizeInBytes);
+		VulkanBuffer CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaAllocationCreateInfo* pAllocInfo);
+		VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
+		VulkanBuffer CreateIndexBuffer(uint64_t numOfIndices);
+
 };

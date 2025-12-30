@@ -185,15 +185,7 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
-	VmaAllocatorCreateInfo allocatorCreateInfo = {};
-	allocatorCreateInfo.flags = VMA_ALLOCATOR_CREATE_EXT_MEMORY_BUDGET_BIT;
-	allocatorCreateInfo.vulkanApiVersion = VK_API_VERSION_1_0;
-	allocatorCreateInfo.physicalDevice = _pPhysicalDevice->GetHandle();
-	allocatorCreateInfo.device = _pLogicalDevice->GetHandle();
-	allocatorCreateInfo.instance = _pVulkanInstance->GetHandle();
-
-	VkResult err = vmaCreateAllocator(&allocatorCreateInfo, &_allocator);
-	AssertVulkanSuccess(err);
+	_pMemoryAllocator = new VulkanMemoryAllocator(*_pLogicalDevice);
 }
 
 int deviceScore(const VulkanPhysicalDevice& device) {
@@ -491,7 +483,7 @@ void MGL::VulkanEngine::Draw()
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
-		if (ctx.needSerialize)
+		if (ctx.needResize)
 		{
 			size_t indicesOff = 0, verticesOff = 0;
 			for (auto& drawingContext : ctx.drawGraph)
@@ -507,6 +499,8 @@ void MGL::VulkanEngine::Draw()
 			ctx.totalVertices = verticesOff;
 			ctx.totalIndices = indicesOff;
 		}
+
+		
 
 		
 	}

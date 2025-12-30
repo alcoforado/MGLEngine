@@ -28,12 +28,14 @@ public:
 	std::vector<DrawElementContext> drawGraph;
 	VulkanBuffer vBuffer;
 	bool needSerialize;
+	bool needResize;
 	BindingManager Binding;
 	size_t totalVertices;
 	size_t totalIndices;
 	ShaderContext() {
 		pipeline = VK_NULL_HANDLE;
 		needSerialize = true;
+		needResize = true;
 	}
 
 };

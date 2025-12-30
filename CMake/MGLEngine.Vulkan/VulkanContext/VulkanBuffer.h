@@ -8,6 +8,8 @@ public:
 	uint32_t size;
 	bool isDeviceMemory;
 	uint32_t deviceMemoryTypeIndex;
+	VkBufferUsageFlags usage;
 	VmaAllocation allocation;
+	VmaAllocationInfo allocationInfo;
 	VulkanBuffer() {}
 };
