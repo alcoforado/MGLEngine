@@ -12,5 +12,6 @@ class VulkanMemoryAllocator {
 		VulkanBuffer CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaAllocationCreateInfo* pAllocInfo);
 		VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		VulkanBuffer CreateIndexBuffer(uint64_t numOfIndices);
+		
 
 };
