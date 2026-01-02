@@ -63,7 +63,10 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "VulkanContext/VulkanPhysicalDevice.h" "VulkanContext/VulkanQueue.cpp" "VulkanContext/VulkanQueue.h" "VulkanContext/VulkanSurface.cpp" 
 "VulkanContext/VulkanSurface.h" "VulkanContext/VulkanSwapChain.cpp" "VulkanContext/VulkanSwapChain.h"   
        
-  "VulkanEngine.cpp" "VulkanEngine.h"  "VulkanApp/ShaderContext.h"  "VulkanContext/VulkanSwapChainOptions.h" "VulkanContext/VulkanSurfaceCapability.h" "VulkanApp/SwapChainData.h"  "VulkanApp/ShaderConfiguration.h" "VulkanContext/VulkanMemoryAllocator.cpp" "VulkanContext/VulkanBuffer.h"  "MGLContainer.cpp"
+  "VulkanEngine.cpp" "VulkanEngine.h"  "VulkanApp/ShaderContext.h"  "VulkanContext/VulkanSwapChainOptions.h" "VulkanContext/VulkanSurfaceCapability.h" "VulkanApp/SwapChainData.h"  "VulkanApp/ShaderConfiguration.h" "VulkanContext/VulkanMemoryAllocator.cpp" 
+  "VulkanContext/VulkanBuffer.h"
+  "VulkanContext/VulkanBuffer.cpp"
+  "MGLContainer.cpp"
 "VulkanAppBuilder.h"
 
 

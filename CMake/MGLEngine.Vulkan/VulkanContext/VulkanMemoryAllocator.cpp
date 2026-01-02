@@ -34,16 +34,14 @@ VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo
 	VmaAllocationInfo allocInfoResult;
 	vmaCreateBuffer(_allocator, pCreateInfo, pAllocInfo, &buffer, &allocation, &allocInfoResult);
 	VulkanBuffer vb;
-	vb.buffer = buffer;
-	vb.size = (uint32_t)pCreateInfo->size;
-	vb.usage = pCreateInfo->usage;
-	vb.allocation = allocation;
-	vb.allocationInfo = allocInfoResult;
-	vb.memType = _device.GetPhysicalDevice().GetMemoryProperties()[allocInfoResult.memoryType];
-
-	VulkanMemoryProperties memType =
-	vb.isDeviceMemory = memType.DeviceLocal;
-	vb.isHostVisible = memType.HostVisible;
+	vb._buffer = buffer;
+	vb._size = (uint32_t)pCreateInfo->size;
+	vb._usage = pCreateInfo->usage;
+	vb._allocation = allocation;
+	vb._allocationInfo = allocInfoResult;
+	vb._memType = _device.GetPhysicalDevice().GetMemoryProperties()[allocInfoResult.memoryType];
+	vb._deviceMemoryTypeIndex = allocInfoResult.memoryType;
+	vb._pAllocator = &_allocator;
 	
 	return vb;
 }
@@ -76,6 +74,8 @@ VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfIndices)
 	return CreateBuffer(&bufferInfo, &allocInfo);
 	
 }
+
+
 
 
 
