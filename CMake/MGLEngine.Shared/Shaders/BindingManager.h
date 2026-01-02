@@ -12,6 +12,7 @@ struct VertexAttribute {
 	size_t offset;
 	FieldType type;
 
+
 };
 struct VertexAttributeDeclaration {
 	std::string name;

@@ -305,28 +305,6 @@ VkShaderModule VulkanEngine::CreatePipelineShader(ShaderByteCode byteCode)
 
 }
 
-VulkanBuffer MGL::VulkanEngine::CreateVertexBuffer(uint64_t sizeInBytes)
-{
-	VmaAllocationCreateInfo allocInfo = {};
-	allocInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
-
-	VkBufferCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	createInfo.size = sizeInBytes;
-	createInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-
-
-	VkBuffer buffer;
-	VmaAllocation allocation;
-	VmaAllocationInfo allocInfoResult;
-	vmaCreateBuffer(_allocator, &createInfo, &allocInfo, &buffer, &allocation, &allocInfoResult);
-	VulkanBuffer vb;
-	vb.buffer = buffer;
-	vb.size = (uint32_t)sizeInBytes;
-	vb.allocation = allocation;
-	vb.deviceMemoryTypeIndex = this->_pPhysicalDevice->GetMemoryProperties()[allocInfoResult.memoryType].DeviceLocal;
-	return vb;
-}
 
 VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 {

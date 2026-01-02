@@ -22,5 +22,8 @@ public:
 	uint64_t HeapSize;
 	VulkanMemoryProperties(VkFlags flags,VkMemoryHeap heap);
 	~VulkanMemoryProperties();
+	VulkanMemoryProperties() {
+
+	}
 };
 

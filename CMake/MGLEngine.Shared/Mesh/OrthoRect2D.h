@@ -22,7 +22,7 @@ public:
 	virtual uint32_t NIndices() override {
 		return 6;
 	}
-	virtual void RenderData(IRenderDataContext& context) override
+	virtual void RenderData(IRenderSerializationContext& context) override
 	{
 		auto& posStream = context.GetVerticeAttribute("position2d");
 		auto& indexStream = context.GetIndicesStream();

@@ -23,7 +23,7 @@ public:
 
 	
 
-	virtual void RenderData(IRenderDataContext& context) override
+	virtual void RenderData(IRenderSerializationContext& context) override
 	{
 		_mesh.RenderData(context);
 		auto& colorStream = context.GetVerticeAttribute("color");
