@@ -27,6 +27,7 @@ public:
 	VkPipeline pipeline;
 	std::vector<DrawElementContext> drawGraph;
 	VulkanBuffer vBuffer;
+	VulkanBuffer iBuffer;
 	bool needSerialize;
 	bool needResize;
 	BindingManager Binding;

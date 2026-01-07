@@ -476,6 +476,8 @@ void MGL::VulkanEngine::Draw()
 			}
 			ctx.totalVertices = verticesOff;
 			ctx.totalIndices = indicesOff;
+			ctx.vBuffer = _pMemoryAllocator->CreateVertexBuffer(ctx.totalVertices*ctx.Binding.GetStride());
+			ctx.iBuffer = _pMemoryAllocator->CreateIndexBuffer(ctx.totalIndices);
 		}
 
 		
