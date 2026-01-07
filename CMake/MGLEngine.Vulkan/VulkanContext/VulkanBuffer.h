@@ -22,10 +22,21 @@ public:
 		_memType = {};
 		_pAllocator = nullptr;
 		_pMappedData = nullptr;
+		_buffer = VK_NULL_HANDLE;
 	}
 
 	void* Map();
 
 	void Unmap();
+
+	void DeleteIfNecessary()
+	{
+		if (_pAllocator && _buffer != VK_NULL_HANDLE)
+		{
+			vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
+			_pAllocator == nullptr;
+			_buffer = VK_NULL_HANDLE;
+		}
+	}
 
 };
