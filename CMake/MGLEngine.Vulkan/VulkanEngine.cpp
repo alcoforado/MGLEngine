@@ -479,6 +479,13 @@ void MGL::VulkanEngine::Draw()
 			ctx.vBuffer = _pMemoryAllocator->CreateVertexBuffer(ctx.totalVertices*ctx.Binding.GetStride());
 			ctx.iBuffer = _pMemoryAllocator->CreateIndexBuffer(ctx.totalIndices);
 		}
+		if (ctx.needSerialize)
+		{
+			void* pVertice = ctx.vBuffer.Map();
+			void* pIndex = ctx.iBuffer.Map();
+
+
+		}
 
 		
 
