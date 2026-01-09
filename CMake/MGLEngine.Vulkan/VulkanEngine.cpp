@@ -239,12 +239,11 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	eassert(pShader != nullptr, "Shader pointer is null");
 	std::type_index typeIndex(typeid(*pShader));
 	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
-	ShaderContext ctx;
 	ShaderConfiguration options = {};
 	pShader->Init(options);
-	ctx.options = options;
-	ctx.pipeline = CreatePipeline(options);
-	ctx.Binding = BindingManager(options.vertexAttributes);
+	auto pipeline = CreatePipeline(options);
+	auto binding = BindingManager(options.vertexAttributes);
+	ShaderContext ctx(pipeline, options, binding);
 	this->_shaders[typeIndex] = ctx;
 }
 
@@ -461,31 +460,9 @@ void MGL::VulkanEngine::Draw()
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
-		if (ctx.needResize)
-		{
-			size_t indicesOff = 0, verticesOff = 0;
-			for (auto& drawingContext : ctx.drawGraph)
-			{
-				IDrawingObject* shape = drawingContext.pObject;
-				drawingContext.allocatedIndices = shape->NIndices();
-				drawingContext.allocatedVertices = shape->NVertices();
-				drawingContext.startIndice = indicesOff;
-				drawingContext.startVertex = verticesOff;
-				verticesOff += drawingContext.allocatedVertices;
-				indicesOff += drawingContext.allocatedIndices;
-			}
-			ctx.totalVertices = verticesOff;
-			ctx.totalIndices = indicesOff;
-			ctx.vBuffer = _pMemoryAllocator->CreateVertexBuffer(ctx.totalVertices*ctx.Binding.GetStride());
-			ctx.iBuffer = _pMemoryAllocator->CreateIndexBuffer(ctx.totalIndices);
-		}
-		if (ctx.needSerialize)
-		{
-			void* pVertice = ctx.vBuffer.Map();
-			void* pIndex = ctx.iBuffer.Map();
+		ctx.Serialize(*(this->_pMemoryAllocator));
 
 
-		}
 
 		
 

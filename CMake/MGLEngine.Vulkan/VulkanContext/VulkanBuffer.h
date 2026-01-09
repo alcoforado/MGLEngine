@@ -23,20 +23,23 @@ public:
 		_pAllocator = nullptr;
 		_pMappedData = nullptr;
 		_buffer = VK_NULL_HANDLE;
+		_size = 0;
 	}
 
 	void* Map();
 
 	void Unmap();
+	
+	bool Empty() {
+		return _size == 0;
+	}
 
-	void DeleteIfNecessary()
+	void Delete()
 	{
-		if (_pAllocator && _buffer != VK_NULL_HANDLE)
-		{
 			vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
 			_pAllocator == nullptr;
 			_buffer = VK_NULL_HANDLE;
-		}
+		
 	}
 
 };

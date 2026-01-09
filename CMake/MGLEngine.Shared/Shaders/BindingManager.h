@@ -28,5 +28,11 @@ public:
 	BindingManager(std::vector<VertexAttributeDeclaration> vAttribs);
 	BindingManager() { totalStride = 0; };
 	size_t GetStride() { return totalStride; }
+	
+	bool CheckVerticeBufferAlignment(void *pt) { 
+		//for now we will only have 32 bits alignment
+		uintptr_t address= (uintptr_t) pt;
+		return address % 4 == 0;
+	}
 	const std::vector<VertexAttribute>& GetVertexAttributes() { return _verticeData; }
 };
