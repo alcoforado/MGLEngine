@@ -35,12 +35,17 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 	}
 	if (_needSerialize)
 	{
-		void* pVertice = _vBuffer.Map();
-		void* pIndex   = _iBuffer.Map();
+		uint8_t* pVertice = (uint8_t*) _vBuffer.Map();
+		uint8_t* pIndex   = (uint8_t*) _iBuffer.Map();
 
 		eassert(_binding.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
 
-
+		//start initializing the vertice attributes' memory streams
+		std::map<std::string, InterleavedMemoryStream> memoryStreamsMap;
+		for (auto vAttribute : _binding.GetVertexAttributes())
+		{
+			InterleavedMemoryStream memoryStream(pVertice,_binding.GetStride(),)
+		}
 
 
 
