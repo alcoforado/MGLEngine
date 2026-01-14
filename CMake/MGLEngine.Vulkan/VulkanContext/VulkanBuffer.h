@@ -37,7 +37,7 @@ public:
 	void Delete()
 	{
 			vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
-			_pAllocator == nullptr;
+			_pAllocator = nullptr;
 			_buffer = VK_NULL_HANDLE;
 		
 	}

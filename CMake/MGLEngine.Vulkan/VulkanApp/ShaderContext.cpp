@@ -2,6 +2,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
+#include <MGLEngine.Vulkan/VulkanContext/RenderSerizalizationContext.h>
 ShaderContext::ShaderContext(VkPipeline pipeline, ShaderConfiguration options, BindingManager bindingManager)
 {
 	this->_pipeline = pipeline;
@@ -42,9 +43,18 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 
 		//start initializing the vertice attributes' memory streams
 		std::map<std::string, InterleavedMemoryStream> memoryStreamsMap;
-		for (auto vAttribute : _binding.GetVertexAttributes())
+		
+		for (auto& drawingContext : _drawGraph)
 		{
-			InterleavedMemoryStream memoryStream(pVertice,_binding.GetStride(),)
+			for (auto vAttribute : _binding.GetVertexAttributes())
+			{
+				InterleavedMemoryStream memoryStream(pVertice + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
+				memoryStreamsMap[vAttribute.name] = memoryStream;
+				IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,drawingContext.startIndice);
+				RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
+				DrawContext drawContext();
+				drawingContext.pObject->RenderData(renderContext);
+			}
 		}
 
 

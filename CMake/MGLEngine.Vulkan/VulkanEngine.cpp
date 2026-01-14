@@ -257,7 +257,7 @@ void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawin
 
 	eassert(_shaders.contains(shaderTypeIndex), std::format("Shader for object {} was not registered", typeid(shape).name()));
 	ShaderContext& ctx = _shaders[shaderTypeIndex];
-	ctx.drawGraph.push_back(DrawElementContext(&shape));
+	ctx.AddShape(&shape);
 }
 #pragma endregion
 

@@ -35,10 +35,19 @@ private:
 	size_t _totalIndices;
 public:
 	ShaderContext(VkPipeline pipeline, ShaderConfiguration options, BindingManager bindingManager);
-	
+	ShaderContext() {
+		_pipeline = VK_NULL_HANDLE;
+		_needSerialize = true;
+		_needResize = true;
+		_totalVertices = 0;
+		_totalIndices = 0;
+	}
 	void Serialize(VulkanMemoryAllocator& vmaAllocator);
 	
-
+	void AddShape(IDrawingObject* pShape)
+	{
+		_drawGraph.push_back(DrawElementContext(pShape));
+	}
 
 };
 

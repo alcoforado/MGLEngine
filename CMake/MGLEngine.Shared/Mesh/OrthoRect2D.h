@@ -36,6 +36,7 @@ public:
 	}
 	virtual void Draw(IDrawContext& ctx) override
 	{
+
 		ctx.DrawIndexedTriangles();
 	}
 };
