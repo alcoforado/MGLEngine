@@ -38,6 +38,7 @@
 			void CreateSwapChainImageViews();
 			void CreateRenderPass();
 			void CreateFramebuffers();
+			void CreateCommandPool();
 			void CreateVulkanMemoryAllocator();
 
 		private:

@@ -183,6 +183,14 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 	}
 }
 
+void MGL::VulkanEngine::CreateCommandPool()
+{
+	VkCommandPoolCreateInfo poolInfo{};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+	poolInfo.queueFamilyIndex = ppolInfo.
+}
+
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
 	_pMemoryAllocator = new VulkanMemoryAllocator(*_pLogicalDevice);

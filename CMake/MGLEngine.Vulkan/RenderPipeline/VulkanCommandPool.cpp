@@ -3,6 +3,7 @@
 #include "../VulkanContext/VulkanLogicalDevice.h"
 #include "../VulkanContext/VulkanPhysicalDevice.h"
 #include "VulkanCommandBuffer.h"
+#include <MGLEngine.Vulkan/VulkanUtils.h>
 
 VulkanCommandPool::VulkanCommandPool(const VulkanLogicalDevice& device)
 	:_logicalDevice(device)
@@ -14,7 +15,8 @@ VulkanCommandPool::VulkanCommandPool(const VulkanLogicalDevice& device)
 	});
 	poolInfo.flags = 0; 
 
-	vkCreateCommandPool(device.GetHandle(), &poolInfo, nullptr, &_vkPool);
+	auto result=vkCreateCommandPool(device.GetHandle(), &poolInfo, nullptr, &_vkPool);
+	AssertVulkanSuccess(result);
 }
 
 VulkanCommandPool::~VulkanCommandPool()
