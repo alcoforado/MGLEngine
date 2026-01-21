@@ -18,7 +18,6 @@ private:
 	std::vector<std::string> _enabledExtensions;
 	std::vector<VulkanQueue> _queues;
 	std::vector<VkImage> _images;
-	OPointer<VulkanCommandPool> _pCommandPool;
 	OPointer<VulkanDescriptorSetPool> _pDescriptorSetPool;
 	
 public:
@@ -32,7 +31,6 @@ public:
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanQueue* GetGraphicQueue() const;
 
-	VulkanCommandPool* GetGraphicCommandPool();
 	VulkanDescriptorSetPool* GetDescriptorSetPool() const { return _pDescriptorSetPool; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;

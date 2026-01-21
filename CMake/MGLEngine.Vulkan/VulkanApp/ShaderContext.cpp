@@ -52,7 +52,6 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 				IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,drawingContext.startIndice);
 				RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
-				DrawContext drawContext();
 				drawingContext.pObject->RenderData(renderContext);
 			}
 		}

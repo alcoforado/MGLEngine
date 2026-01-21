@@ -11,15 +11,14 @@ class VulkanCommandPool
 	friend class VulkanLogicalDevice;
 	const VulkanLogicalDevice& _logicalDevice;
 	VkCommandPool _vkPool;
-	explicit VulkanCommandPool(const VulkanLogicalDevice &_device);
 public:
 	
 	~VulkanCommandPool();
+	VulkanCommandPool(const VulkanLogicalDevice &_device);
 	VkCommandPool GetHandle() const { return _vkPool; }
 	const VulkanLogicalDevice& GetLogicalDevice() const {
 		return _logicalDevice;
 	}
-
-	VulkanCommandBuffer* CreateCommandBuffer(VulkanCommandBufferOptions options);
+	std::unique_ptr<VulkanCommandBuffer> CreateCommandBuffer(VulkanCommandBufferOptions options);
 };
 

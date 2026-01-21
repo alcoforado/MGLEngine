@@ -56,10 +56,10 @@ private:
 	
 	bool _isOpen;
 	void AssertIsOpen();
-	VulkanCommandBuffer(const VulkanCommandPool* pool, VulkanCommandBufferOptions* options);
 	Statistics _statistics;
 
 public:
+	VulkanCommandBuffer(const VulkanCommandPool* pool, VulkanCommandBufferOptions* options);
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);

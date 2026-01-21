@@ -91,14 +91,6 @@ const VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() const
 
 }
 
-VulkanCommandPool* VulkanLogicalDevice::GetGraphicCommandPool() 
-{
-	if (_pCommandPool == nullptr)
-	{
-		_pCommandPool = new VulkanCommandPool(*this);
-	}
-	return _pCommandPool;
-}
 
 void VulkanLogicalDevice::WaitToBeIdle() const
 {

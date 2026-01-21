@@ -10,7 +10,7 @@
 #include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
  namespace MGL {
@@ -25,10 +25,12 @@
 			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;
+			VulkanCommandPool*  _pCommandPool=nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
 			//configuraion options
 			WindowOptions _windowOptions;
+
 			AppConfiguration _vulkanConfiguration;
 		private:
 			void ChoosePhysicalDevice();
@@ -40,7 +42,9 @@
 			void CreateFramebuffers();
 			void CreateCommandPool();
 			void CreateVulkanMemoryAllocator();
-
+		private:
+			void DestroySwapChain();
+			void DestroyFramebuffer();
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);

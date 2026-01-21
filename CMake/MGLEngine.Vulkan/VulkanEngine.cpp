@@ -4,15 +4,12 @@
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 using namespace MGL;
-MGL::VulkanEngine::~VulkanEngine() {
-	// Destructor implementation (if needed)
-}
+
 
 
 MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
-
 	_pWindow = new Window(_windowOptions);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
@@ -185,10 +182,8 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 
 void MGL::VulkanEngine::CreateCommandPool()
 {
-	VkCommandPoolCreateInfo poolInfo{};
-	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-	poolInfo.queueFamilyIndex = ppolInfo.
+	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
+
 }
 
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
@@ -477,3 +472,36 @@ void MGL::VulkanEngine::Draw()
 		
 	}
 }
+
+
+#pragma region Cleanup
+MGL::VulkanEngine::~VulkanEngine() {
+	if (_pCommandPool)
+		delete _pCommandPool;
+	DestroySwapChain();
+	DestroyFramebuffer();
+	
+	if (_pVulkanInstance)
+		delete _pVulkanInstance;
+	if (_pWindow)
+		delete _pWindow;
+	// Destructor implementation (if needed)
+}
+
+void MGL::VulkanEngine::DestroySwapChain()
+{
+	if (_swapChain.handle != VK_NULL_HANDLE)
+	{
+		vkDestroySwapchainKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, nullptr);
+	}
+}
+
+void MGL::VulkanEngine::DestroyFramebuffer()
+{
+	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
+		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _swapChain.frames[i].framebuffer, nullptr);
+		vkDestroyImageView(_pLogicalDevice->GetHandle(), _swapChain.frames[i].imageView, nullptr);
+	}
+}
+
+#pragma endregion 
