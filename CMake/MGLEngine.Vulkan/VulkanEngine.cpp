@@ -89,6 +89,11 @@ void MGL::VulkanEngine::CreateSwapChain() {
 
 }
 
+void MGL::VulkanEngine::CreateCommandBuffer()
+{
+	_pCommandBuffer = _pCommandPool->CreateCommandBuffer();
+}
+
 void MGL::VulkanEngine::CreateSwapChainImageViews() {
 	//Get The imageds handlers
 	std::vector<VkImage> images;
@@ -460,10 +465,14 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 void MGL::VulkanEngine::Draw()
 {
+	(*_pCommandBuffer)
+		.Begin()
+		.BeginRenderPass()
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
 		ctx.Serialize(*(this->_pMemoryAllocator));
+
 
 
 
@@ -480,7 +489,7 @@ MGL::VulkanEngine::~VulkanEngine() {
 		delete _pCommandPool;
 	DestroySwapChain();
 	DestroyFramebuffer();
-	
+	DestroyVulkanMemoryAllocator();
 	if (_pVulkanInstance)
 		delete _pVulkanInstance;
 	if (_pWindow)
@@ -501,6 +510,14 @@ void MGL::VulkanEngine::DestroyFramebuffer()
 	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
 		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _swapChain.frames[i].framebuffer, nullptr);
 		vkDestroyImageView(_pLogicalDevice->GetHandle(), _swapChain.frames[i].imageView, nullptr);
+	}
+}
+
+void MGL::VulkanEngine::DestroyVulkanMemoryAllocator()
+{
+	if (_pMemoryAllocator)
+	{
+		delete _pMemoryAllocator;
 	}
 }
 

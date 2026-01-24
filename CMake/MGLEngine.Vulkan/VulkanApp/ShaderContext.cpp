@@ -13,7 +13,7 @@ ShaderContext::ShaderContext(VkPipeline pipeline, ShaderConfiguration options, B
 	_totalVertices = _totalIndices = 0;
 }
 
-void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
+void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator,VulkanCommandBuffer& cmdBuffer )
 {
 	if (_needResize)
 	{
@@ -55,8 +55,12 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 				drawingContext.pObject->RenderData(renderContext);
 			}
 		}
-
-
+		_vBuffer.Unmap();
+		_iBuffer.Unmap();
+	}
+	if (_needResize || _needSerialize)
+	{
+		cmdBuffer.Begin();
 
 	}
 	_needResize = _needSerialize = false;

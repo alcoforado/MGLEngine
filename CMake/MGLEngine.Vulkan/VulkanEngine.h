@@ -26,6 +26,7 @@
 			int _graphicQueueIndex;
 			SwapChainData _swapChain;
 			VulkanCommandPool*  _pCommandPool=nullptr;
+			VulkanCommandBuffer* _pCommandBuffer = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
 			//configuraion options
@@ -36,15 +37,17 @@
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
 			void CreateQueues();
+			void CreateCommandPool();
 			void CreateSwapChain();
+			void CreateCommandBuffer();
 			void CreateSwapChainImageViews();
 			void CreateRenderPass();
 			void CreateFramebuffers();
-			void CreateCommandPool();
 			void CreateVulkanMemoryAllocator();
 		private:
 			void DestroySwapChain();
 			void DestroyFramebuffer();
+			void DestroyVulkanMemoryAllocator();
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);

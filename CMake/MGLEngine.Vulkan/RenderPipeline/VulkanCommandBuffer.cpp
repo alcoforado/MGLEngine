@@ -18,10 +18,9 @@ void VulkanCommandBuffer::AssertIsOpen()
 	}
 }
 
-VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,VulkanCommandBufferOptions *options)
+VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
 	:_pPool(pool)
 {
-	_pSubmitInfoCache = nullptr;
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = _pPool->GetHandle();
@@ -31,12 +30,24 @@ VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool,VulkanCom
 	auto err = vkAllocateCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), &allocInfo, &_vkCommandBuffer);
 	AssertVulkanSuccess(err);
 
+	
+}
+
+VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool asyncQueues,bool oneSubmissionPerReset )
+{
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = options->_bufferUsageFlag;
+	if (asyncQueues)
+	{
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+	}
+	if (oneSubmissionPerReset)
+	{
+		beginInfo.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+	}
 	beginInfo.pInheritanceInfo = nullptr; // Optional
-	vkBeginCommandBuffer(_vkCommandBuffer, &beginInfo);
-
+	auto result=vkBeginCommandBuffer(_vkCommandBuffer, &beginInfo);
+	AssertVulkanSuccess(result);
 	_isOpen = true;
 }
 
@@ -65,13 +76,12 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	uint32_t firstVertex,
 	uint32_t firstInstance)
 {
-	_statistics.ActionCommands++;
 	AssertIsOpen();
 	vkCmdDraw(_vkCommandBuffer,vertexCount, instanceCount, firstVertex, firstInstance);
 	return *this;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(const VulkanPipeline* pipeline)
+VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline(const VulkanPipeline* pipeline)
 {
 	AssertIsOpen();
 	
@@ -86,6 +96,7 @@ void VulkanCommandBuffer::End()
 {
 	auto err = vkEndCommandBuffer(_vkCommandBuffer);
 	AssertVulkanSuccess(err);
+	_isOpen = false;
 }
 
 void VulkanCommandBuffer::EndRenderPass()
@@ -123,7 +134,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 
 VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
 {
-	_statistics.TransferCommands++;
 
 	VkBufferCopy copyRegion = {};
 	copyRegion.srcOffset = 0; // Optional

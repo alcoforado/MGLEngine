@@ -3,7 +3,7 @@
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/BindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
 struct DrawElementContext {
 	IDrawingObject* pObject;
 	size_t allocatedVertices;
@@ -42,7 +42,7 @@ public:
 		_totalVertices = 0;
 		_totalIndices = 0;
 	}
-	void Serialize(VulkanMemoryAllocator& vmaAllocator);
+	void Serialize(VulkanMemoryAllocator& vmaAllocator,VulkanCommandBuffer& commandBuffer);
 	
 	void AddShape(IDrawingObject* pShape)
 	{
