@@ -22,8 +22,7 @@ VulkanCommandPool::~VulkanCommandPool()
 	vkDestroyCommandPool(_logicalDevice.GetHandle(), _vkPool, nullptr);
 }
 
-std::unique_ptr<VulkanCommandBuffer> VulkanCommandPool::CreateCommandBuffer(VulkanCommandBufferOptions options)
+VulkanCommandBuffer* VulkanCommandPool::CreateCommandBuffer()
 {
-	auto result=std::make_unique<VulkanCommandBuffer>(this,&options);
-	return std::move(result);
+	return new VulkanCommandBuffer(this);
 }

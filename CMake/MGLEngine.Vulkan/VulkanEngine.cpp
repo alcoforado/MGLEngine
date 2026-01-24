@@ -465,9 +465,11 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 void MGL::VulkanEngine::Draw()
 {
+	auto activeFrame=_swapChain.frames[_swapChain.activeFrame];
 	(*_pCommandBuffer)
 		.Begin()
-		.BeginRenderPass()
+		.BeginRenderPass(_vkRenderPass,activeFrame.framebuffer,_swapChain.dims,glm::vec4(0,0,0,1))
+		.
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;

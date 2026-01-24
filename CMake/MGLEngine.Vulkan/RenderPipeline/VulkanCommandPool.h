@@ -19,6 +19,6 @@ public:
 	const VulkanLogicalDevice& GetLogicalDevice() const {
 		return _logicalDevice;
 	}
-	std::unique_ptr<VulkanCommandBuffer> CreateCommandBuffer(VulkanCommandBufferOptions options);
+	VulkanCommandBuffer* CreateCommandBuffer();
 };
 

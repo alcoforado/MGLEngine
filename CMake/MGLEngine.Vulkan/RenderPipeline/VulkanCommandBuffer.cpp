@@ -51,16 +51,16 @@ VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool asyncQueues,bool oneSubmiss
 	_isOpen = true;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color)
+VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent,glm::vec4 color)
 {
 	AssertIsOpen();
 	VkClearValue cl = { color.x,color.y,color.z,color.w };
 	VkRenderPassBeginInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	renderPassInfo.renderPass = framebuffer.GetRenderPass().GetHandle();
-	renderPassInfo.framebuffer = framebuffer.GetHandle();;
+	renderPassInfo.renderPass = renderPass;
+	renderPassInfo.framebuffer = framebuffer;
 	renderPassInfo.renderArea.offset = { 0, 0 };
-	renderPassInfo.renderArea.extent = framebuffer.GetSwapChain().GetExtent2D();
+	renderPassInfo.renderArea.extent = extent;
 	renderPassInfo.clearValueCount = 1;
 	renderPassInfo.pClearValues = &cl;
 
