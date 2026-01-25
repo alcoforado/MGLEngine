@@ -16,8 +16,21 @@ class SwapChainData {
 		VkFormat imageFormat;
 		VkColorSpaceKHR imageColorSpace;
 		std::vector<FrameData> frames;
-		VkExtent2D dims;
+		VkExtent2D dims = {};
 		int activeFrame = 0;
 		uint32_t currentImageIndex=0;
-		SwapChainData() {}
+		SwapChainData() {
+			dims = {0,0};
+			imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+		
+		}
+
+		FrameData& GetActiveFrame() {
+			return frames[activeFrame];
+		}
+		void NextFrame() {
+			activeFrame = (activeFrame + 1);
+			if (activeFrame == frames.size())
+				activeFrame = 0;
+		}
 };

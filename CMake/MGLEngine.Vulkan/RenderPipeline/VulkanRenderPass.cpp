@@ -54,7 +54,7 @@ VkRenderPass VulkanRenderPass::GetHandle() const
 
 void VulkanRenderPass::AddColorDescription(std::string name, VkAttachmentDescription desc)
 {
-	if (_colorNameMapping .find(name) != _colorNameMapping.end())
+	if (_colorNameMapping.find(name) != _colorNameMapping.end())
 	{
 		throw new Exception("Color Description already added");
 	}

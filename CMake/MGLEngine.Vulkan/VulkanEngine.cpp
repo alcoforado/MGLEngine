@@ -18,9 +18,9 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateVulkanSurface();
 	CreateQueues();
 	CreateSwapChain();
-	CreateSwapChainImageViews();
 	CreateRenderPass();
 	CreateFramebuffers();
+	CreateSemaphores();
 }
 
 
@@ -42,50 +42,12 @@ void MGL::VulkanEngine::CreateQueues() {
 }
 
 void MGL::VulkanEngine::CreateSwapChain() {
-	VkSwapchainCreateInfoKHR createInfo = {};
-	auto capabilities = _pLogicalDevice->GetPhysicalDevice().GetCapabilitiesForSurface(*_pVulkanSurface);
-	uint32_t imageCount = _vulkanConfiguration.SwapChainSize;
-	if (capabilities.minImageCount != 0)
-		imageCount = imageCount < capabilities.minImageCount ? capabilities.minImageCount : imageCount;
-	if (capabilities.maxImageCount != 0)
-		imageCount = imageCount > capabilities.maxImageCount ? capabilities.maxImageCount : imageCount;
 
-
-	//Create Swap Chain
-	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-	createInfo.surface = _pVulkanSurface->GetHandle();
-	createInfo.minImageCount = _vulkanConfiguration.SwapChainSize;
-	createInfo.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
-	createInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-	createInfo.imageExtent = _pVulkanSurface->GetExtent2D();
-	createInfo.imageArrayLayers = 1;
-	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-
-	createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-	createInfo.queueFamilyIndexCount = 0; // Optional
-	createInfo.pQueueFamilyIndices = nullptr; // Optional
-
-	createInfo.preTransform = capabilities.currentTransform;
-	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-	if (_vulkanConfiguration.VSync)
-	{
-		createInfo.presentMode = _pLogicalDevice->GetPhysicalDevice().IsPresentModeAvailableForSurface(*_pVulkanSurface, VK_PRESENT_MODE_MAILBOX_KHR) ? VK_PRESENT_MODE_MAILBOX_KHR : VK_PRESENT_MODE_FIFO_KHR;
-	}
-	else
-	{
-		createInfo.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
-
-	}
-	createInfo.clipped = VK_TRUE;
-	createInfo.oldSwapchain = VK_NULL_HANDLE;
-
-	_swapChain.imageFormat = createInfo.imageFormat;
-	_swapChain.imageColorSpace = createInfo.imageColorSpace;
-	_swapChain.dims = createInfo.imageExtent;
-	auto err = vkCreateSwapchainKHR(_pLogicalDevice->GetHandle(), &createInfo, nullptr, &(_swapChain.handle));
-	AssertVulkanSuccess(err);
-
-	//Implementation moved to constructor
+	VulkanSwapChainOptions options{
+		.NBuffers = _vulkanConfiguration.SwapChainSize,
+		.VSync = _vulkanConfiguration.VSync,
+	};
+	_pSwapChain = new VulkanSwapChain(*_pVulkanSurface, *_pLogicalDevice, options);
 
 }
 
@@ -94,50 +56,12 @@ void MGL::VulkanEngine::CreateCommandBuffer()
 	_pCommandBuffer = _pCommandPool->CreateCommandBuffer();
 }
 
-void MGL::VulkanEngine::CreateSwapChainImageViews() {
-	//Get The imageds handlers
-	std::vector<VkImage> images;
-	uint32_t imagesCount;
-	vkGetSwapchainImagesKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, &imagesCount, nullptr);
-	images.resize(imagesCount);
-	vkGetSwapchainImagesKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, &imagesCount, images.data());
 
-
-	//Get images view;
-	for (auto img : images)
-	{
-		VkImageViewCreateInfo createViewInfo = {};
-		createViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		createViewInfo.image = img;
-		createViewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-		createViewInfo.format = _swapChain.imageFormat;
-		createViewInfo.flags = 0;
-		createViewInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createViewInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createViewInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createViewInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-
-		//no layers or mipmaps
-		createViewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		createViewInfo.subresourceRange.baseMipLevel = 0;
-		createViewInfo.subresourceRange.levelCount = 1;
-		createViewInfo.subresourceRange.baseArrayLayer = 0;
-		createViewInfo.subresourceRange.layerCount = 1;
-
-		VkImageView view;
-		auto err = vkCreateImageView(_pLogicalDevice->GetHandle(), &createViewInfo, nullptr, &view);
-		AssertVulkanSuccess(err);
-		FrameData frame;
-		frame.image = img;
-		frame.imageView = view;
-		_swapChain.frames.push_back(frame);
-	}
-}
 
 void MGL::VulkanEngine::CreateRenderPass()
 {
 	VkAttachmentDescription colorAttachment{};
-	colorAttachment.format = _swapChain.imageFormat;
+	colorAttachment.format = _pSwapChain->GetImageFormat();
 	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -155,19 +79,34 @@ void MGL::VulkanEngine::CreateRenderPass()
 	subpass.colorAttachmentCount = 1;
 	subpass.pColorAttachments = &colorAttachmentRef;
 
+
+	//Specify that  the dst Subpass (The only subpass We defined) will wait for the external subpass to finish
+	//It will wait for the external souce to finish the color attachment output stage
+	//before it can access the same stage
+	VkSubpassDependency dependency{};
+	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.srcAccessMask = 0;
+	dependency.dstSubpass = 0;             
+	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
 	VkRenderPassCreateInfo passInfo{};
 	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	passInfo.attachmentCount = 1;
 	passInfo.pAttachments = &colorAttachment;
 	passInfo.subpassCount = 1;
 	passInfo.pSubpasses = &subpass;
+	passInfo.dependencyCount = 1;
+	passInfo.pDependencies = &dependency;
 	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_vkRenderPass);
 }
 
 void MGL::VulkanEngine::CreateFramebuffers() {
-	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
+	auto imageViews = _pSwapChain->GetImageViews();
+	for (auto imageView : imageViews) {
 		VkImageView attachments[] = {
-			_swapChain.frames[i].imageView
+			imageView
 		};
 
 		VkFramebufferCreateInfo framebufferInfo{};
@@ -175,14 +114,23 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 		framebufferInfo.renderPass = _vkRenderPass;
 		framebufferInfo.attachmentCount = 1;
 		framebufferInfo.pAttachments = attachments;
-		framebufferInfo.width = _swapChain.dims.width;
-		framebufferInfo.height = _swapChain.dims.height;
+		framebufferInfo.width = _pSwapChain->GetExtent2D().width;
+		framebufferInfo.height = _pSwapChain->GetExtent2D().height;
 		framebufferInfo.layers = 1;
 
-		if (vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &(_swapChain.frames[i].framebuffer)) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create framebuffer!");
-		}
+		VkFramebuffer framebuffer;
+		auto result=vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &framebuffer);
+		AssertVulkanSuccess(result);
+		_framebuffers.push_back(framebuffer);
 	}
+
+}
+
+void MGL::VulkanEngine::CreateSemaphores()
+{
+	_pImageAvailableSemaphore = new VulkanSemaphore(_pLogicalDevice);
+	_pRenderFinishedSemaphore = new VulkanSemaphore(_pLogicalDevice);
+	_pInFlightFence = new VulkanFence(_pLogicalDevice, true);
 }
 
 void MGL::VulkanEngine::CreateCommandPool()
@@ -359,14 +307,14 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	VkViewport Viewport = {};
 	Viewport.x = 0.0f;
 	Viewport.y = 0.0f;
-	Viewport.width = static_cast<float>(_swapChain.dims.width);
-	Viewport.height = static_cast<float>(_swapChain.dims.height);
+	Viewport.width = static_cast<float>(_pSwapChain->GetExtent2D().width);
+	Viewport.height = static_cast<float>(_pSwapChain->GetExtent2D().height);
 	Viewport.minDepth = 0.0f;
 	Viewport.maxDepth = 1.0f;
 
 	VkRect2D Scissor = {};
 	Scissor.offset = { 0, 0 };
-	Scissor.extent = _swapChain.dims;
+	Scissor.extent = _pSwapChain->GetExtent2D();
 
 	VkPipelineViewportStateCreateInfo ViewportState = {};
 	ViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -450,7 +398,7 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	pipelineInfo.pDepthStencilState = nullptr;
 	pipelineInfo.pColorBlendState = &ColorBlending;
 	pipelineInfo.pDynamicState = nullptr;
-
+	pipelineInfo.layout = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
@@ -465,15 +413,21 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 
 void MGL::VulkanEngine::Draw()
 {
-	auto activeFrame=_swapChain.frames[_swapChain.activeFrame];
+	_pInFlightFence->Wait();
+	_pInFlightFence->Reset();
+	
+	uint32_t imageIndex = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
+	
+
 	(*_pCommandBuffer)
+		.Reset()
 		.Begin()
-		.BeginRenderPass(_vkRenderPass,activeFrame.framebuffer,_swapChain.dims,glm::vec4(0,0,0,1))
-		.
+		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1));
+		
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
-		ctx.Serialize(*(this->_pMemoryAllocator));
+		ctx.Serialize(*(this->_pMemoryAllocator),*_pCommandBuffer);
 
 
 
@@ -482,6 +436,15 @@ void MGL::VulkanEngine::Draw()
 
 		
 	}
+	_pCommandBuffer->EndRenderPass();
+	_pCommandBuffer->End();
+	_pLogicalDevice->GetGraphicQueue()->Submit(
+		_pCommandBuffer,
+		_pRenderFinishedSemaphore, //signal when finished
+		_pImageAvailableSemaphore, //wait on
+		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
+		_pInFlightFence //fence to signal		
+	);
 }
 
 
@@ -489,9 +452,14 @@ void MGL::VulkanEngine::Draw()
 MGL::VulkanEngine::~VulkanEngine() {
 	if (_pCommandPool)
 		delete _pCommandPool;
-	DestroySwapChain();
 	DestroyFramebuffer();
+	DestroyPipelines();
+	DestroyRenderPass();
+	if (_pSwapChain)
+		delete _pSwapChain;
 	DestroyVulkanMemoryAllocator();
+	if (_pLogicalDevice)
+		delete _pLogicalDevice;
 	if (_pVulkanInstance)
 		delete _pVulkanInstance;
 	if (_pWindow)
@@ -499,19 +467,27 @@ MGL::VulkanEngine::~VulkanEngine() {
 	// Destructor implementation (if needed)
 }
 
-void MGL::VulkanEngine::DestroySwapChain()
+void MGL::VulkanEngine::DestroyPipelines()
 {
-	if (_swapChain.handle != VK_NULL_HANDLE)
+	for (auto& pair : _shaders)
 	{
-		vkDestroySwapchainKHR(_pLogicalDevice->GetHandle(), _swapChain.handle, nullptr);
+		ShaderContext& ctx = pair.second;
+		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline(), nullptr);
 	}
+	
 }
+
+void MGL::VulkanEngine::DestroyRenderPass()
+{
+		vkDestroyRenderPass(_pLogicalDevice->GetHandle(), _vkRenderPass, nullptr);
+
+}
+
 
 void MGL::VulkanEngine::DestroyFramebuffer()
 {
-	for (size_t i = 0; i < _swapChain.frames.size(); i++) {
-		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _swapChain.frames[i].framebuffer, nullptr);
-		vkDestroyImageView(_pLogicalDevice->GetHandle(), _swapChain.frames[i].imageView, nullptr);
+	for (size_t i = 0; i < _framebuffers.size(); i++) {
+		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _framebuffers[i], nullptr);
 	}
 }
 

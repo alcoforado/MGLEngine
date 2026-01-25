@@ -43,9 +43,11 @@ class InterleavedMemoryStream {
 
 public:
 
-
-
 	InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum FieldType elemType);
+	InterleavedMemoryStream()
+		:InterleavedMemoryStream(nullptr, 0, 0, TYPE_UINT) {
+
+	}
 	
 	InterleavedMemoryStream& operator<<(float value);
 	InterleavedMemoryStream& operator<<(const glm::vec2 &v);

@@ -60,7 +60,7 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator,VulkanCommandB
 	}
 	if (_needResize || _needSerialize)
 	{
-		cmdBuffer.Begin();
+		cmdBuffer.BindGraphicsPipeline(_pipeline);
 
 	}
 	_needResize = _needSerialize = false;

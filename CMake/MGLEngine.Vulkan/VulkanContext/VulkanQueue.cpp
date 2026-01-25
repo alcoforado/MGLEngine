@@ -63,6 +63,40 @@ void VulkanQueue::Submit(const std::vector<VulkanCommandBuffer*>& vcb,VulkanSema
 	AssertVulkanSuccess(result);
 }
 
+
+
+void VulkanQueue::Submit(VulkanCommandBuffer *cb, VulkanSemaphore* pSignal, VulkanSemaphore* pWait, VkPipelineStageFlags waitStages, VulkanFence* fence) const
+{
+	
+
+	VkSemaphore w, s;
+
+
+	VkSubmitInfo submitInfo = {};
+	auto cbh = cb->GetHandle();
+
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &cbh;
+	if (pSignal != nullptr)
+	{
+		s = pSignal->GetHandle();
+		submitInfo.pSignalSemaphores = &s;
+		submitInfo.signalSemaphoreCount = 1;
+	}
+	if (pWait != nullptr)
+	{
+		w = pWait->GetHandle();
+		submitInfo.pWaitSemaphores = &w;
+		submitInfo.waitSemaphoreCount = 1;
+	}
+	VkFlags dstStageMask = waitStages;
+	submitInfo.pWaitDstStageMask = &dstStageMask;
+
+	VkResult result = vkQueueSubmit(_handle, 1, &submitInfo, fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);
+	AssertVulkanSuccess(result);
+}
+
 void VulkanQueue::Submit(VulkanCommandBatchCollection& cl,VulkanFence *fence) const
 {
 	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);

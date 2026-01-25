@@ -19,19 +19,19 @@ private:
 	const VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
 	
-	bool _isOpen;
+	bool _isOpen=false;
 	void AssertIsOpen();
 
 public:
 	VulkanCommandBuffer(const VulkanCommandPool* pool);
+	VulkanCommandBuffer& Reset();
 	VulkanCommandBuffer& Begin(bool asyncQueues=false, bool oneSubmissionPerReset=false);
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);
-
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 
-	VulkanCommandBuffer& BindGraphicsPipeline(const VulkanPipeline* pipeline);
+	VulkanCommandBuffer& BindGraphicsPipeline( VkPipeline pipeline);
 
 	VulkanCommandBuffer& BindDescriptorSet(VulkanPipeline * pipeline, std::string layoutNumber, int dsNumber);
 	VulkanCommandBuffer& BindDescriptorSet(VulkanPipeline* pipeline, VulkanDescriptorSet* ds);

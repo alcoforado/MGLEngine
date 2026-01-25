@@ -11,8 +11,10 @@
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
+#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
  namespace MGL {
 	class VulkanEngine: public IMGLEngine  {
 		private:
@@ -24,14 +26,17 @@
 			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
 			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
-			SwapChainData _swapChain;
 			VulkanCommandPool*  _pCommandPool=nullptr;
 			VulkanCommandBuffer* _pCommandBuffer = nullptr;
+			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
+			std::vector<VkFramebuffer> _framebuffers;
 			//configuraion options
 			WindowOptions _windowOptions;
-
+			VulkanSemaphore* _pImageAvailableSemaphore = nullptr;
+			VulkanSemaphore* _pRenderFinishedSemaphore = nullptr;
+			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
 		private:
 			void ChoosePhysicalDevice();
@@ -40,13 +45,15 @@
 			void CreateCommandPool();
 			void CreateSwapChain();
 			void CreateCommandBuffer();
-			void CreateSwapChainImageViews();
 			void CreateRenderPass();
 			void CreateFramebuffers();
+			void CreateSemaphores();
 			void CreateVulkanMemoryAllocator();
 		private:
 			void DestroySwapChain();
+			void DestroyRenderPass();
 			void DestroyFramebuffer();
+			void DestroyPipelines();
 			void DestroyVulkanMemoryAllocator();
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);

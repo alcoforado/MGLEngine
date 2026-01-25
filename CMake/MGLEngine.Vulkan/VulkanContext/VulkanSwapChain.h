@@ -25,10 +25,11 @@ class VulkanSwapChain
 		VulkanSwapChain(const VulkanSurface &surface,const VulkanLogicalDevice& device, VulkanSwapChainOptions options);
 		const VulkanLogicalDevice* GetLogicalDevice()const { return &_logicalDevice; }
 		~VulkanSwapChain();
+		size_t NImages() const { return _images.size(); }	
 		VkExtent2D GetExtent2D() const { return _dims; }
 		VkFormat GetImageFormat() const { return _imageFormat; }
 		std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
-		void  NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence *fenceToSignal);
+		uint32_t  NextImagePipelineAsync(VulkanSemaphore* sToSignal=nullptr, VulkanFence *fenceToSignal=nullptr);
 		VkSwapchainKHR GetHandle() { return _swapChainHandle; }
 		void Present(const VulkanSemaphore* lock);
 		uint32_t GetCurrentImageIndex() const { return _currentImageIndex; }

@@ -29,6 +29,7 @@ public:
 	//Submit command
 	void Submit(VulkanCommandBuffer &cb) const;
 	void Submit(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages,VulkanFence *fence=nullptr) const;
+	void Submit(VulkanCommandBuffer* cb, VulkanSemaphore* pSignal, VulkanSemaphore* pWait, VkPipelineStageFlags waitStages, VulkanFence* fence) const;
 
 	void Submit(VulkanCommandBatchCollection &cl,VulkanFence *fence=nullptr) const;
 	void WaitIdle() const;

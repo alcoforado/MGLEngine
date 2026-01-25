@@ -107,7 +107,7 @@ VulkanSwapChain::~VulkanSwapChain()
 	vkDestroySwapchainKHR(_logicalDevice.GetHandle(), _swapChainHandle, nullptr);
 }
 
-void  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence* fenceToSignal)
+uint32_t  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence* fenceToSignal)
 {
 	vkAcquireNextImageKHR(_logicalDevice.GetHandle(),
 		_swapChainHandle,
@@ -115,6 +115,7 @@ void  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal, Vulkan
 		sToSignal == nullptr ? VK_NULL_HANDLE : sToSignal->GetHandle(),
 		fenceToSignal == nullptr ? VK_NULL_HANDLE : fenceToSignal->GetHandle(),
 		&_currentImageIndex);
+	return _currentImageIndex;
 }
 
 void VulkanSwapChain::Present(const VulkanSemaphore* lock)

@@ -18,6 +18,14 @@ void VulkanCommandBuffer::AssertIsOpen()
 	}
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::Reset()
+{
+	auto err = vkResetCommandBuffer(_vkCommandBuffer, 0);
+	AssertVulkanSuccess(err);
+	_isOpen = false;
+	return *this;
+}
+
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
 	:_pPool(pool)
 {
@@ -49,6 +57,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool asyncQueues,bool oneSubmiss
 	auto result=vkBeginCommandBuffer(_vkCommandBuffer, &beginInfo);
 	AssertVulkanSuccess(result);
 	_isOpen = true;
+	return *this;
 }
 
 VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent,glm::vec4 color)
@@ -81,11 +90,11 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	return *this;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline(const VulkanPipeline* pipeline)
+VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline( VkPipeline _vkPipeline)
 {
 	AssertIsOpen();
 	
-	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->GetHandle());
+	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, _vkPipeline);
 	return *this;
 }
 

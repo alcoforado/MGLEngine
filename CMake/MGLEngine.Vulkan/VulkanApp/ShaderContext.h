@@ -48,7 +48,9 @@ public:
 	{
 		_drawGraph.push_back(DrawElementContext(pShape));
 	}
-
+	VkPipeline GetPipeline() const {
+		return _pipeline;
+	}
 };
 
 
