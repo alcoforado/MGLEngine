@@ -6,8 +6,8 @@
 #include <glfw/glfw3.h>
 #include "VulkanMemoryProperties.h"
 #include <functional>
-
 class VulkanInstance;
+class VulkanSurface;
 
 struct VulkanQueueFamily {
 	uint32_t	queueFlags;

@@ -445,8 +445,17 @@ void MGL::VulkanEngine::Draw()
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
+	_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore);
 }
 
+void MGL::VulkanEngine::Render() {
+	auto glfwWindow = _pWindow->GLFWHandler();
+	while (glfwWindowShouldClose(glfwWindow))
+	{
+		glfwPollEvents();
+		Draw();
+	}
+}
 
 #pragma region Cleanup
 MGL::VulkanEngine::~VulkanEngine() {

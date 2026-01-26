@@ -66,6 +66,7 @@
 			virtual void RegisterShader(std::unique_ptr<IShader> pShader) override;
 			virtual bool IsShaderRegistered(const std::type_index shaderType) override;
 			virtual void AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape) override;
+			void Draw();
 		public:
 			VkFormat ToVkFormat(enum FieldType type);
 
@@ -73,7 +74,6 @@
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
 			
-			
-			void Draw() override;
+			void Render() override;
 	};
 }

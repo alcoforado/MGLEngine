@@ -2,10 +2,14 @@
 #include "VulkanLogicalDevice.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
 #include "MGLEngine.Vulkan/RenderPipeline/VulkanFence.h"
+#include <MGLEngine.Shared/Utils/eassert.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include "MGLEngine.Vulkan/VulkanUtils.h"
 VulkanQueue::VulkanQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
 	:_logicalDevice(logicalDevice),_familyIndex(familyIndex),_queueIndex(queueIndex)
 {
+	_isPresentationQueue =_logicalDevice.GetPhysicalDevice().GetQueueFamilies()[familyIndex].SupportPresentation;
+	_isGraphicQueue = _logicalDevice.GetPhysicalDevice().GetQueueFamilies()[familyIndex].IsGraphic;
 	vkGetDeviceQueue(_logicalDevice.GetHandle(), _familyIndex, _queueIndex,&_handle);
 }
 
@@ -101,6 +105,23 @@ void VulkanQueue::Submit(VulkanCommandBatchCollection& cl,VulkanFence *fence) co
 {
 	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);
 	AssertVulkanSuccess(result);
+}
+
+void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toSignal) const
+{
+	eassert(_isPresentationQueue, "This queue doest not support Presentation");
+	VkPresentInfoKHR presentInfo{};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	VkSemaphore semaphore = toSignal->GetHandle();
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = &semaphore;
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = &swapChain;
+	presentInfo.pImageIndices = &imageIndex;
+	presentInfo.pResults = nullptr; //revisit this field if you pass an array of swapchains
+	auto err = vkQueuePresentKHR(_handle, &presentInfo);
+	AssertVulkanSuccess(err);
+
 }
 
 void VulkanQueue::WaitIdle() const

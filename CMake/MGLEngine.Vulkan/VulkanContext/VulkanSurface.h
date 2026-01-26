@@ -4,11 +4,7 @@
 #include <glfw/glfw3.h>
 #include <MGLEngine.Vulkan/Window/MWindow.h>
 class VulkanInstance;
-struct PresentationGraphicsFamilyIndices
-{
-	uint32_t GraphicQueueFamily;
-	uint32_t PresentationQueueFamily;
-};
+
 
 class VulkanSurface
 {

@@ -85,7 +85,6 @@ void MGL::Window::OnResize(int width, int height)
 
 
 
-
 void MGL::Window::Redraw()
 {
 	glfwPostEmptyEvent();

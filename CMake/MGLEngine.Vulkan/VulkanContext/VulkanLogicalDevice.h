@@ -9,6 +9,8 @@ class VulkanCommandPool;
 class VulkanDescriptorSetPool;
 struct GLFWwindow;
 class VulkanPhysicalDevice;
+class VulkanFence;
+class VulkanSemaphore;
 class VulkanLogicalDevice
 {
 	friend VulkanPhysicalDevice;
@@ -30,7 +32,7 @@ public:
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
 	const VulkanQueue* GetGraphicQueue() const;
-
+	
 	VulkanDescriptorSetPool* GetDescriptorSetPool() const { return _pDescriptorSetPool; }
 	void WaitToBeIdle() const;
 	VulkanFence* CreateFence(bool b = false) const;

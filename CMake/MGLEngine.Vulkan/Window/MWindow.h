@@ -36,6 +36,7 @@ namespace MGL {
 		int Width() { return _width; }
 		GLFWwindow* GLFWHandler() { return _window; }
 		void Redraw();
+		
 		void AttachEventHandler(IWindowEventHandler *eh);
 		void DetachEventHandler(IWindowEventHandler *eb);
 
