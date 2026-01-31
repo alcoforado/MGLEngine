@@ -428,13 +428,6 @@ void MGL::VulkanEngine::Draw()
 	{
 		ShaderContext& ctx = pair.second;
 		ctx.Serialize(*(this->_pMemoryAllocator),*_pCommandBuffer);
-
-
-
-
-		
-
-		
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
