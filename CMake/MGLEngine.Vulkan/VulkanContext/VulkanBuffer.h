@@ -25,7 +25,9 @@ public:
 		_buffer = VK_NULL_HANDLE;
 		_size = 0;
 	}
-
+	VkBuffer Handle() {
+		return _buffer;
+	}
 	void* Map();
 
 	void Unmap();

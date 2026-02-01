@@ -74,6 +74,6 @@
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
 			
-			void Render() override;
+			void Run() override;
 	};
 }

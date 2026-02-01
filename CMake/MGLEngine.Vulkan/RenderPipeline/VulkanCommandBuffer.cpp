@@ -141,6 +141,16 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VkBuffer buff)
+{
+	vkCmdBindIndexBuffer(_vkCommandBuffer, buff, 0, VK_INDEX_TYPE_UINT32);
+	return *this;
+}
+
+
+
+
+
 VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
 {
 

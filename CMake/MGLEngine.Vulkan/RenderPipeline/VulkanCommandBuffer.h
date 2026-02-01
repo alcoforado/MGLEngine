@@ -38,7 +38,8 @@ public:
 
 
 	VulkanCommandBuffer& BindVertexBuffer(VkBuffer buff);
-	
+	VulkanCommandBuffer& BindIndexBuffer(VkBuffer buff);
+
 	VulkanCommandBuffer& CopyBuffers(VkBuffer src, VkBuffer dst, long size);
 	
 	void End();

@@ -23,5 +23,5 @@ class IMGLEngine {
 			AddShape(typeIndex, shape);
 		};
 
-		virtual void Render() = 0;
+		virtual void Run() = 0;
 };

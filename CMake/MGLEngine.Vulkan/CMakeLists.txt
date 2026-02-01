@@ -50,8 +50,8 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "RenderPipeline/VulkanCommands.cpp" "RenderPipeline/VulkanCommands.h"  "RenderPipeline/VulkanFence.cpp" 
 "RenderPipeline/VulkanFence.h" "RenderPipeline/VulkanFramebuffer.cpp" "RenderPipeline/VulkanFramebuffer.h" "RenderPipeline/VulkanInputLayout.cpp" 
 "RenderPipeline/VulkanInputLayout.h" "RenderPipeline/VulkanPipeline.cpp" "RenderPipeline/VulkanPipeline.h" "RenderPipeline/VulkanRenderPass.cpp" 
-"RenderPipeline/VulkanRenderPass.h" "RenderPipeline/VulkanSemaphore.cpp" "RenderPipeline/VulkanSemaphore.h" "RenderPipeline/VulkanSemaphorePool.cpp" 
-"RenderPipeline/VulkanSemaphorePool.h" "RenderPipeline/VulkanSubPass.cpp" "RenderPipeline/VulkanSubPass.h" "RenderPipeline/VulkanSwapChainFramebuffers.cpp" 
+"RenderPipeline/VulkanRenderPass.h" "RenderPipeline/VulkanSemaphore.cpp" "RenderPipeline/VulkanSemaphore.h"  
+ "RenderPipeline/VulkanSubPass.cpp" "RenderPipeline/VulkanSubPass.h" "RenderPipeline/VulkanSwapChainFramebuffers.cpp" 
 "RenderPipeline/VulkanSwapChainFramebuffers.h"  "RenderResources/IVulkanSlotBinding.cpp" 
 "RenderResources/IVulkanSlotBinding.h"   "RenderResources/UniformBufferSlot.h" 
    

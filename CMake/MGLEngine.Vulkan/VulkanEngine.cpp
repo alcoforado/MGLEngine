@@ -427,7 +427,8 @@ void MGL::VulkanEngine::Draw()
 	for (auto pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
-		ctx.Serialize(*(this->_pMemoryAllocator),*_pCommandBuffer);
+		ctx.Serialize(*(this->_pMemoryAllocator));
+		ctx.WriteCommandBuffer(*_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
@@ -441,7 +442,7 @@ void MGL::VulkanEngine::Draw()
 	_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore);
 }
 
-void MGL::VulkanEngine::Render() {
+void MGL::VulkanEngine::Run() {
 	auto glfwWindow = _pWindow->GLFWHandler();
 	while (glfwWindowShouldClose(glfwWindow))
 	{

@@ -107,12 +107,12 @@ void VulkanQueue::Submit(VulkanCommandBatchCollection& cl,VulkanFence *fence) co
 	AssertVulkanSuccess(result);
 }
 
-void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toSignal) const
+void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const
 {
 	eassert(_isPresentationQueue, "This queue doest not support Presentation");
 	VkPresentInfoKHR presentInfo{};
 	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-	VkSemaphore semaphore = toSignal->GetHandle();
+	VkSemaphore semaphore = toWait->GetHandle();
 	presentInfo.waitSemaphoreCount = 1;
 	presentInfo.pWaitSemaphores = &semaphore;
 	presentInfo.swapchainCount = 1;

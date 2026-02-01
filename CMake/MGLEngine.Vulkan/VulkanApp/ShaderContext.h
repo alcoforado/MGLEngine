@@ -42,7 +42,9 @@ public:
 		_totalVertices = 0;
 		_totalIndices = 0;
 	}
-	void Serialize(VulkanMemoryAllocator& vmaAllocator,VulkanCommandBuffer& commandBuffer);
+	void Serialize(VulkanMemoryAllocator& vmaAllocator);
+
+	void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 	
 	void AddShape(IDrawingObject* pShape)
 	{

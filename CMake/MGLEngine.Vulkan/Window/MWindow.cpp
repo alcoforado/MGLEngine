@@ -63,6 +63,7 @@ MGL::Window::Window(const WindowOptions &options)
 MGL::Window::~Window()
 {
 	this->isGLFWInitialized = false;
+	glfwDestroyWindow(_window);
 	glfwTerminate();
 }
 
