@@ -100,5 +100,5 @@ add_library(${PROJECT_NAME} STATIC
  "Shaders/Color2D/VertexColor2D.h" 
  "Interfaces/IMGLEngine.h" 
  "Shaders/FieldType.h"
- "Shaders/BindingManager.h" "Shaders/BindingManager.cpp")
+ "Shaders/BindingManager.h" "Shaders/BindingManager.cpp" "Utils/utils.h")
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)

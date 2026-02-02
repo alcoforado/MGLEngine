@@ -75,6 +75,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 
 VulkanLogicalDevice::~VulkanLogicalDevice()
 {
+	vkDestroyDevice(_vkDevice, nullptr);
 }
 
 const VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() const

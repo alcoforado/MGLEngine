@@ -2,6 +2,7 @@
 #include<algorithm>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
+#include <MGLEngine.Shared/Utils/utils.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 using namespace MGL;
 
@@ -461,13 +462,19 @@ MGL::VulkanEngine::~VulkanEngine() {
 	if (_pSwapChain)
 		delete _pSwapChain;
 	DestroyVulkanMemoryAllocator();
-	if (_pLogicalDevice)
-		delete _pLogicalDevice;
-	if (_pVulkanInstance)
-		delete _pVulkanInstance;
-	if (_pWindow)
-		delete _pWindow;
+	DestroySyncObjects();
+	if_free(_pLogicalDevice);
+	if_free(_pVulkanSurface);
+	if_free(_pVulkanInstance);
+	if_free(_pWindow);
 	// Destructor implementation (if needed)
+}
+
+void MGL::VulkanEngine::DestroySyncObjects() {
+	if_free(_pInFlightFence);
+	if_free(_pRenderFinishedSemaphore);
+	if_free(_pImageAvailableSemaphore);
+	
 }
 
 void MGL::VulkanEngine::DestroyPipelines()

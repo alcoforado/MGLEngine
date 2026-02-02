@@ -28,7 +28,7 @@ class VulkanInstance
 
 	static  VkBool32 __stdcall DbgCallback(VkFlags msgFlags, VkDebugReportObjectTypeEXT objType, uint64_t srcObject, size_t location, int32_t msgCode, const char *pLayerPrefix, const char *pMsg,
 		void *pUserData);
-	VkDebugReportCallbackEXT _vk_debug_report_callback_ext; //To contain the vulkan handle for the debug callback
+	VkDebugReportCallbackEXT _vk_debug_report_callback_ext = VK_NULL_HANDLE; //To contain the vulkan handle for the debug callback
 
 
 	std::vector<VulkanPhysicalDevice> ComputePhysicalDevices() const;
@@ -44,9 +44,8 @@ public:
 	const std::vector<MVulkanLayer>& GetAvailableLayers() const { return _vkLayers; }
 	const std::vector<VulkanPhysicalDevice>& GetPhysicalDevices() const { return _vkPhysicalDevices; }
 	VkInstance GetHandle() const { return _vkInstance; }
-	VulkanInstance();
 	VulkanInstance(std::string appName, bool enableDebug);
-
+	
 	~VulkanInstance();
 };
 

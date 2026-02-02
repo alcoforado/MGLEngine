@@ -30,7 +30,7 @@ public:
 		auto nVertices = _mesh.NVertices();
 		//Fill colors in a round-robin fashion
 		int j = 0;
-		for (int i = 0; i < nVertices;i++) {
+		for (uint32_t i = 0; i < nVertices;i++) {
 			colorStream << _colors[j++];
 			if (j >= _colors.size()) {
 				j = 0;

@@ -36,7 +36,10 @@ void AssertVulkanSuccess(VkResult res)
 {
 	if (res != VK_SUCCESS)
 	{
-		throw new Exception("Error Result: %s %s", MapVkResultToString(res));
+		std::string result = MapVkResultToString(res);
+		auto pe= new Exception("Error Result: %s", result.c_str());
+		throw pe;
+		
 	}
 }
 std::string MapVkResultToString(VkResult result)  
@@ -73,6 +76,8 @@ std::string MapVkResultToString(VkResult result)
 		map[VK_ERROR_INVALID_EXTERNAL_HANDLE_KHR] = "VK_ERROR_INVALID_EXTERNAL_HANDLE_KHX";
 		map[VK_RESULT_MAX_ENUM] = "VK_RESULT_MAX_ENUM";
 	}
-	return map[result];
+	if (map.contains(result))
+		return map[result];
+	return "";
 }
 

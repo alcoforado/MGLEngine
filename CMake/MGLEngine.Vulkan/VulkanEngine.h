@@ -54,6 +54,7 @@
 			void DestroyRenderPass();
 			void DestroyFramebuffer();
 			void DestroyPipelines();
+			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 		private:
 			VkPipeline CreatePipeline(const ShaderConfiguration& config);

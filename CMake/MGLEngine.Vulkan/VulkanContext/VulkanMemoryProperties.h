@@ -23,7 +23,7 @@ public:
 	VulkanMemoryProperties(VkFlags flags,VkMemoryHeap heap);
 	~VulkanMemoryProperties();
 	VulkanMemoryProperties() {
-		*this = {};
+		
 	}
 };
 
