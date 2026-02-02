@@ -30,6 +30,8 @@ public:
 	VulkanCommandBuffer& BeginRenderPass(VulkanFramebuffer framebuffer, glm::vec4 color);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
+	VulkanCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0);
+
 
 	VulkanCommandBuffer& BindGraphicsPipeline( VkPipeline pipeline);
 

@@ -26,8 +26,8 @@ int main()
 
 		IMGLEngine& engine = app.Init();
 
-		//auto rect = OrthoRect2D(glm::vec2(0.0f, 0.0f), 1.0f, 1.0f);
-		//auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,0,1,1) });
+		auto rect = OrthoRect2D(glm::vec2(0.0f, 0.0f), 1.0f, 1.0f);
+		auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,0,1,1) });
 	}
 	catch (std::exception e)
 	{

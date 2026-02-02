@@ -70,6 +70,7 @@ void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 	cmdBuffer.BindGraphicsPipeline(_pipeline);
 	cmdBuffer.BindVertexBuffer(_vBuffer.Handle());
 	cmdBuffer.BindIndexBuffer(_iBuffer.Handle());
+	cmdBuffer.DrawIndexed(_totalIndices);
 
 }
 

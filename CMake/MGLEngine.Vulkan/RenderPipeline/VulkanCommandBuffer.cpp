@@ -90,6 +90,13 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::DrawIndexed(uint32_t indexCount,uint32_t firstIndex,uint32_t vertexOffset)
+{
+	AssertIsOpen();
+	vkCmdDrawIndexed(_vkCommandBuffer, indexCount, 1, firstIndex, vertexOffset,0);
+	return *this;
+}
+
 VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline( VkPipeline _vkPipeline)
 {
 	AssertIsOpen();
