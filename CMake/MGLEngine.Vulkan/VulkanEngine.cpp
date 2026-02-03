@@ -379,6 +379,17 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	_pipelineVertexInputState.pVertexBindingDescriptions = bindingDescriptions.data();
 	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
 
+	//PipelineLayout 
+	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	pipelineLayoutInfo.setLayoutCount = 0;
+	pipelineLayoutInfo.pushConstantRangeCount = 0;
+	VkPipelineLayout pipelineLayout;
+	if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create pipeline layout!");
+	}
+
+
 
 
 	//Create Pipeline
@@ -399,7 +410,7 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	pipelineInfo.pDepthStencilState = nullptr;
 	pipelineInfo.pColorBlendState = &ColorBlending;
 	pipelineInfo.pDynamicState = nullptr;
-	pipelineInfo.layout = VK_NULL_HANDLE; // Optional
+	pipelineInfo.layout = VK_NULL_HANDLE;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 

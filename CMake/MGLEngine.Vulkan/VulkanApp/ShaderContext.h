@@ -21,7 +21,36 @@ struct DrawElementContext {
 	}
 };
 
+class VulkanPipelineData {
+public:
+	VkPipeline pipeline;
+	VkPipelineLayout pipelineLayout;
+public:
+	VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout) {
+		this->pipeline = pipeline;
+		this->pipelineLayout = pipelineLayout;
+	}
+	VulkanPipelineData() {
+		pipeline = VK_NULL_HANDLE;
+		pipelineLayout = VK_NULL_HANDLE;	
+	}
+	
+
+	~VulkanPipelineData()
+	{
+		if (pipeline != VK_NULL_HANDLE) {
+			vkDestroyPipelineLayout(pipelineLayout, nullptr);
+			vkDestroyPipeline(pipeline, nullptr);
+		}1
+	}
+
+
+};
+
 class ShaderContext {
+
+
+
 private:
 	ShaderConfiguration _options;
 	VkPipeline _pipeline;
