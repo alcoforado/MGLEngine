@@ -274,7 +274,7 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 }
 
-VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
+VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
 
 
@@ -384,11 +384,9 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutInfo.setLayoutCount = 0;
 	pipelineLayoutInfo.pushConstantRangeCount = 0;
-	VkPipelineLayout pipelineLayout;
-	if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create pipeline layout!");
-	}
-
+	VkPipelineLayout vkPipelineLayout;
+	auto err=vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &pipelineLayoutInfo, nullptr, &vkPipelineLayout);
+	AssertVulkanSuccess(err);
 
 
 
@@ -415,9 +413,9 @@ VkPipeline VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
 	VkPipeline vkPipeline;
-	auto err = vkCreateGraphicsPipelines(_pLogicalDevice->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline);
-	AssertVulkanSuccess(err);
-	return vkPipeline;
+	auto err1 = vkCreateGraphicsPipelines(_pLogicalDevice->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline);
+	AssertVulkanSuccess(err1);
+	return VulkanPipelineData(vkPipeline, vkPipelineLayout);
 }
 
 
@@ -493,7 +491,8 @@ void MGL::VulkanEngine::DestroyPipelines()
 	for (auto& pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
-		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline(), nullptr);
+		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline().handle, nullptr);
+		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.GetPipeline().layout, nullptr);
 	}
 	
 }

@@ -3,7 +3,7 @@
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/RenderSerizalizationContext.h>
-ShaderContext::ShaderContext(VkPipeline pipeline, ShaderConfiguration options, BindingManager bindingManager)
+ShaderContext::ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options, BindingManager bindingManager)
 {
 	this->_pipeline = pipeline;
 	this->_options = options;
@@ -67,7 +67,7 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 }
 
 void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
-	cmdBuffer.BindGraphicsPipeline(_pipeline);
+	cmdBuffer.BindGraphicsPipeline(_pipeline.handle);
 	cmdBuffer.BindVertexBuffer(_vBuffer.Handle());
 	cmdBuffer.BindIndexBuffer(_iBuffer.Handle());
 	cmdBuffer.DrawIndexed(_totalIndices);

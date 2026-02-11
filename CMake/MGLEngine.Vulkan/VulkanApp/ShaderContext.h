@@ -23,27 +23,20 @@ struct DrawElementContext {
 
 class VulkanPipelineData {
 public:
-	VkPipeline pipeline;
-	VkPipelineLayout pipelineLayout;
+	VkPipeline handle;
+	VkPipelineLayout layout;
 public:
 	VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout) {
-		this->pipeline = pipeline;
-		this->pipelineLayout = pipelineLayout;
+		this->handle = pipeline;
+		this->layout = pipelineLayout;
 	}
 	VulkanPipelineData() {
-		pipeline = VK_NULL_HANDLE;
-		pipelineLayout = VK_NULL_HANDLE;	
+		handle = VK_NULL_HANDLE;
+		layout = VK_NULL_HANDLE;	
 	}
 	
 
-	~VulkanPipelineData()
-	{
-		if (pipeline != VK_NULL_HANDLE) {
-			vkDestroyPipelineLayout(pipelineLayout, nullptr);
-			vkDestroyPipeline(pipeline, nullptr);
-		}1
-	}
-
+	
 
 };
 
@@ -53,7 +46,7 @@ class ShaderContext {
 
 private:
 	ShaderConfiguration _options;
-	VkPipeline _pipeline;
+	VulkanPipelineData _pipeline;
 	std::vector<DrawElementContext> _drawGraph;
 	VulkanBuffer _vBuffer;
 	VulkanBuffer _iBuffer;
@@ -63,9 +56,8 @@ private:
 	size_t _totalVertices;
 	size_t _totalIndices;
 public:
-	ShaderContext(VkPipeline pipeline, ShaderConfiguration options, BindingManager bindingManager);
+	ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options, BindingManager bindingManager);
 	ShaderContext() {
-		_pipeline = VK_NULL_HANDLE;
 		_needSerialize = true;
 		_needResize = true;
 		_totalVertices = 0;
@@ -79,7 +71,7 @@ public:
 	{
 		_drawGraph.push_back(DrawElementContext(pShape));
 	}
-	VkPipeline GetPipeline() const {
+	VulkanPipelineData GetPipeline() const {
 		return _pipeline;
 	}
 };
