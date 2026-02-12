@@ -2,9 +2,8 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
-#include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphore.h"
 #include <memory>
-#include "VulkanCommandBatchCollection.h"
+#include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphore.h"
 class VulkanFence;
 class VulkanCommandBuffer;
 class VulkanLogicalDevice;
@@ -34,7 +33,6 @@ public:
 	void Submit(VulkanCommandBuffer* cb, VulkanSemaphore* pSignal, VulkanSemaphore* pWait, VkPipelineStageFlags waitStages, VulkanFence* fence) const;
 	void Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toSignal) const;
 
-	void Submit(VulkanCommandBatchCollection &cl,VulkanFence *fence=nullptr) const;
 	void WaitIdle() const;
 };
 

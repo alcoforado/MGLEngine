@@ -101,11 +101,7 @@ void VulkanQueue::Submit(VulkanCommandBuffer *cb, VulkanSemaphore* pSignal, Vulk
 	AssertVulkanSuccess(result);
 }
 
-void VulkanQueue::Submit(VulkanCommandBatchCollection& cl,VulkanFence *fence) const
-{
-	VkResult result = vkQueueSubmit(_handle,(uint32_t) cl._submitInfos.size(), cl._submitInfos.data(), fence != nullptr ? fence->GetHandle() : VK_NULL_HANDLE);
-	AssertVulkanSuccess(result);
-}
+
 
 void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const
 {

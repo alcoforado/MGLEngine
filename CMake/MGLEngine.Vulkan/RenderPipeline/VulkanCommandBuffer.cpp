@@ -3,7 +3,6 @@
 #include "../VulkanContext/VulkanLogicalDevice.h"
 #include "../RenderPipeline/VulkanRenderPass.h"
 #include <glm/vec4.hpp>
-#include "VulkanSwapChainFramebuffers.h"
 #include "../VulkanUtils.h"
 #include <MGLEngine.Shared/Utils/Exception.h>
 class VulkanRenderPass;
