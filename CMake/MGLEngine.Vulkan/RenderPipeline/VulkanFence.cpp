@@ -1,6 +1,5 @@
 #include "VulkanFence.h"
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
-#include "VulkanPipeline.h"
 #include <basetsd.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 

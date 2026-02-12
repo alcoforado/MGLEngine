@@ -5,7 +5,6 @@
 #include <glm/vec4.hpp>
 #include "VulkanSwapChainFramebuffers.h"
 #include "../VulkanUtils.h"
-#include "VulkanPipeline.h"
 #include <MGLEngine.Shared/Utils/Exception.h>
 class VulkanRenderPass;
 
