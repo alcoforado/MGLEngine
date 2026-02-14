@@ -380,12 +380,12 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	//PipelineLayout 
-	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	pipelineLayoutInfo.setLayoutCount = 0;
-	pipelineLayoutInfo.pushConstantRangeCount = 0;
+	VkPipelineLayoutCreateInfo vkPipelineLayoutInfo{};
+	vkPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	vkPipelineLayoutInfo.setLayoutCount = 0;
+	vkPipelineLayoutInfo.pushConstantRangeCount = 0;
 	VkPipelineLayout vkPipelineLayout;
-	auto err=vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &pipelineLayoutInfo, nullptr, &vkPipelineLayout);
+	auto err=vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &vkPipelineLayoutInfo, nullptr, &vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
 
@@ -408,7 +408,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	pipelineInfo.pDepthStencilState = nullptr;
 	pipelineInfo.pColorBlendState = &ColorBlending;
 	pipelineInfo.pDynamicState = nullptr;
-	pipelineInfo.layout = VK_NULL_HANDLE;
+	pipelineInfo.layout = vkPipelineLayout;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
