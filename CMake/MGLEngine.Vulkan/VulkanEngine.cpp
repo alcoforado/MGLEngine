@@ -11,13 +11,17 @@ using namespace MGL;
 MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
+	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0,coptions.MajorVersion, coptions.MinorVersion, coptions.PatchVersion);	
 	_pWindow = new Window(_windowOptions);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
-		_vulkanConfiguration.EnableDebug);
+		_vulkanConfiguration.EnableDebug,
+		vulkanVersion);
 	ChoosePhysicalDevice();
 	CreateVulkanSurface();
 	CreateLogicalDevice();
+	CreateVulkanMemoryAllocator();
+	CreateCommandBuffers();
 	CreateSwapChain();
 	CreateRenderPass();
 	CreateFramebuffers();
@@ -52,8 +56,9 @@ void MGL::VulkanEngine::CreateSwapChain() {
 
 }
 
-void MGL::VulkanEngine::CreateCommandBuffer()
+void MGL::VulkanEngine::CreateCommandBuffers()
 {
+	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
 	_pCommandBuffer = _pCommandPool->CreateCommandBuffer();
 }
 
@@ -427,7 +432,7 @@ void MGL::VulkanEngine::Draw()
 		.Begin()
 		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1));
 		
-	for (auto pair : _shaders)
+	for (auto& pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
 		ctx.Serialize(*(this->_pMemoryAllocator));
@@ -447,23 +452,23 @@ void MGL::VulkanEngine::Draw()
 
 void MGL::VulkanEngine::Run() {
 	auto glfwWindow = _pWindow->GLFWHandler();
-	while (glfwWindowShouldClose(glfwWindow))
+	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
 		Draw();
 	}
+	_pLogicalDevice->GetGraphicQueue()->WaitIdle();
 }
 
 #pragma region Cleanup
 MGL::VulkanEngine::~VulkanEngine() {
-	if (_pCommandPool)
-		delete _pCommandPool;
 	DestroyFramebuffer();
-	DestroyPipelines();
+	DestroyShaderContexts();
 	DestroyRenderPass();
 	if (_pSwapChain)
 		delete _pSwapChain;
 	DestroyVulkanMemoryAllocator();
+	if_free(_pCommandPool);
 	DestroySyncObjects();
 	if_free(_pByteCodeCollection);
 	if_free(_pLogicalDevice);
@@ -480,13 +485,15 @@ void MGL::VulkanEngine::DestroySyncObjects() {
 	
 }
 
-void MGL::VulkanEngine::DestroyPipelines()
+void MGL::VulkanEngine::DestroyShaderContexts()
 {
 	for (auto& pair : _shaders)
 	{
 		ShaderContext& ctx = pair.second;
 		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline().handle, nullptr);
 		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.GetPipeline().layout, nullptr);
+		ctx.DeleteBuffers();
+
 	}
 	
 }

@@ -23,11 +23,11 @@ struct VertexAttributeDeclaration {
 
 class BindingManager {
 	std::vector<VertexAttribute> _verticeData;
-	size_t totalStride=0;
+	size_t _totalStride=0;
 public:
 	BindingManager(std::vector<VertexAttributeDeclaration> vAttribs);
-	BindingManager() { totalStride = 0; };
-	size_t GetStride() { return totalStride; }
+	BindingManager() { _totalStride = 0; };
+	size_t GetStride() { return _totalStride; }
 	
 	bool CheckVerticeBufferAlignment(void *pt) { 
 		//for now we will only have 32 bits alignment

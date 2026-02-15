@@ -71,6 +71,11 @@ public:
 	{
 		_drawGraph.push_back(DrawElementContext(pShape));
 	}
+	void DeleteBuffers()
+	{
+		_vBuffer.Delete();
+		_iBuffer.Delete();
+	}
 	VulkanPipelineData GetPipeline() const {
 		return _pipeline;
 	}

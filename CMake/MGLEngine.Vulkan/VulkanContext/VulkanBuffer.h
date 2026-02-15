@@ -1,6 +1,6 @@
 #pragma once
 #include <vulkan/vulkan.h>
-#include <vma/vk_mem_alloc.h>
+#include <MGLEngine.Vulkan/VulkanContext/vmausage.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryProperties.h>
 
 class VulkanMemoryAllocator;
@@ -31,17 +31,19 @@ public:
 	void* Map();
 
 	void Unmap();
-	
+
 	bool Empty() {
 		return _size == 0;
 	}
 
 	void Delete()
 	{
-			vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
-			_pAllocator = nullptr;
-			_buffer = VK_NULL_HANDLE;
-		
+		if (_buffer == VK_NULL_HANDLE)
+			return;
+		vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
+		_pAllocator = nullptr;
+		_buffer = VK_NULL_HANDLE;
+
 	}
 
 };

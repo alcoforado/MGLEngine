@@ -4,7 +4,7 @@
 void* VulkanBuffer::Map() {
 	if (_pMappedData)
 		return _pMappedData;
-	eassert(!_memType.DeviceLocal, std::format("This buffer is DeviceLocal and cannot be mapped"));
+	eassert(_memType.HostVisible, std::format("This buffer is not host visible and cannot be mapped"));
 	vmaMapMemory(*_pAllocator, _allocation,&_pMappedData);
 	return _pMappedData;
 }

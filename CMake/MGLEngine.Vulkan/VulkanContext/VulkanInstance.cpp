@@ -53,7 +53,7 @@ VkBool32 __stdcall VulkanInstance::DbgCallback(VkFlags msgFlags, VkDebugReportOb
 const char* VulkanInstance::LUNAR_VALIDATION_LAYER = "VK_LAYER_KHRONOS_validation";
 const char* VulkanInstance::DEBUG_REPORT_EXTENSION = "VK_EXT_debug_report";
 
-VulkanInstance::VulkanInstance(std::string appName, bool enableDebug)
+VulkanInstance::VulkanInstance(std::string appName, bool enableDebug,uint32_t vulkanVersion)
 {
 	_vkLayers = this->ComputeAvailableLayers();
 
@@ -87,7 +87,7 @@ VulkanInstance::VulkanInstance(std::string appName, bool enableDebug)
 	app_info.applicationVersion = 1;
 	app_info.pEngineName = "MGLEngine";
 	app_info.engineVersion = 1;
-	app_info.apiVersion = VK_API_VERSION_1_0;
+	app_info.apiVersion = vulkanVersion;
 
 
 	//Set Instance Info

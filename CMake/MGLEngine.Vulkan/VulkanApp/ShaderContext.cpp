@@ -30,10 +30,14 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 		}
 		_totalVertices = verticesOff;
 		_totalIndices = indicesOff;
-
+		if (_totalVertices == 0)
+			return;
 		_vBuffer = vmaAllocator.CreateVertexBuffer(_totalVertices * _binding.GetStride());
 		_iBuffer = vmaAllocator.CreateIndexBuffer(_totalIndices);
 	}
+	if (_totalVertices == 0)
+		return;
+
 	if (_needSerialize)
 	{
 		uint8_t* pVertice = (uint8_t*) _vBuffer.Map();
@@ -50,10 +54,10 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 			{
 				InterleavedMemoryStream memoryStream(pVertice + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
-				IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,drawingContext.startIndice);
-				RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
-				drawingContext.pObject->RenderData(renderContext);
 			}
+			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,drawingContext.startIndice);
+			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
+			drawingContext.pObject->RenderData(renderContext);
 		}
 		_vBuffer.Unmap();
 		_iBuffer.Unmap();
@@ -67,6 +71,8 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 }
 
 void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
+	if (_totalVertices == 0)
+		return;
 	cmdBuffer.BindGraphicsPipeline(_pipeline.handle);
 	cmdBuffer.BindVertexBuffer(_vBuffer.Handle());
 	cmdBuffer.BindIndexBuffer(_iBuffer.Handle());

@@ -21,13 +21,14 @@ int main()
 			config.EnableDebugLayer(true);
 			config.EnableVSync(true);
 			config.SetDoubleBuffer();
-			//	config.AddShader<ShaderColor2D>();
+			config.SetVersion(1, 2, 0);
 			});
 
 		IMGLEngine& engine = app.Init();
 
-		auto rect = OrthoRect2D(glm::vec2(0.0f, 0.0f), 1.0f, 1.0f);
-		auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,0,1,1) });
+		auto rect = OrthoRect2D(glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f);
+		auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,1,0,1),glm::vec4(0,1,0,1) });
+		engine.Run();
 	}
 	catch (std::exception e)
 	{

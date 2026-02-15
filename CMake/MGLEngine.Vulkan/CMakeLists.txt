@@ -103,7 +103,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanSwapChainOptions.h"
     "VulkanContext/VulkanSurfaceCapability.h"
     "Window/MWindow.cpp"
- "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp")
+ "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h")
 
 #target_link_libraries	(${PROJECT_NAME})
 

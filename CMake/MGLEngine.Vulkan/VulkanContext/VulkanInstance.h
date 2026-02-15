@@ -44,7 +44,7 @@ public:
 	const std::vector<MVulkanLayer>& GetAvailableLayers() const { return _vkLayers; }
 	const std::vector<VulkanPhysicalDevice>& GetPhysicalDevices() const { return _vkPhysicalDevices; }
 	VkInstance GetHandle() const { return _vkInstance; }
-	VulkanInstance(std::string appName, bool enableDebug);
+	VulkanInstance(std::string appName, bool enableDebug,uint32_t vulkanVersion);
 	
 	~VulkanInstance();
 };

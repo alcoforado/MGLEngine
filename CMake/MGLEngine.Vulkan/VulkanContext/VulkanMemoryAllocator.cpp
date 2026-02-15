@@ -3,7 +3,7 @@
 #include "VulkanPhysicalDevice.h"
 #include "VulkanInstance.h"
 #define VMA_IMPLEMENTATION
-#include <vma/vk_mem_alloc.h>
+#include <MGLEngine.Vulkan/VulkanContext/vmausage.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 
 VulkanMemoryAllocator::VulkanMemoryAllocator(const VulkanLogicalDevice& device)
@@ -32,7 +32,8 @@ VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo
 	VkBuffer buffer;
 	VmaAllocation allocation;
 	VmaAllocationInfo allocInfoResult;
-	vmaCreateBuffer(_allocator, pCreateInfo, pAllocInfo, &buffer, &allocation, &allocInfoResult);
+	auto err=vmaCreateBuffer(_allocator, pCreateInfo, pAllocInfo, &buffer, &allocation, &allocInfoResult);
+	AssertVulkanSuccess(err);
 	VulkanBuffer vb;
 	vb._buffer = buffer;
 	vb._size = (uint32_t)pCreateInfo->size;
@@ -49,13 +50,14 @@ VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo
 VulkanBuffer VulkanMemoryAllocator::CreateVertexBuffer(uint64_t sizeInBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
+	bufferInfo.pNext = nullptr;
 	bufferInfo.size = sizeInBytes;
 	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 	
 
 	VmaAllocationCreateInfo allocInfo = {};
 	allocInfo.usage = VMA_MEMORY_USAGE_AUTO;
-	allocInfo.flags= VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
+	allocInfo.flags= VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
 
 	return CreateBuffer(&bufferInfo, &allocInfo);
 }
@@ -69,7 +71,7 @@ VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfIndices)
 
 	VmaAllocationCreateInfo allocInfo = {};
 	allocInfo.usage = VMA_MEMORY_USAGE_AUTO;
-	allocInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
+	allocInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
 
 	return CreateBuffer(&bufferInfo, &allocInfo);
 	

@@ -1,4 +1,3 @@
-#include <vma/vk_mem_alloc.h>
 #include <functional>
 #include <memory>
 #include  <MGLEngine.Vulkan/Window/MWindow.h>
@@ -46,7 +45,7 @@
 			void CreateLogicalDevice();
 			void CreateCommandPool();
 			void CreateSwapChain();
-			void CreateCommandBuffer();
+			void CreateCommandBuffers();
 			void CreateRenderPass();
 			void CreateFramebuffers();
 			void CreateSemaphores();
@@ -55,7 +54,7 @@
 			void DestroySwapChain();
 			void DestroyRenderPass();
 			void DestroyFramebuffer();
-			void DestroyPipelines();
+			void DestroyShaderContexts();
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 		private:

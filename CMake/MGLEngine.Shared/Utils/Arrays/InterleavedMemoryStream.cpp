@@ -38,7 +38,7 @@ InterleavedMemoryStream& InterleavedMemoryStream::operator<<(const glm::vec2 &v)
 
 InterleavedMemoryStream& InterleavedMemoryStream::operator<<(const glm::vec4 &v)
 {
-	eassert(_elemType == TYPE_VEC_FLOAT_2, "Incompatible Types");
+	eassert(_elemType == TYPE_VEC_FLOAT_4, "Incompatible Types");
 	eassert(_currentElementCount < _maxElementCount, "MemoryStream overflow detected");
 	float* fp = reinterpret_cast<float*>(_pData + _currentOffBytes);
 	fp[0] = v.x;

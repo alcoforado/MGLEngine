@@ -1,7 +1,7 @@
 #include "BindingManager.h"
 BindingManager::BindingManager(std::vector<VertexAttributeDeclaration> vAttribs)
 {
-	size_t _totalStride = 0;
+	_totalStride = 0;
 	for (auto& v : vAttribs)
 	{
 		VertexAttribute elem = {
@@ -10,9 +10,9 @@ BindingManager::BindingManager(std::vector<VertexAttributeDeclaration> vAttribs)
 			.type = v.type
 		};
 		elem.offset = _totalStride;
-		_totalStride += FieldTypeInfo::sizeOfType(elem.type);
-		elem.size = _totalStride;
 		
+		elem.size = FieldTypeInfo::sizeOfType(elem.type);
+		_totalStride += elem.size;
 		_verticeData.push_back(elem);
 	}
 }

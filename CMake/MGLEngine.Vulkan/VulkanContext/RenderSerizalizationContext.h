@@ -13,6 +13,7 @@ public:
 
 	InterleavedMemoryStream& GetVerticeAttribute(std::string name) override
 	{
+		eassert(_vStreams.find(name) != _vStreams.end(), std::format("No vertice attribute with name {} found in the shader context", name));
 		return _vStreams[name];
 	}
 	IndicesMemoryStream& GetIndicesStream() override {

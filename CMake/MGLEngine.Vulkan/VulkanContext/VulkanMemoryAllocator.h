@@ -1,4 +1,4 @@
-#include <vma/vk_mem_alloc.h>
+#include <MGLEngine.Vulkan/VulkanContext/vmausage.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 class VulkanLogicalDevice;
 class VulkanInstance;
