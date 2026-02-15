@@ -42,10 +42,10 @@ add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
 
 add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "MGLContainer.cpp"
-    "RenderPipeline/FragmentShaderByteCode.cpp"
-    "RenderPipeline/FragmentShaderByteCode.h"
-    "RenderPipeline/VertexShaderByteCode.cpp"
-    "RenderPipeline/VertexShaderByteCode.h"
+    
+    
+    
+    
     "RenderPipeline/VulkanCommandBuffer.cpp"
     "RenderPipeline/VulkanCommandBuffer.h"
     "RenderPipeline/VulkanCommandPool.cpp"
@@ -54,18 +54,18 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "RenderPipeline/VulkanCommands.h"
     "RenderPipeline/VulkanFence.cpp"
     "RenderPipeline/VulkanFence.h"
-    "RenderPipeline/VulkanRenderPass.cpp"
-    "RenderPipeline/VulkanRenderPass.h"
+    
+    
     "RenderPipeline/VulkanSemaphore.cpp"
     "RenderPipeline/VulkanSemaphore.h"
-    "RenderPipeline/VulkanSubPass.cpp"
-    "RenderPipeline/VulkanSubPass.h"
+    
+    
     "RenderResources/IVulkanSlotBinding.cpp"
     "RenderResources/IVulkanSlotBinding.h"
     "RenderResources/UniformBufferSlot.h"
-    "Shaders/IVulkanRenderContext.cpp"
-    "Shaders/IVulkanRenderContext.h"
-    "Shaders/IVulkanShader.h"
+    
+    
+    
     "VulkanApp/DrawContext.h"
     "VulkanApp/ShaderConfiguration.h"
     "VulkanApp/ShaderContext.cpp"
@@ -103,7 +103,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanSwapChainOptions.h"
     "VulkanContext/VulkanSurfaceCapability.h"
     "Window/MWindow.cpp"
-)
+ "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp")
 
 #target_link_libraries	(${PROJECT_NAME})
 

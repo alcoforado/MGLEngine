@@ -17,7 +17,7 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 		_vulkanConfiguration.EnableDebug);
 	ChoosePhysicalDevice();
 	CreateVulkanSurface();
-	CreateQueues();
+	CreateLogicalDevice();
 	CreateSwapChain();
 	CreateRenderPass();
 	CreateFramebuffers();
@@ -30,7 +30,7 @@ void MGL::VulkanEngine::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
 
-void MGL::VulkanEngine::CreateQueues() {
+void MGL::VulkanEngine::CreateLogicalDevice() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic && family.SupportPresentation;
 		});
@@ -38,7 +38,7 @@ void MGL::VulkanEngine::CreateQueues() {
 		throw new Exception("No suitable graphic queue found that supports presentation.");
 	}
 	_pLogicalDevice = new VulkanLogicalDevice(*_pPhysicalDevice, graphicQueueIndex);
-
+	_pByteCodeCollection = new ByteCodeCollection(_pLogicalDevice);
 
 }
 
@@ -250,14 +250,7 @@ std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipeline
 
 VkShaderModule VulkanEngine::CreatePipelineShader(ShaderByteCode byteCode)
 {
-	VkShaderModule result;
-	VkShaderModuleCreateInfo shaderMod = {};
-	shaderMod.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	shaderMod.codeSize = byteCode.size;
-	shaderMod.pCode = byteCode.byteCode;
-	auto err = vkCreateShaderModule(_pLogicalDevice->GetHandle(), &shaderMod, nullptr, &result);
-	AssertVulkanSuccess(err);
-	return result;
+	return _pByteCodeCollection->AddByteCode(byteCode.byteCode, byteCode.size);
 
 }
 
@@ -472,6 +465,7 @@ MGL::VulkanEngine::~VulkanEngine() {
 		delete _pSwapChain;
 	DestroyVulkanMemoryAllocator();
 	DestroySyncObjects();
+	if_free(_pByteCodeCollection);
 	if_free(_pLogicalDevice);
 	if_free(_pVulkanSurface);
 	if_free(_pVulkanInstance);

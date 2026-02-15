@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
+#include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
  namespace MGL {
 	class VulkanEngine: public IMGLEngine  {
 		private:
@@ -23,6 +24,7 @@
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
 			VulkanSurface* _pVulkanSurface=nullptr;
 			VulkanLogicalDevice* _pLogicalDevice=nullptr;
+			ByteCodeCollection* _pByteCodeCollection = nullptr;
 			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
 			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
@@ -41,7 +43,7 @@
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
-			void CreateQueues();
+			void CreateLogicalDevice();
 			void CreateCommandPool();
 			void CreateSwapChain();
 			void CreateCommandBuffer();

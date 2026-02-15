@@ -1,7 +1,6 @@
 #include "VulkanCommandBuffer.h"
 #include "VulkanCommandPool.h"
 #include "../VulkanContext/VulkanLogicalDevice.h"
-#include "../RenderPipeline/VulkanRenderPass.h"
 #include <glm/vec4.hpp>
 #include "../VulkanUtils.h"
 #include <MGLEngine.Shared/Utils/Exception.h>
