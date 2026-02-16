@@ -4,7 +4,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "" FORCE)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") 
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded") 
 IF (WIN32)
-    add_compile_definitions(_WIN32_WINNT=0x0A00 )
+    add_compile_definitions(_WIN32_WINNT=0x0A00 _DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR )
+
 ENDIF()
     add_link_options("/VERBOSE:LIB")
 
