@@ -35,8 +35,8 @@
 			std::vector<VkFramebuffer> _framebuffers;
 			//configuraion options
 			WindowOptions _windowOptions;
-			VulkanSemaphore* _pImageAvailableSemaphore = nullptr;
-			VulkanSemaphore* _pRenderFinishedSemaphore = nullptr;
+			VulkanSemaphore* _pImageAvailableSemaphore;
+			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
 		private:

@@ -134,8 +134,11 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 
 void MGL::VulkanEngine::CreateSemaphores()
 {
+	for (auto i = 0; i < _pSwapChain->NImages(); i++)
+	{
+		_pRenderFinishedSemaphore.push_back(new VulkanSemaphore(_pLogicalDevice));
+	}
 	_pImageAvailableSemaphore = new VulkanSemaphore(_pLogicalDevice);
-	_pRenderFinishedSemaphore = new VulkanSemaphore(_pLogicalDevice);
 	_pInFlightFence = new VulkanFence(_pLogicalDevice, true);
 }
 
@@ -442,12 +445,12 @@ void MGL::VulkanEngine::Draw()
 	_pCommandBuffer->End();
 	_pLogicalDevice->GetGraphicQueue()->Submit(
 		_pCommandBuffer,
-		_pRenderFinishedSemaphore, //signal when finished
+		_pRenderFinishedSemaphore[imageIndex], //signal when finished
 		_pImageAvailableSemaphore, //wait on
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
-	_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore);
+	_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
 }
 
 void MGL::VulkanEngine::Run() {
@@ -480,7 +483,10 @@ MGL::VulkanEngine::~VulkanEngine() {
 
 void MGL::VulkanEngine::DestroySyncObjects() {
 	if_free(_pInFlightFence);
-	if_free(_pRenderFinishedSemaphore);
+	for (auto s : _pRenderFinishedSemaphore)
+	{
+		if_free(s);
+	}
 	if_free(_pImageAvailableSemaphore);
 	
 }
