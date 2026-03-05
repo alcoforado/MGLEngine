@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ShaderConfiguration.h"
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>

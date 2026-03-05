@@ -2,7 +2,8 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
-#include <MGLEngine.Vulkan/VulkanContext/RenderSerizalizationContext.h>
+#include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
 ShaderContext::ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options, BindingManager bindingManager)
 {
 	this->_pipeline = pipeline;
@@ -55,7 +56,7 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 				InterleavedMemoryStream memoryStream(pVertice + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
-			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,drawingContext.startIndice);
+			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,0);
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
 			drawingContext.pObject->RenderData(renderContext);
 		}
@@ -76,7 +77,12 @@ void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 	cmdBuffer.BindGraphicsPipeline(_pipeline.handle);
 	cmdBuffer.BindVertexBuffer(_vBuffer.Handle());
 	cmdBuffer.BindIndexBuffer(_iBuffer.Handle());
-	cmdBuffer.DrawIndexed(_totalIndices);
+	for (auto& drawingContext : _drawGraph)
+	{
+		VulkanDrawContext drawContext(cmdBuffer, drawingContext);
+		drawingContext.pObject->Draw(drawContext);
+
+	}
 
 }
 

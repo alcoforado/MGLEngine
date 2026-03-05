@@ -3,5 +3,5 @@
 class IDrawContext
 {
 	public:
-		virtual void DrawIndexedTriangles() = 0;
+		virtual void DrawIndexed()=0;
 };
