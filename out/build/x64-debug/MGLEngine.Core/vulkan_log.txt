@@ -1,0 +1,14 @@
+INFO: [Loader Message] Code 0 : Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.4.328.1\Bin\VkLayer_khronos_validation.dll)
+INFO: [Loader Message] Code 0 : vkCreateDevice layer callstack setup to:
+INFO: [Loader Message] Code 0 :    <Application>
+INFO: [Loader Message] Code 0 :      ||
+INFO: [Loader Message] Code 0 :    <Loader>
+INFO: [Loader Message] Code 0 :      ||
+INFO: [Loader Message] Code 0 :    VK_LAYER_KHRONOS_validation
+INFO: [Loader Message] Code 0 :            Type: Explicit
+INFO: [Loader Message] Code 0 :            Enabled By: By the Application
+INFO: [Loader Message] Code 0 :            Manifest: C:\VulkanSDK\1.4.328.1\Bin\VkLayer_khronos_validation.json
+INFO: [Loader Message] Code 0 :            Library:  C:\VulkanSDK\1.4.328.1\Bin\VkLayer_khronos_validation.dll
+INFO: [Loader Message] Code 0 :      ||
+INFO: [Loader Message] Code 0 :    <Device>
+INFO: [Loader Message] Code 0 :        Using "Intel(R) Iris(R) Xe Graphics" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_5f0a49d02ac2d606\igvk64.dll"
