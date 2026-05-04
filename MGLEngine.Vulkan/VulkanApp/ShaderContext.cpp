@@ -53,7 +53,7 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 		{
 			for (auto vAttribute : _binding.GetVertexAttributes())
 			{
-				InterleavedMemoryStream memoryStream(pVertice + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
+				InterleavedMemoryStream memoryStream(pVertice+drawingContext.startVertex*_binding.GetStride() + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
 			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,0);

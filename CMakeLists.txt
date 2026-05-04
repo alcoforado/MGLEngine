@@ -110,6 +110,14 @@ set(CMAKE_FIND_DEBUG_MODE Off)
 set(VCPKG_TRACE_FIND_PACKAGE OFF)
 project(MGLEngine)
 
+macro(print_all_variables)
+    get_cmake_property(_variableNames VARIABLES)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
+endmacro()
+print_all_variables()
+
 
 set(VCPKG_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
 
