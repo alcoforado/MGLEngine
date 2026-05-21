@@ -1,7 +1,7 @@
-#include <MGLEngine.Shared/Interfaces/IMesh.h>
+#include <MGLEngine.Shared/common.h>
 #include <glm/vec2.hpp>
 #include <iostream>
-class OrthoRect2D : public IMesh {
+class OrthoRect2D : public IMesh2D {
 private:
 	glm::vec2 _bl;
 	float _width;
@@ -22,10 +22,9 @@ public:
 	virtual uint32_t NIndices() override {
 		return 6;
 	}
-	virtual void RenderData(IRenderSerializationContext& context) override
+	virtual void RenderMesh(MemoryStreamFloat2DAdapter posStream, IndicesMemoryStream& indexStream) override
 	{
-		auto& posStream = context.GetVerticeAttribute("position2d");
-		auto& indexStream = context.GetIndicesStream();
+		
 
 		posStream << glm::vec2(_bl.x       , _bl.y);
 		posStream << glm::vec2(_bl.x+_width, _bl.y); 

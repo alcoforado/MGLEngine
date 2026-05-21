@@ -43,7 +43,7 @@ add_library(${PROJECT_NAME} STATIC
     ${SHADERS_HEADERS}
     "Interfaces/IAppConfiguration.h"
     "Interfaces/IDrawingObject.h"
-    "Interfaces/IMesh.h"
+    "Interfaces/IMesh2D.h"
     "Interfaces/IShader.h"
     "Interfaces/IShaderConfiguration.h"
     "Interfaces/IShapeHandle.h"
@@ -100,5 +100,5 @@ add_library(${PROJECT_NAME} STATIC
  "Shaders/Color2D/VertexColor2D.h" 
  "Interfaces/IMGLEngine.h" 
  "Shaders/FieldType.h"
- "Shaders/BindingManager.h" "Shaders/BindingManager.cpp" "Utils/utils.h")
+ "Shaders/BindingManager.h" "Shaders/BindingManager.cpp" "Utils/utils.h" "common.h")
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)

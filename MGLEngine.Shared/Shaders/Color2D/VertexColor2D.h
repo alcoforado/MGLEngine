@@ -1,4 +1,4 @@
-#include <MGLEngine.Shared/Interfaces/IMesh.h>
+#include <MGLEngine.Shared/common.h>
 #include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
 #include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 
@@ -6,11 +6,11 @@
 #include <typeinfo>
 class VertexColor2D : public IDrawingObject {
 private:
-	IMesh& _mesh;
+	IMesh2D& _mesh;
 	std::vector<glm::vec4> _colors;
 
 public:
-	VertexColor2D(IMGLEngine &engine,IMesh& mesh, const std::vector<glm::vec4>& colors)
+	VertexColor2D(IMGLEngine &engine,IMesh2D& mesh, const std::vector<glm::vec4>& colors)
 		:_mesh(mesh), _colors(colors) {
 		engine.AddShape<ShaderColor2D>(*this);
 	}
@@ -25,7 +25,11 @@ public:
 
 	virtual void RenderData(IRenderSerializationContext& context) override
 	{
-		_mesh.RenderData(context);
+		auto& posStream = context.GetVerticeAttribute("position2d");
+		auto& indexStream = context.GetIndicesStream();
+		_mesh.RenderMesh(context.GetVerticeAttribute("position2d"),context.GetIndicesStream());
+
+
 		auto& colorStream = context.GetVerticeAttribute("color");
 		auto nVertices = _mesh.NVertices();
 		//Fill colors in a round-robin fashion

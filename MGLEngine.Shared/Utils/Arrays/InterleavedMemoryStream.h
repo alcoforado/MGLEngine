@@ -54,5 +54,34 @@ public:
 	InterleavedMemoryStream& operator<<(const glm::vec4 &v);
 	InterleavedMemoryStream& operator<<(const std::vector<float>&v);
 	~InterleavedMemoryStream() {}
+
+	FieldType getFieldType() {
+		return _elemType;
+	}
 	
+};
+
+class MemoryStreamFloat2DAdapter
+{
+	InterleavedMemoryStream& _stream;
+	public:
+		MemoryStreamFloat2DAdapter(InterleavedMemoryStream& v)
+		:_stream(v)
+	{
+		eassert(_stream.getFieldType() == TYPE_VEC_FLOAT_2,"Expect a Vec Float 2 stream");
+
+	}
+
+		MemoryStreamFloat2DAdapter& operator<<(const glm::vec2& v) {
+		_stream << v;
+		return *this;
+	}
+
+		MemoryStreamFloat2DAdapter& operator<<(const std::vector<float>& v)
+	{
+		_stream << v;
+		return *this;
+	}
+
+
 };
