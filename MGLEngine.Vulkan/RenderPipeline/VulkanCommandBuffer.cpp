@@ -76,6 +76,28 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPas
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::SetViewportAndScissor(VkExtent2D extent)
+{
+	AssertIsOpen();
+
+	VkViewport viewport = {};
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = static_cast<float>(extent.width);
+	viewport.height = static_cast<float>(extent.height);
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+
+	VkRect2D scissor = {};
+	scissor.offset = { 0, 0 };
+	scissor.extent = extent;
+
+	vkCmdSetViewport(_vkCommandBuffer, 0, 1, &viewport);
+	vkCmdSetScissor(_vkCommandBuffer, 0, 1, &scissor);
+
+	return *this;
+}
+
 VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	uint32_t  vertexCount, 
 	uint32_t instanceCount,

@@ -304,27 +304,22 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	InputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	InputAssembly.primitiveRestartEnable = VK_FALSE;
 
-	//Set Viewport
-
-	VkViewport Viewport = {};
-	Viewport.x = 0.0f;
-	Viewport.y = 0.0f;
-	Viewport.width = static_cast<float>(_pSwapChain->GetExtent2D().width);
-	Viewport.height = static_cast<float>(_pSwapChain->GetExtent2D().height);
-	Viewport.minDepth = 0.0f;
-	Viewport.maxDepth = 1.0f;
-
-	VkRect2D Scissor = {};
-	Scissor.offset = { 0, 0 };
-	Scissor.extent = _pSwapChain->GetExtent2D();
-
 	VkPipelineViewportStateCreateInfo ViewportState = {};
 	ViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 	ViewportState.viewportCount = 1;
-	ViewportState.pViewports = &Viewport;
+	ViewportState.pViewports = nullptr;
 	ViewportState.scissorCount = 1;
-	ViewportState.pScissors = &Scissor;
+	ViewportState.pScissors = nullptr;
 
+	VkDynamicState DynamicStates[] = {
+		VK_DYNAMIC_STATE_VIEWPORT,
+		VK_DYNAMIC_STATE_SCISSOR
+	};
+
+	VkPipelineDynamicStateCreateInfo DynamicState = {};
+	DynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+	DynamicState.dynamicStateCount = 2;
+	DynamicState.pDynamicStates = DynamicStates;
 
 	VkPipelineRasterizationStateCreateInfo Rasterizer = {};
 	Rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
@@ -408,7 +403,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	pipelineInfo.pMultisampleState = &Multisampling;
 	pipelineInfo.pDepthStencilState = nullptr;
 	pipelineInfo.pColorBlendState = &ColorBlending;
-	pipelineInfo.pDynamicState = nullptr;
+	pipelineInfo.pDynamicState = &DynamicState;
 	pipelineInfo.layout = vkPipelineLayout;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
@@ -433,7 +428,8 @@ void MGL::VulkanEngine::Draw()
 	(*_pCommandBuffer)
 		.Reset()
 		.Begin()
-		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1));
+		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
+		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 		
 	for (auto& pair : _shaders)
 	{

@@ -26,6 +26,7 @@ public:
 	VulkanCommandBuffer& Reset();
 	VulkanCommandBuffer& Begin(bool asyncQueues=false, bool oneSubmissionPerReset=false);
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);
+	VulkanCommandBuffer& SetViewportAndScissor(VkExtent2D extent);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 	VulkanCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0);
