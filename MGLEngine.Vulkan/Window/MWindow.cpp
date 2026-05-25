@@ -24,6 +24,11 @@ void MGL::Window::window_mouse_move_callback(GLFWwindow* window, double x, doubl
 	}
 }
 
+MGL::Window::WindowSize MGL::Window::Size() {
+	MGL::Window::WindowSize sz;
+	glfwGetFramebufferSize(_window, &(sz.width), &(sz.height));
+	return sz;
+}
 
 MGL::Window::Window(const WindowOptions &options)
 {
@@ -72,8 +77,7 @@ MGL::Window::~Window()
 
 void MGL::Window::OnResize(int width, int height)
 {
-	_width = width;
-	_height = height;
+	
 
 	//We cannot set the vulkan context here. Resize can be called outside the thread that is really
 	//calling vulkan drawing controls.

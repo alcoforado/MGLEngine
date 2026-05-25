@@ -10,8 +10,8 @@ VulkanSurface::VulkanSurface(const  VulkanInstance* pInstance, MGL::Window* wind
 {
 	_vkInstance = pInstance->GetHandle();
 	VkResult err = glfwCreateWindowSurface(_vkInstance, window->GLFWHandler(), NULL, &_vkSurface);
-	_dims.height = static_cast<unsigned>(window->Height());
-	_dims.width =  static_cast<unsigned>(window->Width());
+	auto sz = window->Size();
+	_pWindow = window;
 	AssertVulkanSuccess(err);
 }
 

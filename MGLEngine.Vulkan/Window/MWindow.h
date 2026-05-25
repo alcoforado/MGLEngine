@@ -19,6 +19,7 @@ namespace MGL {
 	class Window 
 	{
 
+		
 		static void window_mouse_move_callback(GLFWwindow* window, double x, double y);
 	private :
 		GLFWwindow *_window;
@@ -29,14 +30,18 @@ namespace MGL {
 		bool _isEasyRun;
 		std::list<IWindowEventHandler*> _handlers;
 	public:
+		struct WindowSize {
+			int32_t height;
+			int32_t width;
+		};
+
 		void OnResize(int width, int heiight);
 		Window(const WindowOptions& options);
 		virtual ~Window();
-		int Height(){ return _height; }
-		int Width() { return _width; }
+		
 		GLFWwindow* GLFWHandler() { return _window; }
 		void Redraw();
-		
+		WindowSize Size(); 
 		void AttachEventHandler(IWindowEventHandler *eh);
 		void DetachEventHandler(IWindowEventHandler *eb);
 

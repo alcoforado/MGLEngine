@@ -48,7 +48,7 @@
 			void CreateCommandBuffers();
 			void CreateRenderPass();
 			void CreateFramebuffers();
-			void CreateSemaphores();
+			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
 		private:
 			void DestroySwapChain();
@@ -64,6 +64,7 @@
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
+			void ResizeSwapChain();
 		protected: //IMGLEngine implementation
 			virtual void RegisterShader(std::unique_ptr<IShader> pShader) override;
 			virtual bool IsShaderRegistered(const std::type_index shaderType) override;

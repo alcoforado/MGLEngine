@@ -103,7 +103,7 @@ void VulkanQueue::Submit(VulkanCommandBuffer *cb, VulkanSemaphore* pSignal, Vulk
 
 
 
-void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const
+VkResult VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const
 {
 	eassert(_isPresentationQueue, "This queue doest not support Presentation");
 	VkPresentInfoKHR presentInfo{};
@@ -116,7 +116,7 @@ void VulkanQueue::Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanS
 	presentInfo.pImageIndices = &imageIndex;
 	presentInfo.pResults = nullptr; //revisit this field if you pass an array of swapchains
 	auto err = vkQueuePresentKHR(_handle, &presentInfo);
-	AssertVulkanSuccess(err);
+	return err;
 
 }
 

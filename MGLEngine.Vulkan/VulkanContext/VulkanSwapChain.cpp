@@ -107,15 +107,26 @@ VulkanSwapChain::~VulkanSwapChain()
 	vkDestroySwapchainKHR(_logicalDevice.GetHandle(), _swapChainHandle, nullptr);
 }
 
-uint32_t  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence* fenceToSignal)
+VulkanSwapChain::NextImage  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaphore* sToSignal, VulkanFence* fenceToSignal)
 {
-	vkAcquireNextImageKHR(_logicalDevice.GetHandle(),
+	bool bNeedResize=false;
+	auto vkResult=vkAcquireNextImageKHR(_logicalDevice.GetHandle(),
 		_swapChainHandle,
 		std::numeric_limits<uint64_t>::max(),
 		sToSignal == nullptr ? VK_NULL_HANDLE : sToSignal->GetHandle(),
 		fenceToSignal == nullptr ? VK_NULL_HANDLE : fenceToSignal->GetHandle(),
 		&_currentImageIndex);
-	return _currentImageIndex;
+	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR)
+	{
+		bNeedResize = true;
+	}
+	else {
+		AssertVulkanSuccess(vkResult);
+	}
+	return {
+		.index = _currentImageIndex,
+		.bNeedResize = bNeedResize
+	};
 }
 
 void VulkanSwapChain::Present(const VulkanSemaphore* lock)

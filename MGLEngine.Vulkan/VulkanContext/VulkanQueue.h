@@ -31,7 +31,7 @@ public:
 	void Submit(VulkanCommandBuffer &cb) const;
 	void Submit(const std::vector<VulkanCommandBuffer*>& vcb, VulkanSemaphore *pSignal, VulkanSemaphore *pWait, const std::vector<VkPipelineStageFlagBits>& waitStages,VulkanFence *fence=nullptr) const;
 	void Submit(VulkanCommandBuffer* cb, VulkanSemaphore* pSignal, VulkanSemaphore* pWait, VkPipelineStageFlags waitStages, VulkanFence* fence) const;
-	void Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toSignal) const;
+	VkResult Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const;
 
 	void WaitIdle() const;
 };

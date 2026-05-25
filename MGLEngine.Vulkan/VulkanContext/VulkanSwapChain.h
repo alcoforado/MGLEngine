@@ -7,6 +7,12 @@
 class VulkanSwapChain
 {
 	public:
+		struct NextImage {
+			uint32_t index;
+			uint32_t bNeedResize;
+		};
+
+	public:
 		const VulkanSurface&  _surface;
 		VulkanSwapChainOptions _options;
 		const VulkanLogicalDevice& _logicalDevice;
@@ -29,9 +35,10 @@ class VulkanSwapChain
 		VkExtent2D GetExtent2D() const { return _dims; }
 		VkFormat GetImageFormat() const { return _imageFormat; }
 		std::vector<VkImageView> GetImageViews() const { return _imagesviews; }
-		uint32_t  NextImagePipelineAsync(VulkanSemaphore* sToSignal=nullptr, VulkanFence *fenceToSignal=nullptr);
+		NextImage  NextImagePipelineAsync(VulkanSemaphore* sToSignal=nullptr, VulkanFence *fenceToSignal=nullptr);
 		VkSwapchainKHR GetHandle() { return _swapChainHandle; }
 		void Present(const VulkanSemaphore* lock);
 		uint32_t GetCurrentImageIndex() const { return _currentImageIndex; }
 };
+
 

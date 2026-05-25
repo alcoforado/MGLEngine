@@ -25,7 +25,7 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateSwapChain();
 	CreateRenderPass();
 	CreateFramebuffers();
-	CreateSemaphores();
+	CreateSyncObjects();
 }
 
 
@@ -54,6 +54,26 @@ void MGL::VulkanEngine::CreateSwapChain() {
 	};
 	_pSwapChain = new VulkanSwapChain(*_pVulkanSurface, *_pLogicalDevice, options);
 
+}
+
+void MGL::VulkanEngine::ResizeSwapChain()
+{
+	
+	auto _wSize = _pWindow->Size();
+	
+	while (_wSize.width == 0 || _wSize.height == 0) {
+		glfwWaitEvents();
+		_wSize = _pWindow->Size();
+	}
+
+	_pLogicalDevice->WaitToBeIdle();
+
+	if_free(_pSwapChain);
+	this->DestroyFramebuffer();
+	this->DestroySyncObjects();
+	this->CreateSwapChain();
+	this->CreateFramebuffers();
+	this->CreateSyncObjects();
 }
 
 void MGL::VulkanEngine::CreateCommandBuffers()
@@ -132,7 +152,7 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 
 }
 
-void MGL::VulkanEngine::CreateSemaphores()
+void MGL::VulkanEngine::CreateSyncObjects()
 {
 	for (auto i = 0; i < _pSwapChain->NImages(); i++)
 	{
@@ -422,9 +442,13 @@ void MGL::VulkanEngine::Draw()
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
 	
-	uint32_t imageIndex = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
-	
-
+	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
+	if (imageIndexResult.bNeedResize)
+	{
+		this->ResizeSwapChain();
+		return;
+	}
+	uint32_t imageIndex = imageIndexResult.index;
 	(*_pCommandBuffer)
 		.Reset()
 		.Begin()
@@ -446,7 +470,14 @@ void MGL::VulkanEngine::Draw()
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
-	_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
+	auto vkResult=_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
+	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR) {
+		ResizeSwapChain();
+		return;
+	}
+	else {
+		AssertVulkanSuccess(vkResult);
+	}
 }
 
 void MGL::VulkanEngine::Run() {
@@ -483,6 +514,7 @@ void MGL::VulkanEngine::DestroySyncObjects() {
 	{
 		if_free(s);
 	}
+	_pRenderFinishedSemaphore.clear();
 	if_free(_pImageAvailableSemaphore);
 	
 }
@@ -512,6 +544,7 @@ void MGL::VulkanEngine::DestroyFramebuffer()
 	for (size_t i = 0; i < _framebuffers.size(); i++) {
 		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _framebuffers[i], nullptr);
 	}
+	_framebuffers.clear();
 }
 
 void MGL::VulkanEngine::DestroyVulkanMemoryAllocator()
