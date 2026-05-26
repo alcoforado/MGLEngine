@@ -39,7 +39,6 @@ add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
 	
 
 
-
 add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 "MGLContainer.cpp"
     
@@ -106,4 +105,6 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
  "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h")
 
 #target_link_libraries	(${PROJECT_NAME})
+find_package(Stb REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
 
