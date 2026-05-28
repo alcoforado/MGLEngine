@@ -134,7 +134,7 @@ endmacro()
 
 install_if_not_found("glm" "GLM")
 install_if_not_found("VulkanMemoryAllocator" "vulkan-memory-allocator")
-install_if_not_found("Stb","stb")
+install_if_not_found("Stb" "stb")
 install_if_not_found("glfw3" "glfw3")
 install_if_not_found("Catch2" "catch2")
 install_if_not_found("boost_stacktrace_basic" "boost-stacktrace")
