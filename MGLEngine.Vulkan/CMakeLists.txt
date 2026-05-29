@@ -106,5 +106,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
 
 #target_link_libraries	(${PROJECT_NAME})
 find_package(Stb REQUIRED)
+find_package(gli REQUIRED)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE gli)
 
