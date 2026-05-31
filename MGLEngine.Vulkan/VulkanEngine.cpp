@@ -243,7 +243,7 @@ bool MGL::VulkanEngine::IsShaderRegistered(const std::type_index shaderType)
 	return _shaders.find(shaderType) != _shaders.end();
 }
 
-void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape)
+void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape,ShapeRegistrationConfig &config)
 {
 
 	eassert(_shaders.contains(shaderTypeIndex), std::format("Shader for object {} was not registered", typeid(shape).name()));
