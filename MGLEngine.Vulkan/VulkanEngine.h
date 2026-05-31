@@ -76,7 +76,8 @@
 			~VulkanEngine();
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
-			
+			virtual TextureHandler RegisterTexture(std::string path) override;
+
 			void Run() override;
 	};
 }

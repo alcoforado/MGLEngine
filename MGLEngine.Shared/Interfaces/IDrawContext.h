@@ -4,4 +4,5 @@ class IDrawContext
 {
 	public:
 		virtual void DrawIndexed()=0;
+
 };

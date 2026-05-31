@@ -28,6 +28,12 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateSyncObjects();
 }
 
+TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
+{
+
+	return TextureHandler();
+}
+
 
 #pragma region Init Aux Functions
 void MGL::VulkanEngine::CreateVulkanSurface() {
