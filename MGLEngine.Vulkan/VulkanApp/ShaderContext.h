@@ -2,19 +2,22 @@
 
 #include "ShaderConfiguration.h"
 #include <MGLEngine.Shared/Interfaces/IShader.h>
+#include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/BindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
 struct DrawElementContext {
 	IDrawingObject* pObject;
+	ShapeRegistrationConfig config;
 	size_t allocatedVertices;
 	size_t allocatedIndices;
 	size_t startVertex;
 	size_t startIndice;
 	bool needRedraw;
-	DrawElementContext(IDrawingObject *pObject) {
+	DrawElementContext(IDrawingObject *pObject,ShapeRegistrationConfig config) {
 		this->pObject = pObject;
+		this->config = config;
 		allocatedVertices = 0;
 		allocatedIndices = 0;
 		startVertex = 0;
@@ -69,9 +72,9 @@ public:
 
 	void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 	
-	void AddShape(IDrawingObject* pShape)
+	void AddShape(IDrawingObject* pShape,ShapeRegistrationConfig config)
 	{
-		_drawGraph.push_back(DrawElementContext(pShape));
+		_drawGraph.push_back(DrawElementContext(pShape,config));
 	}
 	void DeleteBuffers()
 	{
