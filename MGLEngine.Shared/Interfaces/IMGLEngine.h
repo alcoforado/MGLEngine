@@ -6,7 +6,6 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/TextureHandler.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
-#include <MGLEngine.Shared/Utils/ovector.h>
 #include <typeindex>
 #include <typeinfo>
 #include <memory>

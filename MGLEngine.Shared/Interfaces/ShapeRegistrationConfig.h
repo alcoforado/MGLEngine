@@ -1,7 +1,6 @@
 #pragma once
-#include <vector>
 #include <string>
-#include <MGLEngine.Shared/Utils/ovector.h>
+#include <list>
 
 class ImageConfig {
 	friend class ShapeRegistrationConfig;
@@ -16,7 +15,7 @@ public:
 class ShapeRegistrationConfig
 {
 	
-	ovector<ImageConfig> _imgs;
+	std::list<ImageConfig> _imgs;
 
 public:
 	ShapeRegistrationConfig()
@@ -28,8 +27,8 @@ public:
 	{
 		ImageConfig im;
 		im.filePath = path;
-		_imgs.push_back(&im);
-		return *(_imgs.back());
+		_imgs.push_back(im);
+		return _imgs.back();
 	}
 };
 
