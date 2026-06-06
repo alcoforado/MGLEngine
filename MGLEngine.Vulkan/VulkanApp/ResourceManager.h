@@ -3,6 +3,24 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <vector>
+
+
+struct ImageResource {
+	std::string name;
+
+};
+
+class ImgHandler {
+	std::size_t id;
+
+public:
+	ImgHandler(std::size_t id)
+	{
+		this->id = id;
+	}
+	std::size_t GetId() const { return id; }
+};
+
 class ResourceManager {
 
 
@@ -14,14 +32,3 @@ public:
 	ImgHandler LoadImage(ImageConfig confi);
 };
 
-class ImageResource {
-	std::string resourceName;
-	
-};
-
-class ImgHandler {
-	int id;
-
-public:
-	int GetId() const { return id; }
-};

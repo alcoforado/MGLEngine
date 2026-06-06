@@ -108,5 +108,7 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/TextureHandler.h" 
  "Interfaces/ShapeRegistrationConfig.h" 
  
- )
+  "Utils/stb_implementation.cpp")
+find_package(Stb REQUIRED)
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
