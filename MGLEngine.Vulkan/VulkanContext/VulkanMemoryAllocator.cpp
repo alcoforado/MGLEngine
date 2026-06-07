@@ -77,7 +77,25 @@ VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfIndices)
 	
 }
 
+VulkanBuffer VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
+{
+	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
+	bufferInfo.size = sizeInBytes;
+	bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 
+
+	VmaAllocationCreateInfo allocInfo = {};
+	allocInfo.usage = VMA_MEMORY_USAGE_AUTO;
+	allocInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
+
+	return CreateBuffer(&bufferInfo, &allocInfo);
+}
+
+
+VulkanBuffer VulkanMemoryAllocator::CreateImageBuffer(uint64_t sizeInBytes)
+{
+	
+}
 
 
 

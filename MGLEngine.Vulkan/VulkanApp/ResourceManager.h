@@ -3,10 +3,11 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <vector>
-
+#include <vulkan/vulkan.h>
 
 struct ImageResource {
-	std::string name;
+	std::string Name;
+	VkImage Handle;
 
 };
 
@@ -25,10 +26,11 @@ class ResourceManager {
 
 
 	VulkanMemoryAllocator& _memory;
+	VulkanLogicalDevice& _device;
 	std::vector<ImageResource> _images;
 public:
-	ResourceManager(VulkanMemoryAllocator& memory)
-		:_memory(memory) {}
+	ResourceManager(VulkanMemoryAllocator& memory,VulkanLogicalDevice &device)
+		:_memory(memory),_device(device) {}
 	ImgHandler LoadImage(ImageConfig confi);
 };
 

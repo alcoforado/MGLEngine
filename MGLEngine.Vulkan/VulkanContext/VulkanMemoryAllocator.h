@@ -12,6 +12,9 @@ class VulkanMemoryAllocator {
 		~VulkanMemoryAllocator();
 		VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 		VulkanBuffer CreateIndexBuffer(uint64_t numOfIndices);
-		
+		VulkanBuffer CreateStagingBuffer(uint64_t sizeInBytes);
+		VulkanBuffer CreateImageBuffer(uint64_t sizeInBytes);
+
+	
 
 };

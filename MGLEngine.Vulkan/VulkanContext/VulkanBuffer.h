@@ -36,6 +36,10 @@ public:
 		return _size == 0;
 	}
 
+	void ToGPU(void* pData, uint64_t sizeInBytes);
+	
+
+
 	void Delete()
 	{
 		if (_buffer == VK_NULL_HANDLE)
