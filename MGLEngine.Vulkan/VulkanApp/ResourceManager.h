@@ -1,13 +1,14 @@
 
 #pragma once
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanImage.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <vector>
 #include <vulkan/vulkan.h>
 
 struct ImageResource {
 	std::string Name;
-	VkImage Handle;
+	VulkanImage Image;
 
 };
 

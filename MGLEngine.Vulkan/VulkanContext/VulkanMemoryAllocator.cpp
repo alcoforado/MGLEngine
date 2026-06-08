@@ -92,9 +92,22 @@ VulkanBuffer VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
 }
 
 
-VulkanBuffer VulkanMemoryAllocator::CreateImageBuffer(uint64_t sizeInBytes)
+VulkanImage VulkanMemoryAllocator::CreateImageBuffer(VkImageCreateInfo imgInfo)
 {
+	VkImage image;
+	VmaAllocation allocation;
+	VmaAllocationInfo allocationInfo;
+
+	VmaAllocationCreateInfo allocCreateInfo = {};
+	allocCreateInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
 	
+	VkResult result=vmaCreateImage(_allocator, &imgInfo, &allocCreateInfo, &image, &allocation, &allocationInfo);
+	AssertVulkanSuccess(result);
+
+	
+
+	return VulkanImage(this, image, allocation, allocationInfo);
+
 }
 
 

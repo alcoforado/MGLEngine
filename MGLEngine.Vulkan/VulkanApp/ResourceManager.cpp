@@ -39,12 +39,8 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 	imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 	imageInfo.flags = 0; // Optional
-	VkImage vkImage;
-	auto result=vkCreateImage(_device.GetHandle(), &imageInfo, nullptr, &vkImage);
-	AssertVulkanSuccess(result);
-	res.Handle = vkImage;
 
-	VulkanBuffer imageBuffer = this->_memory.CreateImageBuffer(imageSize);
+	res.Image = this->_memory.CreateImageBuffer(imageInfo);
 
 	auto id = this->_images.size();
 	this->_images.push_back(res);
