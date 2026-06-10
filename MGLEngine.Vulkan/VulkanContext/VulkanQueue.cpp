@@ -5,12 +5,16 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include "MGLEngine.Vulkan/VulkanUtils.h"
+#include "VulkanCommandPool.h"
 VulkanQueue::VulkanQueue(const VulkanLogicalDevice& logicalDevice, int familyIndex, int queueIndex)
 	:_logicalDevice(logicalDevice),_familyIndex(familyIndex),_queueIndex(queueIndex)
 {
 	_isPresentationQueue =_logicalDevice.GetPhysicalDevice().GetQueueFamilies()[familyIndex].SupportPresentation;
 	_isGraphicQueue = _logicalDevice.GetPhysicalDevice().GetQueueFamilies()[familyIndex].IsGraphic;
 	vkGetDeviceQueue(_logicalDevice.GetHandle(), _familyIndex, _queueIndex,&_handle);
+
+	
+
 }
 
 VulkanQueue::~VulkanQueue()
@@ -124,5 +128,14 @@ void VulkanQueue::WaitIdle() const
 {
 	VkResult result= vkQueueWaitIdle(_handle);
 	AssertVulkanSuccess(result);
+}
+
+std::shared_ptr<VulkanCommandBuffer> VulkanQueue::CreateCommandBuffer()
+{
+	if (!_pCommandPool)
+		_pCommandPool=std::make_shared<VulkanCommandPool>(*this);
+	return std::make_shared<VulkanCommandBuffer>(_pCommandPool);
+
+
 }
 

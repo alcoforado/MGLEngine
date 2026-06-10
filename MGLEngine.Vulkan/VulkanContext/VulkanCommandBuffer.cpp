@@ -23,7 +23,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::Reset()
 	return *this;
 }
 
-VulkanCommandBuffer::VulkanCommandBuffer(const VulkanCommandPool *pool)
+VulkanCommandBuffer::VulkanCommandBuffer(VulkanCommandPool* pool)
 	:_pPool(pool)
 {
 	VkCommandBufferAllocateInfo allocInfo = {};

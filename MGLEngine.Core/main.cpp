@@ -43,7 +43,7 @@ int main()
 
 		IMGLEngine& engine = app.Init();
 
-		Example2(engine);
+		Example1(engine);
 		
 		
 	}

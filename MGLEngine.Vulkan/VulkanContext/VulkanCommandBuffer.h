@@ -22,7 +22,7 @@ private:
 	void AssertIsOpen();
 
 public:
-	VulkanCommandBuffer(const VulkanCommandPool* pool);
+	VulkanCommandBuffer(std::shared_ptr<VulkanCommandPool> pool);
 	VulkanCommandBuffer& Reset();
 	VulkanCommandBuffer& Begin(bool asyncQueues=false, bool oneSubmissionPerReset=false);
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);

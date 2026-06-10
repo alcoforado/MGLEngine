@@ -14,7 +14,9 @@ class VulkanCommandPool
 public:
 	
 	~VulkanCommandPool();
-	VulkanCommandPool(const VulkanLogicalDevice &_device);
+	VulkanCommandPool(const VulkanLogicalDevice& _device);
+	VulkanCommandPool(const VulkanQueue &queue );
+
 	VkCommandPool GetHandle() const { return _vkPool; }
 	const VulkanLogicalDevice& GetLogicalDevice() const {
 		return _logicalDevice;
