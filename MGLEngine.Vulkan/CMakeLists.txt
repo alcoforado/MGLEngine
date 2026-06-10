@@ -49,8 +49,6 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "RenderPipeline/VulkanCommandBuffer.h"
     "RenderPipeline/VulkanCommandPool.cpp"
     "RenderPipeline/VulkanCommandPool.h"
-    "RenderPipeline/VulkanCommands.cpp"
-    "RenderPipeline/VulkanCommands.h"
     "RenderPipeline/VulkanFence.cpp"
     "RenderPipeline/VulkanFence.h"
     
