@@ -9,8 +9,8 @@
 #include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandPool.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
 #include <unordered_map>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>

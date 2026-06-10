@@ -1,7 +1,7 @@
 #include "VulkanQueue.h"
 #include "VulkanLogicalDevice.h"
-#include "MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h"
-#include "MGLEngine.Vulkan/RenderPipeline/VulkanFence.h"
+#include "VulkanCommandBuffer.h"
+#include "VulkanFence.h"
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include "MGLEngine.Vulkan/VulkanUtils.h"

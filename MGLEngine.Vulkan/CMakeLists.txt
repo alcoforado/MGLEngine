@@ -45,16 +45,16 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     
     
     
-    "RenderPipeline/VulkanCommandBuffer.cpp"
-    "RenderPipeline/VulkanCommandBuffer.h"
-    "RenderPipeline/VulkanCommandPool.cpp"
-    "RenderPipeline/VulkanCommandPool.h"
-    "RenderPipeline/VulkanFence.cpp"
-    "RenderPipeline/VulkanFence.h"
+    "VulkanContext/VulkanCommandBuffer.cpp"
+    "VulkanContext/VulkanCommandBuffer.h"
+    "VulkanContext/VulkanCommandPool.cpp"
+    "VulkanContext/VulkanCommandPool.h"
+    "VulkanContext/VulkanFence.cpp"
+    "VulkanContext/VulkanFence.h"
     
     
-    "RenderPipeline/VulkanSemaphore.cpp"
-    "RenderPipeline/VulkanSemaphore.h"
+    "VulkanContext/VulkanSemaphore.cpp"
+    "VulkanContext/VulkanSemaphore.h"
     
     
     "RenderResources/IVulkanSlotBinding.cpp"

@@ -6,8 +6,8 @@
 #include <glfw\glfw3.h>
 #include <algorithm>
 #include <cassert>
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandPool.h>
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanFence.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandPool.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
 VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDevice,uint32_t graphicQueueFamilyIndex)
 	:_physicalDevice(physicalDevice)
 {

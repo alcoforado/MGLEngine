@@ -2,7 +2,7 @@
 #include <vulkan/vulkan.h>
 #include "VulkanSurface.h"
 #include "VulkanLogicalDevice.h"
-#include "../RenderPipeline/VulkanSemaphore.h"
+#include "VulkanSemaphore.h"
 #include "VulkanSwapChainOptions.h"
 class VulkanSwapChain
 {

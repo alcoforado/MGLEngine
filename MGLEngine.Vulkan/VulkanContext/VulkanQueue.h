@@ -3,7 +3,7 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <memory>
-#include "MGLEngine.Vulkan/RenderPipeline/VulkanSemaphore.h"
+#include <MGLEngine.Vulkan/VulkanContext/VulkanSemaphore.h>
 class VulkanFence;
 class VulkanCommandBuffer;
 class VulkanLogicalDevice;

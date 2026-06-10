@@ -6,7 +6,7 @@
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/BindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include <MGLEngine.Vulkan/RenderPipeline/VulkanCommandBuffer.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
 struct DrawElementContext {
 	IDrawingObject* pObject;
 	ShapeRegistrationConfig config;
