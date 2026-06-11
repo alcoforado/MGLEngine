@@ -15,7 +15,7 @@ class VulkanSwapChain
 	public:
 		const VulkanSurface&  _surface;
 		VulkanSwapChainOptions _options;
-		const VulkanLogicalDevice& _logicalDevice;
+		VulkanLogicalDevice& _logicalDevice;
 		VkSwapchainKHR _swapChainHandle;
 		VkFormat _imageFormat;  
 		VkColorSpaceKHR _imageColorSpace; 
@@ -28,7 +28,7 @@ class VulkanSwapChain
 		void CreateImageViews();
 		
 	public:
-		VulkanSwapChain(const VulkanSurface &surface,const VulkanLogicalDevice& device, VulkanSwapChainOptions options);
+		VulkanSwapChain(const VulkanSurface &surface, VulkanLogicalDevice& device, VulkanSwapChainOptions options);
 		const VulkanLogicalDevice* GetLogicalDevice()const { return &_logicalDevice; }
 		~VulkanSwapChain();
 		size_t NImages() const { return _images.size(); }	

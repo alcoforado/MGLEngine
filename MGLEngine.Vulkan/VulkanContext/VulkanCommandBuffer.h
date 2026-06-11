@@ -15,14 +15,15 @@ public:
 	
 
 private:
-	const VulkanCommandPool* _pPool;
+	VulkanCommandPool* _pPool;
 	VkCommandBuffer _vkCommandBuffer;
 	
 	bool _isOpen=false;
 	void AssertIsOpen();
+	void AssertIsNotDisposed() const;
 
 public:
-	VulkanCommandBuffer(std::shared_ptr<VulkanCommandPool> pool);
+	VulkanCommandBuffer(VulkanCommandPool* pool);
 	VulkanCommandBuffer& Reset();
 	VulkanCommandBuffer& Begin(bool asyncQueues=false, bool oneSubmissionPerReset=false);
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);
@@ -48,6 +49,8 @@ public:
 	
 	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 
+
+	void Dispose();
 	~VulkanCommandBuffer();
 	VkCommandBuffer GetHandle() const;
 

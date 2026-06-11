@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSemaphore.h>
+#include <MGLEngine.Shared/utils.h>
 class VulkanFence;
 class VulkanCommandBuffer;
 class VulkanCommandPool;
@@ -36,7 +37,7 @@ public:
 	VkResult Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const;
 
 	//Create Command Buffers
-	std::shared_ptr<VulkanCommandBuffer> CreateCommandBuffer();
+	u_ptr<VulkanCommandBuffer> CreateCommandBuffer();
 
 
 	void WaitIdle() const;

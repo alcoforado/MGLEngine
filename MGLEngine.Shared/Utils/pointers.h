@@ -1,5 +1,7 @@
 #include <memory>
-#include <MGLEngine.Shared/Utils/opointer.h>
 
 template<class T>
 using s_ptr = std::shared_ptr<T>;
+
+template<class T>
+using u_ptr = std::unique_ptr<T>;

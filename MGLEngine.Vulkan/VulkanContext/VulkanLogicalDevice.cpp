@@ -79,7 +79,7 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
 	vkDestroyDevice(_vkDevice, nullptr);
 }
 
-const VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() const
+VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() 
 {
 	auto index=_physicalDevice.GetGraphicFamilyQueueIndex();
 	for (int i=0;i<_queues.size();i++)

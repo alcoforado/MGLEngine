@@ -4,7 +4,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
 
-VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface, const VulkanLogicalDevice& device, VulkanSwapChainOptions options)
+VulkanSwapChain::VulkanSwapChain(const VulkanSurface& surface,  VulkanLogicalDevice& device, VulkanSwapChainOptions options)
 	:_logicalDevice(device),
 	_surface(surface)
 {

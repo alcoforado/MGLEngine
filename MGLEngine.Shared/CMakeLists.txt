@@ -88,7 +88,7 @@ add_library(${PROJECT_NAME} STATIC
     "Utils/eassert.cpp"
     "Utils/eassert.h"
     "Utils/opointer.h"
-    "Utils/shared_global.h"
+    
     "Utils/JsonParser/mjson.cpp"
     "Utils/JsonParser/mjson.h"
     "Window/IWindow.h"
@@ -108,7 +108,7 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/TextureHandler.h" 
  "Interfaces/ShapeRegistrationConfig.h" 
  
-  "Utils/stb_implementation.cpp")
+  "Utils/stb_implementation.cpp" "utils.h")
 find_package(Stb REQUIRED)
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})

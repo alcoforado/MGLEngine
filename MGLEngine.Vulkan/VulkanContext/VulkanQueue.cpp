@@ -130,11 +130,11 @@ void VulkanQueue::WaitIdle() const
 	AssertVulkanSuccess(result);
 }
 
-std::shared_ptr<VulkanCommandBuffer> VulkanQueue::CreateCommandBuffer()
+u_ptr<VulkanCommandBuffer> VulkanQueue::CreateCommandBuffer()
 {
 	if (!_pCommandPool)
 		_pCommandPool=std::make_shared<VulkanCommandPool>(*this);
-	return std::make_shared<VulkanCommandBuffer>(_pCommandPool);
+	return std::make_unique<VulkanCommandBuffer>(_pCommandPool.get());
 
 
 }

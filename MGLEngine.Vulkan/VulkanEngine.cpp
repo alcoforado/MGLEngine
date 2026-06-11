@@ -85,7 +85,7 @@ void MGL::VulkanEngine::ResizeSwapChain()
 void MGL::VulkanEngine::CreateCommandBuffers()
 {
 	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
-	_pCommandBuffer = _pCommandPool->CreateCommandBuffer();
+	_pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
 }
 
 

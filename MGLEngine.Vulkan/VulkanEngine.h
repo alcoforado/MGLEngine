@@ -28,7 +28,7 @@
 			std::map<std::type_index, ShaderContext> _shaders;
 			int _graphicQueueIndex;
 			VulkanCommandPool*  _pCommandPool=nullptr;
-			VulkanCommandBuffer* _pCommandBuffer = nullptr;
+			VulkanCommandBuffer* _pCommandBuffer;
 			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;

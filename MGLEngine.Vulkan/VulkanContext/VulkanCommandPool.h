@@ -21,6 +21,6 @@ public:
 	const VulkanLogicalDevice& GetLogicalDevice() const {
 		return _logicalDevice;
 	}
-	VulkanCommandBuffer* CreateCommandBuffer();
+	
 };
 
