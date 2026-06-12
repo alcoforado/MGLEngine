@@ -79,14 +79,14 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
 	vkDestroyDevice(_vkDevice, nullptr);
 }
 
-VulkanQueue* VulkanLogicalDevice::GetGraphicQueue() 
+const VulkanQueue& VulkanLogicalDevice::GetGraphicQueue() const 
 {
 	auto index=_physicalDevice.GetGraphicFamilyQueueIndex();
 	for (int i=0;i<_queues.size();i++)
 	{
 		if (_queues[i].GetFamilyIndex() == index)
 		{
-			return &(_queues[i]);
+			return _queues[i];
 		}
 	}
 	throw new Exception("No graphic queueu was found");

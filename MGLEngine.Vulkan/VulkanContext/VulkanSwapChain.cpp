@@ -144,7 +144,7 @@ void VulkanSwapChain::Present(const VulkanSemaphore* lock)
 	presentInfo.pSwapchains = swapChains;
 	presentInfo.pImageIndices = &_currentImageIndex;
 	presentInfo.pResults = nullptr;
-	auto err = vkQueuePresentKHR(_logicalDevice.GetGraphicQueue()->GetHandle(), &presentInfo);
+	auto err = vkQueuePresentKHR(_logicalDevice.GetGraphicQueue().GetHandle(), &presentInfo);
 	AssertVulkanSuccess(err);
 
 }

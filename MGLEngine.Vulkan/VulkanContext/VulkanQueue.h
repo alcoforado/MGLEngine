@@ -14,7 +14,7 @@ class VulkanQueue
 private:
 	const VulkanLogicalDevice& _logicalDevice;
 	VkQueue _handle;
-	std::shared_ptr<VulkanCommandPool> _pCommandPool;
+	mutable s_ptr<VulkanCommandPool> _pCommandPool;
 	bool _isPresentationQueue;
 	bool _isGraphicQueue;
 	int _queueIndex;
@@ -37,7 +37,7 @@ public:
 	VkResult Present(VkSwapchainKHR swapChain, uint32_t imageIndex, VulkanSemaphore* toWait) const;
 
 	//Create Command Buffers
-	u_ptr<VulkanCommandBuffer> CreateCommandBuffer();
+	u_ptr<VulkanCommandBuffer> CreateCommandBuffer() const;
 
 
 	void WaitIdle() const;

@@ -31,7 +31,7 @@ public:
 	~VulkanLogicalDevice();
 	VkDevice GetHandle() const { return _vkDevice; }
 	const VulkanPhysicalDevice& GetPhysicalDevice() const { return _physicalDevice; }
-	VulkanQueue* GetGraphicQueue();
+	const VulkanQueue& GetGraphicQueue() const ;
 	
 	VulkanDescriptorSetPool* GetDescriptorSetPool() const { return _pDescriptorSetPool; }
 	void WaitToBeIdle() const;

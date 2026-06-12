@@ -471,14 +471,14 @@ void MGL::VulkanEngine::Draw()
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
-	_pLogicalDevice->GetGraphicQueue()->Submit(
+	_pLogicalDevice->GetGraphicQueue().Submit(
 		_pCommandBuffer,
 		_pRenderFinishedSemaphore[imageIndex], //signal when finished
 		_pImageAvailableSemaphore, //wait on
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
-	auto vkResult=_pLogicalDevice->GetGraphicQueue()->Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
+	auto vkResult=_pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
 	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR) {
 		ResizeSwapChain();
 		return;
@@ -495,7 +495,7 @@ void MGL::VulkanEngine::Run() {
 		glfwPollEvents();
 		Draw();
 	}
-	_pLogicalDevice->GetGraphicQueue()->WaitIdle();
+	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 }
 
 #pragma region Cleanup
