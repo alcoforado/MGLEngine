@@ -8,6 +8,7 @@ class VulkanRenderPass;
 
 void VulkanCommandBuffer::AssertIsOpen()
 {
+	AssertIsNotDisposed();
 	if (!_isOpen)
 	{
 		throw new Exception("Command Buffer is already closed, make sure you add the command before calling VulkanCommandBuffer::End()");
@@ -78,7 +79,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPas
 {
 
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	VkClearValue cl = { color.x,color.y,color.z,color.w };
 	VkRenderPassBeginInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -98,7 +98,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPas
 VulkanCommandBuffer& VulkanCommandBuffer::SetViewportAndScissor(VkExtent2D extent)
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	VkViewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
@@ -124,7 +123,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 	uint32_t firstInstance)
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	vkCmdDraw(_vkCommandBuffer,vertexCount, instanceCount, firstVertex, firstInstance);
 	return *this;
 }
@@ -132,7 +130,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::Draw(
 VulkanCommandBuffer& VulkanCommandBuffer::DrawIndexed(uint32_t indexCount,uint32_t firstIndex,uint32_t vertexOffset)
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	vkCmdDrawIndexed(_vkCommandBuffer, indexCount, 1, firstIndex, vertexOffset,0);
 	return *this;
 }
@@ -140,7 +137,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::DrawIndexed(uint32_t indexCount,uint32
 VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline( VkPipeline _vkPipeline)
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	vkCmdBindPipeline(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, _vkPipeline);
 	return *this;
 }
@@ -151,7 +147,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindGraphicsPipeline( VkPipeline _vkPi
 void VulkanCommandBuffer::End()
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	auto err = vkEndCommandBuffer(_vkCommandBuffer);
 	AssertVulkanSuccess(err);
 	_isOpen = false;
@@ -160,7 +155,6 @@ void VulkanCommandBuffer::End()
 void VulkanCommandBuffer::EndRenderPass()
 {
 	AssertIsOpen();
-	AssertIsNotDisposed();
 	vkCmdEndRenderPass(_vkCommandBuffer);
 }
 
@@ -174,9 +168,11 @@ void VulkanCommandBuffer::EndRenderPass()
 
 void VulkanCommandBuffer::Dispose() {
 	AssertIsNotDisposed();
+
 	vkFreeCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), _pPool->GetHandle(), 1, &_vkCommandBuffer);
 	_vkCommandBuffer = VK_NULL_HANDLE;
 }
+
 
 VulkanCommandBuffer::~VulkanCommandBuffer()  
 {
@@ -190,9 +186,9 @@ VkCommandBuffer VulkanCommandBuffer::GetHandle() const
 	return _vkCommandBuffer;
 }
 
+
 VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 {
-	AssertIsNotDisposed();
 	AssertIsOpen();
 	VkDeviceSize off = 0;
 	vkCmdBindVertexBuffers(_vkCommandBuffer, 0, 1, &buff,&off);
@@ -201,7 +197,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(VkBuffer buff)
 
 VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VkBuffer buff)
 {
-	AssertIsNotDisposed();
 	AssertIsOpen();
 
 	vkCmdBindIndexBuffer(_vkCommandBuffer, buff, 0, VK_INDEX_TYPE_UINT32);
@@ -214,7 +209,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VkBuffer buff)
 
 VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
 {
-	AssertIsNotDisposed();
 	AssertIsOpen();
 
 	VkBufferCopy copyRegion = {};
@@ -225,3 +219,39 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst
 	return *this;
 }
 
+#pragma region Image Commands
+VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget(const VulkanImage& image)
+{
+	AssertIsOpen();
+	VkImageMemoryBarrier barrier{};
+	barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+	barrier.oldLayout = image.GetImageLayout();
+	barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+	barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; //We are not exchanging queue on the image. so ignore
+	barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+	barrier.image = image.GetHandle();
+	barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	barrier.subresourceRange.baseMipLevel = 0;
+	barrier.subresourceRange.levelCount = 1;
+	barrier.subresourceRange.baseArrayLayer = 0;
+	barrier.subresourceRange.layerCount = 1;
+	barrier.srcAccessMask = VK_ACCESS_NONE; //No read no writes the initial layous is assumed unusable
+	barrier.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT; //After the layout transition you can write into the resource not read from it
+	
+
+
+
+	vkCmdPipelineBarrier(
+		this->GetHandle(),
+		VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, //The stage before the barrier. That is the top of the pipeline before any processing takes place
+		VK_PIPELINE_STAGE_TRANSFER_BIT,    //The first stage that should wait for the barrier.  This stage is the one where memory transfers and copy should happen
+		0, //Global  device wide dependency
+		0, nullptr, 
+		0, nullptr,
+		1,&barrier);
+
+	return *this;
+
+}
+
+#pragma endregion

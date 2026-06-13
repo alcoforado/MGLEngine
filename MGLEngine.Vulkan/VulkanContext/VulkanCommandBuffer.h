@@ -2,6 +2,7 @@
 #include "VulkanCommandPool.h"
 #include <glm/vec4.hpp>
 #include "VulkanSemaphore.h"
+#include "VulkanImage.h"
 #include <string>
 class VulkanDescriptorSet;
 class VulkanPipeline;
@@ -51,6 +52,8 @@ public:
 	
 	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 
+
+	VulkanCommandBuffer& TransitionImageToCopyTarget(const VulkanImage& image);
 
 	void Dispose();
 	~VulkanCommandBuffer();

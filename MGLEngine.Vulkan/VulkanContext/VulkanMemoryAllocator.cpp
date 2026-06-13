@@ -106,7 +106,7 @@ VulkanImage VulkanMemoryAllocator::CreateImageBuffer(VkImageCreateInfo imgInfo)
 
 	
 
-	return VulkanImage(this, image, allocation, allocationInfo);
+	return VulkanImage(this, image, imgInfo,allocation, allocationInfo);
 
 }
 

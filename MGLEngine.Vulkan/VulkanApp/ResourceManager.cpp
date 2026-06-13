@@ -43,7 +43,8 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 	res.Image = this->_memory.CreateImageBuffer(imageInfo);
 
 	_pCommandBuffer->BeginOnce();
-	_pCommandBuffer->CopyBuffers()
+	_pCommandBuffer->TransitionImageToCopyTarget(res.Image);
+
 
 
 
