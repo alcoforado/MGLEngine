@@ -26,6 +26,8 @@ public:
 	VulkanCommandBuffer(VulkanCommandPool* pool);
 	VulkanCommandBuffer& Reset();
 	VulkanCommandBuffer& Begin(bool asyncQueues=false, bool oneSubmissionPerReset=false);
+	VulkanCommandBuffer& BeginOnce();
+
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);
 	VulkanCommandBuffer& SetViewportAndScissor(VkExtent2D extent);
 

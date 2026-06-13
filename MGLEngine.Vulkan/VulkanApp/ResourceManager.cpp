@@ -42,6 +42,11 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 
 	res.Image = this->_memory.CreateImageBuffer(imageInfo);
 
+	_pCommandBuffer->BeginOnce();
+	_pCommandBuffer->CopyBuffers()
+
+
+
 	auto id = this->_images.size();
 	this->_images.push_back(res);
 	return ImgHandler(id);

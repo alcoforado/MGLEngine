@@ -3,8 +3,11 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanImage.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
+#include <MGLEngine.Shared/utils.h>
 #include <vector>
 #include <vulkan/vulkan.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 
 struct ImageResource {
 	std::string Name;
@@ -27,11 +30,14 @@ class ResourceManager {
 
 
 	VulkanMemoryAllocator& _memory;
-	VulkanLogicalDevice& _device;
+	const VulkanLogicalDevice& _device;
 	std::vector<ImageResource> _images;
+	u_ptr<VulkanCommandBuffer> _pCommandBuffer;
 public:
-	ResourceManager(VulkanMemoryAllocator& memory,VulkanLogicalDevice &device)
-		:_memory(memory),_device(device) {}
+	ResourceManager(VulkanMemoryAllocator& memory,const VulkanLogicalDevice &device)
+		:_memory(memory),_device(device) {
+		_pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
+	}
 	ImgHandler LoadImage(ImageConfig confi);
 };
 

@@ -45,13 +45,21 @@ VulkanCommandBuffer::VulkanCommandBuffer(VulkanCommandPool* pool)
 	
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool asyncQueues,bool oneSubmissionPerReset )
+VulkanCommandBuffer& VulkanCommandBuffer::BeginOnce()
+{
+	return this->Begin(false, true);
+
+
+}
+
+
+VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool simultaneousUsage,bool oneSubmissionPerReset )
 {
 	AssertIsNotDisposed();
 	eassert(!_isOpen, "Buffer already started");
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	if (asyncQueues)
+	if (simultaneousUsage)
 	{
 		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
 	}
@@ -170,7 +178,7 @@ void VulkanCommandBuffer::Dispose() {
 	_vkCommandBuffer = VK_NULL_HANDLE;
 }
 
-VulkanCommandBuffer::~VulkanCommandBuffer()
+VulkanCommandBuffer::~VulkanCommandBuffer()  
 {
 	eassert(_vkCommandBuffer == VK_NULL_HANDLE, "Vulkan Command Buffer should be disposed before destruction");
 
