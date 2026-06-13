@@ -32,11 +32,11 @@ class ResourceManager {
 	VulkanMemoryAllocator& _memory;
 	const VulkanLogicalDevice& _device;
 	std::vector<ImageResource> _images;
-	u_ptr<VulkanCommandBuffer> _pCommandBuffer;
+	//u_ptr<VulkanCommandBuffer> _pCommandBuffer;
 public:
 	ResourceManager(VulkanMemoryAllocator& memory,const VulkanLogicalDevice &device)
 		:_memory(memory),_device(device) {
-		_pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
+		////_pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
 	}
 	ImgHandler LoadImage(ImageConfig confi);
 };

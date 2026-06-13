@@ -61,7 +61,7 @@ public:
 	//For now all images are used as read only for the fragment shader.
 	VulkanCommandBuffer& TransitionImageToFinalLayout(VulkanImage& image);
 
-	void Dispose();
+	void Delete();
 	~VulkanCommandBuffer();
 	VkCommandBuffer GetHandle() const;
 

@@ -166,7 +166,7 @@ void VulkanCommandBuffer::EndRenderPass()
 
  
 
-void VulkanCommandBuffer::Dispose() {
+void VulkanCommandBuffer::Delete() {
 	AssertIsNotDisposed();
 
 	vkFreeCommandBuffers(_pPool->GetLogicalDevice().GetHandle(), _pPool->GetHandle(), 1, &_vkCommandBuffer);

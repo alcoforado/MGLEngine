@@ -23,6 +23,8 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 
 	VulkanBuffer stagingBuffer=this->_memory.CreateStagingBuffer(imageSize);
 	stagingBuffer.ToGPU(pixels, imageSize);
+	stbi_image_free(pixels);
+
 
 	VkImageCreateInfo imageInfo{};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -42,11 +44,15 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 
 	res.Image = this->_memory.CreateImageBuffer(imageInfo);
 
-	_pCommandBuffer->BeginOnce();
-	_pCommandBuffer->TransitionImageToCopyTarget(res.Image);
-	_pCommandBuffer->CopyToImage(stagingBuffer, res.Image);
-	_pCommandBuffer->TransitionImageToFinalLayout(res.Image);
-
+	auto pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
+	pCommandBuffer->BeginOnce();
+	pCommandBuffer->TransitionImageToCopyTarget(res.Image);
+	pCommandBuffer->CopyToImage(stagingBuffer, res.Image);
+	pCommandBuffer->TransitionImageToFinalLayout(res.Image);
+	pCommandBuffer->End();
+	_device.GetGraphicQueue().Submit(*pCommandBuffer);
+	_device.WaitToBeIdle();
+	pCommandBuffer->Delete();
 
 
 	auto id = this->_images.size();
