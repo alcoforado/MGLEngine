@@ -19,7 +19,7 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 	int texWidth, texHeight, texChannels;
 	stbi_uc* pixels = stbi_load(config.filePath.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
 	eassert(pixels,std::format("failed to load texture image for {}",config.filePath))
-	VkDeviceSize imageSize = texWidth * texHeight * 4;
+	VkDeviceSize imageSize = texWidth * texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
 
 	VulkanBuffer stagingBuffer=this->_memory.CreateStagingBuffer(imageSize);
 	stagingBuffer.ToGPU(pixels, imageSize);
@@ -44,7 +44,8 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 
 	_pCommandBuffer->BeginOnce();
 	_pCommandBuffer->TransitionImageToCopyTarget(res.Image);
-
+	_pCommandBuffer->CopyToImage(stagingBuffer, res.Image);
+	_pCommandBuffer->TransitionImageToFinalLayout(res.Image);
 
 
 

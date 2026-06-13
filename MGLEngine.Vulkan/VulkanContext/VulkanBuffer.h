@@ -9,7 +9,7 @@ class VulkanBuffer {
 private:
 
 	VkBuffer _buffer;
-	uint32_t _size;
+	VkDeviceSize _size;
 	VmaAllocator* _pAllocator;
 	VulkanMemoryProperties _memType;
 	uint32_t _deviceMemoryTypeIndex;
@@ -25,7 +25,7 @@ public:
 		_buffer = VK_NULL_HANDLE;
 		_size = 0;
 	}
-	VkBuffer Handle() {
+	VkBuffer GetHandle() {
 		return _buffer;
 	}
 	void* Map();
@@ -34,6 +34,10 @@ public:
 
 	bool Empty() {
 		return _size == 0;
+	}
+
+	VkDeviceSize GetSizeInBytes() {
+		return _size;
 	}
 
 	void ToGPU(void* pData, uint64_t sizeInBytes);

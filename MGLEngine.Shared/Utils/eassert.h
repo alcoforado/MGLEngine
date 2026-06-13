@@ -22,16 +22,18 @@ public:
 	AssertionFailureException(std::string expression, std::string  file, int line, std::string message);
 	
 	/// The assertion message
-	virtual const char* what() const throw()
+	virtual const char* what() const 
 	{
 		return _report.c_str();
 	}
 
-	~AssertionFailureException() throw()
+	~AssertionFailureException() 
 	{
 	}
 };
 
+
+#define throw_error(MESSAGE) {  throw AssertionFailureException("", __FILE__, __LINE__, MESSAGE); }
 
 /// Assert that EXPRESSION evaluates to true, otherwise raise AssertionFailureException with associated MESSAGE (which may use C++ stream-style message formatting)
 

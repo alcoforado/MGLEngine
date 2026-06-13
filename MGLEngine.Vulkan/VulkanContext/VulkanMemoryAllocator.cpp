@@ -6,6 +6,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/vmausage.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 
+
 VulkanMemoryAllocator::VulkanMemoryAllocator(const VulkanLogicalDevice& device)
 	:_device(device)
 {
@@ -36,7 +37,7 @@ VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo
 	AssertVulkanSuccess(err);
 	VulkanBuffer vb;
 	vb._buffer = buffer;
-	vb._size = (uint32_t)pCreateInfo->size;
+	vb._size = pCreateInfo->size;
 	vb._usage = pCreateInfo->usage;
 	vb._allocation = allocation;
 	vb._allocationInfo = allocInfoResult;

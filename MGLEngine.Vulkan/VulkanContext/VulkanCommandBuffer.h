@@ -3,6 +3,7 @@
 #include <glm/vec4.hpp>
 #include "VulkanSemaphore.h"
 #include "VulkanImage.h"
+#include "VulkanBuffer.h"
 #include <string>
 class VulkanDescriptorSet;
 class VulkanPipeline;
@@ -53,7 +54,12 @@ public:
 	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 
 
-	VulkanCommandBuffer& TransitionImageToCopyTarget(const VulkanImage& image);
+	VulkanCommandBuffer& TransitionImageToCopyTarget( VulkanImage& image);
+	VulkanCommandBuffer& CopyToImage(VulkanBuffer& buffer, VulkanImage& image);
+	
+	//Transition image to the final layout. The final layout is according to the purpose of that image.
+	//For now all images are used as read only for the fragment shader.
+	VulkanCommandBuffer& TransitionImageToFinalLayout(VulkanImage& image);
 
 	void Dispose();
 	~VulkanCommandBuffer();

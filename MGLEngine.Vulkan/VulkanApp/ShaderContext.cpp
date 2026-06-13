@@ -75,8 +75,8 @@ void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 	if (_totalVertices == 0)
 		return;
 	cmdBuffer.BindGraphicsPipeline(_pipeline.handle);
-	cmdBuffer.BindVertexBuffer(_vBuffer.Handle());
-	cmdBuffer.BindIndexBuffer(_iBuffer.Handle());
+	cmdBuffer.BindVertexBuffer(_vBuffer.GetHandle());
+	cmdBuffer.BindIndexBuffer(_iBuffer.GetHandle());
 	for (auto& drawingContext : _drawGraph)
 	{
 		VulkanDrawContext drawContext(cmdBuffer, drawingContext);

@@ -220,12 +220,12 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst
 }
 
 #pragma region Image Commands
-VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget(const VulkanImage& image)
+VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget( VulkanImage& image)
 {
 	AssertIsOpen();
 	VkImageMemoryBarrier barrier{};
 	barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-	barrier.oldLayout = image.GetImageLayout();
+	barrier.oldLayout = image.GetCurrentImageLayout();
 	barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 	barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; //We are not exchanging queue on the image. so ignore
 	barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
@@ -250,8 +250,72 @@ VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget(const Vulk
 		0, nullptr,
 		1,&barrier);
 
+	image.SetCurrentLayout(VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	
 	return *this;
 
 }
+
+VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToFinalLayout(VulkanImage& image)
+{
+	AssertIsOpen();
+	VkImageMemoryBarrier barrier{};
+	barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+	barrier.oldLayout = image.GetCurrentImageLayout();
+	barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL; //this will change when We need images for other than just shader textures.
+	barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; //We are not exchanging queue on the image. so ignore
+	barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+	barrier.image = image.GetHandle();
+	barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	barrier.subresourceRange.baseMipLevel = 0;
+	barrier.subresourceRange.levelCount = 1;
+	barrier.subresourceRange.baseArrayLayer = 0;
+	barrier.subresourceRange.layerCount = 1;
+	barrier.srcAccessMask = image.GetCurrentAccessMask(); //No read no writes the initial layous is assumed unusable
+	barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT; //After the layout transition you can write into the resource not read from it
+
+
+
+
+	vkCmdPipelineBarrier(
+		this->GetHandle(),
+		VK_PIPELINE_STAGE_TRANSFER_BIT,//The stage before the barrier. That is the top of the pipeline before any processing takes place
+		VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,  //The first stage that should wait for the barrier.  This stage is the one where memory transfers and copy should happen
+		0, //Global  device wide dependency
+		0, nullptr,
+		0, nullptr,
+		1, &barrier);
+
+	image.SetCurrentLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	image.SetCurrentAccessMask(barrier.dstAccessMask);
+
+	return *this;
+}
+
+VulkanCommandBuffer& VulkanCommandBuffer::CopyToImage(VulkanBuffer& buffer, VulkanImage& image)
+{
+	AssertIsOpen();
+	eassert(image.GetSizeInBytes() >= buffer.GetSizeInBytes(), "Image too small to copy buffer into");
+	eassert(image.GetCurrentImageLayout() == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, "Image layout must be optimal")
+	VkBufferImageCopy region{};
+	region.bufferOffset = 0;
+	region.bufferRowLength = 0;
+	region.bufferImageHeight = 0;
+
+	region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	region.imageSubresource.mipLevel = 0;
+	region.imageSubresource.baseArrayLayer = 0;
+	region.imageSubresource.layerCount = 1;
+
+	region.imageOffset = { 0, 0, 0 };
+	region.imageExtent = image.GetExtent();
+	
+	vkCmdCopyBufferToImage(this->GetHandle(), buffer.GetHandle(), image.GetHandle(), image.GetCurrentImageLayout(), 1, &region);
+
+
+	return *this;
+}
+
+
 
 #pragma endregion

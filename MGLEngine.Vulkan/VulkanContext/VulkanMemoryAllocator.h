@@ -20,5 +20,8 @@ class VulkanMemoryAllocator {
 			return _device;
 		}
 	
+		VmaAllocator& GetVmaAllocator() {
+			return _allocator;
+		}
 
 };
