@@ -10,7 +10,9 @@ class Sprite2D  : IDrawingObject {
 			:_width(width),_height(height),_bl(bl)
 		{
 			engine.AddShape<Texture2D>(*this, [imgPath](ShapeRegistrationConfig& config) {
-				config.RegisterImage(imgPath);
+				config.BindImage(imgPath,"sampler");
+				
+					
 			});
 		}
 		virtual uint32_t NVertices() override {
