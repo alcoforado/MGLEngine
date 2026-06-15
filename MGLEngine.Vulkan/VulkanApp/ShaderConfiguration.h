@@ -1,7 +1,7 @@
 #pragma once
 #include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
 #include <MGLEngine.Shared/Shaders/BindingManager.h>
-
+#include <queue>
 struct ShaderByteCode {
 	const uint32_t* byteCode;
 	uint32_t size;
@@ -20,7 +20,7 @@ class ShaderConfiguration: public IShaderConfiguration {
 		ShaderByteCode verticeShader;
 		ShaderByteCode fragmentShader;
 		std::vector<VertexAttributeDeclaration> vertexAttributes;
-
+		std::queue<TextureSamplerConfig> samplers;
 	
 	public: //virtual overrides for IShaderConfiguration 
 		ShaderConfiguration() {}
@@ -34,6 +34,16 @@ class ShaderConfiguration: public IShaderConfiguration {
 		{
 			fragmentShader.byteCode = bytecode;
 			fragmentShader.size = size;
+		}
+
+		virtual TextureSamplerConfig& DeclareTextureSampler(std::string name) override
+		{
+			TextureSamplerConfig config = {
+				.name = name
+			};
+			samplers.push(config);
+			return samplers.back();
+
 		}
 
 	

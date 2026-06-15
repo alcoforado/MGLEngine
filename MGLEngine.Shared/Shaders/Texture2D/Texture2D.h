@@ -14,6 +14,10 @@ class Texture2D : public IShader {
 			config.DeclareVertexAttribute_FloatVec2("position2d", 0);
 			config.SetVerticeShader(texture2D_vert,  sizeof(texture2D_vert));
 			config.SetFragmentShader(texture2D_frag, sizeof(texture2D_frag));
+			
+			config.DeclareTextureSampler("sampler");
+				 
+
 		}
 		
 };
