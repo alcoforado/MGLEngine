@@ -26,6 +26,11 @@ public:
 	std::size_t GetId() const { return id; }
 };
 
+/**
+Resource Manager should have one instance per physical device.
+It contains all resources loaded by shader. Uniform Buffers and Images.
+It is responsible to load and store them in memory.
+*/
 class ResourceManager {
 
 
