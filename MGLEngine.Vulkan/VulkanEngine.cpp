@@ -232,8 +232,8 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
 	ShaderConfiguration options = {};
 	pShader->Init(options);
-	auto pipeline = CreatePipeline(options);
-	auto binding = BindingManager(options.vertexAttributes);
+	auto binding = BindingManager(options);
+	auto pipeline = CreatePipeline(options,binding);
 	ShaderContext ctx(pipeline, options, binding);
 	this->_shaders[typeIndex] = ctx;
 }
@@ -303,7 +303,7 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 }
 
-VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
+VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config,BindingManager &binding)
 {
 
 
@@ -394,7 +394,6 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 	//
 	VkPipelineVertexInputStateCreateInfo _pipelineVertexInputState = {};
-	BindingManager binding(config.vertexAttributes);
 	auto bindingDescriptions = CreatePipelineVertexInputBinding(binding);
 	auto attributeDescriptions = CreatePipelineVertexInputAttributes(binding);
 	_pipelineVertexInputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;

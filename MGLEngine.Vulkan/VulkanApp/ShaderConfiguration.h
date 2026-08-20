@@ -1,6 +1,5 @@
 #pragma once
 #include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
-#include <MGLEngine.Shared/Shaders/BindingManager.h>
 #include <queue>
 struct ShaderByteCode {
 	const uint32_t* byteCode;
@@ -11,7 +10,11 @@ struct ShaderByteCode {
 	}
 };
 
-
+struct VertexAttributeDeclaration {
+	std::string name;
+	uint32_t location;
+	FieldType type;
+};
 
 class ShaderConfiguration: public IShaderConfiguration {
 

@@ -1,8 +1,8 @@
 #include "BindingManager.h"
-BindingManager::BindingManager(std::vector<VertexAttributeDeclaration> vAttribs)
+BindingManager::BindingManager(ShaderConfiguration &config)
 {
 	_totalStride = 0;
-	for (auto& v : vAttribs)
+	for (auto& v : config.vertexAttributes)
 	{
 		VertexAttribute elem = {
 			.name = v.name,
