@@ -233,8 +233,8 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	ShaderConfiguration options = {};
 	pShader->Init(options);
 	auto binding = BindingManager(options);
-	auto pipeline = CreatePipeline(options,binding);
-	ShaderContext ctx(pipeline, options, binding);
+	auto pipeline = CreatePipeline(options);
+	ShaderContext ctx(pipeline, options);
 	this->_shaders[typeIndex] = ctx;
 }
 
@@ -303,9 +303,9 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 }
 
-VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config,BindingManager &binding)
+VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
-
+	BindingManager binding(config);
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -438,7 +438,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	VkPipeline vkPipeline;
 	auto err1 = vkCreateGraphicsPipelines(_pLogicalDevice->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline);
 	AssertVulkanSuccess(err1);
-	return VulkanPipelineData(vkPipeline, vkPipelineLayout);
+	return VulkanPipelineData(vkPipeline, vkPipelineLayout,binding);
 }
 
 

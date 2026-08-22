@@ -21,8 +21,12 @@ struct VertexAttribute {
 class BindingManager {
 	std::vector<VertexAttribute> _verticeData;
 	size_t _totalStride=0;
+
+private:
+	void SetVerticeData();
+	void SetSamplers();
 public:
-	BindingManager(ShaderConfiguration &config);
+	BindingManager(const ShaderConfiguration &config);
 	BindingManager() { _totalStride = 0; };
 	size_t GetStride() { return _totalStride; }
 	

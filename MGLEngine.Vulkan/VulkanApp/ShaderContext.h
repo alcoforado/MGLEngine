@@ -27,22 +27,21 @@ struct DrawElementContext {
 };
 
 class VulkanPipelineData {
-public:
-	VkPipeline handle;
-	VkPipelineLayout layout;
-public:
-	VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout) {
-		this->handle = pipeline;
-		this->layout = pipelineLayout;
-	}
-	VulkanPipelineData() {
-		handle = VK_NULL_HANDLE;
-		layout = VK_NULL_HANDLE;	
-	}
-	
-
-	
-
+	public:
+		BindingManager binding;
+		VkPipeline handle;
+		VkPipelineLayout layout;
+	public:
+		VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout,const BindingManager &bd) {
+			this->handle = pipeline;
+			this->layout = pipelineLayout;
+			this->binding=bd;
+		}
+		VulkanPipelineData() {
+			handle = VK_NULL_HANDLE;
+			layout = VK_NULL_HANDLE;	
+		}
+		
 };
 
 class ShaderContext {
@@ -61,7 +60,7 @@ private:
 	size_t _totalVertices;
 	size_t _totalIndices;
 public:
-	ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options, BindingManager bindingManager);
+	ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options);
 	ShaderContext() {
 		_needSerialize = true;
 		_needResize = true;

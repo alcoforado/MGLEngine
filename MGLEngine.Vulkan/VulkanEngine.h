@@ -58,7 +58,7 @@
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 		private:
-			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config,BindingManager& binding);
+			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);
 			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(BindingManager &binding);
 			

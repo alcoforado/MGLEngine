@@ -4,11 +4,11 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
-ShaderContext::ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options, BindingManager bindingManager)
+ShaderContext::ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options)
 {
 	this->_pipeline = pipeline;
 	this->_options = options;
-	this->_binding = bindingManager;
+	
 	_needSerialize = true;
 	_needResize = true;
 	_totalVertices = _totalIndices = 0;

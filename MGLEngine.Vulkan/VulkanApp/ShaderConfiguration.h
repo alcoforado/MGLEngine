@@ -1,5 +1,6 @@
 #pragma once
 #include <MGLEngine.Shared/Interfaces/IShaderConfiguration.h>
+#include  <MGLEngine.Shared/Shaders/FieldType.h>
 #include <queue>
 struct ShaderByteCode {
 	const uint32_t* byteCode;
