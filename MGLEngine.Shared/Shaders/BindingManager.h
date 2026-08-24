@@ -22,6 +22,9 @@ class BindingManager {
 	std::vector<VertexAttribute> _verticeData;
 	size_t _totalStride=0;
 
+	
+
+
 private:
 	void SetVerticeData();
 	void SetSamplers();

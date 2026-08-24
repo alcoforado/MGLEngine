@@ -4,9 +4,8 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
-ShaderContext::ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options)
+ShaderContext::ShaderContext(ShaderConfiguration options)
 {
-	this->_pipeline = pipeline;
 	this->_options = options;
 	
 	_needSerialize = true;

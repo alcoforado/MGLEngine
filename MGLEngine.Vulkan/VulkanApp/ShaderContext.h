@@ -60,7 +60,7 @@ private:
 	size_t _totalVertices;
 	size_t _totalIndices;
 public:
-	ShaderContext(VulkanPipelineData pipeline, ShaderConfiguration options);
+	ShaderContext(ShaderConfiguration options);
 	ShaderContext() {
 		_needSerialize = true;
 		_needResize = true;
@@ -83,6 +83,8 @@ public:
 	VulkanPipelineData GetPipeline() const {
 		return _pipeline;
 	}
+
+	ShaderConfiguration& GetShaderConfiguration() { return _options; }
 };
 
 

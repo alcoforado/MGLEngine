@@ -232,9 +232,7 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
 	ShaderConfiguration options = {};
 	pShader->Init(options);
-	auto binding = BindingManager(options);
-	auto pipeline = CreatePipeline(options);
-	ShaderContext ctx(pipeline, options);
+	ShaderContext ctx(options);
 	this->_shaders[typeIndex] = ctx;
 }
 
@@ -441,8 +439,19 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	return VulkanPipelineData(vkPipeline, vkPipelineLayout,binding);
 }
 
+void VulkanEngine::BuildDescriptorSet()
+{
+	for (auto ctx : _shaders)
+	{
+		auto config =ctx.second.GetShaderConfiguration();
+		ctx.Bindingconfig.samplers
+	}
+
+}
 
 #pragma endregion
+
+
 
 void MGL::VulkanEngine::Draw()
 {
@@ -489,12 +498,20 @@ void MGL::VulkanEngine::Draw()
 
 void MGL::VulkanEngine::Run() {
 	auto glfwWindow = _pWindow->GLFWHandler();
+	this->BuildDescriptorSet();
+	this->InitializePipelines();
+	
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
 		Draw();
 	}
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
+}
+
+void MGL::VulkanEngine::InitializePipelines() {
+	
+	return;
 }
 
 #pragma region Cleanup

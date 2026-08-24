@@ -40,10 +40,11 @@ class ShaderConfiguration: public IShaderConfiguration {
 			fragmentShader.size = size;
 		}
 
-		virtual TextureSamplerConfig& DeclareTextureSampler(std::string name) override
+		virtual TextureSamplerConfig& DeclareTextureSampler(std::string name, unsigned int binding) override
 		{
 			TextureSamplerConfig config = {
-				.name = name
+				.name = name,
+				.binding=binding
 			};
 			samplers.push(config);
 			return samplers.back();
