@@ -1,5 +1,5 @@
-#include "BindingManager.h"
-BindingManager::BindingManager(const ShaderConfiguration &config)
+#include "ShaderBindingManager.h"
+ShaderBindingManager::ShaderBindingManager(const ShaderConfiguration &config)
 {
 	_totalStride = 0;
 	for (auto& v : config.vertexAttributes)

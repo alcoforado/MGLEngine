@@ -4,7 +4,7 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
-#include <MGLEngine.Shared/Shaders/BindingManager.h>
+#include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
 struct DrawElementContext {
@@ -28,11 +28,11 @@ struct DrawElementContext {
 
 class VulkanPipelineData {
 	public:
-		BindingManager binding;
+		ShaderBindingManager binding;
 		VkPipeline handle;
 		VkPipelineLayout layout;
 	public:
-		VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout,const BindingManager &bd) {
+		VulkanPipelineData(VkPipeline pipeline, VkPipelineLayout pipelineLayout,const ShaderBindingManager &bd) {
 			this->handle = pipeline;
 			this->layout = pipelineLayout;
 			this->binding=bd;
@@ -56,7 +56,7 @@ private:
 	VulkanBuffer _iBuffer;
 	bool _needSerialize;
 	bool _needResize;
-	BindingManager _binding;
+	ShaderBindingManager _binding;
 	size_t _totalVertices;
 	size_t _totalIndices;
 public:

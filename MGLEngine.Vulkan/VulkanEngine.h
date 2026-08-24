@@ -15,6 +15,7 @@
 #include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
 #include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
+#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
  namespace MGL {
 	class VulkanEngine: public IMGLEngine  {
 		private:
@@ -59,8 +60,8 @@
 			void DestroyVulkanMemoryAllocator();
 		private:
 			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config);
-			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(BindingManager &binding);
-			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(BindingManager &binding);
+			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(ShaderBindingManager &binding);
+			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(ShaderBindingManager &binding);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);

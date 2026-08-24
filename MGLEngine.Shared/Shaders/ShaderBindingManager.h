@@ -18,7 +18,7 @@ struct VertexAttribute {
 
 
 
-class BindingManager {
+class ShaderBindingManager {
 	std::vector<VertexAttribute> _verticeData;
 	size_t _totalStride=0;
 
@@ -29,8 +29,8 @@ private:
 	void SetVerticeData();
 	void SetSamplers();
 public:
-	BindingManager(const ShaderConfiguration &config);
-	BindingManager() { _totalStride = 0; };
+	ShaderBindingManager(const ShaderConfiguration &config);
+	ShaderBindingManager() { _totalStride = 0; };
 	size_t GetStride() { return _totalStride; }
 	
 	bool CheckVerticeBufferAlignment(void *pt) { 

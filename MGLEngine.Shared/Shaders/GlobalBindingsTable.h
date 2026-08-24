@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <string>
 #include <map>
@@ -19,10 +20,9 @@ struct ResourceBinding {
 
 class GlobalBindingsTable
 {
-	static std::map<std::string,ResourceBinding> _globalBindings;
+	std::map<unsigned int,ResourceBinding> name_bindings;
 
-	static void FillOutGlobalBinding();
-	static void AddSampler2D(unsigned binding, std::string name);
+	void AddSampler2D(unsigned binding, std::string name);
 	
 public:
 	GlobalBindingsTable() {

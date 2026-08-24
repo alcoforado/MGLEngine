@@ -1,5 +1,5 @@
 #include <MGLEngine.Shared/Interfaces/IRenderSerializationContext.h>
-#include <MGLEngine.Shared/Shaders/BindingManager.h>
+#include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
 #include <MGLEngine.Shared/Utils/Arrays/IndicesMemoryStream.h>
 class RenderSerializationContext : public IRenderSerializationContext {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;

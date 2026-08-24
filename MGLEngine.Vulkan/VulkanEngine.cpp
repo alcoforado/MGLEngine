@@ -254,7 +254,7 @@ void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawin
 
 #pragma region Shaders Pipeline Creation 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(BindingManager& bindingManager)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(ShaderBindingManager& bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
@@ -265,7 +265,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVe
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(BindingManager& binding)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(ShaderBindingManager& binding)
 {
 
 	std::vector<VkVertexInputAttributeDescription> result;
@@ -303,7 +303,7 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
-	BindingManager binding(config);
+	ShaderBindingManager binding(config);
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
