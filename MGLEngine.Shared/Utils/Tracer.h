@@ -11,11 +11,11 @@ private:
     bool TraceStarted;
     int _currentCol;
 public:
-    void Section(std::string message);
-    void EndSection(std::string message);
+    //void Section(std::string message);
+    //void EndSection(std::string message);
     void Trace(std::string message);
-    void Success();
-    void Error();
+    void Success(std::string message);
+    void Error(std::string message);
 };
 
 
