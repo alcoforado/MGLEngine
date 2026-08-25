@@ -5,6 +5,7 @@
 #include <MGLEngine.Shared/Shaders/FieldType.h>
 #include <MGLEngine.Shared/Utils/Arrays/InterleavedMemoryStream.h>
 #include <MGLEngine.Vulkan/VulkanApp/ShaderConfiguration.h>
+#include <MGLEngine.Shared/Utils/pointers.h>
 
 struct VertexAttribute {
 	std::string name;
@@ -17,11 +18,11 @@ struct VertexAttribute {
 };
 
 
-
+class GlobalBindingsTable;
 class ShaderBindingManager {
 	std::vector<VertexAttribute> _verticeData;
 	size_t _totalStride=0;
-
+	s_ptr<GlobalBindingsTable> _pGlobalTable;
 	
 
 
@@ -29,7 +30,7 @@ private:
 	void SetVerticeData();
 	void SetSamplers();
 public:
-	ShaderBindingManager(const ShaderConfiguration &config);
+	ShaderBindingManager(const ShaderConfiguration &config,s_ptr<GlobalBindingsTable> pGlobalTable);
 	ShaderBindingManager() { _totalStride = 0; };
 	size_t GetStride() { return _totalStride; }
 	
@@ -39,4 +40,6 @@ public:
 		return address % 4 == 0;
 	}
 	const std::vector<VertexAttribute>& GetVertexAttributes() { return _verticeData; }
+
+
 };

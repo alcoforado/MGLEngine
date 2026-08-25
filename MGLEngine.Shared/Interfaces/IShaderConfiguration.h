@@ -9,11 +9,11 @@ struct TextureSamplerConfig {
 
 class IShaderConfiguration {
 	public:
-		virtual void SetVerticeShader(const uint32_t* bytecode, uint32_t size)=0;
-		virtual void SetFragmentShader(const uint32_t* bytecode, uint32_t size)=0;
-		virtual void DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)=0;
-		virtual void DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)=0;
-		virtual TextureSamplerConfig& DeclareTextureSampler(std::string name,unsigned int binding) = 0;
+		virtual IShaderConfiguration& SetVerticeShader(const uint32_t* bytecode, uint32_t size)=0;
+		virtual IShaderConfiguration& SetFragmentShader(const uint32_t* bytecode, uint32_t size)=0;
+		virtual IShaderConfiguration& DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)=0;
+		virtual IShaderConfiguration& DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)=0;
+		virtual IShaderConfiguration& DeclareTextureSampler(std::string name,unsigned int binding) = 0;
 };
 
 

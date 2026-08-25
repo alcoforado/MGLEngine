@@ -24,37 +24,46 @@ class ShaderConfiguration: public IShaderConfiguration {
 		ShaderByteCode verticeShader;
 		ShaderByteCode fragmentShader;
 		std::vector<VertexAttributeDeclaration> vertexAttributes;
-		std::queue<TextureSamplerConfig> samplers;
+		std::vector<TextureSamplerConfig> samplers;
+		std::string name;
 	
 	public: //virtual overrides for IShaderConfiguration 
 		ShaderConfiguration() {}
 
-		virtual void SetVerticeShader(const uint32_t* bytecode, uint32_t size) override
+		virtual IShaderConfiguration& SetName(std::string name)
+		{
+			this->name = name;
+			return *this;
+		}
+
+		virtual IShaderConfiguration& SetVerticeShader(const uint32_t* bytecode, uint32_t size) override
 		{
 			verticeShader.byteCode = bytecode;
 			verticeShader.size = size;
+			return *this;
 		}
-		virtual void SetFragmentShader(const uint32_t* bytecode, uint32_t size) override 
+		virtual IShaderConfiguration& SetFragmentShader(const uint32_t* bytecode, uint32_t size) override
 		{
 			fragmentShader.byteCode = bytecode;
 			fragmentShader.size = size;
+			return *this;
 		}
 
-		virtual TextureSamplerConfig& DeclareTextureSampler(std::string name, unsigned int binding) override
+		virtual IShaderConfiguration& DeclareTextureSampler(std::string name, unsigned int binding) override
 		{
-			TextureSamplerConfig config = {
+			TextureSamplerConfig config  = TextureSamplerConfig {
 				.name = name,
 				.binding=binding
 			};
-			samplers.push(config);
-			return samplers.back();
+			samplers.push_back(config);
+			return *this;
 
 		}
 
 	
 
 		
-		virtual void DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)
+		virtual IShaderConfiguration& DeclareVertexAttribute_FloatVec4(std::string name, uint32_t location)
 		{
 			VertexAttributeDeclaration attr = {
 				.name = name,
@@ -62,8 +71,9 @@ class ShaderConfiguration: public IShaderConfiguration {
 				.type = TYPE_VEC_FLOAT_4
 			};
 			vertexAttributes.push_back(attr);
+			return *this;
 		}
-		virtual void DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)
+		virtual IShaderConfiguration& DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)
 		{
 			VertexAttributeDeclaration attr = {
 				.name = name,
@@ -71,6 +81,7 @@ class ShaderConfiguration: public IShaderConfiguration {
 				.type = TYPE_VEC_FLOAT_2
 			};
 			vertexAttributes.push_back(attr);
+			return *this;
 		}
 
 };

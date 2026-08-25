@@ -42,3 +42,4 @@ public:
 #else
 	#define eassert(EXPRESSION, MESSAGE) if(!(EXPRESSION)) {  throw AssertionFailureException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); }
 #endif
+

@@ -232,6 +232,10 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
 	ShaderConfiguration options = {};
 	pShader->Init(options);
+	if (options.name.empty())
+	{
+		options.name = typeid(*pShader).name();
+	}
 	ShaderContext ctx(options);
 	this->_shaders[typeIndex] = ctx;
 }
@@ -303,7 +307,7 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
 {
-	ShaderBindingManager binding(config);
+	ShaderBindingManager binding(config,_pGlobalBindingsTable);
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -441,12 +445,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 void VulkanEngine::BuildDescriptorSet()
 {
-	for (auto ctx : _shaders)
-	{
-		auto config =ctx.second.GetShaderConfiguration();
-		ctx.Bindingconfig.samplers
-	}
-
+	return;
 }
 
 #pragma endregion

@@ -16,6 +16,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
 #include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+
  namespace MGL {
 	class VulkanEngine: public IMGLEngine  {
 		private:
@@ -40,6 +41,9 @@
 			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
+			s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+
+
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
