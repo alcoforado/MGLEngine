@@ -55,7 +55,7 @@ void Tracer::Trace(std::string message)
 	_currentCol = result.length();
 }
 
-void Tracer::Success()
+void Tracer::Success(std::string message)
 {
 	std::string result = "";
 	if (TraceStarted)
@@ -73,7 +73,7 @@ void Tracer::Success()
 	TraceStarted = false;
 }
 
-void Tracer::Error()
+void Tracer::Error(std::string message)
 {
 	std::string result = "";
 	if (TraceStarted)

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <vector>
 class Tracer {
 private:
     int get_terminal_width(int default_width = 80);
@@ -10,6 +10,7 @@ private:
     bool SectionStarted;
     bool TraceStarted;
     int _currentCol;
+    std::vector<std::string> format(std::string message);
 public:
     //void Section(std::string message);
     //void EndSection(std::string message);
