@@ -10,6 +10,8 @@
 #include <unistd.h>
 #endif
 
+Tracer Console;
+
 // Returns the number of characters per line, or a fallback default if it fails
 int Tracer::get_terminal_width(int default_width) {
 #if defined(_WIN32)
@@ -69,9 +71,41 @@ void Tracer::Success(std::string message)
 		result += "[OK]";
 		std::cout << result << std::endl;
 
+		auto lines = format(message);
+		for (auto& str : lines)
+		{
+			std::cout << str << std::endl;
+		}
+
 	}
 	TraceStarted = false;
 }
+
+void Tracer::Warning(std::string message)
+{
+	std::string result = "";
+	if (TraceStarted)
+	{
+		int width = get_terminal_width();
+		int nDots = width - _currentCol - 9;
+		for (int i = 0; i < nDots; i++)
+		{
+			result += ".";
+		};
+		result += "[Warning]";
+		std::cout << result << std::endl;
+
+		auto lines = format(message);
+		for (auto& str : lines)
+		{
+			std::cout << str << std::endl;
+		}
+
+	}
+	TraceStarted = false;
+}
+
+
 
 void Tracer::Error(std::string message)
 {
@@ -79,7 +113,7 @@ void Tracer::Error(std::string message)
 	if (TraceStarted)
 	{
 		int width = get_terminal_width();
-		int nDots = width - _currentCol - 4;
+		int nDots = width - _currentCol - 7;
 		for (int i = 0; i < nDots; i++)
 		{
 			result += ".";
@@ -87,8 +121,44 @@ void Tracer::Error(std::string message)
 		result += "[Error]";
 		std::cout << result << std::endl;
 
+		auto lines = format(message);
+		for (auto& str : lines)
+		{
+			std::cout << str << std::endl;
+		}
+
 	}
 	TraceStarted = false;
+}
+
+std::vector<std::string> Tracer::format(std::string message)
+{
+	indent++;
+	std::string spaces = getIndent();
+	indent--;
+	int nCharsPerLine = get_terminal_width() - spaces.length();
+	int col = 0;
+	int startLine = 0;
+	int lastSpaceSeen=0;
+	std::vector<std::string> result;
+	for (int i = 0; i < message.length(); i++)
+	{
+		if (message[i] == ' ')
+			lastSpaceSeen = i;
+		if (col == nCharsPerLine)
+		{
+			result.push_back(spaces+message.substr(startLine, lastSpaceSeen - startLine + 1));
+			startLine = lastSpaceSeen + 1;
+			col = 0;
+		}
+		else {
+			col++;
+		}
+	}
+	return result;
+
+
+
 }
 
 
