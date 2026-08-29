@@ -7,7 +7,7 @@
 #include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
-struct DrawElementContext {
+struct ShapeElement {
 	IDrawingObject* pObject;
 	ShapeRegistrationConfig config;
 	size_t allocatedVertices;
@@ -15,7 +15,7 @@ struct DrawElementContext {
 	size_t startVertex;
 	size_t startIndice;
 	bool needRedraw;
-	DrawElementContext(IDrawingObject *pObject,ShapeRegistrationConfig config) {
+	ShapeElement(IDrawingObject *pObject,ShapeRegistrationConfig config) {
 		this->pObject = pObject;
 		this->config = config;
 		allocatedVertices = 0;
@@ -51,7 +51,7 @@ class ShaderContext {
 private:
 	ShaderConfiguration _options;
 	VulkanPipelineData _pipeline;
-	std::vector<DrawElementContext> _drawGraph;
+	std::vector<ShapeElement> _drawGraph;
 	VulkanBuffer _vBuffer;
 	VulkanBuffer _iBuffer;
 	bool _needSerialize;
@@ -73,7 +73,7 @@ public:
 	
 	void AddShape(IDrawingObject* pShape,ShapeRegistrationConfig config)
 	{
-		_drawGraph.push_back(DrawElementContext(pShape,config));
+		_drawGraph.push_back(ShapeElement(pShape,config));
 	}
 	void DeleteBuffers()
 	{

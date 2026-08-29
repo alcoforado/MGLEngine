@@ -4,10 +4,10 @@
 
 class VulkanDrawContext : public IDrawContext
 {
-	const DrawElementContext& _drawContext;
+	const ShapeElement& _drawContext;
 	VulkanCommandBuffer& _commandBuffer;
 public:
-	VulkanDrawContext(VulkanCommandBuffer &cmd,const DrawElementContext& gc)
+	VulkanDrawContext(VulkanCommandBuffer &cmd,const ShapeElement& gc)
 		:_drawContext(gc), _commandBuffer(cmd)
 	{
 	}

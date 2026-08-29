@@ -18,15 +18,15 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 	if (_needResize)
 	{
 		size_t indicesOff = 0, verticesOff = 0;
-		for (auto& drawingContext : _drawGraph)
+		for (auto& shapeElement : _drawGraph)
 		{
-			IDrawingObject* shape = drawingContext.pObject;
-			drawingContext.allocatedIndices = shape->NIndices();
-			drawingContext.allocatedVertices = shape->NVertices();
-			drawingContext.startIndice = indicesOff;
-			drawingContext.startVertex = verticesOff;
-			verticesOff += drawingContext.allocatedVertices;
-			indicesOff += drawingContext.allocatedIndices;
+			IDrawingObject* shape = shapeElement.pObject;
+			shapeElement.allocatedIndices = shape->NIndices();
+			shapeElement.allocatedVertices = shape->NVertices();
+			shapeElement.startIndice = indicesOff;
+			shapeElement.startVertex = verticesOff;
+			verticesOff += shapeElement.allocatedVertices;
+			indicesOff += shapeElement.allocatedIndices;
 		}
 		_totalVertices = verticesOff;
 		_totalIndices = indicesOff;
@@ -48,16 +48,16 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 		//start initializing the vertice attributes' memory streams
 		std::map<std::string, InterleavedMemoryStream> memoryStreamsMap;
 		
-		for (auto& drawingContext : _drawGraph)
+		for (auto& shapeElement : _drawGraph)
 		{
 			for (auto vAttribute : _binding.GetVertexAttributes())
 			{
-				InterleavedMemoryStream memoryStream(pVertice+drawingContext.startVertex*_binding.GetStride() + vAttribute.offset, _binding.GetStride(), drawingContext.allocatedVertices, vAttribute.type);
+				InterleavedMemoryStream memoryStream(pVertice+shapeElement.startVertex*_binding.GetStride() + vAttribute.offset, _binding.GetStride(), shapeElement.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
-			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + drawingContext.startIndice, drawingContext.allocatedIndices,0);
+			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices,0);
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
-			drawingContext.pObject->RenderData(renderContext);
+			shapeElement.pObject->RenderData(renderContext);
 		}
 		_vBuffer.Unmap();
 		_iBuffer.Unmap();
