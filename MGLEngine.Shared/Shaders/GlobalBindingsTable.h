@@ -84,6 +84,7 @@ private:
 public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
+	void AssignImageResource(std::string samplerName,std::string filePath);
 	
 
 	

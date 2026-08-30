@@ -4,13 +4,27 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
-ShaderContext::ShaderContext(ShaderConfiguration options)
+#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
+	:_binding(options,pGlobalTable)
 {
+
 	this->_options = options;
-	
+	_pGlobalBindingTable = pGlobalTable;
 	_needSerialize = true;
 	_needResize = true;
 	_totalVertices = _totalIndices = 0;
+}
+
+void ShaderContext::BindShapeResources()
+{
+	for (auto& shape : _drawGraph)
+	{
+		for (auto& imgAssignment : shape.config.GetImageAssignments())
+		{
+			_pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath);
+		}
+	}
 }
 
 void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)

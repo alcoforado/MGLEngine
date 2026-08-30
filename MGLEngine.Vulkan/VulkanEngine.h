@@ -45,6 +45,7 @@
 
 
 		private:
+			void Init();
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
 			void CreateLogicalDevice();

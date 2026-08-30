@@ -12,7 +12,12 @@ public:
 	}
 };
 
-class ShapeRegistrationConfig
+class IShapeRegistrationConfig {
+public:
+	virtual ImageConfig& BindImage(std::string path, std::string samplerName) = 0;
+};
+
+class ShapeRegistrationConfig : public  IShapeRegistrationConfig
 {
 	
 	std::list<ImageConfig> _imgs;
@@ -22,8 +27,9 @@ public:
 	{
 	}
 
+	std::list<ImageConfig>& GetImageAssignments() { return _imgs; }
 
-	ImageConfig& BindImage(std::string path,std::string samplerName)
+	virtual ImageConfig& BindImage(std::string path,std::string samplerName) override
 	{
 		ImageConfig im;
 		im.filePath = path;

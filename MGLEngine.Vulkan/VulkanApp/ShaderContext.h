@@ -7,6 +7,7 @@
 #include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
+
 struct ShapeElement {
 	IDrawingObject* pObject;
 	ShapeRegistrationConfig config;
@@ -59,14 +60,20 @@ private:
 	ShaderBindingManager _binding;
 	size_t _totalVertices;
 	size_t _totalIndices;
+	s_ptr<GlobalBindingsTable> _pGlobalBindingTable;
+
 public:
-	ShaderContext(ShaderConfiguration options);
+	ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
+	
 	ShaderContext() {
 		_needSerialize = true;
 		_needResize = true;
 		_totalVertices = 0;
 		_totalIndices = 0;
 	}
+
+	void BindShapeResources();
+	
 	void Serialize(VulkanMemoryAllocator& vmaAllocator);
 
 	void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);

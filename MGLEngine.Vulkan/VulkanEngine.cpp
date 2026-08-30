@@ -11,7 +11,12 @@ using namespace MGL;
 MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
-	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0,coptions.MajorVersion, coptions.MinorVersion, coptions.PatchVersion);	
+	
+}
+
+void VulkanEngine::Init()
+{
+	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = new Window(_windowOptions);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
@@ -26,6 +31,9 @@ MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coption
 	CreateRenderPass();
 	CreateFramebuffers();
 	CreateSyncObjects();
+	BuildDescriptorSet();
+	InitializePipelines();
+
 }
 
 TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
@@ -236,7 +244,7 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	{
 		options.name = typeid(*pShader).name();
 	}
-	ShaderContext ctx(options);
+	ShaderContext ctx(options,_pGlobalBindingsTable);
 	this->_shaders[typeIndex] = ctx;
 }
 
@@ -496,9 +504,10 @@ void MGL::VulkanEngine::Draw()
 }
 
 void MGL::VulkanEngine::Run() {
+
+	this->Init();//Init all vulkan 
 	auto glfwWindow = _pWindow->GLFWHandler();
-	this->BuildDescriptorSet();
-	this->InitializePipelines();
+	
 	
 	while (!glfwWindowShouldClose(glfwWindow))
 	{

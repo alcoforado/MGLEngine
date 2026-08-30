@@ -20,7 +20,7 @@ class IMGLEngine {
 	public:
 		
 		template<std::default_initializable ShapeType>
-		void AddShape(IDrawingObject& shape, const std::function<void(ShapeRegistrationConfig&)>& f) {
+		void AddShape(IDrawingObject& shape, const std::function<void(IShapeRegistrationConfig&)>& f) {
 			std::type_index typeIndex(typeid(ShapeType));
 			if (!this->IsShaderRegistered(typeIndex))
 			{

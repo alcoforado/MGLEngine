@@ -35,6 +35,8 @@ public:
 
 #define throw_error(MESSAGE) {  throw AssertionFailureException("", __FILE__, __LINE__, MESSAGE); }
 
+#define throw_formatted(...) {  throw AssertionFailureException("", __FILE__, __LINE__, std::format(__VA_ARGS__)); }
+
 /// Assert that EXPRESSION evaluates to true, otherwise raise AssertionFailureException with associated MESSAGE (which may use C++ stream-style message formatting)
 
 #ifdef NDEBUG

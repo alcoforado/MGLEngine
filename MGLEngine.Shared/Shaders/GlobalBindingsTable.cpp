@@ -3,7 +3,7 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <format>
 
-void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name,std::string reference)
+void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::string reference)
 {
 	Sampler2DBinding  bd;
 	bd.binding = binding;
@@ -13,8 +13,8 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name,std::s
 
 
 	//validation to make sure different shaders don't declare the same binding for different resources
-	
-	bool exists=CheckCollisionAndThrowErrorIfIncompatible(bd);
+
+	bool exists = CheckCollisionAndThrowErrorIfIncompatible(bd);
 	if (!exists)
 	{
 		_vSampler2DBindings.push_back(bd);
@@ -26,11 +26,40 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name,std::s
 		_binding_index[binding] = _name_index[name] = gi;
 
 	}
-	
-	
+
+
 
 
 }
+void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string filePath)
+{
+	if (_name_index.contains(bindName))
+	{
+		auto ref = _name_index[bindName];
+		switch (ref.type)
+		{
+		case BindedTypeEnum::SAMPLER_2D:
+		{
+			auto& sampler2DBinding = _vSampler2DBindings[ref.index];
+			if (sampler2DBinding.imageFiles.empty() || sampler2DBinding.useAtlas)
+			{
+				sampler2DBinding.imageFiles.insert(filePath);
+			}
+			else {
+				throw_formatted("Can assign image {} to the Sampler2D {}. It doesn't accept multiple images", filePath, bindName)
+			}
+
+			break;
+		}
+		default:
+			throw_formatted("Error Assigning image to {}. Can't add image to {} type", bindName, to_string(ref.type));
+		}
+	}
+	else
+		throw_error(std::format("Binding {} not found", bindName));
+};
+
+
 const ResourceBindingBase& GlobalBindingsTable::GetResourceBinding(GlobalIndex index)
 {
 	return _GetResourceBinding(index);
@@ -57,7 +86,7 @@ bool GlobalBindingsTable::CheckCollisionAndThrowErrorIfIncompatible(ResourceBind
 	{
 		exists = true;
 		ResourceBindingBase& oldBinding = this->_GetResourceBinding(_name_index[newBinding.name]);
-		
+
 		if (!oldBinding.Compatible(newBinding))
 		{
 			throw_error(std::format("Binding Definition Collision For {} {}", newBinding.ToString(), oldBinding.ToString()));
@@ -73,10 +102,10 @@ bool GlobalBindingsTable::CheckCollisionAndThrowErrorIfIncompatible(ResourceBind
 			throw_error(std::format("Binding Definition Collision For {} {}", newBinding.ToString(), oldBinding.ToString()));
 		}
 		oldBinding.references.insert(oldBinding.references.end(), newBinding.references.begin(), newBinding.references.end());
-		
+
 	}
 	return exists;
-	
+
 }
 
 

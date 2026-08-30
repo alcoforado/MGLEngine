@@ -9,7 +9,7 @@ class Sprite2D  : IDrawingObject {
 		Sprite2D(IMGLEngine& engine, glm::vec2 bl, float width, float height,std::string imgPath)
 			:_width(width),_height(height),_bl(bl)
 		{
-			engine.AddShape<Texture2D>(*this, [imgPath](ShapeRegistrationConfig& config) {
+			engine.AddShape<Texture2D>(*this, [imgPath](IShapeRegistrationConfig& config) {
 				config.BindImage(imgPath,"sampler");
 				
 					

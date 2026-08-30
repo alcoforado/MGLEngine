@@ -23,4 +23,5 @@ ShaderBindingManager::ShaderBindingManager(const ShaderConfiguration &config,s_p
 		_pGlobalTable->AddSampler2D(samplerConfig.binding, samplerConfig.name,config.name);
 	}
 
+
 }
