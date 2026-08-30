@@ -5,7 +5,7 @@
 
 void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name,std::string reference)
 {
-	ResourceBinding  bd;
+	Sampler2DBinding  bd;
 	bd.binding = binding;
 	bd.name = name;
 	bd.type = BindedTypeEnum::SAMPLER_2D;
@@ -13,37 +13,70 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name,std::s
 
 
 	//validation to make sure different shaders don't declare the same binding for different resources
-	if (_name_index.contains(name))
+	
+	bool exists=CheckCollisionAndThrowErrorIfIncompatible(bd);
+	if (!exists)
 	{
-		CheckCollision(_vBindings[_name_index[name]], bd); //trhow error if collision
-		_vBindings[_name_index[name]].references.push_back(reference); //Just add the one more reference
-		return;
-	}
-	if (_binding_index.contains(binding))
-	{
-		CheckCollision(_vBindings[_binding_index[binding]], bd);
-		_vBindings[_binding_index[binding]].references.push_back(reference); //Just add the one more reference
-		return;
-	}
+		_vSampler2DBindings.push_back(bd);
+		unsigned int newBindingIndex = _vSampler2DBindings.size() - 1;
+		GlobalIndex gi = {
+			.index = newBindingIndex,
+			.type = BindedTypeEnum::SAMPLER_2D
+		};
+		_binding_index[binding] = _name_index[name] = gi;
 
-	_vBindings.push_back(bd);
-	//Updated indices
-	unsigned int newBindingIndex = _vBindings.size() - 1;
-	_binding_index[binding]=_name_index[name] = newBindingIndex; 
+	}
+	
 	
 
 
 }
-
-void GlobalBindingsTable::CheckCollision(ResourceBinding& bd1, ResourceBinding& bd2)
+const ResourceBindingBase& GlobalBindingsTable::GetResourceBinding(GlobalIndex index)
 {
-	if (bd1.type == bd2.type && bd1.name == bd2.name && bd1.binding == bd2.binding)
-	{
-		return;
-	}
-	else
-		throw_error(std::format("Binding Definition Collision For {} {}",bd1.ToString(),bd2.ToString()));
+	return _GetResourceBinding(index);
+}
 
+ResourceBindingBase& GlobalBindingsTable::_GetResourceBinding(GlobalIndex index)
+{
+	switch (index.type)
+	{
+	case BindedTypeEnum::SAMPLER_2D:
+		return _vSampler2DBindings[index.index];
+	default:
+		throw_error("type not implemented yet");
+
+	}
+}
+
+
+bool GlobalBindingsTable::CheckCollisionAndThrowErrorIfIncompatible(ResourceBindingBase& newBinding)
+{
+	bool pass = true;
+	bool exists = false;
+	if (_name_index.contains(newBinding.name))
+	{
+		exists = true;
+		ResourceBindingBase& oldBinding = this->_GetResourceBinding(_name_index[newBinding.name]);
+		
+		if (!oldBinding.Compatible(newBinding))
+		{
+			throw_error(std::format("Binding Definition Collision For {} {}", newBinding.ToString(), oldBinding.ToString()));
+		}
+	}
+	if (_binding_index.contains(newBinding.binding))
+	{
+
+		exists = true;
+		ResourceBindingBase& oldBinding = this->_GetResourceBinding(_binding_index[newBinding.binding]);
+		if (!oldBinding.Compatible(newBinding))
+		{
+			throw_error(std::format("Binding Definition Collision For {} {}", newBinding.ToString(), oldBinding.ToString()));
+		}
+		oldBinding.references.insert(oldBinding.references.end(), newBinding.references.begin(), newBinding.references.end());
+		
+	}
+	return exists;
+	
 }
 
 

@@ -15,7 +15,7 @@ class Texture2D : public IShader {
 			config.SetVerticeShader(texture2D_vert,  sizeof(texture2D_vert));
 			config.SetFragmentShader(texture2D_frag, sizeof(texture2D_frag));
 			
-			config.DeclareTextureSampler("sampler",1);
+			config.DeclareTextureSampler("sampler",1, ONE_TEXTURE_ASSIGNMENT);
 				 
 
 		}

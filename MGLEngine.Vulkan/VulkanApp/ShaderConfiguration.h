@@ -49,11 +49,12 @@ class ShaderConfiguration: public IShaderConfiguration {
 			return *this;
 		}
 
-		virtual IShaderConfiguration& DeclareTextureSampler(std::string name, unsigned int binding) override
+		virtual IShaderConfiguration& DeclareTextureSampler(std::string name, unsigned int binding, SamplerAssignmentStrategy strategy) override
 		{
 			TextureSamplerConfig config  = TextureSamplerConfig {
 				.name = name,
-				.binding=binding
+				.binding=binding,
+				.strategy=strategy
 			};
 			samplers.push_back(config);
 			return *this;

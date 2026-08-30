@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <MGLEngine.Shared/Utils/eassert.h>
-
+#include <set>
 enum BindedTypeEnum {
 	SAMPLER_2D
 };
@@ -18,16 +18,23 @@ constexpr std::string to_string(BindedTypeEnum e)
 	}
 }
 
-struct ResourceBinding {
+struct ResourceAssignments {
+	int resourceId;
+
+};
+
+class  ResourceBindingBase {
+public:
 	std::string name;
 	unsigned int binding;
-	unsigned int sizeInBytes;
-	unsigned int structSizeInBytes;
-	unsigned int numElements;
 	BindedTypeEnum type;
+	//std::vector<ResourceAssignments>
+	
 	std::vector<std::string> references; //information about shaders that use the variable. Excellent for debugging
 
-	std::string ToString() {
+
+
+	std::string ToString() const {
 		auto result = std::format("(binding={}) {} {} referenced by ",binding,to_string(type), name);
 		for (auto ref : references)
 		{
@@ -35,25 +42,48 @@ struct ResourceBinding {
 		}
 		result.back() = '.';
 		return result;
-
 	}
+	virtual bool Compatible(ResourceBindingBase& b1) const
+	{
+		return name == b1.name && binding == b1.binding && type == b1.type;
+	}
+};
 
+class Sampler2DBinding : public ResourceBindingBase {
+public:
+	std::set<std::string> imageFiles;
+	bool useAtlas;
+	virtual bool Compatible(ResourceBindingBase& b1) const override 
+	{
+		if (ResourceBindingBase::Compatible(b1))
+			return useAtlas == dynamic_cast<Sampler2DBinding*>(&b1)->useAtlas;
+		return false;
+	}
+};
+
+
+struct GlobalIndex {
+	unsigned index;
+	BindedTypeEnum type;
 };
 
 class ShaderBindingManager;
 class GlobalBindingsTable
 {
+private:
+	bool CheckCollisionAndThrowErrorIfIncompatible(ResourceBindingBase& bd1);
+	ResourceBindingBase& _GetResourceBinding(GlobalIndex index);
 	friend class ShaderBindingManager;
 
 
-	std::map<std::string,unsigned int> _name_index;
-	std::map<unsigned int, unsigned int> _binding_index;
-	std::vector<ResourceBinding> _vBindings;
-	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
-	void CheckCollision(ResourceBinding& bd1, ResourceBinding& bd2);
+	std::map<std::string, GlobalIndex> _name_index;
+	std::map<unsigned int, GlobalIndex> _binding_index;
+	std::vector<Sampler2DBinding> _vSampler2DBindings;
+	const ResourceBindingBase& GetResourceBinding(GlobalIndex index);
 	
 public:
-	
+	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
+	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
 	
 
 	
