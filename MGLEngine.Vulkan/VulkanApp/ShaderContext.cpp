@@ -8,7 +8,7 @@
 ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
 	:_binding(options,pGlobalTable)
 {
-
+	_name = options.name;
 	this->_options = options;
 	_pGlobalBindingTable = pGlobalTable;
 	_needSerialize = true;
@@ -18,12 +18,15 @@ ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTa
 
 void ShaderContext::BindShapeResources()
 {
+	int i = 1;
 	for (auto& shape : _drawGraph)
 	{
+		std::string ref = std::format("Shader {}, Shape {}", _name, i);
 		for (auto& imgAssignment : shape.config.GetImageAssignments())
 		{
-			_pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath);
+			_pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath,ref);
 		}
+		i++;
 	}
 }
 

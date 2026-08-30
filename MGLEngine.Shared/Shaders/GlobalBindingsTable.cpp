@@ -31,7 +31,7 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::
 
 
 }
-void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string filePath)
+void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string filePath,std::string sourceReference)
 {
 	if (_name_index.contains(bindName))
 	{
@@ -41,14 +41,25 @@ void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string 
 		case BindedTypeEnum::SAMPLER_2D:
 		{
 			auto& sampler2DBinding = _vSampler2DBindings[ref.index];
+			for (auto& imgRef : sampler2DBinding.imageFiles)
+			{
+				if (imgRef.filePath == filePath)
+				{
+					imgRef.references.push_back(sourceReference);
+					return;
+				}
+			}
 			if (sampler2DBinding.imageFiles.empty() || sampler2DBinding.useAtlas)
 			{
-				sampler2DBinding.imageFiles.insert(filePath);
+				ImageRef img;
+				img.filePath = filePath;
+				img.references.push_back(sourceReference);
+				
+				sampler2DBinding.imageFiles.push_back(img);
 			}
 			else {
 				throw_formatted("Can assign image {} to the Sampler2D {}. It doesn't accept multiple images", filePath, bindName)
 			}
-
 			break;
 		}
 		default:

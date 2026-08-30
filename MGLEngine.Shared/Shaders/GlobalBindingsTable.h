@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <MGLEngine.Shared/Utils/eassert.h>
-#include <set>
+#include <vector>
 enum BindedTypeEnum {
 	SAMPLER_2D
 };
@@ -49,9 +49,14 @@ public:
 	}
 };
 
+struct ImageRef {
+	std::string filePath;
+	std::vector<std::string> references;
+};
+
 class Sampler2DBinding : public ResourceBindingBase {
 public:
-	std::set<std::string> imageFiles;
+	std::vector<ImageRef> imageFiles;
 	bool useAtlas;
 	virtual bool Compatible(ResourceBindingBase& b1) const override 
 	{
@@ -84,7 +89,7 @@ private:
 public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
-	void AssignImageResource(std::string samplerName,std::string filePath);
+	void AssignImageResource(std::string bindName, std::string filePath, std::string sourceReference);
 	
 
 	

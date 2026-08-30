@@ -61,7 +61,7 @@ private:
 	size_t _totalVertices;
 	size_t _totalIndices;
 	s_ptr<GlobalBindingsTable> _pGlobalBindingTable;
-
+	std::string _name;
 public:
 	ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
 	
