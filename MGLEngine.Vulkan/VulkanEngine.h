@@ -56,6 +56,7 @@
 			void CreateFramebuffers();
 			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
+			void SetGlobalBindingTable();
 		private:
 			void DestroySwapChain();
 			void DestroyRenderPass();

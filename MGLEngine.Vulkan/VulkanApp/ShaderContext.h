@@ -72,7 +72,7 @@ public:
 		_totalIndices = 0;
 	}
 
-	void BindShapeResources();
+	void BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable);
 	
 	void Serialize(VulkanMemoryAllocator& vmaAllocator);
 

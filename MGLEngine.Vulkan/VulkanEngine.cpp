@@ -31,10 +31,13 @@ void VulkanEngine::Init()
 	CreateRenderPass();
 	CreateFramebuffers();
 	CreateSyncObjects();
+	SetGlobalBindingTable();
 	BuildDescriptorSet();
 	InitializePipelines();
 
 }
+
+
 
 TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
 {
@@ -46,6 +49,15 @@ TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
 #pragma region Init Aux Functions
 void MGL::VulkanEngine::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
+}
+
+void MGL::VulkanEngine::SetGlobalBindingTable()
+{
+	for (auto& sh : _shaders)
+	{
+		auto& ctx = sh.second;
+		ctx.BindShapeResources(_pGlobalBindingsTable);
+	}
 }
 
 void MGL::VulkanEngine::CreateLogicalDevice() {
@@ -186,6 +198,8 @@ void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
 	_pMemoryAllocator = new VulkanMemoryAllocator(*_pLogicalDevice);
 }
+
+
 
 int deviceScore(const VulkanPhysicalDevice& device) {
 	int score = 0;
@@ -453,7 +467,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 void VulkanEngine::BuildDescriptorSet()
 {
-	return;
+	
 }
 
 #pragma endregion

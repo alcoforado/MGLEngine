@@ -16,7 +16,7 @@ ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTa
 	_totalVertices = _totalIndices = 0;
 }
 
-void ShaderContext::BindShapeResources()
+void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
 {
 	int i = 1;
 	for (auto& shape : _drawGraph)
@@ -24,7 +24,7 @@ void ShaderContext::BindShapeResources()
 		std::string ref = std::format("Shader {}, Shape {}", _name, i);
 		for (auto& imgAssignment : shape.config.GetImageAssignments())
 		{
-			_pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath,ref);
+			pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath,ref);
 		}
 		i++;
 	}
