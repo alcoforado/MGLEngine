@@ -91,6 +91,9 @@ public:
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
 	void AssignImageResource(std::string bindName, std::string filePath, std::string sourceReference);
 	
+	const std::vector<Sampler2DBinding> GetSampler2DBindings() const {
+		return _vSampler2DBindings;
+	}
 
 	
 

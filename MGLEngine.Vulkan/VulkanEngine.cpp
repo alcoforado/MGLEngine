@@ -467,7 +467,11 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 void VulkanEngine::BuildDescriptorSet()
 {
-	
+	for (const auto& binding : _pGlobalBindingsTable->GetSampler2DBindings())
+	{
+		binding.
+	}
+
 }
 
 #pragma endregion
