@@ -42,6 +42,9 @@
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
 			s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
+			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
+			
 
 
 		private:
@@ -56,6 +59,9 @@
 			void CreateFramebuffers();
 			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
+			void CreateDescriptorSetLayout();
+			void CreateDescritorPool();
+			void CreateDescriptorSets();
 			void SetGlobalBindingTable();
 		private:
 			void DestroySwapChain();
@@ -73,7 +79,6 @@
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 			void ResizeSwapChain();
 			void InitializePipelines();
-			void BuildDescriptorSet();
 		protected: //IMGLEngine implementation
 			virtual void RegisterShader(std::unique_ptr<IShader> pShader) override;
 			virtual bool IsShaderRegistered(const std::type_index shaderType) override;

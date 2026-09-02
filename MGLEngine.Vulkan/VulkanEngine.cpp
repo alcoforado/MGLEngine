@@ -32,7 +32,9 @@ void VulkanEngine::Init()
 	CreateFramebuffers();
 	CreateSyncObjects();
 	SetGlobalBindingTable();
-	BuildDescriptorSet();
+	CreateDescriptorSetLayout();
+	CreateDescritorPool();
+	CreateDescriptorSets();
 	InitializePipelines();
 
 }
@@ -107,8 +109,6 @@ void MGL::VulkanEngine::CreateCommandBuffers()
 	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
 	_pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
 }
-
-
 
 void MGL::VulkanEngine::CreateRenderPass()
 {
@@ -194,12 +194,70 @@ void MGL::VulkanEngine::CreateCommandPool()
 
 }
 
+void VulkanEngine::CreateDescritorPool()
+{
+	std::vector<VkDescriptorPoolSize> poolSizes;
+
+	if (_pGlobalBindingsTable->GetSampler2DBindings().size() > 0)
+	{
+		poolSizes.push_back(VkDescriptorPoolSize{
+			.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			.descriptorCount = static_cast<uint32_t>(_pGlobalBindingsTable->GetSampler2DBindings().size())
+			});
+	}
+
+
+	VkDescriptorPoolCreateInfo poolInfo{};
+	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
+	poolInfo.pPoolSizes = poolSizes.data();
+	poolInfo.maxSets = 1;
+
+	auto vkResult = vkCreateDescriptorPool(_pLogicalDevice->GetHandle(), &poolInfo, nullptr, &_descriptorPool);
+	AssertVulkanSuccess(vkResult);
+
+}
+
+void VulkanEngine::CreateDescriptorSetLayout()
+{
+	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
+	for (const auto& sampler : _pGlobalBindingsTable->GetSampler2DBindings())
+	{
+		VkDescriptorSetLayoutBinding layout{
+			.binding = sampler.binding,
+			.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			.descriptorCount = 1,
+			.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+			.pImmutableSamplers = nullptr,
+		};
+		vulkanBindings.push_back(layout);
+	};
+
+
+	//Finally assign all the layouts
+	VkDescriptorSetLayoutCreateInfo layoutInfo{
+		.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+		.bindingCount = static_cast<uint32_t>(vulkanBindings.size()),
+		.pBindings = vulkanBindings.data()
+	};
+
+	//Create DescRirptor Set Layout
+	auto vkResult = vkCreateDescriptorSetLayout(_pLogicalDevice->GetHandle(), &layoutInfo, nullptr, &_descriptorSetLayout);
+	AssertVulkanSuccess(vkResult);
+
+
+
+
+}
+
+void VulkanEngine::CreateDescriptorSets() {
+	ToDo
+}
+
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
 	_pMemoryAllocator = new VulkanMemoryAllocator(*_pLogicalDevice);
 }
-
-
 
 int deviceScore(const VulkanPhysicalDevice& device) {
 	int score = 0;
@@ -277,6 +335,8 @@ void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawin
 	ctx.AddShape(&shape,config);
 }
 #pragma endregion
+
+
 
 #pragma region Shaders Pipeline Creation 
 
@@ -465,33 +525,6 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	return VulkanPipelineData(vkPipeline, vkPipelineLayout,binding);
 }
 
-void VulkanEngine::BuildDescriptorSet()
-{
-	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
-	for (const auto& sampler : _pGlobalBindingsTable->GetSampler2DBindings())
-	{
-		VkDescriptorSetLayoutBinding layout{
-			.binding = sampler.binding,
-			.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-			.descriptorCount = 1,
-			.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-			.pImmutableSamplers = nullptr,
-		};
-		vulkanBindings.push_back(layout);
-	};
-
-
-	//Finally assign all the layouts
-	VkDescriptorSetLayoutCreateInfo layoutInfo{
-		.sType= VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-		.bindingCount = static_cast<uint32_t>(vulkanBindings.size()),
-		.pBindings = vulkanBindings.data()
-	};
-
-
-
-
-}
 
 #pragma endregion
 
