@@ -44,7 +44,7 @@
 			s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
 			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
-			
+			std::vector<VkDescriptorSet> _vkDescriptorSets;
 
 
 		private:

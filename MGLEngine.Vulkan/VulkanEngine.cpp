@@ -250,9 +250,21 @@ void VulkanEngine::CreateDescriptorSetLayout()
 
 }
 
-void VulkanEngine::CreateDescriptorSets() {
-	ToDo
+void VulkanEngine::CreateDescriptorSets() 
+{
+	
+	VkDescriptorSetAllocateInfo allocInfo{};
+	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	allocInfo.descriptorPool = _descriptorPool;
+	allocInfo.descriptorSetCount = 1;
+	allocInfo.pSetLayouts = &_descriptorSetLayout;
+
+	_vkDescriptorSets.resize(1);
+	auto result = vkAllocateDescriptorSets(_pLogicalDevice->GetHandle(), &allocInfo, _vkDescriptorSets.data());
+	AssertVulkanSuccess(result);
 }
+
+
 
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
 {
