@@ -467,10 +467,29 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 void VulkanEngine::BuildDescriptorSet()
 {
-	for (const auto& binding : _pGlobalBindingsTable->GetSampler2DBindings())
+	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
+	for (const auto& sampler : _pGlobalBindingsTable->GetSampler2DBindings())
 	{
-		binding.
-	}
+		VkDescriptorSetLayoutBinding layout{
+			.binding = sampler.binding,
+			.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			.descriptorCount = 1,
+			.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+			.pImmutableSamplers = nullptr,
+		};
+		vulkanBindings.push_back(layout);
+	};
+
+
+	//Finally assign all the layouts
+	VkDescriptorSetLayoutCreateInfo layoutInfo{
+		.sType= VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+		.bindingCount = static_cast<uint32_t>(vulkanBindings.size()),
+		.pBindings = vulkanBindings.data()
+	};
+
+
+
 
 }
 
