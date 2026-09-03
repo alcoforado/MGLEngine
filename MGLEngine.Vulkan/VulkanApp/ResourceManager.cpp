@@ -16,21 +16,20 @@ ImgHandler ResourceManager::LoadImage(ImageConfig config)
 	if (ext == ".jpg" || ext == ".jpeg" || ext==".bmp" || ext ==".png")
 	*/
 
-	int texWidth, texHeight, texChannels;
-	stbi_uc* pixels = stbi_load(config.filePath.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-	eassert(pixels,std::format("failed to load texture image for {}",config.filePath))
-	VkDeviceSize imageSize = texWidth * texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
+	auto spImg = _imageLoader.LoadAsRGBA(config.filePath);
+	eassert(spImg->data != nullptr, std::format("failed to load texture image for {}", config.filePath));
+	VkDeviceSize imageSize = spImg->texWidth * spImg->texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
 
 	VulkanBuffer stagingBuffer=this->_memory.CreateStagingBuffer(imageSize);
-	stagingBuffer.ToGPU(pixels, imageSize);
-	stbi_image_free(pixels);
+	stagingBuffer.ToGPU(spImg->data, imageSize);
+	
 
 
 	VkImageCreateInfo imageInfo{};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	imageInfo.imageType = VK_IMAGE_TYPE_2D;
-	imageInfo.extent.width = static_cast<uint32_t>(texWidth);
-	imageInfo.extent.height = static_cast<uint32_t>(texHeight);
+	imageInfo.extent.width = static_cast<uint32_t>(spImg->texWidth);
+	imageInfo.extent.height = static_cast<uint32_t>(spImg->texHeight);
 	imageInfo.extent.depth = 1;
 	imageInfo.mipLevels = 1;
 	imageInfo.arrayLayers = 1;

@@ -8,7 +8,7 @@
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
-
+#include <MGLEngine.Shared/ResourceLoaders/ImageLoader.h>
 struct ImageResource {
 	std::string Name;
 	VulkanImage Image;
@@ -37,6 +37,7 @@ class ResourceManager {
 	VulkanMemoryAllocator& _memory;
 	const VulkanLogicalDevice& _device;
 	std::vector<ImageResource> _images;
+	ImageLoader _imageLoader;
 	//u_ptr<VulkanCommandBuffer> _pCommandBuffer;
 public:
 	ResourceManager(VulkanMemoryAllocator& memory,const VulkanLogicalDevice &device)
