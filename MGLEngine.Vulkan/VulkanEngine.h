@@ -27,7 +27,7 @@
 			VulkanLogicalDevice* _pLogicalDevice=nullptr;
 			ByteCodeCollection* _pByteCodeCollection = nullptr;
 			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
-			std::map<std::type_index, ShaderContext> _shaders;
+			std::map<std::type_index, VulkanShaderContext> _shaders;
 			int _graphicQueueIndex;
 			VulkanCommandPool*  _pCommandPool=nullptr;
 			VulkanCommandBuffer* _pCommandBuffer;
@@ -63,6 +63,9 @@
 			void CreateDescritorPool();
 			void CreateDescriptorSets();
 			void SetGlobalBindingTable();
+			void LoadResources();
+
+			
 		private:
 			void DestroySwapChain();
 			void DestroyRenderPass();

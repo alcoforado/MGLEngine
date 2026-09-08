@@ -5,7 +5,7 @@
 #include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
-ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
+VulkanShaderContext::VulkanShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
 	:_binding(options,pGlobalTable)
 {
 	_name = options.name;
@@ -16,7 +16,7 @@ ShaderContext::ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTa
 	_totalVertices = _totalIndices = 0;
 }
 
-void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
+void VulkanShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
 {
 	int i = 1;
 	for (auto& shape : _drawGraph)
@@ -30,7 +30,7 @@ void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBinding
 	}
 }
 
-void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
+void VulkanShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 {
 	if (_needResize)
 	{
@@ -87,7 +87,7 @@ void ShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 
 }
 
-void ShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
+void VulkanShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 	if (_totalVertices == 0)
 		return;
 	cmdBuffer.BindGraphicsPipeline(_pipeline.handle);

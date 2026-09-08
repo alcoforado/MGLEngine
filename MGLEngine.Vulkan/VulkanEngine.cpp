@@ -264,6 +264,9 @@ void VulkanEngine::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
+void VulkanEngine::LoadResources() {
+
+}
 
 
 void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
@@ -328,7 +331,7 @@ void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
 	{
 		options.name = typeid(*pShader).name();
 	}
-	ShaderContext ctx(options,_pGlobalBindingsTable);
+	VulkanShaderContext ctx(options,_pGlobalBindingsTable);
 	this->_shaders[typeIndex] = ctx;
 }
 
@@ -343,12 +346,10 @@ void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawin
 	eassert(_shaders.contains(shaderTypeIndex), 
 		std::format("Shader for object {} was not registered", 
 			typeid(shape).name()));
-	ShaderContext& ctx = _shaders[shaderTypeIndex];
+	VulkanShaderContext& ctx = _shaders[shaderTypeIndex];
 	ctx.AddShape(&shape,config);
 }
 #pragma endregion
-
-
 
 #pragma region Shaders Pipeline Creation 
 
@@ -562,7 +563,7 @@ void MGL::VulkanEngine::Draw()
 		
 	for (auto& pair : _shaders)
 	{
-		ShaderContext& ctx = pair.second;
+		VulkanShaderContext& ctx = pair.second;
 		ctx.Serialize(*(this->_pMemoryAllocator));
 		ctx.WriteCommandBuffer(*_pCommandBuffer);
 	}
@@ -637,7 +638,7 @@ void MGL::VulkanEngine::DestroyShaderContexts()
 {
 	for (auto& pair : _shaders)
 	{
-		ShaderContext& ctx = pair.second;
+		VulkanShaderContext& ctx = pair.second;
 		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline().handle, nullptr);
 		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.GetPipeline().layout, nullptr);
 		ctx.DeleteBuffers();
