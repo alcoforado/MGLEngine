@@ -3,8 +3,10 @@
 #include "ShaderConfiguration.h"
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
+#include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
+#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 
 struct ShapeElement {
 	IDrawingObject* pObject;
@@ -25,7 +27,9 @@ struct ShapeElement {
 	}
 };
 
+class IMemoryProvider {
 
+};
 
 class ShaderContext {
 
@@ -41,8 +45,12 @@ private:
 	size_t _totalIndices;
 	s_ptr<GlobalBindingsTable> _pGlobalBindingTable;
 	std::string _name;
+	unsigned int _index;
 public:
-	ShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
+	ShaderContext(unsigned index, ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
+	
+
+	
 
 	ShaderContext() {
 		_needSerialize = true;
@@ -53,9 +61,9 @@ public:
 
 	void BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable);
 
-	void Serialize(VulkanMemoryAllocator& vmaAllocator);
+	void Serialize(IGraphicLibrary& gl);
 
-	void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
+	//void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 
 	void AddShape(IDrawingObject* pShape, ShapeRegistrationConfig config)
 	{

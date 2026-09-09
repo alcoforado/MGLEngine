@@ -8,7 +8,7 @@
 class Texture2D : public IShader {
 	public:
 		inline static std::string name="Texture2D";
-		virtual void Init(IShaderConfiguration& config) override
+		virtual void Init(ShaderConfiguration& config) override
 		{
 			config.DeclareVertexAttribute_FloatVec4("texCoord", 1);
 			config.DeclareVertexAttribute_FloatVec2("position2d", 0);

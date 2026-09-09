@@ -1,5 +1,5 @@
 #pragma once
-
+#include<stddef.h>
 
 
 enum FieldType {
@@ -33,10 +33,10 @@ class FieldTypeInfo {
 		};
 		
 	public:
-		static uint32_t sizeOfType(enum FieldType type) {
+		static unsigned int sizeOfType(FieldType type) {
 			return _sizeOf[type];
 		}
-
+		
 
 
 };

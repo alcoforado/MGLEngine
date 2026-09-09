@@ -7,6 +7,6 @@
 class ShaderColor2D : public IShader {
 	public:
 		inline static std::string name="ShaderColor2D";
-		virtual void Init(IShaderConfiguration& config) override;
+		virtual void Init(ShaderConfiguration& config) override;
 		
 };

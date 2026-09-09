@@ -12,13 +12,20 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
 #include <unordered_map>
-#include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
+#include <MGLEngine.Shared/Shaders/ShaderContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
 #include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 
+struct VulkanShaderData {
+	VkPipeline _vkPipeline;
+	VulkanBuffer *_pVerticeBuffer=nullptr; //vertices buffer
+	VulkanBuffer *_pIndicesBuffer=nullptr;
+};
+
+
  namespace MGL {
-	class VulkanEngine: public IMGLEngine  {
+	class VulkanEngine: public IGraphicLibrary  {
 		private:
 			MGL::Window* _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
@@ -27,8 +34,6 @@
 			VulkanLogicalDevice* _pLogicalDevice=nullptr;
 			ByteCodeCollection* _pByteCodeCollection = nullptr;
 			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
-			std::map<std::type_index, VulkanShaderContext> _shaders;
-			int _graphicQueueIndex;
 			VulkanCommandPool*  _pCommandPool=nullptr;
 			VulkanCommandBuffer* _pCommandBuffer;
 			VulkanSwapChain *_pSwapChain = nullptr;
@@ -74,6 +79,7 @@
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 		private:
+			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
 			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(ShaderBindingManager &binding);
 			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(ShaderBindingManager &binding);
@@ -82,19 +88,16 @@
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 			void ResizeSwapChain();
 			void InitializePipelines();
-		protected: //IMGLEngine implementation
-			virtual void RegisterShader(std::unique_ptr<IShader> pShader) override;
-			virtual bool IsShaderRegistered(const std::type_index shaderType) override;
-			virtual void AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape, ShapeRegistrationConfig& config) override;
-			void Draw();
+		
+			void Draw(std::map<std::type_index, ShaderContext> &shaders);
 		public:
 			VkFormat ToVkFormat(enum FieldType type);
 
 			~VulkanEngine();
 		
 			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
-			virtual TextureHandler RegisterTexture(std::string path) override;
+			virtual TextureHandler RegisterTexture(std::string path);
 
-			void Run() override;
+			void Run();
 	};
 }

@@ -1,13 +1,11 @@
+#pragma once
+
 #include "ShaderContext.h"
-#include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
-#include <vulkan/vulkan.h>
-#include <MGLEngine.Shared/Utils/eassert.h>
-#include <MGLEngine.Vulkan/VulkanContext/RenderSerializationContext.h>
-#include <MGLEngine.Vulkan/VulkanContext/VulkanDrawContext.h>
-#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
-VulkanShaderContext::VulkanShaderContext(ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
-	:_binding(options,pGlobalTable)
+#include <MGLEngine.Shared/Interfaces/RenderSerializationContext.h>
+
+ShaderContext::ShaderContext(unsigned index,ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
 {
+	_index = index;
 	_name = options.name;
 	this->_options = options;
 	_pGlobalBindingTable = pGlobalTable;
@@ -16,7 +14,7 @@ VulkanShaderContext::VulkanShaderContext(ShaderConfiguration options, s_ptr<Glob
 	_totalVertices = _totalIndices = 0;
 }
 
-void VulkanShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
+void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
 {
 	int i = 1;
 	for (auto& shape : _drawGraph)
@@ -24,13 +22,13 @@ void VulkanShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalB
 		std::string ref = std::format("Shader {}, Shape {}", _name, i);
 		for (auto& imgAssignment : shape.config.GetImageAssignments())
 		{
-			pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath,ref);
+			pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, ref);
 		}
 		i++;
 	}
 }
 
-void VulkanShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
+void ShaderContext::Serialize(IGraphicLibrary& gl)
 {
 	if (_needResize)
 	{
@@ -49,44 +47,44 @@ void VulkanShaderContext::Serialize(VulkanMemoryAllocator& vmaAllocator)
 		_totalIndices = indicesOff;
 		if (_totalVertices == 0)
 			return;
-		_vBuffer = vmaAllocator.CreateVertexBuffer(_totalVertices * _binding.GetStride());
-		_iBuffer = vmaAllocator.CreateIndexBuffer(_totalIndices);
+		
 	}
 	if (_totalVertices == 0)
 		return;
 
 	if (_needSerialize)
 	{
-		uint8_t* pVertice = (uint8_t*) _vBuffer.Map();
-		uint8_t* pIndex   = (uint8_t*) _iBuffer.Map();
+		uint8_t* pVertice = (uint8_t*)gl.getVerticeBuffer(this->_index,_totalVertices * _binding.GetStride());
+		uint8_t* pIndex = (uint8_t*) gl.getIndicesBuffer(this->_index,_totalIndices*sizeof(uint32_t));
 
 		eassert(_binding.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
 
 		//start initializing the vertice attributes' memory streams
 		std::map<std::string, InterleavedMemoryStream> memoryStreamsMap;
-		
+
 		for (auto& shapeElement : _drawGraph)
 		{
 			for (auto vAttribute : _binding.GetVertexAttributes())
 			{
-				InterleavedMemoryStream memoryStream(pVertice+shapeElement.startVertex*_binding.GetStride() + vAttribute.offset, _binding.GetStride(), shapeElement.allocatedVertices, vAttribute.type);
+				InterleavedMemoryStream memoryStream(pVertice + shapeElement.startVertex * _binding.GetStride() + vAttribute.offset, _binding.GetStride(), shapeElement.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
-			IndicesMemoryStream indexStream( reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices,0);
+			IndicesMemoryStream indexStream(reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices, 0);
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
 			shapeElement.pObject->RenderData(renderContext);
 		}
-		_vBuffer.Unmap();
-		_iBuffer.Unmap();
+		gl.flushVerticeBuffer(_index);
+		gl.flushVerticeBuffer(_index);
 	}
-	
-	
 
-	
+
+
+
 	_needResize = _needSerialize = false;
 
 }
 
+/*
 void VulkanShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 	if (_totalVertices == 0)
 		return;
@@ -104,6 +102,4 @@ void VulkanShaderContext::WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer) {
 
 
 
-
-
-
+*/

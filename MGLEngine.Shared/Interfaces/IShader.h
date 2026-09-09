@@ -1,6 +1,6 @@
 #pragma once
-#include "IShaderConfiguration.h"
+#include <MGLEngine.Shared/Shaders/ShaderConfiguration.h>
 class IShader {
 	public:
-		virtual void Init(IShaderConfiguration& config) = 0;
+		virtual void Init(ShaderConfiguration& config) = 0;
 };

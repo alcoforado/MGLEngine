@@ -4,7 +4,7 @@
 #include <vector>
 #include <MGLEngine.Shared/Shaders/FieldType.h>
 #include <MGLEngine.Shared/Utils/Arrays/InterleavedMemoryStream.h>
-#include <MGLEngine.Vulkan/VulkanApp/ShaderConfiguration.h>
+#include <MGLEngine.Shared/Shaders/ShaderConfiguration.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
 
 struct VertexAttribute {

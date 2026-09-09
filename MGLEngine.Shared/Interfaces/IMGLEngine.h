@@ -6,6 +6,8 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/TextureHandler.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
+#include <MGLEngine.Shared/Shaders/ShaderContext.h>
+
 #include <typeindex>
 #include <typeinfo>
 #include <memory>
@@ -13,9 +15,11 @@
 class IMGLEngine {
 
 	protected:
-		virtual void RegisterShader(std::unique_ptr<IShader> pShader) =0;
-		virtual bool IsShaderRegistered(const std::type_index shaderType) =0;
-		virtual void AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape,ShapeRegistrationConfig& config) =0;
+		virtual bool IsShaderRegistered(const std::type_index shaderType);
+
+	private:
+		std::map<std::type_index, ShaderContext> _shaders;
+		s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
 		
 	public:
 		
@@ -25,26 +29,29 @@ class IMGLEngine {
 			if (!this->IsShaderRegistered(typeIndex))
 			{
 				auto pShader = std::make_unique<ShapeType>();
-				this->RegisterShader(std::move(pShader));
+				ShaderConfiguration options = {};
+				pShader->Init(options);
+				if (options.name.empty())
+				{
+					options.name = typeid(*pShader).name();
+				}
+				ShaderContext ctx(options, _pGlobalBindingsTable);
+				this->_shaders[typeIndex] = ctx;
 			}
 			auto config = ShapeRegistrationConfig();
 			f(config);
-			AddShape(typeIndex, shape, config);
+			auto& ctx = _shaders[typeIndex];
+			ctx.AddShape(&shape, config);
+
+			
 		};
 
 		template<std::default_initializable ShapeType>
 		void AddShape(IDrawingObject& shape) {
-			std::type_index typeIndex(typeid(ShapeType));
-			if (!this->IsShaderRegistered(typeIndex))
-			{
-				auto pShader = std::make_unique<ShapeType>();
-				this->RegisterShader(std::move(pShader));
-			}
-			auto config = ShapeRegistrationConfig();
-			AddShape(typeIndex, shape, config);
+			this->AddShape(shape, [](IShapeRegistrationConfig& c) {});
 		};
 
-		virtual TextureHandler  RegisterTexture(std::string path) = 0;
+		void SetGlobalBindingTable();
 		
 		virtual void Run() = 0;
 };

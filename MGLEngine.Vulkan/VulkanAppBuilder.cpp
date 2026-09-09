@@ -5,7 +5,7 @@ IMGLEngine& MGL::VulkanAppBuilder::Init()
 {
 	eassert(!_pEngine, "Init function must be called only once");
 	
-	_pEngine = std::make_shared<VulkanEngine>(_windowOptions, _vulkanConfiguration);
+	_pEngine = std::make_shared<IMGLEngine>(_windowOptions, _vulkanConfiguration);
 		
 	return *_pEngine;
 }

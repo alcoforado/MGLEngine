@@ -22,7 +22,7 @@ class Sprite2D  : IDrawingObject {
 			return 6;
 		}
 
-		virtual void RenderData(IRenderSerializationContext& context) override
+		virtual void RenderData(RenderSerializationContext& context) override
 		{
 			auto& posStream = context.GetVerticeAttribute("position2d");
 			auto& indexStream = context.GetIndicesStream();

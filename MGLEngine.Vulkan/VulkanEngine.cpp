@@ -4,6 +4,7 @@
 #include <MGLEngine.Vulkan/VulkanUtils.h>
 #include <MGLEngine.Shared/Utils/utils.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
 using namespace MGL;
 
 
@@ -53,14 +54,7 @@ void MGL::VulkanEngine::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
 
-void MGL::VulkanEngine::SetGlobalBindingTable()
-{
-	for (auto& sh : _shaders)
-	{
-		auto& ctx = sh.second;
-		ctx.BindShapeResources(_pGlobalBindingsTable);
-	}
-}
+
 
 void MGL::VulkanEngine::CreateLogicalDevice() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
@@ -319,37 +313,7 @@ void MGL::VulkanEngine::ChoosePhysicalDevice()
 }
 #pragma endregion
 
-#pragma region IMGLEngine Implementation
-void MGL::VulkanEngine::RegisterShader(std::unique_ptr<IShader> pShader)
-{
-	eassert(pShader != nullptr, "Shader pointer is null");
-	std::type_index typeIndex(typeid(*pShader));
-	eassert(_shaders.find(typeIndex) == _shaders.end(), std::format("Shader of type {} already registered", typeIndex.name()));
-	ShaderConfiguration options = {};
-	pShader->Init(options);
-	if (options.name.empty())
-	{
-		options.name = typeid(*pShader).name();
-	}
-	VulkanShaderContext ctx(options,_pGlobalBindingsTable);
-	this->_shaders[typeIndex] = ctx;
-}
 
-bool MGL::VulkanEngine::IsShaderRegistered(const std::type_index shaderType)
-{
-	return _shaders.find(shaderType) != _shaders.end();
-}
-
-void  MGL::VulkanEngine::AddShape(const std::type_index shaderTypeIndex, IDrawingObject& shape,ShapeRegistrationConfig &config)
-{
-
-	eassert(_shaders.contains(shaderTypeIndex), 
-		std::format("Shader for object {} was not registered", 
-			typeid(shape).name()));
-	VulkanShaderContext& ctx = _shaders[shaderTypeIndex];
-	ctx.AddShape(&shape,config);
-}
-#pragma endregion
 
 #pragma region Shaders Pipeline Creation 
 
@@ -397,6 +361,11 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 	tbl[TYPE_VEC_FLOAT_4] = VK_FORMAT_R32G32B32A32_SFLOAT;
 	eassert(type < 4, "Field Type conversion not supported");
 	return tbl[type];
+
+}
+
+void MGL::VulkanEngine::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
+{
 
 }
 
@@ -535,7 +504,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	VkPipeline vkPipeline;
 	auto err1 = vkCreateGraphicsPipelines(_pLogicalDevice->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline);
 	AssertVulkanSuccess(err1);
-	return VulkanPipelineData(vkPipeline, vkPipelineLayout,binding);
+	return VulkanPipelineData(vkPipeline);
 }
 
 
@@ -543,7 +512,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 
 
-void MGL::VulkanEngine::Draw()
+void MGL::VulkanEngine::Draw(std::map<std::type_index, ShaderContext> &shaders)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
@@ -561,11 +530,11 @@ void MGL::VulkanEngine::Draw()
 		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 		
-	for (auto& pair : _shaders)
+	for (auto& pair : shaders)
 	{
-		VulkanShaderContext& ctx = pair.second;
-		ctx.Serialize(*(this->_pMemoryAllocator));
-		ctx.WriteCommandBuffer(*_pCommandBuffer);
+		ShaderContext& ctx = pair.second;
+		ctx.Serialize(*this);
+		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();

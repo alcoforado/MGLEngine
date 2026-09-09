@@ -23,7 +23,7 @@ public:
 
 	
 
-	virtual void RenderData(IRenderSerializationContext& context) override
+	virtual void RenderData(RenderSerializationContext& context) override
 	{
 		auto& posStream = context.GetVerticeAttribute("position2d");
 		auto& indexStream = context.GetIndicesStream();

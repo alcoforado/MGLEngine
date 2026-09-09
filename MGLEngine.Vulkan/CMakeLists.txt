@@ -64,9 +64,9 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     
     
     "VulkanApp/DrawContext.h"
-    "VulkanApp/ShaderConfiguration.h"
-    "VulkanApp/ShaderContext.cpp"
-    "VulkanApp/ShaderContext.h"
+    
+    
+    
     "VulkanApp/SwapChainData.h"
     "VulkanApp/VulkanPipelineData.cpp"
     "VulkanApp/VulkanPipelineData.h"
