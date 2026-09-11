@@ -1,14 +1,14 @@
-#include "IMGLEngine.h"
+#include "MGLEngine.h"
 #include <MGLEngine.Shared/Utils/pointers.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanEngineContainer.h>
 
-bool IMGLEngine::IsShaderRegistered(const std::type_index shaderType)
+bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
 {
 	return _shadersIndex.find(shaderType) != _shadersIndex.end();
 }
 
-void IMGLEngine::SetGlobalBindingTable()
+void MGLEngine::SetGlobalBindingTable()
 {
 	for (auto& ctx : _shaders)
 	{
@@ -17,18 +17,18 @@ void IMGLEngine::SetGlobalBindingTable()
 	}
 }
 
-IMGLEngine::IMGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
+MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	:_gl(*VulkanEngineContainer::GetLibrary(wOptions, appConfig))
 {
 	
 }
 
-IMGLEngine::~IMGLEngine()
+MGLEngine::~MGLEngine()
 {
 	delete &_gl;
 }
 
-void IMGLEngine::Run()
+void MGLEngine::Run()
 {
 	this->SetGlobalBindingTable();
 

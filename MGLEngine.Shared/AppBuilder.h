@@ -1,12 +1,12 @@
 
-#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
+#include <MGLEngine.Shared/MGLEngine.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 #include <MGLEngine.Shared/Interfaces/IAppConfiguration.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
 
 class AppBuilder {
 private:
-	s_ptr<IMGLEngine> _pEngine;
+	s_ptr<MGLEngine> _pEngine;
 	//configuraion options
 	WindowOptions _windowOptions;
 	AppConfiguration _appConfiguration;
@@ -25,7 +25,7 @@ private:
 
 
 
-			virtual IMGLEngine& Init();
+			virtual MGLEngine& Init();
 
 
 	};

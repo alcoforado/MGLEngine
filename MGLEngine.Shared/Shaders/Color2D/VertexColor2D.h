@@ -1,6 +1,6 @@
 #include <MGLEngine.Shared/common.h>
 #include <MGLEngine.Shared/Shaders/Color2D/ShaderColor2D.h>
-#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
+#include <MGLEngine.Shared/MGLEngine.h>
 
 #include <glm/glm.hpp>
 #include <typeinfo>
@@ -10,7 +10,7 @@ private:
 	std::vector<glm::vec4> _colors;
 
 public:
-	VertexColor2D(IMGLEngine &engine,IMesh2D& mesh, const std::vector<glm::vec4>& colors)
+	VertexColor2D(MGLEngine &engine,IMesh2D& mesh, const std::vector<glm::vec4>& colors)
 		:_mesh(mesh), _colors(colors) {
 		engine.AddShape<ShaderColor2D>(*this);
 	}

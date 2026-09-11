@@ -42,11 +42,6 @@ void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bi
 
 
 
-TextureHandler MGL::VulkanGL::RegisterTexture(std::string path)
-{
-
-	return TextureHandler();
-}
 
 
 #pragma region Init Aux Functions

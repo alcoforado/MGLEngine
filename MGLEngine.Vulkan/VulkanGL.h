@@ -5,11 +5,11 @@
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
+#include <MGLEngine.Shared/MGLEngine.h>
 #include <unordered_map>
 #include <MGLEngine.Shared/Shaders/ShaderContext.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
@@ -101,7 +101,7 @@ struct VulkanShaderData {
 			//IMGLEngine Implementation
 		
 			VkFormat ToVkFormat(enum FieldType type);
-			virtual TextureHandler RegisterTexture(std::string path);
+			
 
 
 			// Inherited via IGraphicLibrary

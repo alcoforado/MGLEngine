@@ -15,13 +15,13 @@
 #include <typeinfo>
 #include <memory>
 
-class IMGLEngine {
+class MGLEngine {
 
 	protected:
 		virtual bool IsShaderRegistered(const std::type_index shaderType);
 
 	private:
-		IMGLEngine(const IMGLEngine& eng);
+		MGLEngine(const MGLEngine& eng);
 		
 		std::map<std::type_index, size_t> _shadersIndex;
 		std::vector<ShaderContext> _shaders;
@@ -30,8 +30,8 @@ class IMGLEngine {
 		
 		IGraphicLibrary& _gl;
 	public:
-		IMGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
-		~IMGLEngine();
+		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
+		~MGLEngine();
 
 
 		template<std::default_initializable ShaderType>

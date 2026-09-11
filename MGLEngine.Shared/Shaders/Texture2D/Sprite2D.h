@@ -1,12 +1,12 @@
 #pragma once
-#include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
+#include <MGLEngine.Shared/MGLEngine.h>
 #include <MGLEngine.Shared/Shaders/Texture2D/Texture2D.h>
 
 class Sprite2D  : IDrawingObject {
 	float _width, _height;
 	glm::vec2 _bl;
 	public:
-		Sprite2D(IMGLEngine& engine, glm::vec2 bl, float width, float height,std::string imgPath)
+		Sprite2D(MGLEngine& engine, glm::vec2 bl, float width, float height,std::string imgPath)
 			:_width(width),_height(height),_bl(bl)
 		{
 			engine.AddShape<Texture2D>(*this, [imgPath](IShapeRegistrationConfig& config) {

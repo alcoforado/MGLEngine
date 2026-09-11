@@ -47,7 +47,8 @@ add_library(${PROJECT_NAME} STATIC
     "Interfaces/IShader.h"
     
     "Interfaces/IShapeHandle.h"
-    "Interfaces/IMGLEngine.h"
+    "MGLEngine.h"
+    "MGLEngine.cpp"
     
 
     "Interfaces/IWindowOptions.h"
@@ -101,7 +102,6 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/IDrawContext.h" 
  "Mesh/OrthoRect2D.h" 
  "Shaders/Color2D/VertexColor2D.h" 
- "Interfaces/IMGLEngine.h" 
  "Shaders/FieldType.h"
  "Shaders/VerticeDataLayout.h" 
  "Shaders/VerticeDataLayout.cpp" 
@@ -111,7 +111,7 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/TextureHandler.h" 
  "Interfaces/ShapeRegistrationConfig.h" 
  
-  "Utils/stb_implementation.cpp" "utils.h" "Shaders/global_bindings.h" "Shaders/GlobalBindingsTable.h" "Shaders/GlobalBindingsTable.cpp" "Utils/Tracer.h" "Utils/Tracer.cpp" "ResourceLoaders/ImageLoader.h" "ResourceLoaders/ImageLoader.cpp" "Utils/string.h" "Interfaces/IMGLEngine.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp")
+  "Utils/stb_implementation.cpp" "utils.h" "Shaders/global_bindings.h" "Shaders/GlobalBindingsTable.h" "Shaders/GlobalBindingsTable.cpp" "Utils/Tracer.h" "Utils/Tracer.cpp" "ResourceLoaders/ImageLoader.h" "ResourceLoaders/ImageLoader.cpp" "Utils/string.h"  "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp")
 find_package(Stb REQUIRED)
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})

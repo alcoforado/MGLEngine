@@ -9,7 +9,7 @@
 #include <MGLEngine.Shared/AppBuilder.h>
 
 
-void Example1(IMGLEngine& engine)
+void Example1(MGLEngine& engine)
 {
 	auto rect = OrthoRect2D(glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f);
 	auto rect2 = OrthoRect2D(glm::vec2(0.0f, -0.5f), 0.5f, 0.5f);
@@ -18,7 +18,7 @@ void Example1(IMGLEngine& engine)
 	engine.Run();
 }
 
-void Example2(IMGLEngine& engine)
+void Example2(MGLEngine& engine)
 {
 	auto sprite = Sprite2D(engine, glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f, "./pic");
 }
@@ -39,7 +39,7 @@ int main()
 			config.SetVersion(1, 2, 0);
 			});
 
-		IMGLEngine& engine = app.Init();
+		MGLEngine& engine = app.Init();
 
 		Example1(engine);
 		
