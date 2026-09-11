@@ -1,7 +1,7 @@
 #include "VulkanEngineContainer.h"
-#include "VulkanEngine.h"
+#include "VulkanGL.h"
 
 IGraphicLibrary* VulkanEngineContainer::GetLibrary(WindowOptions& wOp, AppConfiguration& appOp)
 {
-	return new MGL::VulkanEngine(wOp,appOp);
+	return new MGL::VulkanGL(wOp,appOp);
 }

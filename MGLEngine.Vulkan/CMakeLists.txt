@@ -72,8 +72,8 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanApp/VulkanPipelineData.h"
     
     
-    "VulkanEngine.cpp"
-    "VulkanEngine.h"
+    "VulkanGL.cpp"
+    "VulkanGL.h"
     "VulkanUtils.cpp"
     "VulkanUtils.h"
     "VulkanContext/VulkanDrawContext.h"

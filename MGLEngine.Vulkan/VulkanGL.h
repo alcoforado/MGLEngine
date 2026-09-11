@@ -29,7 +29,7 @@ struct VulkanShaderData {
 
 
  namespace MGL {
-	class VulkanEngine: public IGraphicLibrary  {
+	class VulkanGL: public IGraphicLibrary  {
 		private:
 			MGL::Window* _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
@@ -95,9 +95,9 @@ struct VulkanShaderData {
 		
 			void Draw(std::vector<ShaderContext> &shaders);
 		public:
-			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
+			VulkanGL(WindowOptions woptions,AppConfiguration coptions);
 
-			~VulkanEngine();
+			~VulkanGL();
 
 			//IMGLEngine Implementation
 		

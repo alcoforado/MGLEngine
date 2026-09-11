@@ -1,4 +1,4 @@
-#include "VulkanEngine.h"
+#include "VulkanGL.h"
 #include<algorithm>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
@@ -9,13 +9,13 @@ using namespace MGL;
 
 
 
-MGL::VulkanEngine::VulkanEngine(WindowOptions woptions, AppConfiguration coptions)
+MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
 	
 }
 
-void VulkanEngine::Init()
+void VulkanGL::Init()
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = new Window(_windowOptions);
@@ -41,7 +41,7 @@ void VulkanEngine::Init()
 
 
 
-TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
+TextureHandler MGL::VulkanGL::RegisterTexture(std::string path)
 {
 
 	return TextureHandler();
@@ -49,13 +49,13 @@ TextureHandler MGL::VulkanEngine::RegisterTexture(std::string path)
 
 
 #pragma region Init Aux Functions
-void MGL::VulkanEngine::CreateVulkanSurface() {
+void MGL::VulkanGL::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
 }
 
 
 
-void MGL::VulkanEngine::CreateLogicalDevice() {
+void MGL::VulkanGL::CreateLogicalDevice() {
 	int32_t graphicQueueIndex = _pPhysicalDevice->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic && family.SupportPresentation;
 		});
@@ -67,7 +67,7 @@ void MGL::VulkanEngine::CreateLogicalDevice() {
 
 }
 
-void MGL::VulkanEngine::CreateSwapChain() {
+void MGL::VulkanGL::CreateSwapChain() {
 
 	VulkanSwapChainOptions options{
 		.NBuffers = _vulkanConfiguration.SwapChainSize,
@@ -77,7 +77,7 @@ void MGL::VulkanEngine::CreateSwapChain() {
 
 }
 
-void MGL::VulkanEngine::ResizeSwapChain()
+void MGL::VulkanGL::ResizeSwapChain()
 {
 	
 	auto _wSize = _pWindow->Size();
@@ -97,13 +97,13 @@ void MGL::VulkanEngine::ResizeSwapChain()
 	this->CreateSyncObjects();
 }
 
-void MGL::VulkanEngine::CreateCommandBuffers()
+void MGL::VulkanGL::CreateCommandBuffers()
 {
 	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
 	_pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
 }
 
-void MGL::VulkanEngine::CreateRenderPass()
+void MGL::VulkanGL::CreateRenderPass()
 {
 	VkAttachmentDescription colorAttachment{};
 	colorAttachment.format = _pSwapChain->GetImageFormat();
@@ -147,7 +147,7 @@ void MGL::VulkanEngine::CreateRenderPass()
 	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_vkRenderPass);
 }
 
-void MGL::VulkanEngine::CreateFramebuffers() {
+void MGL::VulkanGL::CreateFramebuffers() {
 	auto imageViews = _pSwapChain->GetImageViews();
 	for (auto imageView : imageViews) {
 		VkImageView attachments[] = {
@@ -171,7 +171,7 @@ void MGL::VulkanEngine::CreateFramebuffers() {
 
 }
 
-void MGL::VulkanEngine::CreateSyncObjects()
+void MGL::VulkanGL::CreateSyncObjects()
 {
 	for (auto i = 0; i < _pSwapChain->NImages(); i++)
 	{
@@ -181,13 +181,13 @@ void MGL::VulkanEngine::CreateSyncObjects()
 	_pInFlightFence = new VulkanFence(_pLogicalDevice, true);
 }
 
-void MGL::VulkanEngine::CreateCommandPool()
+void MGL::VulkanGL::CreateCommandPool()
 {
 	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
 
 }
 
-void VulkanEngine::CreateDescritorPool()
+void VulkanGL::CreateDescritorPool()
 {
 	std::vector<VkDescriptorPoolSize> poolSizes;
 
@@ -211,7 +211,7 @@ void VulkanEngine::CreateDescritorPool()
 
 }
 
-void VulkanEngine::CreateDescriptorSetLayout()
+void VulkanGL::CreateDescriptorSetLayout()
 {
 	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
 	for (const auto& sampler : _pGlobalBindingsTable->GetSampler2DBindings())
@@ -243,7 +243,7 @@ void VulkanEngine::CreateDescriptorSetLayout()
 
 }
 
-void VulkanEngine::CreateDescriptorSets() 
+void VulkanGL::CreateDescriptorSets() 
 {
 	
 	VkDescriptorSetAllocateInfo allocInfo{};
@@ -257,12 +257,12 @@ void VulkanEngine::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
-void VulkanEngine::LoadResources() {
+void VulkanGL::LoadResources() {
 
 }
 
 
-void MGL::VulkanEngine::CreateVulkanMemoryAllocator()
+void MGL::VulkanGL::CreateVulkanMemoryAllocator()
 {
 	_pMemoryAllocator = new VulkanMemoryAllocator(*_pLogicalDevice);
 }
@@ -291,7 +291,7 @@ int deviceScore(const VulkanPhysicalDevice& device) {
 	return score;
 }
 
-void MGL::VulkanEngine::ChoosePhysicalDevice()
+void MGL::VulkanGL::ChoosePhysicalDevice()
 {
 	auto& v = _pVulkanInstance->GetPhysicalDevices();
 	std::vector<int> suitableDevices;
@@ -316,7 +316,7 @@ void MGL::VulkanEngine::ChoosePhysicalDevice()
 
 #pragma region Shaders Pipeline Creation 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVertexInputBinding(ShaderBindingManager& bindingManager)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertexInputBinding(ShaderBindingManager& bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
@@ -327,7 +327,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanEngine::CreatePipelineVe
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipelineVertexInputAttributes(ShaderBindingManager& binding)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVertexInputAttributes(ShaderBindingManager& binding)
 {
 
 	std::vector<VkVertexInputAttributeDescription> result;
@@ -344,14 +344,14 @@ std::vector<VkVertexInputAttributeDescription> MGL::VulkanEngine::CreatePipeline
 	return result;
 }
 
-VkShaderModule VulkanEngine::CreatePipelineShader(ShaderByteCode byteCode)
+VkShaderModule VulkanGL::CreatePipelineShader(ShaderByteCode byteCode)
 {
 	return _pByteCodeCollection->AddByteCode(byteCode.byteCode, byteCode.size);
 
 }
 
 
-VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
+VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 {
 	VkFormat tbl[4];
 	tbl[TYPE_UINT] = VK_FORMAT_R32_UINT;
@@ -363,12 +363,12 @@ VkFormat MGL::VulkanEngine::ToVkFormat(enum FieldType type)
 
 }
 
-void MGL::VulkanEngine::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
+void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
 {
 
 }
 
-VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& config)
+VulkanPipelineData VulkanGL::CreatePipeline(const ShaderConfiguration& config)
 {
 	ShaderBindingManager binding(config,_pGlobalBindingsTable);
 
@@ -514,7 +514,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 
 
-void MGL::VulkanEngine::Draw(std::vector<ShaderContext> &shaders)
+void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
@@ -556,7 +556,7 @@ void MGL::VulkanEngine::Draw(std::vector<ShaderContext> &shaders)
 	}
 }
 
-void MGL::VulkanEngine::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
+void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
 
 	this->Init();//Init all vulkan 
 	auto glfwWindow = _pWindow->GLFWHandler();
@@ -572,7 +572,7 @@ void MGL::VulkanEngine::Run(std::vector<ShaderContext>& shaders, GlobalBindingsT
 
 
 #pragma region IGraphicLibary implementation of vertices data buffers
-void* MGL::VulkanEngine::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
+void* MGL::VulkanGL::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	if (shaderData.verticeBuffer.GetSizeInBytes() < sizeInBytes)
@@ -583,7 +583,7 @@ void* MGL::VulkanEngine::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
 	return shaderData.verticeBuffer.Map();
 }
 
-uint32_t* MGL::VulkanEngine::GetIndicesBuffer(int shaderIndex, size_t nElements)
+uint32_t* MGL::VulkanGL::GetIndicesBuffer(int shaderIndex, size_t nElements)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	if (shaderData.indicesBuffer.GetSizeInBytes() < nElements*sizeof(uint32_t))
@@ -595,13 +595,13 @@ uint32_t* MGL::VulkanEngine::GetIndicesBuffer(int shaderIndex, size_t nElements)
 	
 }
 
-void MGL::VulkanEngine::FlushVerticeBuffer(int shaderIndex)
+void MGL::VulkanGL::FlushVerticeBuffer(int shaderIndex)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	shaderData.verticeBuffer.Unmap();	
 }
 
-void MGL::VulkanEngine::FlushIndicesBuffer(int shaderIndex)
+void MGL::VulkanGL::FlushIndicesBuffer(int shaderIndex)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	shaderData.indicesBuffer.Unmap();
@@ -610,13 +610,13 @@ void MGL::VulkanEngine::FlushIndicesBuffer(int shaderIndex)
 
 
 
-void MGL::VulkanEngine::InitializePipelines() {
+void MGL::VulkanGL::InitializePipelines() {
 	
 	return;
 }
 
 #pragma region Cleanup
-MGL::VulkanEngine::~VulkanEngine() {
+MGL::VulkanGL::~VulkanGL() {
 	DestroyFramebuffer();
 	DestroyShaderContexts();
 	DestroyRenderPass();
@@ -633,7 +633,7 @@ MGL::VulkanEngine::~VulkanEngine() {
 	// Destructor implementation (if needed)
 }
 
-void MGL::VulkanEngine::DestroySyncObjects() {
+void MGL::VulkanGL::DestroySyncObjects() {
 	if_free(_pInFlightFence);
 	for (auto s : _pRenderFinishedSemaphore)
 	{
@@ -644,7 +644,7 @@ void MGL::VulkanEngine::DestroySyncObjects() {
 	
 }
 
-void MGL::VulkanEngine::DestroyShaderContexts()
+void MGL::VulkanGL::DestroyShaderContexts()
 {
 	for (auto& ctx : _vVulkanShaderData)
 	{
@@ -657,14 +657,14 @@ void MGL::VulkanEngine::DestroyShaderContexts()
 	
 }
 
-void MGL::VulkanEngine::DestroyRenderPass()
+void MGL::VulkanGL::DestroyRenderPass()
 {
 		vkDestroyRenderPass(_pLogicalDevice->GetHandle(), _vkRenderPass, nullptr);
 
 }
 
 
-void MGL::VulkanEngine::DestroyFramebuffer()
+void MGL::VulkanGL::DestroyFramebuffer()
 {
 	for (size_t i = 0; i < _framebuffers.size(); i++) {
 		vkDestroyFramebuffer(_pLogicalDevice->GetHandle(), _framebuffers[i], nullptr);
@@ -672,7 +672,7 @@ void MGL::VulkanEngine::DestroyFramebuffer()
 	_framebuffers.clear();
 }
 
-void MGL::VulkanEngine::DestroyVulkanMemoryAllocator()
+void MGL::VulkanGL::DestroyVulkanMemoryAllocator()
 {
 	if (_pMemoryAllocator)
 	{
