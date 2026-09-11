@@ -5,7 +5,6 @@
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include <MGLEngine.Shared/Interfaces/IAppBuilder.h>
 #include <MGLEngine.Shared/Interfaces/IMGLEngine.h>
 #include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
@@ -16,11 +15,16 @@
 #include <MGLEngine.Vulkan/VulkanContext/VulkanSwapChain.h>
 #include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+#include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 
+struct VulkanPipelineData {
+	VkPipeline handle;
+	VkPipelineLayout layout;
+};
 struct VulkanShaderData {
-	VkPipeline _vkPipeline;
-	VulkanBuffer *_pVerticeBuffer=nullptr; //vertices buffer
-	VulkanBuffer *_pIndicesBuffer=nullptr;
+	VulkanPipelineData pipeline;
+	VulkanBuffer verticeBuffer; //vertices buffer
+	VulkanBuffer indicesBuffer;
 };
 
 
@@ -41,6 +45,7 @@ struct VulkanShaderData {
 			VkRenderPass _vkRenderPass;
 			std::vector<VkFramebuffer> _framebuffers;
 			//configuraion options
+			std::vector<VulkanShaderData> _vVulkanShaderData;
 			WindowOptions _windowOptions;
 			VulkanSemaphore* _pImageAvailableSemaphore;
 			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
@@ -67,7 +72,6 @@ struct VulkanShaderData {
 			void CreateDescriptorSetLayout();
 			void CreateDescritorPool();
 			void CreateDescriptorSets();
-			void SetGlobalBindingTable();
 			void LoadResources();
 
 			
@@ -89,15 +93,24 @@ struct VulkanShaderData {
 			void ResizeSwapChain();
 			void InitializePipelines();
 		
-			void Draw(std::map<std::type_index, ShaderContext> &shaders);
+			void Draw(std::vector<ShaderContext> &shaders);
 		public:
-			VkFormat ToVkFormat(enum FieldType type);
+			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
 
 			~VulkanEngine();
+
+			//IMGLEngine Implementation
 		
-			VulkanEngine(WindowOptions woptions,AppConfiguration coptions);
+			VkFormat ToVkFormat(enum FieldType type);
 			virtual TextureHandler RegisterTexture(std::string path);
 
-			void Run();
+
+			// Inherited via IGraphicLibrary
+			void*     GetVerticeBuffer(int shaderIndex, size_t sizeInBytes) override;
+			uint32_t* GetIndicesBuffer(int shaderIndex, size_t nElements) override;
+			void FlushVerticeBuffer(int shaderIndex) override;
+			void FlushIndicesBuffer(int shaderIndex) override;
+			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
+			
 	};
 }

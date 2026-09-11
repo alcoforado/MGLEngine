@@ -3,11 +3,11 @@
 #include "ShaderConfiguration.h"
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
-#include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 
+class IGraphicLibrary;
 struct ShapeElement {
 	IDrawingObject* pObject;
 	ShapeRegistrationConfig config;
@@ -45,14 +45,15 @@ private:
 	size_t _totalIndices;
 	s_ptr<GlobalBindingsTable> _pGlobalBindingTable;
 	std::string _name;
-	unsigned int _index;
+	size_t _index;
 public:
-	ShaderContext(unsigned index, ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
+	ShaderContext(size_t index, ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
 	
-
+	size_t GetIndex() const { return _index; }
 	
 
 	ShaderContext() {
+		_index = 0;
 		_needSerialize = true;
 		_needResize = true;
 		_totalVertices = 0;

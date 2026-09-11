@@ -2,8 +2,8 @@
 
 #include "ShaderContext.h"
 #include <MGLEngine.Shared/Interfaces/RenderSerializationContext.h>
-
-ShaderContext::ShaderContext(unsigned index,ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
+#include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
+ShaderContext::ShaderContext(size_t index,ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
 {
 	_index = index;
 	_name = options.name;
@@ -54,8 +54,8 @@ void ShaderContext::Serialize(IGraphicLibrary& gl)
 
 	if (_needSerialize)
 	{
-		uint8_t* pVertice = (uint8_t*)gl.getVerticeBuffer(this->_index,_totalVertices * _binding.GetStride());
-		uint8_t* pIndex = (uint8_t*) gl.getIndicesBuffer(this->_index,_totalIndices*sizeof(uint32_t));
+		uint8_t* pVertice = (uint8_t*)gl.GetVerticeBuffer(this->_index,_totalVertices * _binding.GetStride());
+		uint8_t* pIndex = (uint8_t*) gl.GetIndicesBuffer(this->_index,_totalIndices*sizeof(uint32_t));
 
 		eassert(_binding.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
 
@@ -73,8 +73,8 @@ void ShaderContext::Serialize(IGraphicLibrary& gl)
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
 			shapeElement.pObject->RenderData(renderContext);
 		}
-		gl.flushVerticeBuffer(_index);
-		gl.flushVerticeBuffer(_index);
+		gl.FlushVerticeBuffer(_index);
+		gl.FlushVerticeBuffer(_index);
 	}
 
 

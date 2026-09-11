@@ -32,7 +32,6 @@ void VulkanEngine::Init()
 	CreateRenderPass();
 	CreateFramebuffers();
 	CreateSyncObjects();
-	SetGlobalBindingTable();
 	CreateDescriptorSetLayout();
 	CreateDescritorPool();
 	CreateDescriptorSets();
@@ -504,7 +503,10 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 	VkPipeline vkPipeline;
 	auto err1 = vkCreateGraphicsPipelines(_pLogicalDevice->GetHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vkPipeline);
 	AssertVulkanSuccess(err1);
-	return VulkanPipelineData(vkPipeline);
+	return  {
+		.handle = vkPipeline,
+		.layout = vkPipelineLayout
+	};
 }
 
 
@@ -512,7 +514,7 @@ VulkanPipelineData VulkanEngine::CreatePipeline(const ShaderConfiguration& confi
 
 
 
-void MGL::VulkanEngine::Draw(std::map<std::type_index, ShaderContext> &shaders)
+void MGL::VulkanEngine::Draw(std::vector<ShaderContext> &shaders)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
@@ -530,9 +532,8 @@ void MGL::VulkanEngine::Draw(std::map<std::type_index, ShaderContext> &shaders)
 		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 		
-	for (auto& pair : shaders)
+	for (auto& ctx : shaders)
 	{
-		ShaderContext& ctx = pair.second;
 		ctx.Serialize(*this);
 		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
@@ -555,7 +556,7 @@ void MGL::VulkanEngine::Draw(std::map<std::type_index, ShaderContext> &shaders)
 	}
 }
 
-void MGL::VulkanEngine::Run() {
+void MGL::VulkanEngine::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
 
 	this->Init();//Init all vulkan 
 	auto glfwWindow = _pWindow->GLFWHandler();
@@ -564,10 +565,50 @@ void MGL::VulkanEngine::Run() {
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
-		Draw();
+		Draw(shaders);
 	}
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 }
+
+
+#pragma region IGraphicLibary implementation of vertices data buffers
+void* MGL::VulkanEngine::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
+{
+	auto& shaderData = _vVulkanShaderData[shaderIndex];
+	if (shaderData.verticeBuffer.GetSizeInBytes() < sizeInBytes)
+	{
+		shaderData.verticeBuffer.Delete();
+		shaderData.verticeBuffer = _pMemoryAllocator->CreateVertexBuffer(sizeInBytes);
+	}
+	return shaderData.verticeBuffer.Map();
+}
+
+uint32_t* MGL::VulkanEngine::GetIndicesBuffer(int shaderIndex, size_t nElements)
+{
+	auto& shaderData = _vVulkanShaderData[shaderIndex];
+	if (shaderData.indicesBuffer.GetSizeInBytes() < nElements*sizeof(uint32_t))
+	{
+		shaderData.indicesBuffer.Delete();
+		shaderData.indicesBuffer = _pMemoryAllocator->CreateIndexBuffer(nElements);
+	}
+	return static_cast<uint32_t*>(shaderData.indicesBuffer.Map());
+	
+}
+
+void MGL::VulkanEngine::FlushVerticeBuffer(int shaderIndex)
+{
+	auto& shaderData = _vVulkanShaderData[shaderIndex];
+	shaderData.verticeBuffer.Unmap();	
+}
+
+void MGL::VulkanEngine::FlushIndicesBuffer(int shaderIndex)
+{
+	auto& shaderData = _vVulkanShaderData[shaderIndex];
+	shaderData.indicesBuffer.Unmap();
+}
+#pragma endregion
+
+
 
 void MGL::VulkanEngine::InitializePipelines() {
 	
@@ -605,12 +646,12 @@ void MGL::VulkanEngine::DestroySyncObjects() {
 
 void MGL::VulkanEngine::DestroyShaderContexts()
 {
-	for (auto& pair : _shaders)
+	for (auto& ctx : _vVulkanShaderData)
 	{
-		VulkanShaderContext& ctx = pair.second;
-		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.GetPipeline().handle, nullptr);
-		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.GetPipeline().layout, nullptr);
-		ctx.DeleteBuffers();
+		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.pipeline.handle, nullptr);
+		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.pipeline.layout, nullptr);
+		ctx.indicesBuffer.Delete();
+		ctx.verticeBuffer.Delete();
 
 	}
 	

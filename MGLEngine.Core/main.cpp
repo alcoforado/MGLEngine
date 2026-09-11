@@ -1,12 +1,12 @@
 #include <exception>
 #include <iostream>
 #include <MGLEngine.Shared/Utils/eassert.h>
-#include <MGLEngine.Shared/MGLContainer.h>
 #include <MGLEngine.Shared/Mesh/OrthoRect2D.h>
 #include <MGLEngine.Shared/Shaders/Color2D/VertexColor2D.h>
 #include <MGLEngine.Shared/Shaders/Texture2D/Sprite2D.h>
 
 #include <MGLEngine.Shared/Utils/Exception.h>
+#include <MGLEngine.Shared/AppBuilder.h>
 
 
 void Example1(IMGLEngine& engine)
@@ -26,9 +26,7 @@ void Example2(IMGLEngine& engine)
 int main()
 {
 	try {
-		MGLContainer container;
-		auto pApp = container.GetApp();
-		IAppBuilder& app = *pApp;
+		AppBuilder app;
 
 		app.WindowConfig([](IWindowOptions& options) {
 			options.SetSize(800, 800);

@@ -40,7 +40,7 @@ add_custom_target(CompileShaderHeaders ALL DEPENDS ${SHADERS_HEADERS})
 
 
 add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
-"MGLContainer.cpp"
+
     
     
     
@@ -70,8 +70,8 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanApp/SwapChainData.h"
     "VulkanApp/VulkanPipelineData.cpp"
     "VulkanApp/VulkanPipelineData.h"
-    "VulkanAppBuilder.cpp"
-    "VulkanAppBuilder.h"
+    
+    
     "VulkanEngine.cpp"
     "VulkanEngine.h"
     "VulkanUtils.cpp"
@@ -100,7 +100,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanSwapChainOptions.h"
     "VulkanContext/VulkanSurfaceCapability.h"
     "Window/MWindow.cpp"
- "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h" "VulkanApp/ResourceManager.h" "VulkanApp/ResourceManager.cpp" "VulkanContext/VulkanImage.cpp" "VulkanContext/VulkanImage.h")
+ "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h" "VulkanApp/ResourceManager.h" "VulkanApp/ResourceManager.cpp" "VulkanContext/VulkanImage.cpp" "VulkanContext/VulkanImage.h" "VulkanEngineContainer.h" "VulkanEngineContainer.cpp")
 
 #target_link_libraries	(${PROJECT_NAME})
 find_package(Stb REQUIRED)
