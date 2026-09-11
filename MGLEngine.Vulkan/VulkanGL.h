@@ -51,14 +51,13 @@ struct VulkanShaderData {
 			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
-			s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
 			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
 
 
 		private:
-			void Init();
+			void Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable);
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
 			void CreateLogicalDevice();
@@ -69,10 +68,10 @@ struct VulkanShaderData {
 			void CreateFramebuffers();
 			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
-			void CreateDescriptorSetLayout();
-			void CreateDescritorPool();
+			void CreateDescriptorSetLayout(GlobalBindingsTable& tbl);
+			void CreateDescritorPool(GlobalBindingsTable& tbl);
 			void CreateDescriptorSets();
-			void LoadResources();
+			void LoadResources(GlobalBindingsTable& tbl);
 
 			
 		private:
@@ -85,8 +84,8 @@ struct VulkanShaderData {
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
 			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config);
-			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(ShaderBindingManager &binding);
-			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(ShaderBindingManager &binding);
+			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(VerticeDataLayout &binding);
+			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(VerticeDataLayout &binding);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
@@ -106,8 +105,8 @@ struct VulkanShaderData {
 
 
 			// Inherited via IGraphicLibrary
-			void*     GetVerticeBuffer(int shaderIndex, size_t sizeInBytes) override;
-			uint32_t* GetIndicesBuffer(int shaderIndex, size_t nElements) override;
+			void*     GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes) override;
+			uint32_t* GetIndicesBuffer(size_t shaderIndex, size_t nElements) override;
 			void FlushVerticeBuffer(int shaderIndex) override;
 			void FlushIndicesBuffer(int shaderIndex) override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;

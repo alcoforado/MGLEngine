@@ -3,18 +3,26 @@
 #include "ShaderContext.h"
 #include <MGLEngine.Shared/Interfaces/RenderSerializationContext.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
-ShaderContext::ShaderContext(size_t index,ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable)
+ShaderContext::ShaderContext(size_t index,ShaderConfiguration options)
+	:_verticeDataLayout(options)
 {
 	_index = index;
 	_name = options.name;
 	this->_options = options;
-	_pGlobalBindingTable = pGlobalTable;
 	_needSerialize = true;
 	_needResize = true;
 	_totalVertices = _totalIndices = 0;
 }
 
-void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable)
+void ShaderContext::DeclareShaderBindings(GlobalBindingsTable& tbl)
+{
+	for (auto& samplerConfig : _options.samplers)
+	{
+		tbl.AddSampler2D(samplerConfig.binding, samplerConfig.name, _options.name);
+	}
+}
+
+void ShaderContext::BindShapeResources(GlobalBindingsTable &tbl)
 {
 	int i = 1;
 	for (auto& shape : _drawGraph)
@@ -22,7 +30,7 @@ void ShaderContext::BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBinding
 		std::string ref = std::format("Shader {}, Shape {}", _name, i);
 		for (auto& imgAssignment : shape.config.GetImageAssignments())
 		{
-			pGlobalBindingTable->AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, ref);
+			tbl.AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, ref);
 		}
 		i++;
 	}
@@ -54,19 +62,19 @@ void ShaderContext::Serialize(IGraphicLibrary& gl)
 
 	if (_needSerialize)
 	{
-		uint8_t* pVertice = (uint8_t*)gl.GetVerticeBuffer(this->_index,_totalVertices * _binding.GetStride());
+		uint8_t* pVertice = (uint8_t*)gl.GetVerticeBuffer(this->_index,_totalVertices * _verticeDataLayout.GetStride());
 		uint8_t* pIndex = (uint8_t*) gl.GetIndicesBuffer(this->_index,_totalIndices*sizeof(uint32_t));
 
-		eassert(_binding.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
+		eassert(_verticeDataLayout.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
 
 		//start initializing the vertice attributes' memory streams
 		std::map<std::string, InterleavedMemoryStream> memoryStreamsMap;
 
 		for (auto& shapeElement : _drawGraph)
 		{
-			for (auto vAttribute : _binding.GetVertexAttributes())
+			for (auto vAttribute : _verticeDataLayout.GetVertexAttributes())
 			{
-				InterleavedMemoryStream memoryStream(pVertice + shapeElement.startVertex * _binding.GetStride() + vAttribute.offset, _binding.GetStride(), shapeElement.allocatedVertices, vAttribute.type);
+				InterleavedMemoryStream memoryStream(pVertice + shapeElement.startVertex * _verticeDataLayout.GetStride() + vAttribute.offset, _verticeDataLayout.GetStride(), shapeElement.allocatedVertices, vAttribute.type);
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
 			IndicesMemoryStream indexStream(reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices, 0);

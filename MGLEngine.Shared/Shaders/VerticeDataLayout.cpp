@@ -1,7 +1,6 @@
-#include "ShaderBindingManager.h"
+#include "VerticeDataLayout.h"
 #include "GlobalBindingsTable.h"
-ShaderBindingManager::ShaderBindingManager(const ShaderConfiguration &config,s_ptr<GlobalBindingsTable> pGlobalTable)
-	:_pGlobalTable(pGlobalTable)
+VerticeDataLayout::VerticeDataLayout(const ShaderConfiguration &config)
 {
 	_totalStride = 0;
 	for (auto& v : config.vertexAttributes)
@@ -17,11 +16,4 @@ ShaderBindingManager::ShaderBindingManager(const ShaderConfiguration &config,s_p
 		_totalStride += elem.size;
 		_verticeData.push_back(elem);
 	}
-
-	for (auto& samplerConfig : config.samplers)
-	{
-		_pGlobalTable->AddSampler2D(samplerConfig.binding, samplerConfig.name,config.name);
-	}
-
-
 }

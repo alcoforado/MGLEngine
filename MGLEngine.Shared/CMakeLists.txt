@@ -55,6 +55,9 @@ add_library(${PROJECT_NAME} STATIC
     "Shaders/Color2D/ShaderColor2D.cpp"
     "Shaders/Texture2D/Texture2D.h"
     "Shaders/IShader2D.h"
+    "Shaders/VerticeDataLayout.cpp"
+    "Shaders/VerticeDataLayout.h"
+
     
     
     "ShapesService/ShapesService.cpp"
@@ -100,8 +103,8 @@ add_library(${PROJECT_NAME} STATIC
  "Shaders/Color2D/VertexColor2D.h" 
  "Interfaces/IMGLEngine.h" 
  "Shaders/FieldType.h"
- "Shaders/ShaderBindingManager.h" 
- "Shaders/ShaderBindingManager.cpp" 
+ "Shaders/VerticeDataLayout.h" 
+ "Shaders/VerticeDataLayout.cpp" 
  "Utils/utils.h" "common.h" 
  "Shaders/Texture2D/Sprite2D.h" 
  "Shaders/Texture2D/Sprite2D.cpp" 

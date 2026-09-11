@@ -15,7 +15,7 @@ MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
 	
 }
 
-void VulkanGL::Init()
+void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = new Window(_windowOptions);
@@ -32,9 +32,10 @@ void VulkanGL::Init()
 	CreateRenderPass();
 	CreateFramebuffers();
 	CreateSyncObjects();
-	CreateDescriptorSetLayout();
-	CreateDescritorPool();
+	CreateDescriptorSetLayout(bindingTable);
+	CreateDescritorPool(bindingTable);
 	CreateDescriptorSets();
+	LoadResources(bindingTable);
 	InitializePipelines();
 
 }
@@ -187,15 +188,15 @@ void MGL::VulkanGL::CreateCommandPool()
 
 }
 
-void VulkanGL::CreateDescritorPool()
+void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 {
 	std::vector<VkDescriptorPoolSize> poolSizes;
 
-	if (_pGlobalBindingsTable->GetSampler2DBindings().size() > 0)
+	if (tbl.GetSampler2DBindings().size() > 0)
 	{
 		poolSizes.push_back(VkDescriptorPoolSize{
 			.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-			.descriptorCount = static_cast<uint32_t>(_pGlobalBindingsTable->GetSampler2DBindings().size())
+			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size())
 			});
 	}
 
@@ -211,10 +212,10 @@ void VulkanGL::CreateDescritorPool()
 
 }
 
-void VulkanGL::CreateDescriptorSetLayout()
+void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable &tbl)
 {
 	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
-	for (const auto& sampler : _pGlobalBindingsTable->GetSampler2DBindings())
+	for (const auto& sampler : tbl.GetSampler2DBindings())
 	{
 		VkDescriptorSetLayoutBinding layout{
 			.binding = sampler.binding,
@@ -243,7 +244,7 @@ void VulkanGL::CreateDescriptorSetLayout()
 
 }
 
-void VulkanGL::CreateDescriptorSets() 
+void VulkanGL::CreateDescriptorSets()
 {
 	
 	VkDescriptorSetAllocateInfo allocInfo{};
@@ -257,7 +258,7 @@ void VulkanGL::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
-void VulkanGL::LoadResources() {
+void VulkanGL::LoadResources(GlobalBindingsTable& tbl) {
 
 }
 
@@ -316,7 +317,7 @@ void MGL::VulkanGL::ChoosePhysicalDevice()
 
 #pragma region Shaders Pipeline Creation 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertexInputBinding(ShaderBindingManager& bindingManager)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertexInputBinding(VerticeDataLayout& bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
@@ -327,7 +328,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertex
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVertexInputAttributes(ShaderBindingManager& binding)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVertexInputAttributes(VerticeDataLayout& binding)
 {
 
 	std::vector<VkVertexInputAttributeDescription> result;
@@ -368,9 +369,10 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 
 }
 
-VulkanPipelineData VulkanGL::CreatePipeline(const ShaderConfiguration& config)
+VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 {
-	ShaderBindingManager binding(config,_pGlobalBindingsTable);
+	auto& config = ctx.GetShaderConfiguration();
+	VerticeDataLayout& binding = ctx.GetVerticeDataLayout();
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -558,7 +560,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 
 void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
 
-	this->Init();//Init all vulkan 
+	this->Init(shaders,bindingTable);//Init all vulkan 
 	auto glfwWindow = _pWindow->GLFWHandler();
 	
 	
@@ -572,7 +574,7 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable
 
 
 #pragma region IGraphicLibary implementation of vertices data buffers
-void* MGL::VulkanGL::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
+void* MGL::VulkanGL::GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	if (shaderData.verticeBuffer.GetSizeInBytes() < sizeInBytes)
@@ -583,7 +585,7 @@ void* MGL::VulkanGL::GetVerticeBuffer(int shaderIndex, size_t sizeInBytes)
 	return shaderData.verticeBuffer.Map();
 }
 
-uint32_t* MGL::VulkanGL::GetIndicesBuffer(int shaderIndex, size_t nElements)
+uint32_t* MGL::VulkanGL::GetIndicesBuffer(size_t shaderIndex, size_t nElements)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	if (shaderData.indicesBuffer.GetSizeInBytes() < nElements*sizeof(uint32_t))

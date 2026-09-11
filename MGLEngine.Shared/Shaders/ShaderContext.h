@@ -4,7 +4,7 @@
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
-#include <MGLEngine.Shared/Shaders/ShaderBindingManager.h>
+#include <MGLEngine.Shared/Shaders/VerticeDataLayout.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 
 class IGraphicLibrary;
@@ -40,15 +40,14 @@ private:
 	std::vector<ShapeElement> _drawGraph;
 	bool _needSerialize;
 	bool _needResize;
-	ShaderBindingManager _binding;
+	VerticeDataLayout _verticeDataLayout;
 	size_t _totalVertices;
 	size_t _totalIndices;
-	s_ptr<GlobalBindingsTable> _pGlobalBindingTable;
 	std::string _name;
 	size_t _index;
 public:
-	ShaderContext(size_t index, ShaderConfiguration options, s_ptr<GlobalBindingsTable> pGlobalTable);
-	
+	ShaderContext(size_t index, ShaderConfiguration options);
+
 	size_t GetIndex() const { return _index; }
 	
 
@@ -60,8 +59,9 @@ public:
 		_totalIndices = 0;
 	}
 
-	void BindShapeResources(s_ptr<GlobalBindingsTable> pGlobalBindingTable);
-
+	void DeclareShaderBindings(GlobalBindingsTable& tbl);
+	void BindShapeResources(GlobalBindingsTable& tbl);
+	const VerticeDataLayout& GetVerticeDataLayout() { return _verticeDataLayout; }
 	void Serialize(IGraphicLibrary& gl);
 
 	//void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);

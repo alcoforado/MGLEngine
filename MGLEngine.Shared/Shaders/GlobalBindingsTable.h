@@ -72,13 +72,11 @@ struct GlobalIndex {
 	BindedTypeEnum type;
 };
 
-class ShaderBindingManager;
 class GlobalBindingsTable
 {
 private:
 	bool CheckCollisionAndThrowErrorIfIncompatible(ResourceBindingBase& bd1);
 	ResourceBindingBase& _GetResourceBinding(GlobalIndex index);
-	friend class ShaderBindingManager;
 
 
 	std::map<std::string, GlobalIndex> _name_index;

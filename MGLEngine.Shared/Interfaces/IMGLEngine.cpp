@@ -12,7 +12,8 @@ void IMGLEngine::SetGlobalBindingTable()
 {
 	for (auto& ctx : _shaders)
 	{
-		ctx.BindShapeResources(_pGlobalBindingsTable);
+		ctx.DeclareShaderBindings(*_pGlobalBindingsTable);
+		ctx.BindShapeResources(*_pGlobalBindingsTable);
 	}
 }
 

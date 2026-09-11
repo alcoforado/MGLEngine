@@ -18,28 +18,25 @@ struct VertexAttribute {
 };
 
 
-class GlobalBindingsTable;
-class ShaderBindingManager {
+class VerticeDataLayout {
 	std::vector<VertexAttribute> _verticeData;
 	size_t _totalStride=0;
-	s_ptr<GlobalBindingsTable> _pGlobalTable;
 	
 
 
 private:
-	void SetVerticeData();
-	void SetSamplers();
-public:
-	ShaderBindingManager(const ShaderConfiguration &config,s_ptr<GlobalBindingsTable> pGlobalTable);
-	ShaderBindingManager() { _totalStride = 0; };
-	size_t GetStride() { return _totalStride; }
 	
-	bool CheckVerticeBufferAlignment(void *pt) { 
+public:
+	VerticeDataLayout(const ShaderConfiguration &config);
+	VerticeDataLayout() { _totalStride = 0; };
+	size_t GetStride() const { return _totalStride; }
+	
+	bool CheckVerticeBufferAlignment(void *pt) const  { 
 		//for now we will only have 32 bits alignment
 		uintptr_t address= (uintptr_t) pt;
 		return address % 4 == 0;
 	}
-	const std::vector<VertexAttribute>& GetVertexAttributes() { return _verticeData; }
+	const std::vector<VertexAttribute>& GetVertexAttributes() const { return _verticeData; }
 
 
 };
