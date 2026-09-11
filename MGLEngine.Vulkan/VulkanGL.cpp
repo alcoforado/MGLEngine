@@ -317,7 +317,7 @@ void MGL::VulkanGL::ChoosePhysicalDevice()
 
 #pragma region Shaders Pipeline Creation 
 
-std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertexInputBinding(VerticeDataLayout& bindingManager)
+std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertexInputBinding(const VerticeDataLayout& bindingManager)
 {
 	std::vector<VkVertexInputBindingDescription> result;
 	result.push_back({
@@ -328,7 +328,7 @@ std::vector<VkVertexInputBindingDescription> MGL::VulkanGL::CreatePipelineVertex
 	return result;
 }
 
-std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVertexInputAttributes(VerticeDataLayout& binding)
+std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVertexInputAttributes(const VerticeDataLayout& binding)
 {
 
 	std::vector<VkVertexInputAttributeDescription> result;
@@ -372,7 +372,7 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 {
 	auto& config = ctx.GetShaderConfiguration();
-	VerticeDataLayout& binding = ctx.GetVerticeDataLayout();
+	const VerticeDataLayout& binding = ctx.GetVerticeDataLayout();
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
 	VertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;

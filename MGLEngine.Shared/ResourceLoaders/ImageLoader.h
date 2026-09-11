@@ -7,7 +7,7 @@ struct TexImage {
 	int texChannels;
 
 	TexImage() {
-		*this = {};
+		
 		data = nullptr;
 	}
 

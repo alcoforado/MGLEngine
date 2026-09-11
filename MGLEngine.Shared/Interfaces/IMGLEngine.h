@@ -46,7 +46,7 @@ class IMGLEngine {
 				{
 					options.name = typeid(*pShader).name();
 				}
-				ShaderContext ctx(_shaders.size(),options, _pGlobalBindingsTable);
+				ShaderContext ctx(_shaders.size(),options);
 				this->_shadersIndex[typeIndex] = _shaders.size();
 				this->_shaders.push_back(ctx);
 				

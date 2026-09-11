@@ -83,9 +83,9 @@ struct VulkanShaderData {
 			void DestroyVulkanMemoryAllocator();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
-			VulkanPipelineData CreatePipeline(const ShaderConfiguration& config);
-			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(VerticeDataLayout &binding);
-			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(VerticeDataLayout &binding);
+			VulkanPipelineData CreatePipeline(ShaderContext& ctx);
+			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const VerticeDataLayout &binding);
+			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const VerticeDataLayout &binding);
 			
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
