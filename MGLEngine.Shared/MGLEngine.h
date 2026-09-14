@@ -7,7 +7,7 @@
 #include <MGLEngine.Shared/Interfaces/TextureHandler.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
 #include <MGLEngine.Shared/Shaders/ShaderContext.h>
-#include <MGLEngine.Shared/Interfaces/IAppConfiguration.h>
+#include <MGLEngine.Shared/Interfaces/AppConfiguration.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 
 
@@ -22,7 +22,7 @@ class MGLEngine {
 
 	private:
 		MGLEngine(const MGLEngine& eng);
-		
+		AppConfiguration _appConfig;
 		std::map<std::type_index, size_t> _shadersIndex;
 		std::vector<ShaderContext> _shaders;
 		s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
@@ -65,7 +65,7 @@ class MGLEngine {
 		};
 
 		void SetGlobalBindingTable();
-		
+		void LoadResources();
 		void Run();
 		
 };

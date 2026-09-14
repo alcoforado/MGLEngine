@@ -1,5 +1,8 @@
+
+#pragma once
 #include <MGLEngine.Shared/utils.h>
 #include <string>
+#include <filesystem>
 struct TexImage {
 	void* data;
 	int texWidth;
@@ -7,7 +10,7 @@ struct TexImage {
 	int texChannels;
 
 	TexImage() {
-		
+		texWidth = texHeight = texChannels = 0;
 		data = nullptr;
 	}
 
@@ -19,8 +22,11 @@ struct TexImage {
 
 class ImageLoader {
 
-
+	std::filesystem::path _base_path;
+private:
+	std::string GetFullPath(std::string relPath);
 public:
+	ImageLoader(std::string basePath = "");
 	s_ptr<TexImage> LoadAsRGBA(std::string path);
 	
 

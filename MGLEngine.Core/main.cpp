@@ -32,7 +32,7 @@ int main()
 			options.SetSize(800, 800);
 			options.SetTitle("MGLEngine Test App");
 			});
-		app.AppConfig([](IAppConfiguration& config) {
+		app.AppConfig([](AppConfiguration& config) {
 			config.EnableDebugLayer(true);
 			config.EnableVSync(true);
 			config.SetDoubleBuffer();

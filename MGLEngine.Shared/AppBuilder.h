@@ -1,7 +1,7 @@
 
 #include <MGLEngine.Shared/MGLEngine.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
-#include <MGLEngine.Shared/Interfaces/IAppConfiguration.h>
+#include <MGLEngine.Shared/Interfaces/AppConfiguration.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
 
 class AppBuilder {
@@ -18,7 +18,7 @@ private:
 				config(_windowOptions);
 			}
 
-			virtual void AppConfig(const std::function<void(IAppConfiguration&)>& config)
+			virtual void AppConfig(const std::function<void(AppConfiguration&)>& config)
 			{
 				config(_appConfiguration);
 			}

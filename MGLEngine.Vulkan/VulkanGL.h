@@ -107,8 +107,9 @@ struct VulkanShaderData {
 			// Inherited via IGraphicLibrary
 			void*     GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes) override;
 			uint32_t* GetIndicesBuffer(size_t shaderIndex, size_t nElements) override;
-			void FlushVerticeBuffer(int shaderIndex) override;
-			void FlushIndicesBuffer(int shaderIndex) override;
+			void FlushVerticeBuffer(size_t shaderIndex) override;
+			void FlushIndicesBuffer(size_t shaderIndex) override;
+			size_t LoadTexture(TexImage& img) override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			
 	};

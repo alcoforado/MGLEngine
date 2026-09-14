@@ -51,7 +51,11 @@ public:
 
 struct ImageRef {
 	std::string filePath;
+	size_t glId;
 	std::vector<std::string> references;
+	ImageRef() {
+		glId = 0;
+	}
 };
 
 class Sampler2DBinding : public ResourceBindingBase {
@@ -89,7 +93,7 @@ public:
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
 	void AssignImageResource(std::string bindName, std::string filePath, std::string sourceReference);
 	
-	const std::vector<Sampler2DBinding> GetSampler2DBindings() const {
+	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;
 	}
 

@@ -41,7 +41,8 @@ message ("Shader Header lists is : ${SHADERS_HEADERS}")
 # Create the executable
 add_library(${PROJECT_NAME} STATIC
     ${SHADERS_HEADERS}
-    "Interfaces/IAppConfiguration.h"
+    "Interfaces/AppConfiguration.h"
+    "Interfaces/AppConfiguration.cpp"
     "Interfaces/IDrawingObject.h"
     "Interfaces/IMesh2D.h"
     "Interfaces/IShader.h"

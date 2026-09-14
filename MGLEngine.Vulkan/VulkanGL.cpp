@@ -592,13 +592,13 @@ uint32_t* MGL::VulkanGL::GetIndicesBuffer(size_t shaderIndex, size_t nElements)
 	
 }
 
-void MGL::VulkanGL::FlushVerticeBuffer(int shaderIndex)
+void MGL::VulkanGL::FlushVerticeBuffer(size_t shaderIndex)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	shaderData.verticeBuffer.Unmap();	
 }
 
-void MGL::VulkanGL::FlushIndicesBuffer(int shaderIndex)
+void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 {
 	auto& shaderData = _vVulkanShaderData[shaderIndex];
 	shaderData.indicesBuffer.Unmap();
