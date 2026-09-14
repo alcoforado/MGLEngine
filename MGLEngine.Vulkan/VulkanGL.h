@@ -27,6 +27,10 @@ struct VulkanShaderData {
 	VulkanBuffer indicesBuffer;
 };
 
+struct VulkanImageData {
+	VulkanImage image;
+	VkImageView view;
+};
 
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
@@ -55,6 +59,7 @@ struct VulkanShaderData {
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
 
+			std::vector<VulkanImageData> _images;
 
 		private:
 			void Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable);
@@ -81,6 +86,7 @@ struct VulkanShaderData {
 			void DestroyShaderContexts();
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
+			void DestroyImages();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
 			VulkanPipelineData CreatePipeline(ShaderContext& ctx);

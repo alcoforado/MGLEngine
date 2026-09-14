@@ -253,6 +253,8 @@ void VulkanGL::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
+
+
 void VulkanGL::LoadResources(GlobalBindingsTable& tbl) {
 
 }
@@ -606,6 +608,69 @@ void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 #pragma endregion
 
 
+#pragma region Texture Loading
+size_t MGL::VulkanGL::LoadTexture(TexImage& img)
+{
+	eassert(img.data != nullptr, std::format("failed to load texture image"));
+	VkDeviceSize imageSize = img.texWidth * img.texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
+
+	VulkanBuffer stagingBuffer = _pMemoryAllocator->CreateStagingBuffer(imageSize);
+	stagingBuffer.ToGPU(img.data, imageSize);
+
+
+
+	VkImageCreateInfo imageInfo{};
+	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	imageInfo.imageType = VK_IMAGE_TYPE_2D;
+	imageInfo.extent.width = static_cast<uint32_t>(img.texWidth);
+	imageInfo.extent.height = static_cast<uint32_t>(img.texHeight);
+	imageInfo.extent.depth = 1;
+	imageInfo.mipLevels = 1;
+	imageInfo.arrayLayers = 1;
+	imageInfo.format = VK_FORMAT_R8G8B8A8_SRGB;
+	imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+	imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+	imageInfo.flags = 0; // Optional
+
+	VulkanImageData res;
+	res.image = _pMemoryAllocator->CreateImageBuffer(imageInfo);
+
+	auto pCommandBuffer = _pLogicalDevice->GetGraphicQueue().CreateCommandBuffer();
+	pCommandBuffer->BeginOnce();
+	pCommandBuffer->TransitionImageToCopyTarget(res.image);
+	pCommandBuffer->CopyToImage(stagingBuffer, res.image);
+	pCommandBuffer->TransitionImageToFinalLayout(res.image);
+	pCommandBuffer->End();
+	_pLogicalDevice->GetGraphicQueue().Submit(*pCommandBuffer);
+	_pLogicalDevice->WaitToBeIdle();
+	pCommandBuffer->Delete();
+
+	VkImageViewCreateInfo viewInfo{};
+	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	viewInfo.image = res.image.GetHandle();
+	viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	viewInfo.format = VK_FORMAT_R8G8B8A8_SRGB;
+	viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	viewInfo.subresourceRange.baseMipLevel = 0;
+	viewInfo.subresourceRange.levelCount = 1;
+	viewInfo.subresourceRange.baseArrayLayer = 0;
+	viewInfo.subresourceRange.layerCount = 1;
+
+	VkImageView imageView;
+	VkResult result = vkCreateImageView(_pLogicalDevice->GetHandle(), &viewInfo, nullptr, &imageView);
+	AssertVulkanSuccess(result);
+	res.view = imageView;
+
+	auto id = this->_images.size();
+	this->_images.push_back(res);
+	return id;
+}
+
+#pragma endregion
+
 
 void MGL::VulkanGL::InitializePipelines() {
 	
@@ -619,6 +684,7 @@ MGL::VulkanGL::~VulkanGL() {
 	DestroyRenderPass();
 	if (_pSwapChain)
 		delete _pSwapChain;
+	DestroyImages();
 	DestroyVulkanMemoryAllocator();
 	if_free(_pCommandPool);
 	DestroySyncObjects();
@@ -660,6 +726,15 @@ void MGL::VulkanGL::DestroyRenderPass()
 
 }
 
+void MGL::VulkanGL::DestroyImages()
+{
+	for (auto& img : _images)
+	{
+		vkDestroyImageView(_pLogicalDevice->GetHandle(), img.view,nullptr);
+		img.image.Delete();
+	}
+
+}
 
 void MGL::VulkanGL::DestroyFramebuffer()
 {
