@@ -30,6 +30,10 @@ class MGLEngine {
 		std::map<std::string, size_t> _resourcesCache;
 
 		IGraphicLibrary& _gl;
+		
+	private: //functions	
+		size_t GetOrCreateCachedResource(ImageRef& imgRef);
+
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
 		~MGLEngine();
@@ -64,10 +68,10 @@ class MGLEngine {
 		void AddShape(IDrawingObject& shape) {
 			this->AddShape<ShaderType>(shape, [](IShapeRegistrationConfig& c) {});
 		};
+		
 
 		void SetGlobalBindingTable();
 		void LoadResources();
-		size_t GetOrCreateCachedResource(ImageRef& imgRef);
 		void Run();
 		
 };
