@@ -1,15 +1,15 @@
-#include "ResourceManager.h"
+#include "VulkanResourceLoader.h"
 #include <stb_image.h>
 #include <gli/gli.hpp>
 #include <filesystem>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
-ImgHandler ResourceManager::LoadImage(ImageConfig config)
+ImgHandler VulkanResourceLoader::LoadImage(ImageConfig config)
 {
 	ImageResource res;
 
-	res.Name = config.filePath;
+	
 	
 	/*
 	std::string ext = std::filesystem::path(config.filePath).extension().string();

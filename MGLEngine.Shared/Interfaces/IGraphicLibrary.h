@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <MGLEngine.Shared/Shaders/ShaderContext.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
-#include <MGLEngine.Shared/ResourceLoaders/ImageLoader.h>
+#include <MGLEngine.Shared/Resources/ImageLoader.h>
 #include <vector>
 class IGraphicLibrary {
 	public:
