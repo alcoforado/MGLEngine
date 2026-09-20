@@ -15,7 +15,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 	float queue_priorities[1] = { 0.0 };
 	std::vector<const char*> device_extensions;
 	_enabledExtensions.push_back("VK_KHR_swapchain");
-
+	
 
 
 
@@ -38,6 +38,12 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 	queue_info.flags = 0;
 	queues.push_back(queue_info);
 	
+	
+	if (physicalDevice.GetFeatures().samplerAnisotropy)
+	{
+		_enabledFeatures.samplerAnisotropy = VK_TRUE;
+	};
+
 
 	auto enabled_extensions= ConvertToVectorChar(_enabledExtensions);
 	VkDeviceCreateInfo device_info = {};
@@ -49,7 +55,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 	device_info.ppEnabledExtensionNames = enabled_extensions.data();
 	device_info.enabledLayerCount = 0;
 	device_info.ppEnabledLayerNames = NULL;
-	device_info.pEnabledFeatures = NULL;
+	device_info.pEnabledFeatures = &_enabledFeatures;
 
 	
 	//create device;

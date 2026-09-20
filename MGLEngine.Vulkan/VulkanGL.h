@@ -59,8 +59,9 @@ struct VulkanImageData {
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
 
-			std::vector<VulkanImageData> _images;
-
+			//Vk Resources
+			std::vector<VkSampler> _vSamplers;
+			std::vector<VulkanImageData> _vImages;
 		private:
 			void Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable);
 			void ChoosePhysicalDevice();
@@ -87,6 +88,7 @@ struct VulkanImageData {
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 			void DestroyImages();
+			void DestroySamplers();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
 			VulkanPipelineData CreatePipeline(ShaderContext& ctx);
@@ -99,6 +101,11 @@ struct VulkanImageData {
 			void InitializePipelines();
 		
 			void Draw(std::vector<ShaderContext> &shaders);
+
+			enum GLID_VULKAN_TYPES {
+				SAMPLER2D = 0
+			};
+
 		public:
 			VulkanGL(WindowOptions woptions,AppConfiguration coptions);
 
@@ -116,6 +123,7 @@ struct VulkanImageData {
 			void FlushVerticeBuffer(size_t shaderIndex) override;
 			void FlushIndicesBuffer(size_t shaderIndex) override;
 			size_t LoadTexture(TexImage& img) override;
+			GLID CreateTextureSampler() override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			
 	};

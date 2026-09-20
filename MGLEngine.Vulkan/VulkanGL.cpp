@@ -664,9 +664,38 @@ size_t MGL::VulkanGL::LoadTexture(TexImage& img)
 	AssertVulkanSuccess(result);
 	res.view = imageView;
 
-	auto id = this->_images.size();
-	this->_images.push_back(res);
+	auto id = this->_vImages.size();
+	this->_vImages.push_back(res);
 	return id;
+}
+
+GLID MGL::VulkanGL::CreateTextureSampler()
+{
+	
+
+	VkSamplerCreateInfo samplerInfo{};
+	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+	samplerInfo.magFilter = VK_FILTER_LINEAR;
+	samplerInfo.minFilter = VK_FILTER_LINEAR;
+	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	samplerInfo.anisotropyEnable = _pLogicalDevice->GetEnabledFeatures().samplerAnisotropy;
+	samplerInfo.maxAnisotropy = _pLogicalDevice->GetPhysicalDevice().GetProperties().limits.maxSamplerAnisotropy;
+	samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+	samplerInfo.unnormalizedCoordinates = VK_FALSE;
+	samplerInfo.compareEnable = VK_FALSE;
+	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+	VkSampler sampler;
+	auto result = vkCreateSampler(_pLogicalDevice->GetHandle(), &samplerInfo, nullptr, &sampler);
+	AssertVulkanSuccess(result);
+	_vSamplers.push_back(sampler);
+	return  {
+		.index = _vSamplers.size() - 1,
+		.type = GLID_VULKAN_TYPES::SAMPLER2D,
+	};
+	
 }
 
 #pragma endregion
@@ -685,6 +714,7 @@ MGL::VulkanGL::~VulkanGL() {
 	if (_pSwapChain)
 		delete _pSwapChain;
 	DestroyImages();
+	DestroySamplers();
 	DestroyVulkanMemoryAllocator();
 	if_free(_pCommandPool);
 	DestroySyncObjects();
@@ -728,12 +758,20 @@ void MGL::VulkanGL::DestroyRenderPass()
 
 void MGL::VulkanGL::DestroyImages()
 {
-	for (auto& img : _images)
+	for (auto& img : _vImages)
 	{
 		vkDestroyImageView(_pLogicalDevice->GetHandle(), img.view,nullptr);
 		img.image.Delete();
 	}
 
+}
+
+void MGL::VulkanGL::DestroySamplers()
+{
+	for (auto sampler : _vSamplers)
+	{
+		vkDestroySampler(_pLogicalDevice->GetHandle(), sampler, nullptr);
+	}
 }
 
 void MGL::VulkanGL::DestroyFramebuffer()
@@ -751,5 +789,7 @@ void MGL::VulkanGL::DestroyVulkanMemoryAllocator()
 		delete _pMemoryAllocator;
 	}
 }
+
+
 
 #pragma endregion 

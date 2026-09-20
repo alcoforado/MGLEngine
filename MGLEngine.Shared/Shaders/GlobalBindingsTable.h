@@ -4,8 +4,24 @@
 #include <map>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <vector>
+#include <limits>
 enum BindedTypeEnum {
 	SAMPLER_2D
+};
+
+//Graphic Library ID
+struct GLID {
+	size_t index;
+	size_t type;
+
+	/*
+	GLID() {
+		type=index = std::numeric_limits<size_t>::max();
+	}
+	*/
+	bool Undefined() {
+		return (type == index) && type == std::numeric_limits<size_t>::max();
+	}
 };
 
 constexpr std::string to_string(BindedTypeEnum e)
@@ -28,6 +44,7 @@ public:
 	std::string name;
 	unsigned int binding;
 	BindedTypeEnum type;
+	
 	//std::vector<ResourceAssignments>
 	
 	std::vector<std::string> references; //information about shaders that use the variable. Excellent for debugging
@@ -62,6 +79,7 @@ class Sampler2DBinding : public ResourceBindingBase {
 public:
 	std::vector<ImageRef> imageFiles;
 	bool useAtlas;
+	GLID glId;
 	virtual bool Compatible(ResourceBindingBase& b1) const override 
 	{
 		if (ResourceBindingBase::Compatible(b1))
@@ -72,7 +90,7 @@ public:
 
 
 struct GlobalIndex {
-	unsigned index;
+	size_t index;
 	BindedTypeEnum type;
 };
 

@@ -11,5 +11,6 @@ class IGraphicLibrary {
 		virtual void FlushVerticeBuffer(size_t shaderIndex)=0;
 		virtual void FlushIndicesBuffer(size_t shaderIndex)=0;
 		virtual size_t LoadTexture(TexImage& img) = 0;
+		virtual GLID CreateTextureSampler() = 0;
 		virtual void Run(std::vector<ShaderContext>& shaders,GlobalBindingsTable& bindingTable) = 0;
 };

@@ -18,7 +18,7 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::
 	if (!exists)
 	{
 		_vSampler2DBindings.push_back(bd);
-		unsigned int newBindingIndex = _vSampler2DBindings.size() - 1;
+		size_t newBindingIndex = _vSampler2DBindings.size() - 1;
 		GlobalIndex gi = {
 			.index = newBindingIndex,
 			.type = BindedTypeEnum::SAMPLER_2D

@@ -118,15 +118,11 @@ VulkanInstance::VulkanInstance(std::string appName, bool enableDebug,uint32_t vu
 		dbg_info.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_INFORMATION_BIT_EXT | VK_DEBUG_REPORT_DEBUG_BIT_EXT;
 		dbg_info.pfnCallback = DbgCallback;
 
-
 		auto f = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(this->_vkInstance, "vkCreateDebugReportCallbackEXT");
 		eassert(f, "Unable to fo find vkCreateDebugReportCallbackEXT function.");
 		f(this->_vkInstance, &dbg_info, nullptr, &_vk_debug_report_callback_ext);
 
 	}
-
-
-
 	_vkPhysicalDevices = ComputePhysicalDevices();
 
 }
@@ -187,17 +183,17 @@ std::vector<MVulkanLayer> VulkanInstance::ComputeAvailableLayers() const
 	std::vector<VkLayerProperties> vk_props;
 	VkResult res;
 	uint32_t instance_layer_count = 0;
-		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, NULL);
-		AssertVulkanSuccess(res);
+	res = vkEnumerateInstanceLayerProperties(&instance_layer_count, NULL);
+	AssertVulkanSuccess(res);
 
-		if (instance_layer_count == 0) {
-			return std::vector<MVulkanLayer>();
-		}
-		vk_props.clear();
-		vk_props.resize(instance_layer_count);
+	if (instance_layer_count == 0) {
+		return std::vector<MVulkanLayer>();
+	}
+	vk_props.clear();
+	vk_props.resize(instance_layer_count);
 
-		res = vkEnumerateInstanceLayerProperties(&instance_layer_count, vk_props.data());
-		AssertVulkanSuccess(res);
+	res = vkEnumerateInstanceLayerProperties(&instance_layer_count, vk_props.data());
+	AssertVulkanSuccess(res);
 
 	/*
 	* Now gather the extension list for each instance layer.

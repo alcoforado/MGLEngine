@@ -55,6 +55,7 @@ public:
 	VkPhysicalDevice GetHandle() const  { return _handler; }
 	const std::vector<VulkanQueueFamily>& GetQueueFamilies() const { return _queueFamilies; }
 	VkPhysicalDeviceProperties GetProperties() const { return _graphicProperties; }
+	VkPhysicalDeviceFeatures GetFeatures() const { return _features; }
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
 	int32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
 	int32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;

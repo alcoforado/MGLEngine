@@ -41,6 +41,10 @@ void MGLEngine::LoadResources()
 {
 	for (auto& sampler2D : _pGlobalBindingsTable->GetSampler2DBindings())
 	{
+		if (sampler2D.glId.Undefined())
+		{
+			sampler2D.glId = _gl.CreateTextureSampler();
+		}
 		if (sampler2D.imageFiles.size() == 1)
 		{
 			sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
@@ -60,6 +64,7 @@ size_t MGLEngine::GetOrCreateCachedResource(ImageRef& imgRef)
 		auto s_pImg = imgLoader.LoadAsRGBA(imgRef.filePath);
 		auto result = _gl.LoadTexture(*s_pImg);
 		_resourcesCache[imgRef.filePath] = result;
+		return result;
 	}
 }
 
