@@ -30,10 +30,10 @@ bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
 void MGLEngine::SetGlobalBindingTable()
 {
 	_pGlobalBindingsTable = s_new<GlobalBindingsTable>();
-	for (auto& ctx : _shaders)
+	for (auto& shader : _shaders)
 	{
-		ctx.DeclareShaderBindings(*_pGlobalBindingsTable);
-		ctx.BindShapeResources(*_pGlobalBindingsTable);
+		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
+		shader.BindShapeResources(*_pGlobalBindingsTable);
 	}
 }
 
@@ -48,6 +48,7 @@ void MGLEngine::LoadResources()
 		if (sampler2D.imageFiles.size() == 1)
 		{
 			sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
+			_gl.AssignResource(sampler2D.glId, sampler2D.imageFiles[0].glId);
 		}
 	}
 }
