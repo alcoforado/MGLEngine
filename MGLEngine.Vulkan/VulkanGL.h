@@ -103,7 +103,8 @@ struct VulkanImageData {
 			void Draw(std::vector<ShaderContext> &shaders);
 
 			enum GLID_VULKAN_TYPES {
-				SAMPLER2D = 0
+				SAMPLER2D = 0,
+				IMAGE=1
 			};
 
 		public:
@@ -122,7 +123,7 @@ struct VulkanImageData {
 			uint32_t* GetIndicesBuffer(size_t shaderIndex, size_t nElements) override;
 			void FlushVerticeBuffer(size_t shaderIndex) override;
 			void FlushIndicesBuffer(size_t shaderIndex) override;
-			size_t LoadTexture(TexImage& img) override;
+			GLID LoadTexture(TexImage& img) override;
 			GLID CreateTextureSampler() override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			

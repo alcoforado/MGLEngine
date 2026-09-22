@@ -52,7 +52,7 @@ void MGLEngine::LoadResources()
 	}
 }
 
-size_t MGLEngine::GetOrCreateCachedResource(ImageRef& imgRef)
+GLID MGLEngine::GetOrCreateCachedResource(ImageRef& imgRef)
 {
 	if (_resourcesCache.contains(imgRef.filePath))
 	{

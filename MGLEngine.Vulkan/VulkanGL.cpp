@@ -267,7 +267,7 @@ void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
 
 		VkDescriptorImageInfo imageInfo{};
 		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo.imageView = _vImages[sampler.imageFiles[0].glId].view;
+		imageInfo.imageView = _vImages[sampler.imageFiles[0].glId.index].view;
 		imageInfo.sampler = _vSamplers[sampler.glId.index];
 
 		VkWriteDescriptorSet write{};
@@ -642,7 +642,7 @@ void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 
 
 #pragma region Texture Loading
-size_t MGL::VulkanGL::LoadTexture(TexImage& img)
+GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 {
 	eassert(img.data != nullptr, std::format("failed to load texture image"));
 	VkDeviceSize imageSize = img.texWidth * img.texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
@@ -699,7 +699,10 @@ size_t MGL::VulkanGL::LoadTexture(TexImage& img)
 
 	auto id = this->_vImages.size();
 	this->_vImages.push_back(res);
-	return id;
+	return {
+		.index = id,
+		.type = GLID_VULKAN_TYPES::IMAGE
+	};
 }
 
 GLID MGL::VulkanGL::CreateTextureSampler()

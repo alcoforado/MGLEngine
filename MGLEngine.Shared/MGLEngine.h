@@ -27,12 +27,12 @@ class MGLEngine {
 		std::vector<ShaderContext> _shaders;
 		s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
 		
-		std::map<std::string, size_t> _resourcesCache;
+		std::map<std::string, GLID> _resourcesCache;
 
 		IGraphicLibrary& _gl;
 		
 	private: //functions	
-		size_t GetOrCreateCachedResource(ImageRef& imgRef);
+		GLID GetOrCreateCachedResource(ImageRef& imgRef);
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);

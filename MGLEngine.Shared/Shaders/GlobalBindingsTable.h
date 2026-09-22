@@ -68,10 +68,10 @@ public:
 
 struct ImageRef {
 	std::string filePath;
-	size_t glId;
+	GLID glId;
 	std::vector<std::string> references;
 	ImageRef() {
-		glId = 0;
+		
 	}
 };
 
