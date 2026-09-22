@@ -12,11 +12,6 @@ using namespace MGL;
 MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
 	: _windowOptions(woptions), _vulkanConfiguration(coptions)
 {
-	
-}
-
-void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
-{
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = new Window(_windowOptions);
 	_pVulkanInstance = new VulkanInstance(
@@ -32,10 +27,15 @@ void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bi
 	CreateRenderPass();
 	CreateFramebuffers();
 	CreateSyncObjects();
+}
+
+void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
+{
+	
 	CreateDescriptorSetLayout(bindingTable);
 	CreateDescritorPool(bindingTable);
 	CreateDescriptorSets();
-	LoadResources(bindingTable);
+	AssignDescriptorSets(bindingTable);
 	InitializePipelines();
 
 }
@@ -253,11 +253,44 @@ void VulkanGL::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
+void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
+{
+	eassert(_vkDescriptorSets.size() == 1, "Only one descriptor set is supported at this time");
+	
+	
+	std::vector<VkWriteDescriptorSet> writes;
+	writes.resize(tbl.NBindings());
 
+	for (const auto& sampler : tbl.GetSampler2DBindings())
+	{
+		eassert(!sampler.glId.Undefined(),"Sampler Undefined");
 
-void VulkanGL::LoadResources(GlobalBindingsTable& tbl) {
+		VkDescriptorImageInfo imageInfo{};
+		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		imageInfo.imageView = _vImages[sampler.imageFiles[0].glId].view;
+		imageInfo.sampler = _vSamplers[sampler.glId.index];
+
+		VkWriteDescriptorSet write{};
+
+		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		write.pNext = nullptr;
+		write.dstSet = _vkDescriptorSets[0];
+		write.dstBinding = sampler.binding;
+		write.dstArrayElement = 0;
+		write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		write.descriptorCount = 1;
+		write.pImageInfo = &imageInfo;
+
+		writes.push_back(write);
+
+	};
+	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
+
 
 }
+
+
+
 
 
 void MGL::VulkanGL::CreateVulkanMemoryAllocator()

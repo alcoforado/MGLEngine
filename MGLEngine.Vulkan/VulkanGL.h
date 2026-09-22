@@ -77,7 +77,7 @@ struct VulkanImageData {
 			void CreateDescriptorSetLayout(GlobalBindingsTable& tbl);
 			void CreateDescritorPool(GlobalBindingsTable& tbl);
 			void CreateDescriptorSets();
-			void LoadResources(GlobalBindingsTable& tbl);
+			void AssignDescriptorSets(GlobalBindingsTable& tbl);
 
 			
 		private:

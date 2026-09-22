@@ -19,7 +19,7 @@ struct GLID {
 		type=index = std::numeric_limits<size_t>::max();
 	}
 	*/
-	bool Undefined() {
+	bool Undefined() const {
 		return (type == index) && type == std::numeric_limits<size_t>::max();
 	}
 };
@@ -110,7 +110,7 @@ public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
 	void AssignImageResource(std::string bindName, std::string filePath, std::string sourceReference);
-	
+	size_t NBindings() const { return _name_index.size(); }
 	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;
 	}
