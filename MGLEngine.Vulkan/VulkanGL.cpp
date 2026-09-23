@@ -603,6 +603,8 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable
 }
 
 
+
+
 #pragma region IGraphicLibary implementation of vertices data buffers
 void* MGL::VulkanGL::GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes)
 {
@@ -640,6 +642,52 @@ void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 }
 #pragma endregion
 
+
+#pragma region IGraphicLibrary implementations
+void MGL::VulkanGL::AssignResource(GLID slotID, GLID resourceID)
+{
+	
+	if (_pendingWrites.size() == 0)
+		_pendingWrites.reserve(_vSamplers.size());
+	
+	switch (slotID.type)
+	{
+		case GLID_VULKAN_TYPES::SAMPLER2D:
+		{
+			eassert(resourceID.type == GLID_VULKAN_TYPES::IMAGE, "Error, expect image for sampler2D assignment");
+			VkDescriptorImageInfo imageInfo{};
+			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			imageInfo.imageView = _vImages[resourceID.index].view;
+			imageInfo.sampler = _vSamplers[slotID.index];
+
+			VkWriteDescriptorSet write{};
+
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = nullptr;
+			write.dstSet = _vkDescriptorSets[0];
+			write.dstBinding = sampler.binding;
+			write.dstArrayElement = 0;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			write.descriptorCount = 1;
+			write.pImageInfo = &imageInfo;
+		}
+
+	}
+
+	for (const auto& sampler : tbl.GetSampler2DBindings())
+	{
+		eassert(!sampler.glId.Undefined(), "Sampler Undefined");
+
+		
+
+		writes.push_back(write);
+
+	};
+	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
+
+}
+
+#pragma endregion
 
 #pragma region Texture Loading
 GLID MGL::VulkanGL::LoadTexture(TexImage& img)

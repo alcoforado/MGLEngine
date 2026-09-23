@@ -46,6 +46,10 @@ private:
 	std::string _name;
 	size_t _index;
 public:
+	GLID glId;
+
+	
+
 	ShaderContext(size_t index, ShaderConfiguration options);
 
 	size_t GetIndex() const { return _index; }

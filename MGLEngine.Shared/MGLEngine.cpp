@@ -17,7 +17,8 @@ MGLEngine::~MGLEngine()
 
 void MGLEngine::Run()
 {
-	this->SetGlobalBindingTable();
+	this->LoadShaders();
+
 	this->LoadResources();
 	_gl.Run(_shaders, *_pGlobalBindingsTable);
 }
@@ -27,13 +28,14 @@ bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
 	return _shadersIndex.find(shaderType) != _shadersIndex.end();
 }
 
-void MGLEngine::SetGlobalBindingTable()
+void MGLEngine::LoadShaders()
 {
 	_pGlobalBindingsTable = s_new<GlobalBindingsTable>();
 	for (auto& shader : _shaders)
 	{
 		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
 		shader.BindShapeResources(*_pGlobalBindingsTable);
+		shader.glId = _gl.LoadShader(shader, *_pGlobalBindingsTable);
 	}
 }
 

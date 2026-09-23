@@ -70,7 +70,7 @@ class MGLEngine {
 		};
 		
 
-		void SetGlobalBindingTable();
+		void LoadShaders();
 		void LoadResources();
 		void Run();
 		

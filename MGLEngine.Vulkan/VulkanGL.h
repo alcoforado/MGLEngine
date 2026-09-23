@@ -58,6 +58,8 @@ struct VulkanImageData {
 			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
+			std::vector<VkWriteDescriptorSet> _pendingWrites;
+
 
 			//Vk Resources
 			std::vector<VkSampler> _vSamplers;
@@ -125,7 +127,12 @@ struct VulkanImageData {
 			void FlushIndicesBuffer(size_t shaderIndex) override;
 			GLID LoadTexture(TexImage& img) override;
 			GLID CreateTextureSampler() override;
+
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			
+
+			// Inherited via IGraphicLibrary
+			void AssignResource(GLID slotID, GLID resourceID) override;
+
 	};
 }
