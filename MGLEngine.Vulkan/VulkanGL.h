@@ -108,6 +108,7 @@ struct VulkanImageData {
 				SAMPLER2D = 0,
 				IMAGE=1
 			};
+			GLID CreateTextureSampler();
 
 		public:
 			VulkanGL(WindowOptions woptions,AppConfiguration coptions);
@@ -126,8 +127,7 @@ struct VulkanImageData {
 			void FlushVerticeBuffer(size_t shaderIndex) override;
 			void FlushIndicesBuffer(size_t shaderIndex) override;
 			GLID LoadTexture(TexImage& img) override;
-			GLID CreateTextureSampler() override;
-
+			virtual GLID LoadShaders(ShaderContext& shader, GlobalBindingsTable& globalBindingTbl) override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			
 

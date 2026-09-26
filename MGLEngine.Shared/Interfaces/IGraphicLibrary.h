@@ -13,7 +13,7 @@ class IGraphicLibrary {
 		virtual GLID LoadTexture(TexImage& img) = 0;
 		virtual GLID CreateTextureSampler(Sampler2DBinding &sampler) = 0;
 		virtual void AssignResource(unsigned int binding,GLID slotID, GLID resourceID)=0;
-		virtual GLID LoadShader(ShaderContext& shader, GlobalBindingsTable& globalBindingTbl);
+		virtual GLID LoadShaders(ShaderContext& shader, GlobalBindingsTable& globalBindingTbl);
 
 		virtual void Run(std::vector<ShaderContext>& shaders,GlobalBindingsTable& bindingTable) = 0;
 };

@@ -29,7 +29,7 @@ MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
 	CreateSyncObjects();
 }
 
-void VulkanGL::Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
+void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
 {
 	
 	CreateDescriptorSetLayout(bindingTable);
