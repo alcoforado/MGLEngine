@@ -132,7 +132,7 @@ struct VulkanImageData {
 			
 
 			// Inherited via IGraphicLibrary
-			void AssignResource(GLID slotID, GLID resourceID) override;
+			void AssignResource(unsigned int binding,GLID slotID, GLID resourceID) override;
 
 	};
 }

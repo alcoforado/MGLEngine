@@ -644,7 +644,7 @@ void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 
 
 #pragma region IGraphicLibrary implementations
-void MGL::VulkanGL::AssignResource(GLID slotID, GLID resourceID)
+void MGL::VulkanGL::AssignResource(unsigned int binding,GLID slotID, GLID resourceID)
 {
 	
 	if (_pendingWrites.size() == 0)
@@ -665,14 +665,16 @@ void MGL::VulkanGL::AssignResource(GLID slotID, GLID resourceID)
 			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 			write.pNext = nullptr;
 			write.dstSet = _vkDescriptorSets[0];
-			write.dstBinding = sampler.binding;
+			write.dstBinding = binding;
 			write.dstArrayElement = 0;
 			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 			write.descriptorCount = 1;
 			write.pImageInfo = &imageInfo;
 		}
-
+		default:
+			throw_formatted("GLID has invalid type");
 	}
+	_pendingWrites.push_back(write)
 
 	for (const auto& sampler : tbl.GetSampler2DBindings())
 	{
@@ -753,7 +755,7 @@ GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 	};
 }
 
-GLID MGL::VulkanGL::CreateTextureSampler()
+GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
 {
 	
 
@@ -771,10 +773,10 @@ GLID MGL::VulkanGL::CreateTextureSampler()
 	samplerInfo.compareEnable = VK_FALSE;
 	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
 	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-	VkSampler sampler;
+	VkSampler vkSampler;
 	auto result = vkCreateSampler(_pLogicalDevice->GetHandle(), &samplerInfo, nullptr, &sampler);
 	AssertVulkanSuccess(result);
-	_vSamplers.push_back(sampler);
+	_vSamplers.push_back(vkSampler);
 	return  {
 		.index = _vSamplers.size() - 1,
 		.type = GLID_VULKAN_TYPES::SAMPLER2D,

@@ -35,22 +35,18 @@ void MGLEngine::LoadShaders()
 	{
 		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
 		shader.BindShapeResources(*_pGlobalBindingsTable);
-		shader.glId = _gl.LoadShader(shader, *_pGlobalBindingsTable);
+		_gl.LoadShader(shader, *_pGlobalBindingsTable);
 	}
 }
 
-void MGLEngine::LoadResources()
+void MGLEngine::LoadImages()
 {
 	for (auto& sampler2D : _pGlobalBindingsTable->GetSampler2DBindings())
 	{
-		if (sampler2D.glId.Undefined())
-		{
-			sampler2D.glId = _gl.CreateTextureSampler();
-		}
+		
 		if (sampler2D.imageFiles.size() == 1)
 		{
 			sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
-			_gl.AssignResource(sampler2D.glId, sampler2D.imageFiles[0].glId);
 		}
 	}
 }
@@ -73,3 +69,4 @@ GLID MGLEngine::GetOrCreateCachedResource(ImageRef& imgRef)
 
 
 
+ 

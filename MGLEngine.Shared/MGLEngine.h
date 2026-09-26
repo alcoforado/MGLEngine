@@ -71,7 +71,7 @@ class MGLEngine {
 		
 
 		void LoadShaders();
-		void LoadResources();
+		void LoadImages();
 		void Run();
 		
 };
