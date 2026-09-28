@@ -35,8 +35,8 @@ void MGLEngine::LoadShaders()
 	{
 		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
 		shader.BindShapeResources(*_pGlobalBindingsTable);
-		_gl.LoadShader(shader, *_pGlobalBindingsTable);
 	}
+	_gl.LoadShaders(_shaders, *_pGlobalBindingsTable);
 }
 
 void MGLEngine::LoadImages()

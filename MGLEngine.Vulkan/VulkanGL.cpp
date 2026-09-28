@@ -237,7 +237,7 @@ void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable &tbl)
 
 
 
-}
+
 
 void VulkanGL::CreateDescriptorSets()
 {
@@ -260,7 +260,7 @@ void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
 	
 	std::vector<VkWriteDescriptorSet> writes;
 	writes.resize(tbl.NBindings());
-
+	std::deque<VkDescriptorImageInfo> imgInfos;
 	for (const auto& sampler : tbl.GetSampler2DBindings())
 	{
 		eassert(!sampler.glId.Undefined(),"Sampler Undefined");
@@ -269,6 +269,7 @@ void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
 		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 		imageInfo.imageView = _vImages[sampler.imageFiles[0].glId.index].view;
 		imageInfo.sampler = _vSamplers[sampler.glId.index];
+		imgInfos.push_back(imageInfo);
 
 		VkWriteDescriptorSet write{};
 
@@ -279,10 +280,8 @@ void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
 		write.dstArrayElement = 0;
 		write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 		write.descriptorCount = 1;
-		write.pImageInfo = &imageInfo;
-
+		write.pImageInfo = &(imgInfos.back());
 		writes.push_back(write);
-
 	};
 	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
 
