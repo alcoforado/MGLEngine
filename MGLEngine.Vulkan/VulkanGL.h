@@ -65,7 +65,6 @@ struct VulkanImageData {
 			std::vector<VkSampler> _vSamplers;
 			std::vector<VulkanImageData> _vImages;
 		private:
-			void Init(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable);
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
 			void CreateLogicalDevice();
@@ -79,9 +78,9 @@ struct VulkanImageData {
 			void CreateDescriptorSetLayout(GlobalBindingsTable& tbl);
 			void CreateDescritorPool(GlobalBindingsTable& tbl);
 			void CreateDescriptorSets();
-			void AssignDescriptorSets(GlobalBindingsTable& tbl);
-
-			
+			void UpdateDescriptorSets(GlobalBindingsTable& tbl);
+		private: //auxiliary
+			GLID CreateTextureSampler(Sampler2DBinding& sampler);
 		private:
 			void DestroySwapChain();
 			void DestroyRenderPass();
@@ -131,8 +130,7 @@ struct VulkanImageData {
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			
 
-			// Inherited via IGraphicLibrary
-			void AssignResource(unsigned int binding,GLID slotID, GLID resourceID) override;
+			
 
 	};
 }

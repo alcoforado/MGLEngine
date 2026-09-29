@@ -35,7 +35,7 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTa
 	CreateDescriptorSetLayout(bindingTable);
 	CreateDescritorPool(bindingTable);
 	CreateDescriptorSets();
-	AssignDescriptorSets(bindingTable);
+	UpdateDescriptorSets(bindingTable);
 	InitializePipelines();
 
 }
@@ -207,7 +207,7 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 
 }
 
-void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable &tbl)
+void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable& tbl)
 {
 	std::vector<VkDescriptorSetLayoutBinding> vulkanBindings;
 	for (const auto& sampler : tbl.GetSampler2DBindings())
@@ -234,12 +234,12 @@ void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable &tbl)
 	auto vkResult = vkCreateDescriptorSetLayout(_pLogicalDevice->GetHandle(), &layoutInfo, nullptr, &_descriptorSetLayout);
 	AssertVulkanSuccess(vkResult);
 
+}
 
 
 
 
-
-void VulkanGL::CreateDescriptorSets()
+void MGL::VulkanGL::CreateDescriptorSets()
 {
 	
 	VkDescriptorSetAllocateInfo allocInfo{};
@@ -253,7 +253,7 @@ void VulkanGL::CreateDescriptorSets()
 	AssertVulkanSuccess(result);
 }
 
-void MGL::VulkanGL::AssignDescriptorSets(GlobalBindingsTable& tbl)
+void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 {
 	eassert(_vkDescriptorSets.size() == 1, "Only one descriptor set is supported at this time");
 	
@@ -589,7 +589,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 
 void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
 
-	this->Init(shaders,bindingTable);//Init all vulkan 
+	
 	auto glfwWindow = _pWindow->GLFWHandler();
 	
 	
@@ -642,53 +642,7 @@ void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
 #pragma endregion
 
 
-#pragma region IGraphicLibrary implementations
-void MGL::VulkanGL::AssignResource(unsigned int binding,GLID slotID, GLID resourceID)
-{
-	
-	if (_pendingWrites.size() == 0)
-		_pendingWrites.reserve(_vSamplers.size());
-	
-	switch (slotID.type)
-	{
-		case GLID_VULKAN_TYPES::SAMPLER2D:
-		{
-			eassert(resourceID.type == GLID_VULKAN_TYPES::IMAGE, "Error, expect image for sampler2D assignment");
-			VkDescriptorImageInfo imageInfo{};
-			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			imageInfo.imageView = _vImages[resourceID.index].view;
-			imageInfo.sampler = _vSamplers[slotID.index];
 
-			VkWriteDescriptorSet write{};
-
-			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			write.pNext = nullptr;
-			write.dstSet = _vkDescriptorSets[0];
-			write.dstBinding = binding;
-			write.dstArrayElement = 0;
-			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-			write.descriptorCount = 1;
-			write.pImageInfo = &imageInfo;
-		}
-		default:
-			throw_formatted("GLID has invalid type");
-	}
-	_pendingWrites.push_back(write)
-
-	for (const auto& sampler : tbl.GetSampler2DBindings())
-	{
-		eassert(!sampler.glId.Undefined(), "Sampler Undefined");
-
-		
-
-		writes.push_back(write);
-
-	};
-	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
-
-}
-
-#pragma endregion
 
 #pragma region Texture Loading
 GLID MGL::VulkanGL::LoadTexture(TexImage& img)
@@ -748,10 +702,8 @@ GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 
 	auto id = this->_vImages.size();
 	this->_vImages.push_back(res);
-	return {
-		.index = id,
-		.type = GLID_VULKAN_TYPES::IMAGE
-	};
+	return GLID(GLID_VULKAN_TYPES::IMAGE, id);
+	
 }
 
 GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
@@ -773,13 +725,11 @@ GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
 	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
 	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 	VkSampler vkSampler;
-	auto result = vkCreateSampler(_pLogicalDevice->GetHandle(), &samplerInfo, nullptr, &sampler);
+	auto result = vkCreateSampler(_pLogicalDevice->GetHandle(), &samplerInfo, nullptr, &vkSampler);
 	AssertVulkanSuccess(result);
 	_vSamplers.push_back(vkSampler);
-	return  {
-		.index = _vSamplers.size() - 1,
-		.type = GLID_VULKAN_TYPES::SAMPLER2D,
-	};
+	return  GLID(GLID_VULKAN_TYPES::SAMPLER2D, _vSamplers.size() - 1);
+	
 	
 }
 
