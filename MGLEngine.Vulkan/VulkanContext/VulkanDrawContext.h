@@ -1,6 +1,6 @@
 #pragma once	
 #include <MGLEngine.Shared/Interfaces/IDrawContext.h>
-#include <MGLEngine.Vulkan/VulkanApp/ShaderContext.h>
+#include <MGLEngine.Shared/Shaders/ShaderContext.h>
 
 class VulkanDrawContext : public IDrawContext
 {
@@ -12,6 +12,9 @@ public:
 	{
 	}
 	void DrawIndexed() override {
-		_commandBuffer.DrawIndexed(_drawContext.allocatedIndices,  _drawContext.startIndice, _drawContext.startVertex);
+		_commandBuffer.DrawIndexed(
+			static_cast<uint32_t>(_drawContext.allocatedIndices), 
+			static_cast<uint32_t>(_drawContext.startIndice), 
+			static_cast<uint32_t>(_drawContext.startVertex));
 	}
 };

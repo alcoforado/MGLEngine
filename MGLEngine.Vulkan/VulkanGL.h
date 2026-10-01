@@ -47,21 +47,21 @@ struct VulkanImageData {
 			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
-			std::vector<VkFramebuffer> _framebuffers;
 			//configuraion options
-			std::vector<VulkanShaderData> _vVulkanShaderData;
 			WindowOptions _windowOptions;
 			VulkanSemaphore* _pImageAvailableSemaphore;
-			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
 			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
+			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
+			std::vector<VkFramebuffer> _framebuffers;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
 			std::vector<VkWriteDescriptorSet> _pendingWrites;
 
 
 			//Vk Resources
+			std::vector<VulkanShaderData> _vVulkanShaderData;
 			std::vector<VkSampler> _vSamplers;
 			std::vector<VulkanImageData> _vImages;
 		private:
@@ -99,12 +99,13 @@ struct VulkanImageData {
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 			void ResizeSwapChain();
-			void InitializePipelines();
 			void Draw(std::vector<ShaderContext> &shaders);
 
 			enum GLID_VULKAN_TYPES {
 				SAMPLER2D = 0,
-				IMAGE=1
+				IMAGE=1,
+				SHADER_DATA=2,
+
 			};
 
 			GLID CreateTextureSampler();

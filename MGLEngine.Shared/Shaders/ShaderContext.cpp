@@ -36,7 +36,9 @@ void ShaderContext::BindShapeResources(GlobalBindingsTable &tbl)
 	}
 }
 
-void ShaderContext::Serialize(IGraphicLibrary& gl)
+
+
+SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSizeInBytes,uint8_t *pIndex,size_t indexSizeInBytes)
 {
 	if (_needResize)
 	{
@@ -53,17 +55,29 @@ void ShaderContext::Serialize(IGraphicLibrary& gl)
 		}
 		_totalVertices = verticesOff;
 		_totalIndices = indicesOff;
-		if (_totalVertices == 0)
-			return;
+		
+		return SerializationResult{
+			.NeedResize=true,
+			.SerializationCompleted =false,
+			.VerticeDataSizeInBytes=_totalVertices*_verticeDataLayout.GetStride(),
+			.IndexDataSizeInBytes  =_totalIndices*sizeof(uint32_t)
+		};
 		
 	}
 	if (_totalVertices == 0)
-		return;
+		return SerializationResult{
+			.NeedResize = false,
+			.SerializationCompleted = true,
+			.VerticeDataSizeInBytes=0,
+			.IndexDataSizeInBytes = 0
+		};
 
 	if (_needSerialize)
 	{
-		uint8_t* pVertice = (uint8_t*)gl.GetVerticeBuffer(this->_index,_totalVertices * _verticeDataLayout.GetStride());
-		uint8_t* pIndex = (uint8_t*) gl.GetIndicesBuffer(this->_index,_totalIndices*sizeof(uint32_t));
+		eassert(_totalVertices * _verticeDataLayout.GetStride() <= verticeSizeInBytes, std::format("Vertice Buffer is too small for Shader {}", _name));
+		eassert(_totalIndices*sizeof(uint32_t) <= indexSizeInBytes, std::format("Index Buffer is too small for Shader {}", _name));
+
+		
 
 		eassert(_verticeDataLayout.CheckVerticeBufferAlignment(pVertice), "Severe error address of the vertice buffr is not 32bits aligned");
 
@@ -81,15 +95,15 @@ void ShaderContext::Serialize(IGraphicLibrary& gl)
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
 			shapeElement.pObject->RenderData(renderContext);
 		}
-		gl.FlushVerticeBuffer(_index);
-		gl.FlushVerticeBuffer(_index);
+		
 	}
-
-
-
-
 	_needResize = _needSerialize = false;
-
+	return {
+		.NeedResize = false,
+		.SerializationCompleted = true,
+		.VerticeDataSizeInBytes = verticeSizeInBytes,
+		.IndexDataSizeInBytes = indexSizeInBytes
+	};
 }
 
 /*

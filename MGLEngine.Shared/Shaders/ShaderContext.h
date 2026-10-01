@@ -27,6 +27,13 @@ struct ShapeElement {
 	}
 };
 
+struct SerializationResult {
+	bool NeedResize;
+	bool SerializationCompleted;
+	size_t VerticeDataSizeInBytes;
+	size_t IndexDataSizeInBytes;
+};
+
 class IMemoryProvider {
 
 };
@@ -53,8 +60,8 @@ public:
 	ShaderContext(size_t index, ShaderConfiguration options);
 
 	size_t GetIndex() const { return _index; }
-	
-
+	size_t GetTotalVertices() const { return _totalVertices; }
+	const std::vector<ShapeElement>& GetDrawingElements() const { return _drawGraph; }
 	ShaderContext() {
 		_index = 0;
 		_needSerialize = true;
@@ -66,8 +73,8 @@ public:
 	void DeclareShaderBindings(GlobalBindingsTable& tbl);
 	void BindShapeResources(GlobalBindingsTable& tbl);
 	const VerticeDataLayout& GetVerticeDataLayout() { return _verticeDataLayout; }
-	void Serialize(IGraphicLibrary& gl);
-
+	SerializationResult Serialize(uint8_t* pVertice, size_t verticeSize, uint8_t* pIndex, size_t indexSizeInBytes);
+	
 	//void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 
 	void AddShape(IDrawingObject* pShape, ShapeRegistrationConfig config)

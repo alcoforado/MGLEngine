@@ -5,6 +5,7 @@
 #include <MGLEngine.Shared/Utils/utils.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
+#include "VulkanContext/VulkanDrawContext.h"
 using namespace MGL;
 
 
@@ -36,7 +37,15 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTa
 	CreateDescritorPool(bindingTable);
 	CreateDescriptorSets();
 	UpdateDescriptorSets(bindingTable);
-	InitializePipelines();
+
+	for (auto& ctx : shaders)
+	{
+		VulkanShaderData shaderData;
+		shaderData.pipeline=CreatePipeline(ctx);
+		_vVulkanShaderData.push_back(shaderData);
+		ctx.glId = GLID(GLID_VULKAN_TYPES::SHADER_DATA, _vVulkanShaderData.size() - 1);
+		
+	}
 
 }
 
@@ -395,7 +404,19 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
 {
+	if (ctx.GetTotalVertices() == 0)
+		return;
+	auto& vkShaderData = _vVulkanShaderData[ctx.glId.index];
 
+	commandBuffer.BindGraphicsPipeline(vkShaderData.pipeline.handle);
+	commandBuffer.BindVertexBuffer(vkShaderData.verticeBuffer.GetHandle());
+	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer.GetHandle());
+	for (auto& drawingElement : ctx.GetDrawingElements())
+	{
+		VulkanDrawContext drawContext(commandBuffer, drawingElement);
+		drawingElement.pObject->Draw(drawContext);
+
+	}
 }
 
 VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
@@ -501,7 +522,8 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 	//PipelineLayout 
 	VkPipelineLayoutCreateInfo vkPipelineLayoutInfo{};
 	vkPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	vkPipelineLayoutInfo.setLayoutCount = 0;
+	vkPipelineLayoutInfo.setLayoutCount = 1;
+	vkPipelineLayoutInfo.pSetLayouts = &_descriptorSetLayout;
 	vkPipelineLayoutInfo.pushConstantRangeCount = 0;
 	VkPipelineLayout vkPipelineLayout;
 	auto err=vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &vkPipelineLayoutInfo, nullptr, &vkPipelineLayout);
@@ -565,6 +587,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 		
 	for (auto& ctx : shaders)
 	{
+		
 		ctx.Serialize(*this);
 		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
@@ -736,10 +759,7 @@ GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
 #pragma endregion
 
 
-void MGL::VulkanGL::InitializePipelines() {
-	
-	return;
-}
+
 
 #pragma region Cleanup
 MGL::VulkanGL::~VulkanGL() {
