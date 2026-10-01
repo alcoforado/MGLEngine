@@ -53,6 +53,8 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTa
 
 
 
+
+
 #pragma region Init Aux Functions
 void MGL::VulkanGL::CreateVulkanSurface() {
 	_pVulkanSurface = new VulkanSurface(_pVulkanInstance, _pWindow);
