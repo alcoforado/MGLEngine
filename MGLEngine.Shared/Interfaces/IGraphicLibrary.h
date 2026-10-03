@@ -6,10 +6,6 @@
 #include <vector>
 class IGraphicLibrary {
 	public:
-		virtual void* GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes)=0;
-		virtual uint32_t* GetIndicesBuffer(size_t shaderIndex, size_t sizeInBytes)=0;
-		virtual void FlushVerticeBuffer(size_t shaderIndex)=0;
-		virtual void FlushIndicesBuffer(size_t shaderIndex)=0;
 		virtual GLID LoadTexture(TexImage& img) = 0;
 		virtual void LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTable& globalBindingTbl) = 0;
 		virtual void Run(std::vector<ShaderContext>& shaders,GlobalBindingsTable& bindingTable)=0;

@@ -63,10 +63,10 @@ VulkanBuffer VulkanMemoryAllocator::CreateVertexBuffer(uint64_t sizeInBytes)
 	return CreateBuffer(&bufferInfo, &allocInfo);
 }
 
-VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfIndices)
+VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
-	bufferInfo.size = numOfIndices*sizeof(uint32_t);
+	bufferInfo.size = numOfBytes;
 	bufferInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 
 

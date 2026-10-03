@@ -404,6 +404,24 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 }
 
+void MGL::VulkanGL::Serialize(ShaderContext& ctx)
+{
+	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
+	auto result =ctx.Serialize(
+		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
+		shaderData.verticeBuffer.GetSizeInBytes(),
+		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
+		shaderData.indicesBuffer.GetSizeInBytes());
+	if (result.NeedResize)
+	{
+		shaderData.indicesBuffer.Delete();
+		shaderData.verticeBuffer.Delete();
+		shaderData.verticeBuffer =  _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
+		shaderData.indicesBuffer =  _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
+	}
+
+}
+
 void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
 {
 	if (ctx.GetTotalVertices() == 0)
@@ -590,7 +608,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 	for (auto& ctx : shaders)
 	{
 		
-		ctx.Serialize(*this);
+		Serialize(ctx);
 		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
@@ -628,43 +646,6 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable
 
 
 
-
-#pragma region IGraphicLibary implementation of vertices data buffers
-void* MGL::VulkanGL::GetVerticeBuffer(size_t shaderIndex, size_t sizeInBytes)
-{
-	auto& shaderData = _vVulkanShaderData[shaderIndex];
-	if (shaderData.verticeBuffer.GetSizeInBytes() < sizeInBytes)
-	{
-		shaderData.verticeBuffer.Delete();
-		shaderData.verticeBuffer = _pMemoryAllocator->CreateVertexBuffer(sizeInBytes);
-	}
-	return shaderData.verticeBuffer.Map();
-}
-
-uint32_t* MGL::VulkanGL::GetIndicesBuffer(size_t shaderIndex, size_t nElements)
-{
-	auto& shaderData = _vVulkanShaderData[shaderIndex];
-	if (shaderData.indicesBuffer.GetSizeInBytes() < nElements*sizeof(uint32_t))
-	{
-		shaderData.indicesBuffer.Delete();
-		shaderData.indicesBuffer = _pMemoryAllocator->CreateIndexBuffer(nElements);
-	}
-	return static_cast<uint32_t*>(shaderData.indicesBuffer.Map());
-	
-}
-
-void MGL::VulkanGL::FlushVerticeBuffer(size_t shaderIndex)
-{
-	auto& shaderData = _vVulkanShaderData[shaderIndex];
-	shaderData.verticeBuffer.Unmap();	
-}
-
-void MGL::VulkanGL::FlushIndicesBuffer(size_t shaderIndex)
-{
-	auto& shaderData = _vVulkanShaderData[shaderIndex];
-	shaderData.indicesBuffer.Unmap();
-}
-#pragma endregion
 
 
 

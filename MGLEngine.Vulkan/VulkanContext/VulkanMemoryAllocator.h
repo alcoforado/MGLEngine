@@ -12,7 +12,7 @@ class VulkanMemoryAllocator {
 		VulkanMemoryAllocator(const VulkanLogicalDevice& device);
 		~VulkanMemoryAllocator();
 		VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
-		VulkanBuffer CreateIndexBuffer(uint64_t numOfIndices);
+		VulkanBuffer CreateIndexBuffer(uint64_t numOfBytes);
 		VulkanBuffer CreateStagingBuffer(uint64_t sizeInBytes);
 		VulkanImage CreateImageBuffer(VkImageCreateInfo imgInfo);
 		VulkanImage CreateImageBuffer(uint64_t sizeInBytes);
