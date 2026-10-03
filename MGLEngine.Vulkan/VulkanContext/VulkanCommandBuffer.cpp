@@ -292,6 +292,15 @@ VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToFinalLayout(VulkanIma
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSetsToGraphicPipeline(VkPipelineLayout pipelineLayout, VkDescriptorSet ds)
+{
+	AssertIsOpen();
+	vkCmdBindDescriptorSets(_vkCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &ds, 0, nullptr);
+	return *this;
+
+}
+
+
 VulkanCommandBuffer& VulkanCommandBuffer::CopyToImage(VulkanBuffer& buffer, VulkanImage& image)
 {
 	AssertIsOpen();

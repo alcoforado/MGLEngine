@@ -29,7 +29,7 @@ struct ShapeElement {
 
 struct SerializationResult {
 	bool NeedResize;
-	bool SerializationCompleted;
+	bool Written;
 	size_t VerticeDataSizeInBytes;
 	size_t IndexDataSizeInBytes;
 };

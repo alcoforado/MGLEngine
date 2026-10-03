@@ -21,7 +21,7 @@ private:
 	std::vector<VulkanQueue> _queues;
 	std::vector<VkImage> _images;
 	OPointer<VulkanDescriptorSetPool> _pDescriptorSetPool;
-	VkPhysicalDeviceFeatures _enabledFeatures;
+	VkPhysicalDeviceFeatures _enabledFeatures = {};
 public:
 	VulkanLogicalDevice(const VulkanPhysicalDevice& physicalDevice, uint32_t graphicQueueFamilyIndex);
 	VulkanLogicalDevice & operator=(const VulkanLogicalDevice&) = delete;

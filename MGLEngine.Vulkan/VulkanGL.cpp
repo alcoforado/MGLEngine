@@ -407,17 +407,26 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 void MGL::VulkanGL::Serialize(ShaderContext& ctx)
 {
 	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
+	
+
+
 	auto result =ctx.Serialize(
 		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
 		shaderData.verticeBuffer.GetSizeInBytes(),
 		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
 		shaderData.indicesBuffer.GetSizeInBytes());
+	if (result.Written)
+	{
+		shaderData.verticeBuffer.Flush();
+		shaderData.indicesBuffer.Flush();
+	}
 	if (result.NeedResize)
 	{
 		shaderData.indicesBuffer.Delete();
 		shaderData.verticeBuffer.Delete();
 		shaderData.verticeBuffer =  _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
 		shaderData.indicesBuffer =  _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
+		Serialize(ctx);
 	}
 
 }
@@ -429,6 +438,7 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 	auto& vkShaderData = _vVulkanShaderData[ctx.glId.index];
 
 	commandBuffer.BindGraphicsPipeline(vkShaderData.pipeline.handle);
+	commandBuffer.BindDescriptorSetsToGraphicPipeline(vkShaderData.pipeline.layout, _vkDescriptorSets[0]);
 	commandBuffer.BindVertexBuffer(vkShaderData.verticeBuffer.GetHandle());
 	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer.GetHandle());
 	for (auto& drawingElement : ctx.GetDrawingElements())

@@ -55,10 +55,10 @@ SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSiz
 		}
 		_totalVertices = verticesOff;
 		_totalIndices = indicesOff;
-		
+		_needResize = false;
 		return SerializationResult{
 			.NeedResize=true,
-			.SerializationCompleted =false,
+			.Written = false,
 			.VerticeDataSizeInBytes=_totalVertices*_verticeDataLayout.GetStride(),
 			.IndexDataSizeInBytes  =_totalIndices*sizeof(uint32_t)
 		};
@@ -67,7 +67,7 @@ SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSiz
 	if (_totalVertices == 0)
 		return SerializationResult{
 			.NeedResize = false,
-			.SerializationCompleted = true,
+			.Written = false,
 			.VerticeDataSizeInBytes=0,
 			.IndexDataSizeInBytes = 0
 		};
@@ -95,12 +95,12 @@ SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSiz
 			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
 			shapeElement.pObject->RenderData(renderContext);
 		}
+		_needSerialize = false;
 		
 	}
-	_needResize = _needSerialize = false;
 	return {
 		.NeedResize = false,
-		.SerializationCompleted = true,
+		.Written = true,
 		.VerticeDataSizeInBytes = verticeSizeInBytes,
 		.IndexDataSizeInBytes = indexSizeInBytes
 	};

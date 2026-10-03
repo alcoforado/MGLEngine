@@ -17,6 +17,7 @@ private:
 	VmaAllocation _allocation;
 	VmaAllocationInfo _allocationInfo;
 	void* _pMappedData;
+	void Unmap(); //you only unmap when you need to delete the buffer. So it is private.
 public:
 	VulkanBuffer() {
 		_memType = {};
@@ -30,7 +31,6 @@ public:
 	}
 	void* Map();
 
-	void Unmap();
 
 	bool Empty() {
 		return _size == 0;
@@ -42,16 +42,10 @@ public:
 
 	void ToGPU(void* pData, uint64_t sizeInBytes);
 	
+	//Flush the content to CPU
+	void Flush();
 
-
-	void Delete()
-	{
-		if (_buffer == VK_NULL_HANDLE)
-			return;
-		vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
-		_pAllocator = nullptr;
-		_buffer = VK_NULL_HANDLE;
-
-	}
+	void Delete();
+	
 
 };
