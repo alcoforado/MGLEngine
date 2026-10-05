@@ -14,10 +14,7 @@ struct TexImage {
 		data = nullptr;
 	}
 
-	~TexImage() {
-		if (data!=nullptr)
-			delete data;
-	}
+	~TexImage();
 };
 
 class ImageLoader {

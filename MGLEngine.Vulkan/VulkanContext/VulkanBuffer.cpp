@@ -36,13 +36,13 @@ void VulkanBuffer::Flush()
 
 }
 
-void VulkanBuffer::ToGPU(void* pSrc, uint64_t sizeInBytes)
+void VulkanBuffer::CopyToGPU(void* pSrc, uint64_t sizeInBytes)
 {
 	eassert(_memType.HostVisible, std::format("This buffer is not host visible and cannot be mapped"));
-	eassert(sizeInBytes < this->_size, std::format("Overflow detected"));
+	eassert(sizeInBytes <= this->_size, std::format("Overflow detected"));
 	void* pDst = this->Map();
 	memcpy(pDst, pSrc, sizeInBytes);
-	this->Unmap();
+	this->Flush();
 
 
 }
@@ -54,4 +54,9 @@ void VulkanBuffer::Delete() {
 	vmaDestroyBuffer(*_pAllocator, _buffer, _allocation);
 	_pAllocator = nullptr;
 	_buffer = VK_NULL_HANDLE;
+}
+
+VulkanBuffer::~VulkanBuffer()
+{
+	//eassert(_buffer == VK_NULL_HANDLE,"Vulkan Buffer not deleted");
 }

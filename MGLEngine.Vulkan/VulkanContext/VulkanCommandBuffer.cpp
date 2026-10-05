@@ -236,10 +236,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget( VulkanIma
 	barrier.subresourceRange.baseArrayLayer = 0;
 	barrier.subresourceRange.layerCount = 1;
 	barrier.srcAccessMask = VK_ACCESS_NONE; //No read no writes the initial layous is assumed unusable
-	barrier.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT; //After the layout transition you can write into the resource not read from it
-	
-
-
+	barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT; //After the layout transition you can write into the resource not read from it
 
 	vkCmdPipelineBarrier(
 		this->GetHandle(),
@@ -319,6 +316,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyToImage(VulkanBuffer& buffer, Vulk
 	region.imageOffset = { 0, 0, 0 };
 	region.imageExtent = image.GetExtent();
 	
+
 	vkCmdCopyBufferToImage(this->GetHandle(), buffer.GetHandle(), image.GetHandle(), image.GetCurrentImageLayout(), 1, &region);
 
 

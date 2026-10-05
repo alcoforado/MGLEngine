@@ -76,11 +76,12 @@ struct VulkanImageData {
 			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
 			void CreateDescriptorSetLayout(GlobalBindingsTable& tbl);
+			void CreateBindedResources(GlobalBindingsTable& tbl);
 			void CreateDescritorPool(GlobalBindingsTable& tbl);
 			void CreateDescriptorSets();
 			void UpdateDescriptorSets(GlobalBindingsTable& tbl);
 		private: //auxiliary
-			GLID CreateTextureSampler(Sampler2DBinding& sampler);
+			GLID CreateTextureSampler(const Sampler2DBinding& sampler);
 		private:
 			void DestroySwapChain();
 			void DestroyRenderPass();

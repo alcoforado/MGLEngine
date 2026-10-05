@@ -22,7 +22,7 @@ public:
 	AssertionFailureException(std::string expression, std::string  file, int line, std::string message);
 	
 	/// The assertion message
-	virtual const char* what() const 
+	const char* what() const override
 	{
 		return _report.c_str();
 	}

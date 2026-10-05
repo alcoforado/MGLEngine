@@ -20,7 +20,8 @@ void Example1(MGLEngine& engine)
 
 void Example2(MGLEngine& engine)
 {
-	auto sprite = Sprite2D(engine, glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f, "./pic");
+	auto sprite = Sprite2D(engine, glm::vec2(-1.0f, -1.0f), 2.0f, 2.0f, "texture.jpg");
+	engine.Run();
 }
 
 int main()
@@ -37,15 +38,16 @@ int main()
 			config.EnableVSync(true);
 			config.SetDoubleBuffer();
 			config.SetVersion(1, 2, 0);
+			config.ImagesRoot("./assets");
 			});
 
 		MGLEngine& engine = app.Init();
 
-		Example1(engine);
+		Example2(engine);
 		
 		
 	}
-	catch (std::exception e)
+	catch (std::exception& e)
 	{
 		std::cout << "Error: " << e.what();
 	}

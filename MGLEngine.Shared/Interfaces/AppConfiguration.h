@@ -25,7 +25,7 @@ public:
 	AppConfiguration();
 	virtual void EnableDebugLayer(bool flag) { EnableDebug = flag; }
 	virtual void AppName(std::string name) { Name = name; }
-	virtual void ImagesRoot(std::string imageRootPath) { ImageRootPath = imageRootPath; }
+	virtual void ImagesRoot(std::string imageRootPath); 
 	virtual void SetDoubleBuffer() { SwapChainSize = 2; }
 	virtual void SetTrippleBuffer() { SwapChainSize = 3; }
 	virtual void EnableVSync(bool flag) { VSync = flag; }

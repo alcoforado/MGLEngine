@@ -10,8 +10,8 @@ class Texture2D : public IShader {
 		inline static std::string name="Texture2D";
 		virtual void Init(ShaderConfiguration& config) override
 		{
-			config.DeclareVertexAttribute_FloatVec4("texCoord", 1);
 			config.DeclareVertexAttribute_FloatVec2("position2d", 0);
+			config.DeclareVertexAttribute_FloatVec2("texCoord", 1);
 			config.SetVerticeShader(texture2D_vert,  sizeof(texture2D_vert));
 			config.SetFragmentShader(texture2D_frag, sizeof(texture2D_frag));
 			

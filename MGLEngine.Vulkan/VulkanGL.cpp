@@ -35,6 +35,7 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTa
 	
 	CreateDescriptorSetLayout(bindingTable);
 	CreateDescritorPool(bindingTable);
+	CreateBindedResources(bindingTable);
 	CreateDescriptorSets();
 	UpdateDescriptorSets(bindingTable);
 
@@ -247,7 +248,15 @@ void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable& tbl)
 
 }
 
+void MGL::VulkanGL::CreateBindedResources(GlobalBindingsTable& tbl)
+{
+	for (auto& sampler : tbl.GetSampler2DBindings())
+	{
+		sampler.glId = CreateTextureSampler(sampler);
 
+
+	}
+}
 
 
 void MGL::VulkanGL::CreateDescriptorSets()
@@ -270,7 +279,7 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 	
 	
 	std::vector<VkWriteDescriptorSet> writes;
-	writes.resize(tbl.NBindings());
+	writes.reserve(tbl.NBindings());
 	std::deque<VkDescriptorImageInfo> imgInfos;
 	for (const auto& sampler : tbl.GetSampler2DBindings())
 	{
@@ -665,10 +674,11 @@ GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 {
 	eassert(img.data != nullptr, std::format("failed to load texture image"));
 	VkDeviceSize imageSize = img.texWidth * img.texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
-
+	
 	VulkanBuffer stagingBuffer = _pMemoryAllocator->CreateStagingBuffer(imageSize);
-	stagingBuffer.ToGPU(img.data, imageSize);
+	stagingBuffer.CopyToGPU(img.data, imageSize);
 
+	
 
 
 	VkImageCreateInfo imageInfo{};
@@ -693,6 +703,11 @@ GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 	auto pCommandBuffer = _pLogicalDevice->GetGraphicQueue().CreateCommandBuffer();
 	pCommandBuffer->BeginOnce();
 	pCommandBuffer->TransitionImageToCopyTarget(res.image);
+	pCommandBuffer->End();
+	_pLogicalDevice->GetGraphicQueue().Submit(*pCommandBuffer);
+	_pLogicalDevice->WaitToBeIdle();
+
+	pCommandBuffer->BeginOnce();
 	pCommandBuffer->CopyToImage(stagingBuffer, res.image);
 	pCommandBuffer->TransitionImageToFinalLayout(res.image);
 	pCommandBuffer->End();
@@ -718,14 +733,13 @@ GLID MGL::VulkanGL::LoadTexture(TexImage& img)
 
 	auto id = this->_vImages.size();
 	this->_vImages.push_back(res);
+	stagingBuffer.Delete();
 	return GLID(GLID_VULKAN_TYPES::IMAGE, id);
 	
 }
 
-GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
+GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding &sampler)
 {
-	
-
 	VkSamplerCreateInfo samplerInfo{};
 	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
 	samplerInfo.magFilter = VK_FILTER_LINEAR;
@@ -745,8 +759,6 @@ GLID MGL::VulkanGL::CreateTextureSampler(Sampler2DBinding &sampler)
 	AssertVulkanSuccess(result);
 	_vSamplers.push_back(vkSampler);
 	return  GLID(GLID_VULKAN_TYPES::SAMPLER2D, _vSamplers.size() - 1);
-	
-	
 }
 
 #pragma endregion

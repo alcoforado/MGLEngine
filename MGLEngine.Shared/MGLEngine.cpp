@@ -17,7 +17,7 @@ MGLEngine::~MGLEngine()
 
 void MGLEngine::Run()
 {
-	this->LoadImages();
+	
 	this->LoadShaders();
 
 	_gl.Run(_shaders, *_pGlobalBindingsTable);
@@ -36,6 +36,7 @@ void MGLEngine::LoadShaders()
 		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
 		shader.BindShapeResources(*_pGlobalBindingsTable);
 	}
+	this->LoadImages();
 	_gl.LoadShaders(_shaders, *_pGlobalBindingsTable);
 }
 

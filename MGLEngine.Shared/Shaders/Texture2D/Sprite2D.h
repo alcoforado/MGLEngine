@@ -25,6 +25,7 @@ class Sprite2D  : IDrawingObject {
 		virtual void RenderData(RenderSerializationContext& context) override
 		{
 			auto& posStream = context.GetVerticeAttribute("position2d");
+			auto& texStream = context.GetVerticeAttribute("texCoord");
 			auto& indexStream = context.GetIndicesStream();
 
 			posStream << glm::vec2(_bl.x, _bl.y);
@@ -35,7 +36,10 @@ class Sprite2D  : IDrawingObject {
 			indexStream << std::vector<uint32_t>{ 0, 1, 2, 0, 2, 3 };
 
 
-
+			texStream << glm::vec2(0, 0);
+			texStream << glm::vec2(1, 0);
+			texStream << glm::vec2(1, 1);
+			texStream << glm::vec2(0, 1);
 			
 		}
 

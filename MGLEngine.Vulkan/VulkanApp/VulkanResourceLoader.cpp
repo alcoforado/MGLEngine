@@ -21,7 +21,7 @@ ImgHandler VulkanResourceLoader::LoadImage(ImageConfig config)
 	VkDeviceSize imageSize = spImg->texWidth * spImg->texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);
 
 	VulkanBuffer stagingBuffer=this->_memory.CreateStagingBuffer(imageSize);
-	stagingBuffer.ToGPU(spImg->data, imageSize);
+	stagingBuffer.CopyToGPU(spImg->data, imageSize);
 	
 
 

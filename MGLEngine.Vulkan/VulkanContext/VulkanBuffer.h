@@ -26,6 +26,9 @@ public:
 		_buffer = VK_NULL_HANDLE;
 		_size = 0;
 	}
+
+	~VulkanBuffer();
+
 	VkBuffer GetHandle() {
 		return _buffer;
 	}
@@ -40,7 +43,7 @@ public:
 		return _size;
 	}
 
-	void ToGPU(void* pData, uint64_t sizeInBytes);
+	void CopyToGPU(void* pData, uint64_t sizeInBytes);
 	
 	//Flush the content to CPU
 	void Flush();
