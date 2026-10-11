@@ -5,10 +5,10 @@
 #include <MGLEngine.Shared/utils.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 
-class TexImage : public ITexImage {
+class StbiTexImage : public ITexImage {
 public:
-	TexImage();
-	~TexImage();
+	StbiTexImage();
+	~StbiTexImage();
 };
 
 class ImageLoader {
@@ -17,7 +17,7 @@ class ImageLoader {
 private:
 public:
 	ImageLoader();
-	s_ptr<TexImage> LoadAsRGBA(std::string path);
+	s_ptr<StbiTexImage> LoadAsRGBA(std::string path);
 	
 	
 

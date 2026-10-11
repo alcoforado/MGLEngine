@@ -124,5 +124,7 @@ add_library(${PROJECT_NAME} STATIC
    "Resources/ImageLoader.cpp" 
    "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"  )
 find_package(Stb REQUIRED)
+find_package(Freetype REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC Freetype::Freetype)
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})

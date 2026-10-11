@@ -3,23 +3,26 @@
 
 
 
-TexImage::~TexImage() {
+StbiTexImage::~StbiTexImage() {
 	if (data!=nullptr)
 		stbi_image_free(data);
 }
 
-TexImage::TexImage() {
+StbiTexImage::StbiTexImage() {
 
 }
 
 
-s_ptr<TexImage> ImageLoader::LoadAsRGBA(std::string path)
+s_ptr<StbiTexImage> ImageLoader::LoadAsRGBA(std::string path)
 {
 	
-	s_ptr<TexImage> pImage = s_new<TexImage>();
-	stbi_uc* pixels = stbi_load(path.c_str(), &(pImage->texWidth), &(pImage->texHeight), &(pImage->texChannels), STBI_rgb_alpha);
-	
-	
+	s_ptr<StbiTexImage> pImage = s_new<StbiTexImage>();
+	int width, height,texChannels;
+	stbi_uc* pixels = stbi_load(path.c_str(), &width, &height, &texChannels, STBI_rgb_alpha);
+
+	pImage->texHeight = static_cast<unsigned>(height);
+	pImage->texWidth = static_cast<unsigned>(width);
+	pImage->texChannels = static_cast<unsigned>(texChannels);
 	pImage->data = pixels;
 
 	return pImage;
