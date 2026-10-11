@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 #include <MGLEngine.Shared/Utils/eassert.h>
+#include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
+
 #include <vector>
 #include <limits>
 enum BindedTypeEnum {
@@ -74,6 +76,8 @@ public:
 struct ImageRef {
 	std::string filePath;
 	GLID glId;
+	ResourceType type;
+	unsigned int MetadataId;
 	std::vector<std::string> references;
 	ImageRef() {
 		
@@ -114,7 +118,7 @@ private:
 public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
-	void AssignImageResource(std::string bindName, std::string filePath, std::string sourceReference);
+	void AssignImageResource(std::string bindName, std::string filePath, ResourceType type,std::string sourceReference);
 	size_t NBindings() const { return _name_index.size(); }
 	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;

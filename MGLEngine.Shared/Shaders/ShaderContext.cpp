@@ -30,7 +30,8 @@ void ShaderContext::BindShapeResources(GlobalBindingsTable &tbl)
 		std::string ref = std::format("Shader {}, Shape {}", _name, i);
 		for (auto& imgAssignment : shape.config.GetImageAssignments())
 		{
-			tbl.AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, ref);
+			tbl.AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, imgAssignment.type ,ref);
+			
 		}
 		i++;
 	}

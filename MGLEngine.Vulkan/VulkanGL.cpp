@@ -670,7 +670,7 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable
 
 
 #pragma region Texture Loading
-GLID MGL::VulkanGL::LoadTexture(TexImage& img)
+GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 {
 	eassert(img.data != nullptr, std::format("failed to load texture image"));
 	VkDeviceSize imageSize = img.texWidth * img.texHeight * VulkanImage::GetTexelSize(VK_FORMAT_R8G8B8A8_SRGB);

@@ -1,31 +1,24 @@
 
 #pragma once
-#include <MGLEngine.Shared/utils.h>
 #include <string>
 #include <filesystem>
-struct TexImage {
-	void* data;
-	int texWidth;
-	int texHeight;
-	int texChannels;
+#include <MGLEngine.Shared/utils.h>
+#include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 
-	TexImage() {
-		texWidth = texHeight = texChannels = 0;
-		data = nullptr;
-	}
-
+class TexImage : public ITexImage {
+public:
+	TexImage();
 	~TexImage();
 };
 
 class ImageLoader {
 
-	std::filesystem::path _base_path;
+	
 private:
-	std::string GetFullPath(std::string relPath);
 public:
-	ImageLoader(std::string basePath = "");
+	ImageLoader();
 	s_ptr<TexImage> LoadAsRGBA(std::string path);
 	
-
+	
 
 };

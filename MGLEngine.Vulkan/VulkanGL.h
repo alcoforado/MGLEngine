@@ -126,7 +126,7 @@ struct VulkanImageData {
 
 			// Inherited via IGraphicLibrary
 			
-			GLID LoadTexture(TexImage& img) override;
+			GLID LoadTexture(ITexImage& img) override;
 			void LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTable& globalBindingTbl) override;
 			void Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) override;
 			

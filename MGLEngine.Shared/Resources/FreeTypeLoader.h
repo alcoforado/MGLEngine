@@ -1,0 +1,12 @@
+
+
+class FreeTypeLoader {
+
+
+public:
+	FreeTypeLoader()
+	{
+
+	}
+	
+};

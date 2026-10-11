@@ -59,6 +59,8 @@ add_library(${PROJECT_NAME} STATIC
     "Shaders/IShader2D.h"
     "Shaders/VerticeDataLayout.cpp"
     "Shaders/VerticeDataLayout.h"
+    "Shaders/TextBox/TextRender.h"
+    "Shaders/TextBox/TextRender.cpp"
 
     
     
@@ -111,8 +113,16 @@ add_library(${PROJECT_NAME} STATIC
  "Shaders/Texture2D/Sprite2D.cpp" 
  "Interfaces/TextureHandler.h" 
  "Interfaces/ShapeRegistrationConfig.h" 
- 
-  "Utils/stb_implementation.cpp" "utils.h" "Shaders/global_bindings.h" "Shaders/GlobalBindingsTable.h" "Shaders/GlobalBindingsTable.cpp" "Utils/Tracer.h" "Utils/Tracer.cpp" "Resources/ImageLoader.h" "Resources/ImageLoader.cpp" "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h")
+   "Utils/stb_implementation.cpp" 
+   "utils.h" 
+   "Shaders/global_bindings.h" 
+   "Shaders/GlobalBindingsTable.h" 
+   "Shaders/GlobalBindingsTable.cpp" 
+   "Utils/Tracer.h" 
+   "Utils/Tracer.cpp" 
+   "Resources/ImageLoader.h" 
+   "Resources/ImageLoader.cpp" 
+   "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"  )
 find_package(Stb REQUIRED)
 target_include_directories(MGLEngine.Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})

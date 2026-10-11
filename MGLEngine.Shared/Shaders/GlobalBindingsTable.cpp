@@ -31,7 +31,7 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::
 
 
 }
-void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string filePath,std::string sourceReference)
+void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string filePath,ResourceType type,std::string sourceReference)
 {
 	if (_name_index.contains(bindName))
 	{
@@ -53,6 +53,7 @@ void GlobalBindingsTable::AssignImageResource(std::string bindName, std::string 
 			{
 				ImageRef img;
 				img.filePath = filePath;
+				img.type = type;
 				img.references.push_back(sourceReference);
 				
 				sampler2DBinding.imageFiles.push_back(img);

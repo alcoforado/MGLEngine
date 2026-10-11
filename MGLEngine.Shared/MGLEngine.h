@@ -16,7 +16,6 @@
 #include <memory>
 
 class MGLEngine {
-
 	protected:
 		virtual bool IsShaderRegistered(const std::type_index shaderType);
 
@@ -32,7 +31,6 @@ class MGLEngine {
 		IGraphicLibrary& _gl;
 		
 	private: //functions	
-		GLID GetOrCreateCachedResource(ImageRef& imgRef);
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);

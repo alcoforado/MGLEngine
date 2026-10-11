@@ -47,26 +47,13 @@ void MGLEngine::LoadImages()
 		
 		if (sampler2D.imageFiles.size() == 1)
 		{
-			sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
+			//sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
+			//sampler2D.imageFiles[0].
 		}
 	}
 }
 
-GLID MGLEngine::GetOrCreateCachedResource(ImageRef& imgRef)
-{
-	if (_resourcesCache.contains(imgRef.filePath))
-	{
-		return _resourcesCache[imgRef.filePath];
-	}
-	else
-	{
-		ImageLoader imgLoader(_appConfig.ImageRootPath);
-		auto s_pImg = imgLoader.LoadAsRGBA(imgRef.filePath);
-		auto result = _gl.LoadTexture(*s_pImg);
-		_resourcesCache[imgRef.filePath] = result;
-		return result;
-	}
-}
+
 
 
 
