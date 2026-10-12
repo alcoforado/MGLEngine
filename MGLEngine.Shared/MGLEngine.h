@@ -26,11 +26,11 @@ class MGLEngine {
 		std::map<std::type_index, size_t> _shadersIndex;
 		std::vector<ShaderContext> _shaders;
 		s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+		IGraphicLibrary& _gl;
 		ResourceManager _resourceManager;
 		
 		std::map<std::string, GLID> _resourcesCache;
 
-		IGraphicLibrary& _gl;
 	private: //functions	
 
 	public:

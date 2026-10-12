@@ -31,7 +31,7 @@ Resource ResourceManager::Load(ImageRef& imgRef)
 		}
 		case ResourceType::FREE_TYPE_FONT:
 		{
-			auto atlas = _freeTypeLoader.Load(GetFullPath(imgRef.filePath), 16, nullptr, 256);
+				auto atlas = _freeTypeLoader.Load(GetFullPath(imgRef.filePath), 16, {}, 256);
 			auto glId = _gl.LoadTexture(atlas->image);
 			atlas->DisposeBitmap();
 			fontsMetadata.push_back(atlas);
