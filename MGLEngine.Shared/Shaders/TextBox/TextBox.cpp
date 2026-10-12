@@ -1,4 +1,4 @@
-#include "TextRender.h"
+#include "TextBox.h"
 #include "textRender_frag.h"
 #include "textRender_vert.h"
 
@@ -21,7 +21,8 @@ public:
 };
 
 
-TextRender::TextRender(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath)
+
+TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath)
 :_text(text), _tl(tl)
 {
 	engine.AddShape<TextRenderShader>(*this, [fontPath](IShapeRegistrationConfig& config) {

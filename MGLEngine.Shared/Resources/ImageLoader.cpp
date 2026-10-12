@@ -24,6 +24,7 @@ s_ptr<StbiTexImage> ImageLoader::LoadAsRGBA(std::string path)
 	pImage->texWidth = static_cast<unsigned>(width);
 	pImage->texChannels = static_cast<unsigned>(texChannels);
 	pImage->data = pixels;
+	pImage->format = ImageFormat::R8G8B8A8;
 
 	return pImage;
 }

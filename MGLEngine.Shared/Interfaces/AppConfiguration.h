@@ -11,7 +11,7 @@ class AppConfiguration {
 
 public:
 	std::string Name;
-	std::string ImageRootPath;
+	std::string AssetsRootPath;
 	bool EnableDebug = false;
 	unsigned SwapChainSize = 0; //number of images buffers in the swap chain
 	bool VSync = true;

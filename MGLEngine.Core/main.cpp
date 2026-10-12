@@ -24,6 +24,8 @@ void Example2(MGLEngine& engine)
 	engine.Run();
 }
 
+
+
 int main()
 {
 	try {

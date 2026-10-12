@@ -11,7 +11,7 @@
 #include <MGLEngine.Shared/Resources/ImageLoader.h>
 struct ImageResource {
 	
-	VulkanImage Image;
+	VulkanImage image;
 
 };
 

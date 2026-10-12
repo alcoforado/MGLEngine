@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 		Require(argc == 2, "Pass a font path");
 		FreeTypeLoader loader;
 		auto atlas = loader.Load(argv[1], 48, {}, 128);
-		ITexImage& image = atlas->Image;
+		ITexImage& image = atlas->image;
 		Require(image.data && image.texChannels == 4 && image.texHeight > 48, "Invalid atlas image");
 		Require(atlas->metadata.Characters.size() == 95, "Expected printable ASCII");
 		const auto& space = atlas->metadata.Characters.at(U' ');

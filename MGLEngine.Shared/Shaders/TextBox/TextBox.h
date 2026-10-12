@@ -1,14 +1,14 @@
 #pragma once
 #include <MGLEngine.Shared/MGLEngine.h>
 
-class TextRender : IDrawingObject {
+class TextBox : IDrawingObject {
 	float _width, _height;
 	glm::vec2 _tl;
 	std::string _text;
 	
 public:
 	
-	TextRender(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath);
+	TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath);
 	
 	virtual uint32_t NVertices() override {
 		return 4;
@@ -31,7 +31,7 @@ public:
 	{
 		ctx.DrawIndexed();
 	}
-	virtual ~TextRender() {}
+	virtual ~TextBox() {}
 
 	
 

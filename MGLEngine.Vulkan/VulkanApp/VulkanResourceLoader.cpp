@@ -41,13 +41,13 @@ ImgHandler VulkanResourceLoader::LoadImage(ImageConfig config)
 	imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 	imageInfo.flags = 0; // Optional
 
-	res.Image = this->_memory.CreateImageBuffer(imageInfo);
+	res.image = this->_memory.CreateImageBuffer(imageInfo);
 
 	auto pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
 	pCommandBuffer->BeginOnce();
-	pCommandBuffer->TransitionImageToCopyTarget(res.Image);
-	pCommandBuffer->CopyToImage(stagingBuffer, res.Image);
-	pCommandBuffer->TransitionImageToFinalLayout(res.Image);
+	pCommandBuffer->TransitionImageToCopyTarget(res.image);
+	pCommandBuffer->CopyToImage(stagingBuffer, res.image);
+	pCommandBuffer->TransitionImageToFinalLayout(res.image);
 	pCommandBuffer->End();
 	_device.GetGraphicQueue().Submit(*pCommandBuffer);
 	_device.WaitToBeIdle();

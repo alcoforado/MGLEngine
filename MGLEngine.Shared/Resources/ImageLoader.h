@@ -16,7 +16,7 @@ class ImageLoader {
 	
 private:
 public:
-	ImageLoader();
+	ImageLoader() {};
 	s_ptr<StbiTexImage> LoadAsRGBA(std::string path);
 	
 	

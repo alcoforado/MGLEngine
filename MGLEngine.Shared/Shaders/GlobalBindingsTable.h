@@ -77,7 +77,7 @@ struct ImageRef {
 	std::string filePath;
 	GLID glId;
 	ResourceType type;
-	unsigned int MetadataId;
+	size_t MetadataId;
 	std::vector<std::string> references;
 	ImageRef() {
 		

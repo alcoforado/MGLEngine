@@ -59,8 +59,8 @@ add_library(${PROJECT_NAME} STATIC
     "Shaders/IShader2D.h"
     "Shaders/VerticeDataLayout.cpp"
     "Shaders/VerticeDataLayout.h"
-    "Shaders/TextBox/TextRender.h"
-    "Shaders/TextBox/TextRender.cpp"
+    "Shaders/TextBox/TextBox.h"
+    "Shaders/TextBox/TextBox.cpp"
 
     
     

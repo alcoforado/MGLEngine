@@ -5,7 +5,8 @@
 #include<MGLEngine.Shared/Resources/ImageLoader.h>
 MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	:_appConfig(appConfig),
-	_gl(*VulkanEngineContainer::GetLibrary(wOptions, appConfig))
+	_gl(*VulkanEngineContainer::GetLibrary(wOptions, appConfig)),
+	_resourceManager(_gl,appConfig.AssetsRootPath)
 {
 
 }
@@ -47,8 +48,9 @@ void MGLEngine::LoadImages()
 		
 		if (sampler2D.imageFiles.size() == 1)
 		{
-			//sampler2D.imageFiles[0].glId = GetOrCreateCachedResource(sampler2D.imageFiles[0]);
-			//sampler2D.imageFiles[0].
+			auto res = _resourceManager.Load(sampler2D.imageFiles[0]);
+			sampler2D.imageFiles[0].glId = res.glid;
+			sampler2D.imageFiles[0].MetadataId = res.MetadataId;
 		}
 	}
 }

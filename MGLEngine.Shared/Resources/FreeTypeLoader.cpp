@@ -110,23 +110,23 @@ std::shared_ptr<FontAtlas> FreeTypeLoader::Load(const std::string& path,
 		biggestCharHeightInRow = (std::max)(biggestCharHeightInRow, cheight);
 	}
 	if (glyphs.empty()) throw std::runtime_error("Font contains none of the requested characters");
-	atlas->Image.texWidth = atlasWidth;
-	atlas->Image.texHeight = y + biggestCharHeightInRow + padding;
-	atlas->Image.format = ImageFormat::R8;
+	atlas->image.texWidth = atlasWidth;
+	atlas->image.texHeight = y + biggestCharHeightInRow + padding;
+	atlas->image.format = ImageFormat::R8;
 	
 	//Lets start writing the pixels with all the glyps we collected so far
 	auto& pixels=atlas->pixels;
-	pixels.resize(atlas->Image.texWidth * atlas->Image.texHeight);
+	pixels.resize(atlas->image.texWidth * atlas->image.texHeight);
 	for (auto& glyph : glyphs) {
 		//Now the we know the size of our image, We can calculate textures coordinates
 		auto& c = glyph.fontGlyph;
-		c.U0 = static_cast<float>(c.X) / atlas->Image.texWidth;
-		c.V0 = static_cast<float>(c.Y) / atlas->Image.texHeight;
-		c.U1 = static_cast<float>(c.X + c.Width) / atlas->Image.texWidth;
-		c.V1 = static_cast<float>(c.Y + c.Height) / atlas->Image.texHeight;
+		c.U0 = static_cast<float>(c.X) / atlas->image.texWidth;
+		c.V0 = static_cast<float>(c.Y) / atlas->image.texHeight;
+		c.U1 = static_cast<float>(c.X + c.Width) / atlas->image.texWidth;
+		c.V1 = static_cast<float>(c.Y + c.Height) / atlas->image.texHeight;
 		for (int row = 0; row < c.Height; ++row)
 			for (int col = 0; col < c.Width; ++col)
-				pixels[(c.Y + row) * atlas->Image.texWidth + c.X + col]
+				pixels[(c.Y + row) * atlas->image.texWidth + c.X + col]
 					= glyph.Coverage[row * c.Width + col];
 		atlas->metadata.Characters.emplace(glyph.Character, c);
 	}
@@ -139,7 +139,7 @@ std::shared_ptr<FontAtlas> FreeTypeLoader::Load(const std::string& path,
 				if (delta.x || delta.y)
 					atlas->metadata.Kerning.emplace(std::make_pair(left, right), FontKerning{ delta.x / 64.0f, delta.y / 64.0f });
 			}
-	atlas->Image.data = pixels.data();
+	atlas->image.data = pixels.data();
 	return atlas;
 }
 

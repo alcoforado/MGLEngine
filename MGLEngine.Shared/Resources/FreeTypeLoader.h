@@ -42,10 +42,14 @@ public:
 
 class FontAtlas  {
 public:
-	ITexImage Image;
+	ITexImage image;
 	FontAtlasMetadata metadata;
 	std::vector<uint8_t> pixels;
 	
+	void DisposeBitmap() {
+		pixels.clear();
+		image.data = nullptr;
+	}
 };
 class FreeTypeLoader {
 public:

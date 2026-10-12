@@ -219,7 +219,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst
 	return *this;
 }
 
-#pragma region Image Commands
+#pragma region image Commands
 VulkanCommandBuffer& VulkanCommandBuffer::TransitionImageToCopyTarget( VulkanImage& image)
 {
 	AssertIsOpen();
