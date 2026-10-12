@@ -81,6 +81,7 @@ struct VulkanImageData {
 			void CreateDescriptorSets();
 			void UpdateDescriptorSets(GlobalBindingsTable& tbl);
 		private: //auxiliary
+				VkFormat MapToVulkanFormat(ImageFormat format);
 			GLID CreateTextureSampler(const Sampler2DBinding& sampler);
 		private:
 			void DestroySwapChain();

@@ -33,6 +33,8 @@ VkDeviceSize VulkanImage::GetTexelSize(VkFormat format)
 	{
 		case VK_FORMAT_R8G8B8A8_SRGB:
 			return 4;
+			case VK_FORMAT_R8_UNORM:
+				return 1;
 		default:
 		{
 			throw_error("Unknown VkFormat");
