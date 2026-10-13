@@ -1,5 +1,8 @@
 #pragma once
 #include <cstddef>
+#include <MGLEngine.Shared/Shaders/ShaderContext.h>
+#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+#include <vector>
 
 enum ImageFormat {
 	R8G8B8A8 =0,
@@ -14,9 +17,6 @@ struct ITexImage {
 	ImageFormat format;
 };
 
-#include <MGLEngine.Shared/Shaders/ShaderContext.h>
-#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
-#include <vector>
 
 
 

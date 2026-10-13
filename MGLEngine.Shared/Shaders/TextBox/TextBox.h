@@ -8,7 +8,7 @@ class TextBox : IDrawingObject {
 	
 public:
 	
-	TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath);
+	TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath,uint32_t pixelSize);
 	
 	virtual uint32_t NVertices() override {
 		return 4;

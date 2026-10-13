@@ -39,7 +39,7 @@ class MGLEngine {
 
 
 		template<std::default_initializable ShaderType>
-		void AddShape(IDrawingObject& shape, const std::function<void(IShapeRegistrationConfig&)>& f) {
+		void AddShape(IDrawingObject& shape, const std::function<void(ShapeRegistrationConfig&)>& f) {
 			std::type_index typeIndex(typeid(ShaderType));
 			if (!this->IsShaderRegistered(typeIndex))
 			{
@@ -65,7 +65,7 @@ class MGLEngine {
 
 		template<std::default_initializable ShaderType>
 		void AddShape(IDrawingObject& shape) {
-			this->AddShape<ShaderType>(shape, [](IShapeRegistrationConfig& c) {});
+			this->AddShape<ShaderType>(shape, [](ShapeRegistrationConfig& c) {});
 		};
 		
 

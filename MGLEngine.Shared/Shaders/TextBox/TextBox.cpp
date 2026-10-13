@@ -22,11 +22,11 @@ public:
 
 
 
-TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath)
+TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string fontPath,  uint32_t pixelSize)
 :_text(text), _tl(tl)
 {
-	engine.AddShape<TextRenderShader>(*this, [fontPath](IShapeRegistrationConfig& config) {
-		config.BindFont(fontPath, "fontSampler");
+	engine.AddShape<TextRenderShader>(*this, [fontPath,pixelSize](ShapeRegistrationConfig& config) {
+		config.BindFont(fontPath, "fontSampler",pixelSize);
 
 
 		});
