@@ -73,20 +73,21 @@ public:
 	}
 };
 
-struct ImageRef {
-	std::string filePath;
+struct ResourceRef {
+public:
+	ResourceDeclaration config;
 	GLID glId;
-	ResourceType type;
+	
 	size_t MetadataId;
 	std::vector<std::string> references;
-	ImageRef() {
+	ResourceRef() {
 		
 	}
 };
 
 class Sampler2DBinding : public ResourceBindingBase {
 public:
-	std::vector<ImageRef> imageFiles;
+	std::vector<ResourceRef> imageFiles;
 	bool useAtlas;
 	GLID glId;
 	virtual bool Compatible(ResourceBindingBase& b1) const override 
@@ -118,7 +119,7 @@ private:
 public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
-	void AssignImageResource(std::string bindName, std::string filePath, ResourceType type,std::string sourceReference);
+	void AssignImageResource(std::string bindName, ResourceDeclaration& config,std::string sourceReference);
 	size_t NBindings() const { return _name_index.size(); }
 	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;

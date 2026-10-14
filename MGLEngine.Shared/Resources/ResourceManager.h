@@ -35,6 +35,6 @@ public:
 
 
 	ResourceManager(IGraphicLibrary &gl,std::string basePath = "");
-	Resource Load(ImageRef &imgRef);
+	Resource Load(ResourceRef &imgRef);
 
 };

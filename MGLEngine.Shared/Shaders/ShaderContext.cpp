@@ -28,9 +28,9 @@ void ShaderContext::BindShapeResources(GlobalBindingsTable &tbl)
 	for (auto& shape : _drawGraph)
 	{
 		std::string ref = std::format("Shader {}, Shape {}", _name, i);
-		for (auto& imgAssignment : shape.config.GetImageAssignments())
+		for (auto& resourceConfig : shape.config.GetResourceDeclarations())
 		{
-			tbl.AssignImageResource(imgAssignment.samplerName, imgAssignment.filePath, imgAssignment.type ,ref);
+			tbl.AssignImageResource(resourceConfig.samplerName, resourceConfig ,ref);
 			
 		}
 		i++;

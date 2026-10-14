@@ -15,14 +15,14 @@ std::string ResourceManager::GetFullPath(std::string relPath)
 		return (_base_path / std::filesystem::path(relPath)).string();
 }
 
-Resource ResourceManager::Load(ImageRef& imgRef)
+Resource ResourceManager::Load(ResourceRef& resRef)
 {
 	ITexImage texImage;
-	switch (imgRef.type)
+	switch (resRef.config.type)
 	{
 		case ResourceType::IMAGE:
 		{
-			auto img = _imgLoader.LoadAsRGBA(GetFullPath(imgRef.filePath));
+			auto img = _imgLoader.LoadAsRGBA(GetFullPath(resRef.config.filePath));
 			auto glId=_gl.LoadTexture(*img);
 			return Resource{
 				.glid = glId,
@@ -31,7 +31,8 @@ Resource ResourceManager::Load(ImageRef& imgRef)
 		}
 		case ResourceType::FREE_TYPE_FONT:
 		{
-				auto atlas = _freeTypeLoader.Load(GetFullPath(imgRef.filePath), 16, {}, 256);
+			
+			auto atlas = _freeTypeLoader.Load(GetFullPath(resRef.config.filePath), resRef.config.GetFontData().PixelHeight, {}, 256);
 			auto glId = _gl.LoadTexture(atlas->image);
 			atlas->DisposeBitmap();
 			fontsMetadata.push_back(atlas);

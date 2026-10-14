@@ -44,6 +44,6 @@ public:
 		:_memory(memory),_device(device) {
 		////_pCommandBuffer = _device.GetGraphicQueue().CreateCommandBuffer();
 	}
-	ImgHandler LoadImage(ImageConfig confi);
+	ImgHandler LoadImage(ResourceDeclaration confi);
 };
 

@@ -5,7 +5,7 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanLogicalDevice.h>
 #include <MGLEngine.Vulkan/VulkanUtils.h>
-ImgHandler VulkanResourceLoader::LoadImage(ImageConfig config)
+ImgHandler VulkanResourceLoader::LoadImage(ResourceDeclaration config)
 {
 	ImageResource res;
 
