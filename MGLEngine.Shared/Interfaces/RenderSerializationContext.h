@@ -2,14 +2,17 @@
 #include <map>
 #include <string>
 #include <format>
+#include <MGLEngine.Shared/Utils/pointers.h>
 #include <MGLEngine.Shared/Utils/Arrays/InterleavedMemoryStream.h>
 #include <MGLEngine.Shared/Utils/Arrays/IndicesMemoryStream.h>
+#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 class RenderSerializationContext  {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;
 	IndicesMemoryStream& _iStream;
+	s_ptr<GlobalBindingsTable> _pGlobalBindingsTable;
 public:
-	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream)
-		:_vStreams(vStreams), _iStream(iStream)
+	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,s_ptr<GlobalBindingsTable> pGlobalBindingsTable)
+		:_vStreams(vStreams), _iStream(iStream), _pGlobalBindingsTable(pGlobalBindingsTable)
 	{
 
 	}
@@ -22,4 +25,6 @@ public:
 	IndicesMemoryStream& GetIndicesStream()  {
 		return _iStream;
 	}
+
+
 };

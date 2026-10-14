@@ -77,7 +77,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanUtils.cpp"
     "VulkanUtils.h"
     "VulkanContext/VulkanDrawContext.h"
-    "VulkanContext/RenderSerializationContext.h"
+    
     "VulkanContext/VulkanBuffer.cpp"
     "VulkanContext/VulkanBuffer.h"
     "VulkanContext/VulkanInstance.cpp"

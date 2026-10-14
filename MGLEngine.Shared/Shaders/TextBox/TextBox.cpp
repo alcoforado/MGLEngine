@@ -32,4 +32,16 @@ TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string 
 		});
 }
 
+void TextBox::RenderData(RenderSerializationContext& context)
+{
+	
+		auto& posStream = context.GetVerticeAttribute("position2d");
+		auto& texStream = context.GetVerticeAttribute("texCoord");
+		auto& indexStream = context.GetIndicesStream();
+		auto& metaData=context.GetFontMetadata("fontSampler");
+
+
+	
+}
+
 

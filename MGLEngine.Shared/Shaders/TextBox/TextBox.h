@@ -17,15 +17,8 @@ public:
 		return 6;
 	}
 
-	virtual void RenderData(RenderSerializationContext& context) override
-	{
-		auto& posStream = context.GetVerticeAttribute("position2d");
-		auto& texStream = context.GetVerticeAttribute("texCoord");
-		auto& indexStream = context.GetIndicesStream();
-
+	virtual void RenderData(RenderSerializationContext& context) override;
 	
-
-	}
 
 	virtual void Draw(IDrawContext& ctx) override
 	{
