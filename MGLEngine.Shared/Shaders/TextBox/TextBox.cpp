@@ -13,7 +13,7 @@ public:
 		config.SetVerticeShader(textRender_vert, sizeof(textRender_vert));
 		config.SetFragmentShader(textRender_frag, sizeof(textRender_frag));
 
-		config.DeclareTextureSampler("fontSampler", 1, ONE_TEXTURE_ASSIGNMENT);
+		config.DeclareTextureSampler("fontSampler", 2, ONE_TEXTURE_ASSIGNMENT);
 
 
 	}
@@ -39,6 +39,8 @@ void TextBox::RenderData(RenderSerializationContext& context)
 		auto& texStream = context.GetVerticeAttribute("texCoord");
 		auto& indexStream = context.GetIndicesStream();
 		auto& metaData=context.GetFontMetadata("fontSampler");
+
+
 
 
 	

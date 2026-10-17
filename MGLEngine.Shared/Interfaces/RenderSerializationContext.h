@@ -12,10 +12,15 @@ class RenderSerializationContext  {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;
 	IndicesMemoryStream& _iStream;
 	ResourceManager& _res;
+	glm::vec2 _windowSize;
 public:
-	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,ResourceManager &res)
+	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,ResourceManager &res,glm::vec2 windowSizeInPixels)
 		:_vStreams(vStreams), _iStream(iStream), _res(res)
 	{
+
+	}
+
+	glm::vec2 WindowSize() {
 
 	}
 

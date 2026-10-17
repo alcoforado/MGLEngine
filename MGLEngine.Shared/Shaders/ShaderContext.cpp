@@ -4,6 +4,7 @@
 #include <MGLEngine.Shared/Interfaces/RenderSerializationContext.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
+
 ShaderContext::ShaderContext(size_t index,ShaderConfiguration options)
 	:_verticeDataLayout(options)
 {

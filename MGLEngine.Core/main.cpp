@@ -4,7 +4,7 @@
 #include <MGLEngine.Shared/Mesh/OrthoRect2D.h>
 #include <MGLEngine.Shared/Shaders/Color2D/VertexColor2D.h>
 #include <MGLEngine.Shared/Shaders/Texture2D/Sprite2D.h>
-
+#include <MGLEngine.Shared/Shaders/TextBox/TextBox.h>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Shared/AppBuilder.h>
 
@@ -23,6 +23,13 @@ void Example2(MGLEngine& engine)
 	auto sprite = Sprite2D(engine, glm::vec2(-1.0f, -1.0f), 2.0f, 2.0f, "texture.jpg");
 	engine.Run();
 }
+
+void Example3(MGLEngine& engine)
+{
+	auto box = TextBox(engine, glm::vec2(0.0f, 0.0f), "Hello World.", "fonts/RobotoMono-Medium.ttf",56);
+	engine.Run();
+}
+
 
 
 
