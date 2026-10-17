@@ -25,8 +25,8 @@ class ResourceManager {
 
 	ImageLoader _imgLoader;
 	FreeTypeLoader _freeTypeLoader;
-
-	std::vector<s_ptr<const FontAtlas>> fontsMetadata;
+	s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+	std::vector<s_ptr<const FontAtlas>> vFontAtlas;
 	std::filesystem::path _base_path;
 
 	std::string GetFullPath(std::string relPath);
@@ -36,9 +36,13 @@ public:
 
 	ResourceManager(IGraphicLibrary &gl,std::string basePath = "");
 	Resource Load(ResourceRef &imgRef);
-	s_ptr<const FontAtlas> GetFontMetadata(size_t MetadataId) {
-		eassert(MetadataId < fontsMetadata.size(), "Invalid Metadata Id");
-		return fontsMetadata[MetadataId];
-	}
+	void RegisterShaderBindings(ShaderContext& shader);
+	void RegisterShapeResources(ShaderContext& shader);
+	void LoadAllResources();
+	
+
+
+	s_ptr<GlobalBindingsTable> GetGlobalBindingsTable(){ return _pGlobalBindingsTable; }
+	const FontAtlasMetadata& GetFontMetadata(std::string sampleName) const;
 
 };

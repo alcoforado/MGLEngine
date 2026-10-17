@@ -30,9 +30,9 @@ MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
 	CreateSyncObjects();
 }
 
-void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable)
+void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager& res)
 {
-	
+	auto& bindingTable = *res.GetGlobalBindingsTable();
 	CreateDescriptorSetLayout(bindingTable);
 	CreateDescritorPool(bindingTable);
 	CreateBindedResources(bindingTable);
@@ -413,7 +413,7 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 }
 
-void MGL::VulkanGL::Serialize(ShaderContext& ctx)
+void MGL::VulkanGL::Serialize(ShaderContext& ctx,ResourceManager &res)
 {
 	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
 	
@@ -423,7 +423,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx)
 		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
 		shaderData.verticeBuffer.GetSizeInBytes(),
 		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
-		shaderData.indicesBuffer.GetSizeInBytes());
+		shaderData.indicesBuffer.GetSizeInBytes(),res);
 	if (result.Written)
 	{
 		shaderData.verticeBuffer.Flush();
@@ -435,7 +435,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx)
 		shaderData.verticeBuffer.Delete();
 		shaderData.verticeBuffer =  _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
 		shaderData.indicesBuffer =  _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
-		Serialize(ctx);
+		Serialize(ctx,res);
 	}
 
 }
@@ -606,7 +606,7 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 
 
 
-void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
+void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &res)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
@@ -627,7 +627,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 	for (auto& ctx : shaders)
 	{
 		
-		Serialize(ctx);
+		Serialize(ctx,res);
 		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
@@ -649,7 +649,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders)
 	}
 }
 
-void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable& bindingTable) {
+void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, ResourceManager &res) {
 
 	
 	auto glfwWindow = _pWindow->GLFWHandler();
@@ -658,7 +658,7 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, GlobalBindingsTable
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
-		Draw(shaders);
+		Draw(shaders,res);
 	}
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 }

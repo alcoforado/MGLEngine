@@ -4,32 +4,14 @@
 #include <map>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Shared/Interfaces/ShapeRegistrationConfig.h>
+#include <MGLEngine.Shared/Interfaces/GLID.h>
 
-#include <vector>
-#include <limits>
+
 enum BindedTypeEnum {
 	SAMPLER_2D
 };
 
-//Graphic Library ID
-struct GLID {
-	size_t index;
-	size_t type;
 
-	
-	GLID() {
-		type=index = std::numeric_limits<size_t>::max();
-	}
-	GLID(size_t type, size_t index)
-	{
-		this->index = index;
-		this->type = type;
-	}
-	
-	bool Undefined() const {
-		return (type == index) && type == std::numeric_limits<size_t>::max();
-	}
-};
 
 constexpr std::string to_string(BindedTypeEnum e)
 {
@@ -73,13 +55,18 @@ public:
 	}
 };
 
+struct ShaderRef {
+	std::string name;
+	std::size_t index;
+};
+
 struct ResourceRef {
 public:
 	ResourceDeclaration config;
 	GLID glId;
 	
 	size_t MetadataId;
-	std::vector<std::string> references;
+	std::vector<ShaderRef> references;
 	ResourceRef() {
 		
 	}
@@ -102,6 +89,10 @@ public:
 struct GlobalIndex {
 	size_t index;
 	BindedTypeEnum type;
+
+	bool IsSampler() {
+		return type == BindedTypeEnum::SAMPLER_2D;
+	}
 };
 
 class GlobalBindingsTable
@@ -118,8 +109,10 @@ private:
 	
 public:
 	const ResourceBindingBase& GetResourceBinding(GlobalIndex index) const;
+	const Sampler2DBinding& GetSampler(std::string name);
 	void AddSampler2D(unsigned binding, std::string name,std::string shaderReference);
-	void AssignImageResource(std::string bindName, ResourceDeclaration& config,std::string sourceReference);
+	void AssignImageResource(std::string bindName, const ResourceDeclaration& config,ShaderRef& sourceReference);
+	GlobalIndex GetResourceByName(std::string name)   { return _name_index[name]; }
 	size_t NBindings() const { return _name_index.size(); }
 	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;

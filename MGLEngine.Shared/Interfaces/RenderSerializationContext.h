@@ -5,14 +5,16 @@
 #include <MGLEngine.Shared/Utils/pointers.h>
 #include <MGLEngine.Shared/Utils/Arrays/InterleavedMemoryStream.h>
 #include <MGLEngine.Shared/Utils/Arrays/IndicesMemoryStream.h>
-#include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+
+class FontAtlasMetadata;
+class ResourceManager;
 class RenderSerializationContext  {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;
 	IndicesMemoryStream& _iStream;
-	s_ptr<GlobalBindingsTable> _pGlobalBindingsTable;
+	ResourceManager& _res;
 public:
-	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,s_ptr<GlobalBindingsTable> pGlobalBindingsTable)
-		:_vStreams(vStreams), _iStream(iStream), _pGlobalBindingsTable(pGlobalBindingsTable)
+	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,ResourceManager &res)
+		:_vStreams(vStreams), _iStream(iStream), _res(res)
 	{
 
 	}
@@ -25,6 +27,8 @@ public:
 	IndicesMemoryStream& GetIndicesStream()  {
 		return _iStream;
 	}
+
+	const FontAtlasMetadata& GetFontMetadata(std::string samplerName);
 
 
 };

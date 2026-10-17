@@ -21,7 +21,7 @@ void MGLEngine::Run()
 	
 	this->LoadShaders();
 
-	_gl.Run(_shaders, *_pGlobalBindingsTable);
+	_gl.Run(_shaders, _resourceManager);
 }
 
 bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
@@ -31,29 +31,16 @@ bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
 
 void MGLEngine::LoadShaders()
 {
-	_pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+	
 	for (auto& shader : _shaders)
 	{
-		shader.DeclareShaderBindings(*_pGlobalBindingsTable);
-		shader.BindShapeResources(*_pGlobalBindingsTable);
+		_resourceManager.RegisterShaderBindings(shader);
+		_resourceManager.RegisterShapeResources(shader);
 	}
-	this->LoadImages();
-	_gl.LoadShaders(_shaders, *_pGlobalBindingsTable);
+	_resourceManager.LoadAllResources();
+	_gl.LoadShaders(_shaders, _resourceManager);
 }
 
-void MGLEngine::LoadImages()
-{
-	for (auto& sampler2D : _pGlobalBindingsTable->GetSampler2DBindings())
-	{
-		
-		if (sampler2D.imageFiles.size() == 1)
-		{
-			auto res = _resourceManager.Load(sampler2D.imageFiles[0]);
-			sampler2D.imageFiles[0].glId = res.glid;
-			sampler2D.imageFiles[0].MetadataId = res.MetadataId;
-		}
-	}
-}
 
 
 

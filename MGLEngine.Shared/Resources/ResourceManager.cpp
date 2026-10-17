@@ -1,5 +1,6 @@
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
+#include <MGLEngine.Shared/Utils/eassert.h>
 
 ResourceManager::ResourceManager(IGraphicLibrary& gl, std::string basePath)
 	:_gl(gl),_base_path(basePath)
@@ -14,6 +15,65 @@ std::string ResourceManager::GetFullPath(std::string relPath)
 	else
 		return (_base_path / std::filesystem::path(relPath)).string();
 }
+
+void ResourceManager::RegisterShaderBindings(ShaderContext& shader)
+{
+	for (auto& samplerConfig : shader.GetShaderConfiguration().samplers)
+	{
+		_pGlobalBindingsTable->AddSampler2D(samplerConfig.binding, samplerConfig.name, shader.GetName());
+	}
+}
+
+void ResourceManager::RegisterShapeResources(ShaderContext &shader)
+{
+	int i = 1;
+	
+	for (auto& shape : shader.GetDrawingElements())
+	{
+		ShaderRef ref;
+		ref.name = std::format("Shader {}, Shape {}", shader.GetName(), i);
+		ref.index = shader.GetIndex();
+		for (auto& resourceConfig : shape.config.GetResourceDeclarations())
+		{
+			_pGlobalBindingsTable->AssignImageResource(resourceConfig.samplerName, resourceConfig, ref);
+
+		}
+		i++;
+	}
+}
+
+const FontAtlasMetadata& ResourceManager::GetFontMetadata(std::string sampleName) const 
+{
+	auto globalIndex = _pGlobalBindingsTable->GetResourceByName(sampleName);
+	eassert(globalIndex.IsSampler(), std::format("Resource {} is not a sampler", sampleName));
+	
+	
+	auto sampler=_pGlobalBindingsTable->GetSampler(sampleName);
+	eassert(!sampler.imageFiles.empty() && sampler.imageFiles.front().config.IsFont(), "Sampler does not have a font");
+	auto fontId = sampler.imageFiles.front().MetadataId;
+	eassert(fontId < vFontAtlas.size(), "Invalid Metadata Id");
+	
+	return vFontAtlas[fontId]->metadata;
+}
+
+void ResourceManager::LoadAllResources()
+{
+
+	for (auto& sampler2D : _pGlobalBindingsTable->GetSampler2DBindings())
+	{
+
+		if (sampler2D.imageFiles.size() == 1)
+		{
+			auto res = this->Load(sampler2D.imageFiles[0]);
+			sampler2D.imageFiles[0].glId = res.glid;
+			sampler2D.imageFiles[0].MetadataId = res.MetadataId;
+		}
+	}
+
+
+};
+
+
 
 Resource ResourceManager::Load(ResourceRef& resRef)
 {
@@ -35,10 +95,10 @@ Resource ResourceManager::Load(ResourceRef& resRef)
 			auto atlas = _freeTypeLoader.Load(GetFullPath(resRef.config.filePath), resRef.config.GetFontData().PixelHeight, {}, 256);
 			auto glId = _gl.LoadTexture(atlas->image);
 			atlas->DisposeBitmap();
-			fontsMetadata.push_back(atlas);
+			vFontAtlas.push_back(atlas);
 			return Resource{
 				.glid = glId,
-				.MetadataId = fontsMetadata.size() - 1
+				.MetadataId = vFontAtlas.size() - 1
 			};
 		}
 

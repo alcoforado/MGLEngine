@@ -25,7 +25,7 @@ class MGLEngine {
 		AppConfiguration _appConfig;
 		std::map<std::type_index, size_t> _shadersIndex;
 		std::vector<ShaderContext> _shaders;
-		s_ptr<GlobalBindingsTable> _pGlobalBindingsTable = s_new<GlobalBindingsTable>();
+		
 		IGraphicLibrary& _gl;
 		ResourceManager _resourceManager;
 		
@@ -70,7 +70,7 @@ class MGLEngine {
 		
 
 		void LoadShaders();
-		void LoadImages();
+		
 		void Run();
 		
 };

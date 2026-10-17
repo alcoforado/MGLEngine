@@ -37,7 +37,7 @@ FontKerning FontAtlasMetadata::GetKerning(char32_t left, char32_t right) const
 std::shared_ptr<FontAtlas> FreeTypeLoader::Load(const std::string& path,
 	unsigned int pixelHeight, std::u32string_view characters, unsigned int atlasWidth) const
 {
-	constexpr int maxDimension = 16384;
+	constexpr unsigned int maxDimension = 16384;
 	if (!pixelHeight || pixelHeight > maxDimension || atlasWidth < 3 || atlasWidth > maxDimension)
 		throw std::invalid_argument("Invalid font pixel height or atlas width");
 
@@ -94,7 +94,7 @@ std::shared_ptr<FontAtlas> FreeTypeLoader::Load(const std::string& path,
 		glyph.Coverage.resize(cwidth * cheight);
 		for (size_t row = 0; row < cheight; ++row) {
 			const auto* src = cbitmap.buffer + row * cbitmap.pitch;
-			for (int col = 0; col < cwidth; ++col) {
+			for (size_t col = 0; col < cwidth; ++col) {
 				uint8_t coverage;
 				if (cbitmap.pixel_mode == FT_PIXEL_MODE_GRAY && cbitmap.num_grays > 1)
 					coverage = static_cast<uint8_t>(src[col] * 255u / (cbitmap.num_grays - 1));

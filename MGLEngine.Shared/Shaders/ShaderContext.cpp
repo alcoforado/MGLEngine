@@ -3,6 +3,7 @@
 #include "ShaderContext.h"
 #include <MGLEngine.Shared/Interfaces/RenderSerializationContext.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
+#include <MGLEngine.Shared/Resources/ResourceManager.h>
 ShaderContext::ShaderContext(size_t index,ShaderConfiguration options)
 	:_verticeDataLayout(options)
 {
@@ -14,32 +15,12 @@ ShaderContext::ShaderContext(size_t index,ShaderConfiguration options)
 	_totalVertices = _totalIndices = 0;
 }
 
-void ShaderContext::DeclareShaderBindings(GlobalBindingsTable& tbl)
-{
-	for (auto& samplerConfig : _options.samplers)
-	{
-		tbl.AddSampler2D(samplerConfig.binding, samplerConfig.name, _options.name);
-	}
-}
-
-void ShaderContext::BindShapeResources(GlobalBindingsTable &tbl)
-{
-	int i = 1;
-	for (auto& shape : _drawGraph)
-	{
-		std::string ref = std::format("Shader {}, Shape {}", _name, i);
-		for (auto& resourceConfig : shape.config.GetResourceDeclarations())
-		{
-			tbl.AssignImageResource(resourceConfig.samplerName, resourceConfig ,ref);
-			
-		}
-		i++;
-	}
-}
 
 
 
-SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSizeInBytes,uint8_t *pIndex,size_t indexSizeInBytes)
+
+
+SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSizeInBytes,uint8_t *pIndex,size_t indexSizeInBytes,ResourceManager &resMngr)
 {
 	if (_needResize)
 	{
@@ -93,7 +74,7 @@ SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSiz
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
 			IndicesMemoryStream indexStream(reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices, 0);
-			RenderSerializationContext renderContext(memoryStreamsMap, indexStream);
+			RenderSerializationContext renderContext(memoryStreamsMap, indexStream,resMngr);
 			shapeElement.pObject->RenderData(renderContext);
 		}
 		_needSerialize = false;

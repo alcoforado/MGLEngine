@@ -1,5 +1,6 @@
 #pragma once
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
+#include <MGLEngine.Shared/Utils/pointers.h>
 #include <cstdint>
 #include <map>
 #include <memory>

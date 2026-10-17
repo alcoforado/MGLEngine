@@ -6,9 +6,10 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 enum ResourceType
 {
-	IMAGE = 0,
-	ATLAS = 1,
-	FREE_TYPE_FONT = 2
+	INVALID_TYPE=0,
+	IMAGE = 1,
+	ATLAS = 2,
+	FREE_TYPE_FONT = 3
 };
 
 struct FontData {
@@ -23,6 +24,12 @@ public:
 	std::string filePath;
 	std::string samplerName;
 	ResourceType type;
+	bool IsFont() { return type == ResourceType::FREE_TYPE_FONT; }
+
+	ResourceDeclaration()
+	{
+		type = ResourceType::INVALID_TYPE;
+	}
 	~ResourceDeclaration() {
 
 	}
@@ -30,7 +37,7 @@ public:
 		eassert(type == ResourceType::FREE_TYPE_FONT, "Image Resource is not a font");
 		return std::get<FontData>(_extraData);
 	}
-	std::string UniqueId() {
+	std::string UniqueId() const {
 		switch (type)
 		{
 		case ResourceType::FREE_TYPE_FONT:
@@ -56,7 +63,7 @@ public:
 	{
 	}
 
-	std::list<ResourceDeclaration>& GetResourceDeclarations() { return _res; }
+	const std::list<ResourceDeclaration>& GetResourceDeclarations() const { return _res; }
 
 	void BindImage(std::string path, std::string samplerName)
 	{

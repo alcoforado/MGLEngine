@@ -1,29 +1,20 @@
 #pragma once
 #include <cstddef>
-#include <MGLEngine.Shared/Shaders/ShaderContext.h>
+
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
+#include <MGLEngine.Shared/Shaders/ShaderContext.h>
+#include <MGLEngine.Shared/Interfaces/ITexImage.h>
+#include <MGLEngine.Shared/Interfaces/GLID.h>
 #include <vector>
 
-enum ImageFormat {
-	R8G8B8A8 =0,
-	R8 = 1
-};
 
-struct ITexImage {
-	void* data;
-	unsigned int texWidth;
-	unsigned int texHeight;
-	unsigned int texChannels;
-	ImageFormat format;
-};
-
-
+class GlobalBindingsTable;
 
 
 class IGraphicLibrary {
 	public:
 		virtual GLID LoadTexture(ITexImage& img) = 0;
-		virtual void LoadShaders(std::vector<ShaderContext>& shaders, GlobalBindingsTable& globalBindingTbl) = 0;
-		virtual void Run(std::vector<ShaderContext>& shaders,GlobalBindingsTable& bindingTable)=0;
+		virtual void LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager& globalBindingTbl) = 0;
+		virtual void Run(std::vector<ShaderContext>& shaders, ResourceManager& bindingTable)=0;
 };
 

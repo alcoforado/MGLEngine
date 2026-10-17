@@ -31,7 +31,7 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::
 
 
 }
-void GlobalBindingsTable::AssignImageResource(std::string bindName, ResourceDeclaration &config,std::string sourceReference)
+void GlobalBindingsTable::AssignImageResource(std::string bindName, const ResourceDeclaration& config, ShaderRef& sourceReference)
 {
 	if (_name_index.contains(bindName))
 	{
@@ -54,7 +54,7 @@ void GlobalBindingsTable::AssignImageResource(std::string bindName, ResourceDecl
 				ResourceRef res;
 				res.config = config;;
 				res.references.push_back(sourceReference);
-				
+
 				sampler2DBinding.imageFiles.push_back(res);
 			}
 			else {
@@ -116,6 +116,22 @@ bool GlobalBindingsTable::CheckCollisionAndThrowErrorIfIncompatible(ResourceBind
 
 	}
 	return exists;
+
+}
+
+const Sampler2DBinding& GlobalBindingsTable::GetSampler(std::string name)
+{
+	auto id = _name_index[name];
+	switch (id.type)
+	{
+
+		case BindedTypeEnum::SAMPLER_2D:
+		{
+			return _vSampler2DBindings[id.index];
+		}
+		default:
+			throw_formatted("Error, binding  {} is not a sampler", name);
+	}
 
 }
 
