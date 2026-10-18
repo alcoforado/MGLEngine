@@ -11,6 +11,7 @@ MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	_resourceManager(_gl,appConfig.AssetsRootPath)
 {
 	std::cout << "Use Count " <<  _pWindow.use_count() << std::endl;
+	_pMGLContainer = s_new<MGLContainer>(&(*_pWindow), &_resourceManager);
 }
 
 MGLEngine::~MGLEngine()
@@ -25,7 +26,7 @@ void MGLEngine::Run()
 	
 	this->LoadShaders();
 
-	_gl.Run(_shaders, _resourceManager);
+	_gl.Run(_shaders, *_pMGLContainer);
 }
 
 bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
@@ -42,7 +43,7 @@ void MGLEngine::LoadShaders()
 		_resourceManager.RegisterShapeResources(shader);
 	}
 	_resourceManager.LoadAllResources();
-	_gl.LoadShaders(_shaders, _resourceManager);
+	_gl.LoadShaders(_shaders, *_pMGLContainer);
 }
 
 

@@ -4,5 +4,5 @@
 
 const FontAtlasMetadata& RenderSerializationContext::GetFontMetadata(std::string samplerName)
 {
-	return _mglData.manager.GetFontMetadata(samplerName);
+	return _mglContainer.GetResourceManager().GetFontMetadata(samplerName);
 }

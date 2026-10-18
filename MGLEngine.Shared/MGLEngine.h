@@ -25,6 +25,7 @@ class MGLEngine {
 	private:
 		s_ptr<MWindow> _pWindow = nullptr;
 		MGLEngine(const MGLEngine& eng);
+		s_ptr<MGLContainer> _pMGLContainer = nullptr;
 		AppConfiguration _appConfig;
 		std::map<std::type_index, size_t> _shadersIndex;
 		std::vector<ShaderContext> _shaders;

@@ -6,6 +6,8 @@
 #include <MGLEngine.Shared/Interfaces/IDrawingObject.h>
 #include <MGLEngine.Shared/Shaders/VerticeDataLayout.h>
 #include <MGLEngine.Shared/Interfaces/GLID.h>
+
+class MGLContainer;
 struct ShapeElement {
 	IDrawingObject* pObject;
 	ShapeRegistrationConfig config;
@@ -70,7 +72,7 @@ public:
 
 	
 	const VerticeDataLayout& GetVerticeDataLayout() { return _verticeDataLayout; }
-	SerializationResult Serialize(uint8_t* pVertice, size_t verticeSize, uint8_t* pIndex, size_t indexSizeInBytes,MGLData &mngr);
+	SerializationResult Serialize(uint8_t* pVertice, size_t verticeSize, uint8_t* pIndex, size_t indexSizeInBytes,MGLContainer &mngr);
 	
 	//void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 

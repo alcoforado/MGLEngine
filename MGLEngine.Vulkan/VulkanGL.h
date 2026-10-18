@@ -97,7 +97,7 @@ struct VulkanImageData {
 			void DestroySamplers();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
-			void Serialize(ShaderContext& ctx,MGLData& res);
+			void Serialize(ShaderContext& ctx,MGLContainer &mglContainer);
 
 			VulkanPipelineData CreatePipeline(ShaderContext& ctx);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const VerticeDataLayout &binding);
@@ -106,9 +106,9 @@ struct VulkanImageData {
 			VkShaderModule CreatePipelineShader(ShaderByteCode byteCode);
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 			void ResizeSwapChain();
-			void Draw(std::vector<ShaderContext> &shaders,ResourceManager &res);
+			void Draw(std::vector<ShaderContext> &shaders,MGLContainer &mglContainer);
 
-			MGLData GetMGLData(ResourceManager& res);
+			
 
 
 
@@ -135,8 +135,8 @@ struct VulkanImageData {
 			// Inherited via IGraphicLibrary
 			
 			GLID LoadTexture(ITexImage& img) override;
-			void LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager& res) override;
-			void Run(std::vector<ShaderContext>& shaders, ResourceManager& res) override;
+			void LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) override;
+			void Run(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer) override;
 			
 
 			

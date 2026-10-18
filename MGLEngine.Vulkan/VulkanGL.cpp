@@ -31,9 +31,9 @@ MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 	CreateSyncObjects();
 }
 
-void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager& res)
+void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer)
 {
-	auto& bindingTable = *res.GetGlobalBindingsTable();
+	auto& bindingTable = *(mglContainer.GetResourceManager().GetGlobalBindingsTable());
 	CreateDescriptorSetLayout(bindingTable);
 	CreateDescritorPool(bindingTable);
 	CreateBindedResources(bindingTable);
@@ -414,7 +414,7 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 }
 
-void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLData& mglData)
+void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLContainer& mglContainer)
 {
 	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
 
@@ -424,7 +424,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLData& mglData)
 		shaderData.verticeBuffer == nullptr ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer->Map()),
 		shaderData.verticeBuffer == nullptr ? 0 : shaderData.verticeBuffer->GetSizeInBytes(),
 		shaderData.indicesBuffer == nullptr ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer->Map()),
-		shaderData.indicesBuffer == nullptr ? 0 : shaderData.indicesBuffer->GetSizeInBytes(), mglData);
+		shaderData.indicesBuffer == nullptr ? 0 : shaderData.indicesBuffer->GetSizeInBytes(), mglContainer);
 	if (result.Written)
 	{
 		shaderData.verticeBuffer->Flush();
@@ -438,7 +438,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLData& mglData)
 			shaderData.verticeBuffer->Delete();
 		shaderData.verticeBuffer = _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
 		shaderData.indicesBuffer = _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
-		Serialize(ctx, mglData);
+		Serialize(ctx, mglContainer);
 	}
 
 }
@@ -606,22 +606,10 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 
 
 #pragma endregion
-MGLData MGL::VulkanGL::GetMGLData(ResourceManager& res)
-{
-	MGLData mglData = MGLData{
-	.manager = res,
-	.window = WindowData {
-		.width = _pSwapChain->GetExtent2D().width,
-		.height = _pSwapChain->GetExtent2D().height
-	}
-	};
-	return mglData;
 
 
-}
 
-
-void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, ResourceManager& res)
+void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
@@ -641,8 +629,8 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, ResourceManager& r
 
 	for (auto& ctx : shaders)
 	{
-		auto mglData = GetMGLData(res);
-		Serialize(ctx, mglData);
+		
+		Serialize(ctx, mglContainer);
 		WriteCommandBuffer(ctx, *_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
@@ -664,7 +652,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, ResourceManager& r
 	}
 }
 
-void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, ResourceManager& res) {
+void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) {
 
 
 	auto glfwWindow = _pWindow->GLFWHandler();
@@ -673,7 +661,7 @@ void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, ResourceManager& re
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
-		Draw(shaders, res);
+		Draw(shaders, mglContainer);
 	}
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 }

@@ -6,28 +6,24 @@
 #include <MGLEngine.Shared/Utils/Arrays/InterleavedMemoryStream.h>
 #include <MGLEngine.Shared/Utils/Arrays/IndicesMemoryStream.h>
 
-class FontAtlasMetadata;
-class ResourceManager;
+class MGLContainer;
 
 struct WindowData {
 	uint32_t width;
 	uint32_t height;
 };
 
-struct MGLData {
-	ResourceManager& manager;
-	WindowData window;
-};
 
+class FontAtlasMetadata;
 
 class RenderSerializationContext  {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;
 	IndicesMemoryStream& _iStream;
-	MGLData _mglData;
+	MGLContainer& _mglContainer;
 	glm::vec2 _windowSize;
 public:
-	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,MGLData& data)
-		:_vStreams(vStreams), _iStream(iStream), _mglData(data)
+	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,MGLContainer &mglContainer)
+		:_vStreams(vStreams), _iStream(iStream), _mglContainer(mglContainer)
 	{
 
 	}
