@@ -100,7 +100,7 @@ add_library( ${PROJECT_NAME} ${SHADERS} ${SHADER_HEADERS}
     "VulkanContext/VulkanSwapChainOptions.h"
     "VulkanContext/VulkanSurfaceCapability.h"
     "../MGLEngine.Shared/Window/MWindow.cpp"
- "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h" "VulkanApp/VulkanResourceLoader.h" "VulkanApp/VulkanResourceLoader.cpp" "VulkanContext/VulkanImage.cpp" "VulkanContext/VulkanImage.h" "VulkanEngineContainer.h" "VulkanEngineContainer.cpp")
+ "VulkanApp/ByteCodeCollection.h" "VulkanApp/ByteCodeCollection.cpp" "VulkanContext/vmausage.h"   "VulkanContext/VulkanImage.cpp" "VulkanContext/VulkanImage.h" "VulkanEngineContainer.h" "VulkanEngineContainer.cpp")
 
 #target_link_libraries	(${PROJECT_NAME})
 find_package(Stb REQUIRED)

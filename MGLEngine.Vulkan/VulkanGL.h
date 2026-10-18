@@ -23,12 +23,12 @@ struct VulkanPipelineData {
 };
 struct VulkanShaderData {
 	VulkanPipelineData pipeline;
-	VulkanBuffer verticeBuffer; //vertices buffer
-	VulkanBuffer indicesBuffer;
+	s_ptr<VulkanBuffer> verticeBuffer; //vertices buffer
+	s_ptr<VulkanBuffer> indicesBuffer;
 };
 
 struct VulkanImageData {
-	VulkanImage image;
+	s_ptr<VulkanImage> image;
 	VkImageView view;
 };
 

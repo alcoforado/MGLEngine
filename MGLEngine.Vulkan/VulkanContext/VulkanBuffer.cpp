@@ -58,5 +58,5 @@ void VulkanBuffer::Delete() {
 
 VulkanBuffer::~VulkanBuffer()
 {
-	//eassert(_buffer == VK_NULL_HANDLE,"Vulkan Buffer not deleted");
+	eassert(_buffer == VK_NULL_HANDLE,"Vulkan Buffer not deleted");
 }

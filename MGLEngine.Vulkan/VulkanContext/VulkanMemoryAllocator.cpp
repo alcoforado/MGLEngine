@@ -26,7 +26,7 @@ VulkanMemoryAllocator::~VulkanMemoryAllocator()
 	vmaDestroyAllocator(_allocator);
 }
 
-VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaAllocationCreateInfo* pAllocInfo)
+s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo, VmaAllocationCreateInfo* pAllocInfo)
 {
 	
 
@@ -35,20 +35,20 @@ VulkanBuffer VulkanMemoryAllocator::CreateBuffer(VkBufferCreateInfo* pCreateInfo
 	VmaAllocationInfo allocInfoResult;
 	auto err=vmaCreateBuffer(_allocator, pCreateInfo, pAllocInfo, &buffer, &allocation, &allocInfoResult);
 	AssertVulkanSuccess(err);
-	VulkanBuffer vb;
-	vb._buffer = buffer;
-	vb._size = pCreateInfo->size;
-	vb._usage = pCreateInfo->usage;
-	vb._allocation = allocation;
-	vb._allocationInfo = allocInfoResult;
-	vb._memType = _device.GetPhysicalDevice().GetMemoryProperties()[allocInfoResult.memoryType];
-	vb._deviceMemoryTypeIndex = allocInfoResult.memoryType;
-	vb._pAllocator = &_allocator;
+	auto vb = s_new<VulkanBuffer>();
+	vb->_buffer = buffer;
+	vb->_size = pCreateInfo->size;
+	vb->_usage = pCreateInfo->usage;
+	vb->_allocation = allocation;
+	vb->_allocationInfo = allocInfoResult;
+	vb->_memType = _device.GetPhysicalDevice().GetMemoryProperties()[allocInfoResult.memoryType];
+	vb->_deviceMemoryTypeIndex = allocInfoResult.memoryType;
+	vb->_pAllocator = &_allocator;
 	
 	return vb;
 }
 
-VulkanBuffer VulkanMemoryAllocator::CreateVertexBuffer(uint64_t sizeInBytes)
+s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateVertexBuffer(uint64_t sizeInBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
 	bufferInfo.pNext = nullptr;
@@ -63,7 +63,7 @@ VulkanBuffer VulkanMemoryAllocator::CreateVertexBuffer(uint64_t sizeInBytes)
 	return CreateBuffer(&bufferInfo, &allocInfo);
 }
 
-VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfBytes)
+s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
 	bufferInfo.size = numOfBytes;
@@ -78,7 +78,7 @@ VulkanBuffer VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfBytes)
 	
 }
 
-VulkanBuffer VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
+s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
 	bufferInfo.size = sizeInBytes;
@@ -93,7 +93,7 @@ VulkanBuffer VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
 }
 
 
-VulkanImage VulkanMemoryAllocator::CreateImageBuffer(VkImageCreateInfo imgInfo)
+s_ptr<VulkanImage> VulkanMemoryAllocator::CreateImageBuffer(VkImageCreateInfo imgInfo)
 {
 	VkImage image;
 	VmaAllocation allocation;
@@ -107,7 +107,7 @@ VulkanImage VulkanMemoryAllocator::CreateImageBuffer(VkImageCreateInfo imgInfo)
 
 	
 
-	return VulkanImage(this, image, imgInfo,allocation, allocationInfo);
+	return s_new<VulkanImage>(this, image, imgInfo,allocation, allocationInfo);
 
 }
 

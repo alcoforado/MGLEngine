@@ -421,19 +421,21 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLData& mglData)
 
 
 	auto result = ctx.Serialize(
-		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
-		shaderData.verticeBuffer.GetSizeInBytes(),
-		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
-		shaderData.indicesBuffer.GetSizeInBytes(), mglData);
+		shaderData.verticeBuffer == nullptr ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer->Map()),
+		shaderData.verticeBuffer == nullptr ? 0 : shaderData.verticeBuffer->GetSizeInBytes(),
+		shaderData.indicesBuffer == nullptr ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer->Map()),
+		shaderData.indicesBuffer == nullptr ? 0 : shaderData.indicesBuffer->GetSizeInBytes(), mglData);
 	if (result.Written)
 	{
-		shaderData.verticeBuffer.Flush();
-		shaderData.indicesBuffer.Flush();
+		shaderData.verticeBuffer->Flush();
+		shaderData.indicesBuffer->Flush();
 	}
 	if (result.NeedResize)
 	{
-		shaderData.indicesBuffer.Delete();
-		shaderData.verticeBuffer.Delete();
+		if (shaderData.verticeBuffer!=nullptr)
+			shaderData.indicesBuffer->Delete();
+		if (shaderData.indicesBuffer!=nullptr)
+			shaderData.verticeBuffer->Delete();
 		shaderData.verticeBuffer = _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
 		shaderData.indicesBuffer = _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
 		Serialize(ctx, mglData);
@@ -449,8 +451,8 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 
 	commandBuffer.BindGraphicsPipeline(vkShaderData.pipeline.handle);
 	commandBuffer.BindDescriptorSetsToGraphicPipeline(vkShaderData.pipeline.layout, _vkDescriptorSets[0]);
-	commandBuffer.BindVertexBuffer(vkShaderData.verticeBuffer.GetHandle());
-	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer.GetHandle());
+	commandBuffer.BindVertexBuffer(vkShaderData.verticeBuffer->GetHandle());
+	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer->GetHandle());
 	for (auto& drawingElement : ctx.GetDrawingElements())
 	{
 		VulkanDrawContext drawContext(commandBuffer, drawingElement);
@@ -702,8 +704,8 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 	VkFormat format = MapToVulkanFormat(img.format);
 	VkDeviceSize imageSize = static_cast<VkDeviceSize>(img.texWidth) * img.texHeight * VulkanImage::GetTexelSize(format);
 
-	VulkanBuffer stagingBuffer = _pMemoryAllocator->CreateStagingBuffer(imageSize);
-	stagingBuffer.CopyToGPU(img.data, imageSize);
+	s_ptr<VulkanBuffer> stagingBuffer = _pMemoryAllocator->CreateStagingBuffer(imageSize);
+	stagingBuffer->CopyToGPU(img.data, imageSize);
 
 
 
@@ -729,14 +731,14 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 
 	auto pCommandBuffer = _pLogicalDevice->GetGraphicQueue().CreateCommandBuffer();
 	pCommandBuffer->BeginOnce();
-	pCommandBuffer->TransitionImageToCopyTarget(res.image);
+	pCommandBuffer->TransitionImageToCopyTarget(*res.image);
 	pCommandBuffer->End();
 	_pLogicalDevice->GetGraphicQueue().Submit(*pCommandBuffer);
 	_pLogicalDevice->WaitToBeIdle();
 
 	pCommandBuffer->BeginOnce();
-	pCommandBuffer->CopyToImage(stagingBuffer, res.image);
-	pCommandBuffer->TransitionImageToFinalLayout(res.image);
+	pCommandBuffer->CopyToImage(*stagingBuffer, *res.image);
+	pCommandBuffer->TransitionImageToFinalLayout(*res.image);
 	pCommandBuffer->End();
 	_pLogicalDevice->GetGraphicQueue().Submit(*pCommandBuffer);
 	_pLogicalDevice->WaitToBeIdle();
@@ -744,7 +746,7 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 
 	VkImageViewCreateInfo viewInfo{};
 	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-	viewInfo.image = res.image.GetHandle();
+	viewInfo.image = res.image->GetHandle();
 	viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 	viewInfo.format = format;
 	viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -760,7 +762,7 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 
 	auto id = this->_vImages.size();
 	this->_vImages.push_back(res);
-	stagingBuffer.Delete();
+	stagingBuffer->Delete();
 	return GLID(GLID_VULKAN_TYPES::IMAGE, id);
 
 }
@@ -840,8 +842,8 @@ void MGL::VulkanGL::DestroyShaderContexts()
 	{
 		vkDestroyPipeline(_pLogicalDevice->GetHandle(), ctx.pipeline.handle, nullptr);
 		vkDestroyPipelineLayout(_pLogicalDevice->GetHandle(), ctx.pipeline.layout, nullptr);
-		ctx.indicesBuffer.Delete();
-		ctx.verticeBuffer.Delete();
+		ctx.indicesBuffer->Delete();
+		ctx.verticeBuffer->Delete();
 
 	}
 
@@ -858,7 +860,7 @@ void MGL::VulkanGL::DestroyImages()
 	for (auto& img : _vImages)
 	{
 		vkDestroyImageView(_pLogicalDevice->GetHandle(), img.view, nullptr);
-		img.image.Delete();
+		img.image->Delete();
 	}
 
 }

@@ -18,7 +18,10 @@ private:
 	VmaAllocationInfo _allocationInfo;
 	void* _pMappedData;
 	void Unmap(); //you only unmap when you need to delete the buffer. So it is private.
+
+	
 public:
+	
 	VulkanBuffer() {
 		_memType = {};
 		_pAllocator = nullptr;
@@ -26,6 +29,7 @@ public:
 		_buffer = VK_NULL_HANDLE;
 		_size = 0;
 	}
+	
 
 	~VulkanBuffer();
 
