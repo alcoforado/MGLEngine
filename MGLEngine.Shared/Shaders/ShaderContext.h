@@ -70,7 +70,7 @@ public:
 
 	
 	const VerticeDataLayout& GetVerticeDataLayout() { return _verticeDataLayout; }
-	SerializationResult Serialize(uint8_t* pVertice, size_t verticeSize, uint8_t* pIndex, size_t indexSizeInBytes,ResourceManager &mngr);
+	SerializationResult Serialize(uint8_t* pVertice, size_t verticeSize, uint8_t* pIndex, size_t indexSizeInBytes,MGLData &mngr);
 	
 	//void WriteCommandBuffer(VulkanCommandBuffer& cmdBuffer);
 

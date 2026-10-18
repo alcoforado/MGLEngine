@@ -8,14 +8,26 @@
 
 class FontAtlasMetadata;
 class ResourceManager;
+
+struct WindowData {
+	uint32_t width;
+	uint32_t height;
+};
+
+struct MGLData {
+	ResourceManager& manager;
+	WindowData window;
+};
+
+
 class RenderSerializationContext  {
 	std::map<std::string, InterleavedMemoryStream>& _vStreams;
 	IndicesMemoryStream& _iStream;
-	ResourceManager& _res;
+	MGLData _mglData;
 	glm::vec2 _windowSize;
 public:
-	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,ResourceManager &res,glm::vec2 windowSizeInPixels)
-		:_vStreams(vStreams), _iStream(iStream), _res(res)
+	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,MGLData& data)
+		:_vStreams(vStreams), _iStream(iStream), _mglData(data)
 	{
 
 	}

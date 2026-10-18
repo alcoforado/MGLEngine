@@ -94,7 +94,7 @@ struct VulkanImageData {
 			void DestroySamplers();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
-			void Serialize(ShaderContext& ctx,ResourceManager& res);
+			void Serialize(ShaderContext& ctx,MGLData& res);
 
 			VulkanPipelineData CreatePipeline(ShaderContext& ctx);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const VerticeDataLayout &binding);

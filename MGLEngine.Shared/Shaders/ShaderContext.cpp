@@ -21,7 +21,7 @@ ShaderContext::ShaderContext(size_t index,ShaderConfiguration options)
 
 
 
-SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSizeInBytes,uint8_t *pIndex,size_t indexSizeInBytes,ResourceManager &resMngr)
+SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSizeInBytes,uint8_t *pIndex,size_t indexSizeInBytes,MGLData  &mglData)
 {
 	if (_needResize)
 	{
@@ -75,7 +75,8 @@ SerializationResult ShaderContext::Serialize(uint8_t* pVertice,size_t verticeSiz
 				memoryStreamsMap[vAttribute.name] = memoryStream;
 			}
 			IndicesMemoryStream indexStream(reinterpret_cast<uint32_t*>(pIndex) + shapeElement.startIndice, shapeElement.allocatedIndices, 0);
-			RenderSerializationContext renderContext(memoryStreamsMap, indexStream,resMngr);
+			
+			RenderSerializationContext renderContext(memoryStreamsMap, indexStream,mglData);
 			shapeElement.pObject->RenderData(renderContext);
 		}
 		_needSerialize = false;

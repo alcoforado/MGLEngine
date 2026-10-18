@@ -2,7 +2,6 @@
 #include <string>
 #include <memory>
 #include <list>
-#include <vulkan/vulkan.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 class IWindowEventHandler;
 struct GLFWwindow;

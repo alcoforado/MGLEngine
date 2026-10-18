@@ -413,7 +413,7 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 }
 
-void MGL::VulkanGL::Serialize(ShaderContext& ctx,ResourceManager &res)
+void MGL::VulkanGL::Serialize(ShaderContext& ctx,MGLData &mglData)
 {
 	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
 	
@@ -423,7 +423,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx,ResourceManager &res)
 		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
 		shaderData.verticeBuffer.GetSizeInBytes(),
 		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
-		shaderData.indicesBuffer.GetSizeInBytes(),res);
+		shaderData.indicesBuffer.GetSizeInBytes(),mglData);
 	if (result.Written)
 	{
 		shaderData.verticeBuffer.Flush();
@@ -435,7 +435,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx,ResourceManager &res)
 		shaderData.verticeBuffer.Delete();
 		shaderData.verticeBuffer =  _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
 		shaderData.indicesBuffer =  _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
-		Serialize(ctx,res);
+		Serialize(ctx,mglData);
 	}
 
 }
@@ -623,11 +623,17 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &re
 		.Begin()
 		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
-		
+	MGLData mglData = MGLData{
+		.manager=res,
+		.window = WindowData {
+			.width=_pSwapChain->GetExtent2D().width,
+			.height= _pSwapChain->GetExtent2D().height
+		}
+	};
 	for (auto& ctx : shaders)
 	{
 		
-		Serialize(ctx,res);
+		Serialize(ctx,mglData);
 		WriteCommandBuffer(ctx,*_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();

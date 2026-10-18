@@ -11,6 +11,7 @@
 class GlobalBindingsTable;
 
 
+
 class IGraphicLibrary {
 	public:
 		virtual GLID LoadTexture(ITexImage& img) = 0;
