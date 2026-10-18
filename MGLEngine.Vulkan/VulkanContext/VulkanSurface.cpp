@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-VulkanSurface::VulkanSurface(const  VulkanInstance* pInstance, s_ptr<Window> window)
+VulkanSurface::VulkanSurface(const  VulkanInstance* pInstance, s_ptr<MWindow> window)
 {
 	_vkInstance = pInstance->GetHandle();
 	VkResult err = glfwCreateWindowSurface(_vkInstance, window->GLFWHandler(), NULL, &_vkSurface);

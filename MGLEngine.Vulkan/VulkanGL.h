@@ -35,7 +35,7 @@ struct VulkanImageData {
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
-			s_ptr<Window> _pWindow=nullptr;
+			s_ptr<MWindow> _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
 			VulkanSurface* _pVulkanSurface=nullptr;
@@ -118,7 +118,7 @@ struct VulkanImageData {
 			GLID CreateTextureSampler();
 
 		public:
-			VulkanGL(s_ptr<Window> pWindow,AppConfiguration coptions);
+			VulkanGL(s_ptr<MWindow> pWindow,AppConfiguration coptions);
 
 			~VulkanGL();
 

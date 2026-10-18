@@ -14,7 +14,7 @@ struct GLFWwindow;
 	
 
 
-	class Window 
+	class MWindow 
 	{
 
 		
@@ -34,8 +34,8 @@ struct GLFWwindow;
 		};
 
 		void OnResize(int width, int heiight);
-		Window(const WindowOptions& options);
-		virtual ~Window();
+		MWindow(const WindowOptions& options);
+		virtual ~MWindow();
 		
 		GLFWwindow* GLFWHandler() { return _window; }
 		void Redraw();

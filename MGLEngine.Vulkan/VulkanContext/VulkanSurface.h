@@ -10,9 +10,9 @@ class VulkanSurface
 {
 	VkSurfaceKHR _vkSurface;
 	VkInstance _vkInstance;
-	s_ptr<Window> _pWindow;
+	s_ptr<MWindow> _pWindow;
 public:
-	VulkanSurface(const VulkanInstance* pInstance,s_ptr<Window> window);
+	VulkanSurface(const VulkanInstance* pInstance,s_ptr<MWindow> window);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
 	VkExtent2D GetExtent2D() const { 

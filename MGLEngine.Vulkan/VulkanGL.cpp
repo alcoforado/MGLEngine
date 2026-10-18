@@ -11,7 +11,7 @@ using namespace MGL;
 
 
 
-MGL::VulkanGL::VulkanGL(s_ptr<Window> pWindow, AppConfiguration coptions)
+MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 	:  _vulkanConfiguration(coptions)
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);

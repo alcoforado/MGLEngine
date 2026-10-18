@@ -5,12 +5,12 @@
 #include <MGLEngine.Shared/Topologies/Triangle2D.h>
 #include <MGLEngine.Shared/Painters/CyclicColor.h>
 
-MGL::Window *pWindow = nullptr;
+MGL::MWindow *pWindow = nullptr;
 
-MGL::Window* GetWindow()
+MGL::MWindow* GetWindow()
 {
 	if (!pWindow)
-		pWindow = new MGL::Window();
+		pWindow = new MGL::MWindow();
 	return pWindow;
 }
 
@@ -19,14 +19,14 @@ TEST_CASE("Vulkan Windows Tests")
 
 	SECTION("Create a window should not cause vulkan errorswork")
 	{
-		MGL::Window window;
+		MGL::MWindow window;
 		REQUIRE(!VulkanInstance::HasErrors());
 	}
 	
 	SECTION("Close  a window should not cause vulkan errors")
 	{
 		{
-			MGL::Window window;
+			MGL::MWindow window;
 		}
 		REQUIRE(!VulkanInstance::HasErrors());
 	}
@@ -34,7 +34,7 @@ TEST_CASE("Vulkan Windows Tests")
 
 TEST_CASE("Print Triangle")
 {
-	MGL::Window&  window = *GetWindow();
+	MGL::MWindow&  window = *GetWindow();
 	ITopology2D *top = new Triangle2D(
 		glm::vec2(0, 0),
 		glm::vec2(0, 1),
@@ -57,7 +57,7 @@ TEST_CASE("Print Triangle")
 
 TEST_CASE("Vulkan Buffers Tests")
 {
-	MGL::Window&  window = *GetWindow();
+	MGL::MWindow&  window = *GetWindow();
 
 	SECTION("a windows staging buffer allocation should have  correct size capacity")
 	{

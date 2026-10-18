@@ -3,34 +3,34 @@
 #include <cassert>
 #include <glfw/glfw3.h>
 #include <MGLEngine.Shared/Window/IWindowEventHandler.h>
-bool Window::isGLFWInitialized = false;
+bool MWindow::isGLFWInitialized = false;
 
 
 void window_size_callback(GLFWwindow* window, int width, int height)
 {
-	auto This = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	auto This = static_cast<MWindow*>(glfwGetWindowUserPointer(window));
 	
 	This->OnResize(width, height);
 
 }
 
 
-void Window::window_mouse_move_callback(GLFWwindow* window, double x, double y)
+void MWindow::window_mouse_move_callback(GLFWwindow* window, double x, double y)
 {
-	Window *w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	MWindow *w = static_cast<MWindow*>(glfwGetWindowUserPointer(window));
 	for(auto it: w->_handlers)
 	{
 		it->OnMouseMove(x, y);
 	}
 }
 
-Window::WindowSize Window::Size() {
-	Window::WindowSize sz;
+MWindow::WindowSize MWindow::Size() {
+	MWindow::WindowSize sz;
 	glfwGetFramebufferSize(_window, &(sz.width), &(sz.height));
 	return sz;
 }
 
-Window::Window(const WindowOptions &options)
+MWindow::MWindow(const WindowOptions &options)
 {
 	_width = options.Width;
 	_height = options.Height;
@@ -58,14 +58,14 @@ Window::Window(const WindowOptions &options)
 	glfwSetWindowSizeCallback(_window, window_size_callback);
 
 	//Register mouse move event
-	glfwSetCursorPosCallback(_window, Window::window_mouse_move_callback);
+	glfwSetCursorPosCallback(_window, MWindow::window_mouse_move_callback);
 	
 		
 }
 
 
 
-Window::~Window()
+MWindow::~MWindow()
 {
 	this->isGLFWInitialized = false;
 	glfwDestroyWindow(_window);
@@ -75,7 +75,7 @@ Window::~Window()
 
 
 
-void Window::OnResize(int width, int height)
+void MWindow::OnResize(int width, int height)
 {
 	
 
@@ -90,12 +90,12 @@ void Window::OnResize(int width, int height)
 
 
 
-void Window::Redraw()
+void MWindow::Redraw()
 {
 	glfwPostEmptyEvent();
 }
 
-void Window::AttachEventHandler(IWindowEventHandler* eh)
+void MWindow::AttachEventHandler(IWindowEventHandler* eh)
 {
 	if (std::find(_handlers.begin(),_handlers.end(),eh) != _handlers.end())
 	{
@@ -106,7 +106,7 @@ void Window::AttachEventHandler(IWindowEventHandler* eh)
 }
 
 
-void Window::DetachEventHandler(IWindowEventHandler* eh)
+void MWindow::DetachEventHandler(IWindowEventHandler* eh)
 {
     _handlers.remove(eh);
 }

@@ -4,12 +4,12 @@
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
 
-class Window;
+class MWindow;
 
 class VulkanEngineContainer {
 
 public:
-	static IGraphicLibrary* GetLibrary(s_ptr<Window> window, AppConfiguration& appOp);
+	static IGraphicLibrary* GetLibrary(s_ptr<MWindow> window, AppConfiguration& appOp);
 
 	
 };

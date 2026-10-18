@@ -6,7 +6,7 @@
 #include <MGLEngine.Shared/Window/MWindow.h>
 MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	:_appConfig(appConfig),
-	_pWindow(s_new<Window>(wOptions)),
+	_pWindow(s_new<MWindow>(wOptions)),
 	_gl(*VulkanEngineContainer::GetLibrary(_pWindow, appConfig)),
 	_resourceManager(_gl,appConfig.AssetsRootPath)
 {

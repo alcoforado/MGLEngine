@@ -16,14 +16,14 @@
 #include <typeinfo>
 #include <memory>
 
-class Window;
+class MWindow;
 
 class MGLEngine {
 	protected:
 		virtual bool IsShaderRegistered(const std::type_index shaderType);
 
 	private:
-		s_ptr<Window> _pWindow = nullptr;
+		s_ptr<MWindow> _pWindow = nullptr;
 		MGLEngine(const MGLEngine& eng);
 		AppConfiguration _appConfig;
 		std::map<std::type_index, size_t> _shadersIndex;
