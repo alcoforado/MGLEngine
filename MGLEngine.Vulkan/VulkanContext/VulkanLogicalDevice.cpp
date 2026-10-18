@@ -82,6 +82,7 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 
 VulkanLogicalDevice::~VulkanLogicalDevice()
 {
+	_queues.clear();
 	vkDestroyDevice(_vkDevice, nullptr);
 }
 

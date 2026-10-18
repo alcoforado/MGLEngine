@@ -90,6 +90,10 @@ struct VulkanImageData {
 			void DestroySyncObjects();
 			void DestroyVulkanMemoryAllocator();
 			void DestroyImages();
+			void DestroyDescriptorSets();
+			
+
+			
 			void DestroySamplers();
 		private:
 			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
@@ -120,7 +124,7 @@ struct VulkanImageData {
 		public:
 			VulkanGL(s_ptr<MWindow> pWindow,AppConfiguration coptions);
 
-			~VulkanGL();
+			virtual ~VulkanGL() override;
 
 			//IMGLEngine Implementation
 		

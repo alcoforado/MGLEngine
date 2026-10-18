@@ -50,9 +50,9 @@ int main()
 			config.ImagesRoot("./assets");
 			});
 
-		MGLEngine& engine = app.Init();
+		auto pEngine = app.Init();
 
-		Example2(engine);
+		Example2(*pEngine);
 		
 		
 	}

@@ -25,7 +25,7 @@ private:
 
 
 
-			virtual MGLEngine& Init();
+			virtual s_ptr<MGLEngine> Init();
 
 
 	};

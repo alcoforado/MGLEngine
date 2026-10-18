@@ -10,12 +10,14 @@ MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	_gl(*VulkanEngineContainer::GetLibrary(_pWindow, appConfig)),
 	_resourceManager(_gl,appConfig.AssetsRootPath)
 {
-
+	std::cout << "Use Count " <<  _pWindow.use_count() << std::endl;
 }
 
 MGLEngine::~MGLEngine()
 {
-	delete& _gl;
+	std::cout << "Use Count " << _pWindow.use_count() << std::endl;
+	delete &_gl;
+	std::cout << "Use Count " << _pWindow.use_count() << std::endl;
 }
 
 void MGLEngine::Run()

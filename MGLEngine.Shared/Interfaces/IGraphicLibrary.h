@@ -17,5 +17,6 @@ class IGraphicLibrary {
 		virtual GLID LoadTexture(ITexImage& img) = 0;
 		virtual void LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager& globalBindingTbl) = 0;
 		virtual void Run(std::vector<ShaderContext>& shaders, ResourceManager& bindingTable)=0;
+		virtual ~IGraphicLibrary() {}
 };
 

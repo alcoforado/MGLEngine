@@ -802,13 +802,16 @@ MGL::VulkanGL::~VulkanGL() {
 		delete _pSwapChain;
 	DestroyImages();
 	DestroySamplers();
+	DestroyDescriptorSets();
 	DestroyVulkanMemoryAllocator();
 	if_free(_pCommandPool);
 	DestroySyncObjects();
 	if_free(_pByteCodeCollection);
+
 	if_free(_pLogicalDevice);
 	if_free(_pVulkanSurface);
 	if_free(_pVulkanInstance);
+
 	// Destructor implementation (if needed)
 }
 
@@ -822,6 +825,14 @@ void MGL::VulkanGL::DestroySyncObjects() {
 	if_free(_pImageAvailableSemaphore);
 
 }
+
+void MGL::VulkanGL::DestroyDescriptorSets()
+{
+	if (_descriptorSetLayout != VK_NULL_HANDLE)
+		vkDestroyDescriptorSetLayout(_pLogicalDevice->GetHandle(), _descriptorSetLayout,nullptr);
+	if (_descriptorPool != VK_NULL_HANDLE)
+		vkDestroyDescriptorPool(_pLogicalDevice->GetHandle(), _descriptorPool, nullptr);
+};
 
 void MGL::VulkanGL::DestroyShaderContexts()
 {
