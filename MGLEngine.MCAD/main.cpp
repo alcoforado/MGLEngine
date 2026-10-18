@@ -13,7 +13,7 @@ public:
 };
 
 
-void RunServer(MGL::Window *pWindow)
+void RunServer(MGL::MWindow *pWindow)
 {
 
     HttpServer server(9000);
@@ -39,7 +39,7 @@ void RunServer(MGL::Window *pWindow)
 int main()
 {
     
-    MGL::Window window;
+    MGL::MWindow window;
    window.SetSize(800, 800);
   
 

@@ -3,9 +3,11 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanEngineContainer.h>
 #include<MGLEngine.Shared/Resources/ImageLoader.h>
+#include <MGLEngine.Shared/Window/MWindow.h>
 MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	:_appConfig(appConfig),
-	_gl(*VulkanEngineContainer::GetLibrary(wOptions, appConfig)),
+	_pWindow(s_new<Window>(wOptions)),
+	_gl(*VulkanEngineContainer::GetLibrary(_pWindow, appConfig)),
 	_resourceManager(_gl,appConfig.AssetsRootPath)
 {
 

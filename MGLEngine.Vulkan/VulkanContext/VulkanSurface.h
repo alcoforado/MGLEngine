@@ -2,17 +2,17 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <glfw/glfw3.h>
-#include <MGLEngine.Vulkan/Window/MWindow.h>
+#include <MGLEngine.Shared/Utils/pointers.h>
+#include <MGLEngine.Shared/Window/MWindow.h>
 class VulkanInstance;
-
 
 class VulkanSurface
 {
 	VkSurfaceKHR _vkSurface;
 	VkInstance _vkInstance;
-	MGL::Window* _pWindow;
+	s_ptr<Window> _pWindow;
 public:
-	VulkanSurface(const VulkanInstance* pInstance,MGL::Window* window);
+	VulkanSurface(const VulkanInstance* pInstance,s_ptr<Window> window);
 	~VulkanSurface();
 	VkSurfaceKHR GetHandle()const { return _vkSurface; }
 	VkExtent2D GetExtent2D() const { 

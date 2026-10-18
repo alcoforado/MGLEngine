@@ -6,7 +6,6 @@
 class IWindowEventHandler;
 struct GLFWwindow;
 
-namespace MGL {
 	using std::string;
 	
 	
@@ -46,4 +45,3 @@ namespace MGL {
 
 	};
 
-}

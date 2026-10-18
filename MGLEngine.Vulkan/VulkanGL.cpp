@@ -6,15 +6,16 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
 #include "VulkanContext/VulkanDrawContext.h"
+
 using namespace MGL;
 
 
 
-MGL::VulkanGL::VulkanGL(WindowOptions woptions, AppConfiguration coptions)
-	: _windowOptions(woptions), _vulkanConfiguration(coptions)
+MGL::VulkanGL::VulkanGL(s_ptr<Window> pWindow, AppConfiguration coptions)
+	:  _vulkanConfiguration(coptions)
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
-	_pWindow = new Window(_windowOptions);
+	_pWindow = pWindow;
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
 		_vulkanConfiguration.EnableDebug,
@@ -42,10 +43,10 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, ResourceManager&
 	for (auto& ctx : shaders)
 	{
 		VulkanShaderData shaderData;
-		shaderData.pipeline=CreatePipeline(ctx);
+		shaderData.pipeline = CreatePipeline(ctx);
 		_vVulkanShaderData.push_back(shaderData);
 		ctx.glId = GLID(GLID_VULKAN_TYPES::SHADER_DATA, _vVulkanShaderData.size() - 1);
-		
+
 	}
 
 }
@@ -87,9 +88,9 @@ void MGL::VulkanGL::CreateSwapChain() {
 
 void MGL::VulkanGL::ResizeSwapChain()
 {
-	
+
 	auto _wSize = _pWindow->Size();
-	
+
 	while (_wSize.width == 0 || _wSize.height == 0) {
 		glfwWaitEvents();
 		_wSize = _pWindow->Size();
@@ -140,7 +141,7 @@ void MGL::VulkanGL::CreateRenderPass()
 	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
 	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 	dependency.srcAccessMask = 0;
-	dependency.dstSubpass = 0;             
+	dependency.dstSubpass = 0;
 	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
 
@@ -172,7 +173,7 @@ void MGL::VulkanGL::CreateFramebuffers() {
 		framebufferInfo.layers = 1;
 
 		VkFramebuffer framebuffer;
-		auto result=vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &framebuffer);
+		auto result = vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &framebuffer);
 		AssertVulkanSuccess(result);
 		_framebuffers.push_back(framebuffer);
 	}
@@ -261,7 +262,7 @@ void MGL::VulkanGL::CreateBindedResources(GlobalBindingsTable& tbl)
 
 void MGL::VulkanGL::CreateDescriptorSets()
 {
-	
+
 	VkDescriptorSetAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 	allocInfo.descriptorPool = _descriptorPool;
@@ -276,14 +277,14 @@ void MGL::VulkanGL::CreateDescriptorSets()
 void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 {
 	eassert(_vkDescriptorSets.size() == 1, "Only one descriptor set is supported at this time");
-	
-	
+
+
 	std::vector<VkWriteDescriptorSet> writes;
 	writes.reserve(tbl.NBindings());
 	std::deque<VkDescriptorImageInfo> imgInfos;
 	for (const auto& sampler : tbl.GetSampler2DBindings())
 	{
-		eassert(!sampler.glId.Undefined(),"Sampler Undefined");
+		eassert(!sampler.glId.Undefined(), "Sampler Undefined");
 
 		VkDescriptorImageInfo imageInfo{};
 		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -413,17 +414,17 @@ VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
 
 }
 
-void MGL::VulkanGL::Serialize(ShaderContext& ctx,MGLData &mglData)
+void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLData& mglData)
 {
 	auto& shaderData = _vVulkanShaderData[ctx.glId.index];
-	
 
 
-	auto result =ctx.Serialize(
+
+	auto result = ctx.Serialize(
 		shaderData.verticeBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.verticeBuffer.Map()),
 		shaderData.verticeBuffer.GetSizeInBytes(),
 		shaderData.indicesBuffer.Empty() ? nullptr : static_cast<uint8_t*>(shaderData.indicesBuffer.Map()),
-		shaderData.indicesBuffer.GetSizeInBytes(),mglData);
+		shaderData.indicesBuffer.GetSizeInBytes(), mglData);
 	if (result.Written)
 	{
 		shaderData.verticeBuffer.Flush();
@@ -433,9 +434,9 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx,MGLData &mglData)
 	{
 		shaderData.indicesBuffer.Delete();
 		shaderData.verticeBuffer.Delete();
-		shaderData.verticeBuffer =  _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
-		shaderData.indicesBuffer =  _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
-		Serialize(ctx,mglData);
+		shaderData.verticeBuffer = _pMemoryAllocator->CreateVertexBuffer(result.VerticeDataSizeInBytes);
+		shaderData.indicesBuffer = _pMemoryAllocator->CreateIndexBuffer(result.IndexDataSizeInBytes);
+		Serialize(ctx, mglData);
 	}
 
 }
@@ -565,7 +566,7 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 	vkPipelineLayoutInfo.pSetLayouts = &_descriptorSetLayout;
 	vkPipelineLayoutInfo.pushConstantRangeCount = 0;
 	VkPipelineLayout vkPipelineLayout;
-	auto err=vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &vkPipelineLayoutInfo, nullptr, &vkPipelineLayout);
+	auto err = vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &vkPipelineLayoutInfo, nullptr, &vkPipelineLayout);
 	AssertVulkanSuccess(err);
 
 
@@ -603,14 +604,26 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 
 
 #pragma endregion
+MGLData MGL::VulkanGL::GetMGLData(ResourceManager& res)
+{
+	MGLData mglData = MGLData{
+	.manager = res,
+	.window = WindowData {
+		.width = _pSwapChain->GetExtent2D().width,
+		.height = _pSwapChain->GetExtent2D().height
+	}
+	};
+	return mglData;
 
 
+}
 
-void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &res)
+
+void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, ResourceManager& res)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
-	
+
 	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
 	if (imageIndexResult.bNeedResize)
 	{
@@ -623,18 +636,12 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &re
 		.Begin()
 		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
-	MGLData mglData = MGLData{
-		.manager=res,
-		.window = WindowData {
-			.width=_pSwapChain->GetExtent2D().width,
-			.height= _pSwapChain->GetExtent2D().height
-		}
-	};
+
 	for (auto& ctx : shaders)
 	{
-		
-		Serialize(ctx,mglData);
-		WriteCommandBuffer(ctx,*_pCommandBuffer);
+		auto mglData = GetMGLData(res);
+		Serialize(ctx, mglData);
+		WriteCommandBuffer(ctx, *_pCommandBuffer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
@@ -645,7 +652,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &re
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
-	auto vkResult=_pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
+	auto vkResult = _pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
 	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR) {
 		ResizeSwapChain();
 		return;
@@ -655,16 +662,16 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext> &shaders,ResourceManager &re
 	}
 }
 
-void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, ResourceManager &res) {
+void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, ResourceManager& res) {
 
-	
+
 	auto glfwWindow = _pWindow->GLFWHandler();
-	
-	
+
+
 	while (!glfwWindowShouldClose(glfwWindow))
 	{
 		glfwPollEvents();
-		Draw(shaders,res);
+		Draw(shaders, res);
 	}
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 }
@@ -680,12 +687,12 @@ VkFormat MGL::VulkanGL::MapToVulkanFormat(ImageFormat format)
 {
 	switch (format)
 	{
-		case ImageFormat::R8G8B8A8:
-			return VK_FORMAT_R8G8B8A8_SRGB;
-		case ImageFormat::R8:
-			return VK_FORMAT_R8_UNORM;
-		default:
-			throw_error("Unknown ImageFormat");
+	case ImageFormat::R8G8B8A8:
+		return VK_FORMAT_R8G8B8A8_SRGB;
+	case ImageFormat::R8:
+		return VK_FORMAT_R8_UNORM;
+	default:
+		throw_error("Unknown ImageFormat");
 	}
 }
 
@@ -694,11 +701,11 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 	eassert(img.data != nullptr, std::format("failed to load texture image"));
 	VkFormat format = MapToVulkanFormat(img.format);
 	VkDeviceSize imageSize = static_cast<VkDeviceSize>(img.texWidth) * img.texHeight * VulkanImage::GetTexelSize(format);
-	
+
 	VulkanBuffer stagingBuffer = _pMemoryAllocator->CreateStagingBuffer(imageSize);
 	stagingBuffer.CopyToGPU(img.data, imageSize);
 
-	
+
 
 
 	VkImageCreateInfo imageInfo{};
@@ -755,10 +762,10 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 	this->_vImages.push_back(res);
 	stagingBuffer.Delete();
 	return GLID(GLID_VULKAN_TYPES::IMAGE, id);
-	
+
 }
 
-GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding &sampler)
+GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)
 {
 	VkSamplerCreateInfo samplerInfo{};
 	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -802,7 +809,6 @@ MGL::VulkanGL::~VulkanGL() {
 	if_free(_pLogicalDevice);
 	if_free(_pVulkanSurface);
 	if_free(_pVulkanInstance);
-	if_free(_pWindow);
 	// Destructor implementation (if needed)
 }
 
@@ -814,7 +820,7 @@ void MGL::VulkanGL::DestroySyncObjects() {
 	}
 	_pRenderFinishedSemaphore.clear();
 	if_free(_pImageAvailableSemaphore);
-	
+
 }
 
 void MGL::VulkanGL::DestroyShaderContexts()
@@ -827,12 +833,12 @@ void MGL::VulkanGL::DestroyShaderContexts()
 		ctx.verticeBuffer.Delete();
 
 	}
-	
+
 }
 
 void MGL::VulkanGL::DestroyRenderPass()
 {
-		vkDestroyRenderPass(_pLogicalDevice->GetHandle(), _vkRenderPass, nullptr);
+	vkDestroyRenderPass(_pLogicalDevice->GetHandle(), _vkRenderPass, nullptr);
 
 }
 
@@ -840,7 +846,7 @@ void MGL::VulkanGL::DestroyImages()
 {
 	for (auto& img : _vImages)
 	{
-		vkDestroyImageView(_pLogicalDevice->GetHandle(), img.view,nullptr);
+		vkDestroyImageView(_pLogicalDevice->GetHandle(), img.view, nullptr);
 		img.image.Delete();
 	}
 

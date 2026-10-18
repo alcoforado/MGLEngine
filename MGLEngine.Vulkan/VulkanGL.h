@@ -1,6 +1,6 @@
 #include <functional>
 #include <memory>
-#include  <MGLEngine.Vulkan/Window/MWindow.h>
+#include  <MGLEngine.Shared/Window/MWindow.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
 #include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
@@ -35,7 +35,7 @@ struct VulkanImageData {
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
-			MGL::Window* _pWindow=nullptr;
+			s_ptr<Window> _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
 			VulkanSurface* _pVulkanSurface=nullptr;
@@ -47,8 +47,7 @@ struct VulkanImageData {
 			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
-			//configuraion options
-			WindowOptions _windowOptions;
+			
 			VulkanSemaphore* _pImageAvailableSemaphore;
 			VulkanFence* _pInFlightFence = nullptr;
 			AppConfiguration _vulkanConfiguration;
@@ -105,6 +104,10 @@ struct VulkanImageData {
 			void ResizeSwapChain();
 			void Draw(std::vector<ShaderContext> &shaders,ResourceManager &res);
 
+			MGLData GetMGLData(ResourceManager& res);
+
+
+
 			enum GLID_VULKAN_TYPES {
 				SAMPLER2D = 0,
 				IMAGE=1,
@@ -115,7 +118,7 @@ struct VulkanImageData {
 			GLID CreateTextureSampler();
 
 		public:
-			VulkanGL(WindowOptions woptions,AppConfiguration coptions);
+			VulkanGL(s_ptr<Window> pWindow,AppConfiguration coptions);
 
 			~VulkanGL();
 
