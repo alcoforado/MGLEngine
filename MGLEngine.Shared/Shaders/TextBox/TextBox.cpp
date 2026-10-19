@@ -49,8 +49,10 @@ void TextBox::RenderData(RenderSerializationContext& context)
 		{
 			auto glyph = metaData.Characters.at(c); 
 			
-			glm::vec2 bl, tr;
-			bl=glm::vec2(pen.x+ glyph.BearingX,)
+			glm::vec2 tl, br;
+			tl = glm::vec2(pen.x + glyph.BearingX, pen.y-glyph.BearingY);
+			br = glm::vec2(pen.x + glyph.AdvanceX, tl.y+glyph.Height);
+
 			glyph.BearingX
 		}
 
