@@ -45,15 +45,27 @@ void TextBox::RenderData(RenderSerializationContext& context)
 		std::vector<char> str(_text.begin(), _text.end());
 		float yBaseline = _tl.y - metaData.Ascender;
 		auto pen = glm::vec2(_tl.x, yBaseline);
-		for (char c : str)
+		
+		for (size_t i=0;i<str.size();i++)
 		{
+			bool isLast = i + 1 == str.size();
+			char c = str[i];
+			
+			FontKerning kerning;
+			if (!isLast)
+				kerning=metaData.GetKerning(c, str[i + 1]);
+
 			auto glyph = metaData.Characters.at(c); 
 			
-			glm::vec2 tl, br;
-			tl = glm::vec2(pen.x + glyph.BearingX, pen.y-glyph.BearingY);
-			br = glm::vec2(pen.x + glyph.AdvanceX, tl.y+glyph.Height);
-
-			glyph.BearingX
+			glm::vec2 tl, br, bl, tr;
+			tl = glm::vec2(pen.x + glyph.BearingX, yBaseline-glyph.BearingY);
+			br = glm::vec2(pen.x + glyph.AdvanceX+kerning.X, tl.y+glyph.Height);
+			bl = glm::vec2(tl.x,br.y);
+			tr = glm::vec2(br.x,tl.y);
+			//start printing the rect
+			posStream << tl << bl << br << tr;
+			indexStream << 0 << 1 << 2 << 2 << 3 << 0;
+			
 		}
 
 

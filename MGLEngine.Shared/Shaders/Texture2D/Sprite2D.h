@@ -33,7 +33,7 @@ class Sprite2D  : IDrawingObject {
 			posStream << glm::vec2(_bl.x + _width, _bl.y + _height);
 			posStream << glm::vec2(_bl.x, _bl.y + _height);
 
-			indexStream << std::vector<uint32_t>{ 0, 1, 2, 0, 2, 3 };
+			indexStream << std::vector<size_t>{ 0, 1, 2, 0, 2, 3 };
 
 
 			texStream << glm::vec2(0, 0);
