@@ -15,7 +15,7 @@ public:
 
 		config.DeclareTextureSampler("fontSampler", 2, ONE_TEXTURE_ASSIGNMENT);
 
-
+		
 	}
 
 };
@@ -41,6 +41,18 @@ void TextBox::RenderData(RenderSerializationContext& context)
 		auto& metaData=context.GetFontMetadata("fontSampler");
 
 
+		auto wSize = context.WindowSize();
+		std::vector<char> str(_text.begin(), _text.end());
+		float yBaseline = _tl.y - metaData.Ascender;
+		auto pen = glm::vec2(_tl.x, yBaseline);
+		for (char c : str)
+		{
+			auto glyph = metaData.Characters.at(c); 
+			
+			glm::vec2 bl, tr;
+			bl=glm::vec2(pen.x+ glyph.BearingX,)
+			glyph.BearingX
+		}
 
 
 	

@@ -13,7 +13,7 @@ struct FontGlyph {
 	// Rectangle and UVs measured from the top-left of the atlas.
 	int X = 0, Y = 0, Width = 0, Height = 0;
 	float U0 = 0, V0 = 0, U1 = 0, V1 = 0;
-	//BearingX is the horizontal offset from the pen position to the bitmap’s left edge :
+	//BearingX is the horizontal offset in pixels from the pen position to the bitmap’s left edge :
 	int BearingX = 0, 
 		BearingY = 0;
 	float AdvanceX = 0, 

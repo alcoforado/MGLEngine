@@ -27,6 +27,12 @@ struct TextureSamplerConfig {
 	SamplerAssignmentStrategy strategy;
 };
 
+struct WindowDimensions {
+	uint32_t height;
+	uint32_t width;
+};
+
+
 class ShaderConfiguration  {
 
 public: //data
@@ -71,6 +77,9 @@ public: // s for IShaderConfiguration
 
 	}
 
+
+	 WindowDimensions GetWindowSize();
+	 
 
 
 

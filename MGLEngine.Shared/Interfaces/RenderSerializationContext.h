@@ -8,10 +8,7 @@
 
 class MGLContainer;
 
-struct WindowData {
-	uint32_t width;
-	uint32_t height;
-};
+
 
 
 class FontAtlasMetadata;
@@ -28,9 +25,7 @@ public:
 
 	}
 
-	glm::vec2 WindowSize() {
-
-	}
+	glm::vec2 WindowSize();
 
 	InterleavedMemoryStream& GetVerticeAttribute(std::string name) 
 	{
