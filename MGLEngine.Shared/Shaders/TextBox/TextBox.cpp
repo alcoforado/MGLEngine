@@ -34,7 +34,7 @@ TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string 
 
 void TextBox::RenderData(RenderSerializationContext& context)
 {
-	
+		
 		auto& posStream = context.GetVerticeAttribute("position2d");
 		auto& texStream = context.GetVerticeAttribute("texCoord");
 		auto& indexStream = context.GetIndicesStream();
@@ -43,9 +43,11 @@ void TextBox::RenderData(RenderSerializationContext& context)
 
 		auto wSize = context.WindowSize();
 		std::vector<char> str(_text.begin(), _text.end());
-		float yBaseline = _tl.y - metaData.Ascender;
+		std::array<size_t, 6> indices = { 0,1,2,2,3,0 };
+		float toNdcX = 2.0 / wSize.x;
+		float toNdcY = 2.0 / wSize.y;
+		float yBaseline = _tl.y + toNdcY*metaData.Ascender;
 		auto pen = glm::vec2(_tl.x, yBaseline);
-		
 		for (size_t i=0;i<str.size();i++)
 		{
 			bool isLast = i + 1 == str.size();
@@ -58,13 +60,19 @@ void TextBox::RenderData(RenderSerializationContext& context)
 			auto glyph = metaData.Characters.at(c); 
 			
 			glm::vec2 tl, br, bl, tr;
-			tl = glm::vec2(pen.x + glyph.BearingX, yBaseline-glyph.BearingY);
-			br = glm::vec2(pen.x + glyph.AdvanceX+kerning.X, tl.y+glyph.Height);
+			tl = glm::vec2(pen.x + toNdcX*glyph.BearingX, yBaseline-toNdcY*glyph.BearingY);
+			br = glm::vec2(pen.x + toNdcX*(glyph.AdvanceX+kerning.X), tl.y+toNdcY*glyph.Height);
 			bl = glm::vec2(tl.x,br.y);
 			tr = glm::vec2(br.x,tl.y);
 			//start printing the rect
 			posStream << tl << bl << br << tr;
-			indexStream << 0 << 1 << 2 << 2 << 3 << 0;
+			indexStream << indices;
+			std::array<float, 8> uv = { 
+				glyph.U0, glyph.V0,
+				glyph.U0, glyph.V1, 
+				glyph.U1, glyph.V1, 
+				glyph.U1, glyph.V0 };
+			texStream << uv;
 			
 		}
 

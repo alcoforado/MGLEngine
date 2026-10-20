@@ -39,7 +39,7 @@ class InterleavedMemoryStream {
 	};
 	InterleavedMemoryStream& operator<<(const std::vector<uint32_t>& v);
 
-
+	
 
 public:
 
@@ -53,6 +53,34 @@ public:
 	InterleavedMemoryStream& operator<<(const glm::vec2 &v);
 	InterleavedMemoryStream& operator<<(const glm::vec4 &v);
 	InterleavedMemoryStream& operator<<(const std::vector<float>&v);
+	
+	template<size_t N>
+	InterleavedMemoryStream& operator<<(const std::array<float, N>& v)
+	{
+		const uint32_t floatsPerElement = _fieldsPerElement[_elemType];
+
+		eassert(_isFloatBased[_elemType], "Incompatible Types");
+		eassert((v.size() % floatsPerElement) == 0, "Vector passed has incompatible dimensions");
+		eassert(_currentElementCount + (v.size() / floatsPerElement) <= _maxElementCount, "Vector passed is too big. It won't fit in array");
+
+
+		float* fp = reinterpret_cast<float*>(_pData + _currentOffBytes);
+		uint32_t fieldN = 0;
+		for (size_t i = 0; i < v.size();)
+		{
+			for (size_t j = 0; j < floatsPerElement;)
+			{
+				fp[j++] = v[i++];
+			}
+
+			_currentElementCount++;
+			_currentOffBytes += _stride;
+			fp = reinterpret_cast<float*>(_pData + _currentOffBytes);
+		}
+		return *this;
+		// TODO: insert return statement here
+	}
+	
 	~InterleavedMemoryStream() {}
 
 	FieldType getFieldType() {
