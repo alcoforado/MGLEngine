@@ -65,15 +65,21 @@ void TextBox::RenderData(RenderSerializationContext& context)
 			bl = glm::vec2(tl.x,br.y);
 			tr = glm::vec2(br.x,tl.y);
 			//start printing the rect
-			posStream << tl << bl << br << tr;
+			//test
+			posStream << std::vector<float> {-1, -1, -1, 1, 1, 1, 1, -1};
+			texStream << std::vector<float> { 0,  0,  0, 1, 1, 1, 1,  0};
+
+
 			indexStream << indices;
+			/*
+			posStream << tl << bl << br << tr;
 			std::array<float, 8> uv = { 
 				glyph.U0, glyph.V0,
 				glyph.U0, glyph.V1, 
 				glyph.U1, glyph.V1, 
 				glyph.U1, glyph.V0 };
 			texStream << uv;
-			
+			*/
 		}
 
 
