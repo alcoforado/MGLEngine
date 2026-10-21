@@ -1,7 +1,7 @@
 #include "TextBox.h"
 #include "textRender_frag.h"
 #include "textRender_vert.h"
-
+#include <MGLEngine.Shared/Utils/numeric_vector_functions.h>
 
 class TextRenderShader :IShader {
 public:
@@ -45,8 +45,8 @@ void TextBox::RenderData(RenderSerializationContext& context)
 		auto wSize = context.WindowSize();
 		std::vector<char> str(_text.begin(), _text.end());
 		std::array<size_t, 6> indices = { 0,1,2,2,3,0 };
-		float toNdcX = 2.0 / wSize.x;
-		float toNdcY = 2.0 / wSize.y;
+		float toNdcX = 2.0f / wSize.x;
+		float toNdcY = 2.0f / wSize.y;
 		float yBaseline = _tl.y + toNdcY*metaData.Ascender;
 		auto pen = glm::vec2(_tl.x, yBaseline);
 		for (size_t i=0;i<str.size();i++)
@@ -65,14 +65,20 @@ void TextBox::RenderData(RenderSerializationContext& context)
 			br = glm::vec2(pen.x + toNdcX*(glyph.AdvanceX+kerning.X), tl.y+toNdcY*glyph.Height);
 			bl = glm::vec2(tl.x,br.y);
 			tr = glm::vec2(br.x,tl.y);
-			//start printing the rect
+
+			//advance pen
+			pen.x = br.x;
+
+						//start printing the rect
 			//test
-			posStream << std::vector<float> {-1, -1, -1, 1, 1, 1, 1, -1};
-			texStream << std::vector<float> { 0,  0,  0, 1, 1, 1, 1,  0};
+			//posStream << std::vector<float> {-1, -1, -1, 1, 1, 1, 1, -1};
+			//texStream << std::vector<float> { 0,  0,  0, 1, 1, 1, 1,  0};
+			
 
-
+			//adjust offset
 			indexStream << indices;
-			/*
+			add_offset(indices, (size_t) (4));
+			
 			posStream << tl << bl << br << tr;
 			std::array<float, 8> uv = { 
 				glyph.U0, glyph.V0,
@@ -80,7 +86,9 @@ void TextBox::RenderData(RenderSerializationContext& context)
 				glyph.U1, glyph.V1, 
 				glyph.U1, glyph.V0 };
 			texStream << uv;
-			*/
+
+			
+			
 		}
 
 

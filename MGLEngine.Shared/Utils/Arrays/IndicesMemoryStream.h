@@ -22,7 +22,7 @@ public:
 		eassert(v.size() + _currentCount <= _max_size, "Memory Stream overflow detected");
 		for (size_t i = 0; i < v.size(); i++)
 		{
-			_indices[_currentCount++] = v[i] + _offDisplacement;
+			_indices[_currentCount++] = static_cast<uint32_t>(v[i] + _offDisplacement);
 		}
 		return *this;
 	}

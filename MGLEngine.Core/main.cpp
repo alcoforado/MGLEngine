@@ -26,7 +26,7 @@ void Example2(MGLEngine& engine)
 
 void Example3(MGLEngine& engine)
 {
-	auto box = TextBox(engine, glm::vec2(0.0f, 0.0f), "H", "fonts/RobotoMono-Medium.ttf",56);
+	auto box = TextBox(engine, glm::vec2(-0.75f, 0.0f), "Hotel California", "fonts/RobotoMono-Medium.ttf",56);
 	engine.Run();
 }
 
