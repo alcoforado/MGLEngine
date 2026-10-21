@@ -8,6 +8,7 @@ public:
 	//ShaderConfiguration
 	virtual void Init(ShaderConfiguration& config)
 	{
+		config.EnableCulling(false);
 		config.DeclareVertexAttribute_FloatVec2("position2d", 0);
 		config.DeclareVertexAttribute_FloatVec2("texCoord", 1);
 		config.SetVerticeShader(textRender_vert, sizeof(textRender_vert));

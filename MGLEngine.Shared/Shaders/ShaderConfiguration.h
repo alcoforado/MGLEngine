@@ -42,9 +42,17 @@ public: //data
 	std::vector<VertexAttributeDeclaration> vertexAttributes;
 	std::vector<TextureSamplerConfig> samplers;
 	std::string name;
+	bool enableCulling = true;
 
 public: // s for IShaderConfiguration 
 	ShaderConfiguration() {}
+
+	// Disable for geometry that should be visible from either side.
+	ShaderConfiguration& EnableCulling(bool enabled)
+	{
+		enableCulling = enabled;
+		return *this;
+	}
 
 	 ShaderConfiguration& SetName(std::string name)
 	{
