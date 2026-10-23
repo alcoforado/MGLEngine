@@ -41,7 +41,7 @@ void GlobalBindingsTable::AssignImageResource(std::string bindName, const Resour
 		case BindedTypeEnum::SAMPLER_2D:
 		{
 			auto& sampler2DBinding = _vSampler2DBindings[ref.index];
-			for (auto& resRef : sampler2DBinding.imageFiles)
+			for (auto& resRef : sampler2DBinding.resources)
 			{
 				if (resRef.config.UniqueId() == config.UniqueId()) //resource already added
 				{
@@ -49,13 +49,13 @@ void GlobalBindingsTable::AssignImageResource(std::string bindName, const Resour
 					return;
 				}
 			}
-			if (sampler2DBinding.imageFiles.empty() || sampler2DBinding.useAtlas)
+			if (sampler2DBinding.resources.empty() || sampler2DBinding.useAtlas)
 			{
 				ResourceRef res;
 				res.config = config;;
 				res.references.push_back(sourceReference);
 
-				sampler2DBinding.imageFiles.push_back(res);
+				sampler2DBinding.resources.push_back(res);
 			}
 			else {
 				throw_formatted("Can't assign image {} to the Sampler2D {}. It doesn't accept multiple images", config.filePath, bindName)

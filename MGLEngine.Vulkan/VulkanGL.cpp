@@ -288,7 +288,7 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 
 		VkDescriptorImageInfo imageInfo{};
 		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo.imageView = _vImages[sampler.imageFiles[0].glId.index].view;
+		imageInfo.imageView = _vImages[sampler.resources[0].glId.index].view;
 		imageInfo.sampler = _vSamplers[sampler.glId.index];
 		imgInfos.push_back(imageInfo);
 

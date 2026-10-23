@@ -28,13 +28,31 @@ struct ResourceAssignments {
 
 };
 
+struct ShaderRef {
+	std::string name;
+	std::size_t index;
+};
+
+struct ResourceRef {
+public:
+	ResourceDeclaration config;
+	GLID glId;
+	size_t MetadataId;
+	std::vector<ShaderRef> references;
+	ResourceRef() {
+
+	}
+};
+
+
 class  ResourceBindingBase {
 public:
 	std::string name;
 	unsigned int binding;
 	BindedTypeEnum type;
-	
-	//std::vector<ResourceAssignments>
+	std::vector<ResourceRef> resources;
+	GLID glId;
+
 	
 	std::vector<std::string> references; //information about shaders that use the variable. Excellent for debugging
 
@@ -55,28 +73,10 @@ public:
 	}
 };
 
-struct ShaderRef {
-	std::string name;
-	std::size_t index;
-};
-
-struct ResourceRef {
-public:
-	ResourceDeclaration config;
-	GLID glId;
-	
-	size_t MetadataId;
-	std::vector<ShaderRef> references;
-	ResourceRef() {
-		
-	}
-};
 
 class Sampler2DBinding : public ResourceBindingBase {
 public:
-	std::vector<ResourceRef> imageFiles;
 	bool useAtlas;
-	GLID glId;
 	virtual bool Compatible(ResourceBindingBase& b1) const override 
 	{
 		if (ResourceBindingBase::Compatible(b1))

@@ -49,8 +49,8 @@ const FontAtlasMetadata& ResourceManager::GetFontMetadata(std::string sampleName
 	
 	
 	auto sampler=_pGlobalBindingsTable->GetSampler(sampleName);
-	eassert(!sampler.imageFiles.empty() && sampler.imageFiles.front().config.IsFont(), "Sampler does not have a font");
-	auto fontId = sampler.imageFiles.front().MetadataId;
+	eassert(!sampler.resources.empty() && sampler.resources.front().config.IsFont(), "Sampler does not have a font");
+	auto fontId = sampler.resources.front().MetadataId;
 	eassert(fontId < vFontAtlas.size(), "Invalid Metadata Id");
 	
 	return vFontAtlas[fontId]->metadata;
@@ -62,11 +62,11 @@ void ResourceManager::LoadAllResources()
 	for (auto& sampler2D : _pGlobalBindingsTable->GetSampler2DBindings())
 	{
 
-		if (sampler2D.imageFiles.size() == 1)
+		if (sampler2D.resources.size() == 1)
 		{
-			auto res = this->Load(sampler2D.imageFiles[0]);
-			sampler2D.imageFiles[0].glId = res.glid;
-			sampler2D.imageFiles[0].MetadataId = res.MetadataId;
+			auto res = this->Load(sampler2D.resources[0]);
+			sampler2D.resources[0].glId = res.glid;
+			sampler2D.resources[0].MetadataId = res.MetadataId;
 		}
 	}
 
