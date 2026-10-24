@@ -1,13 +1,13 @@
 #version 450
 #extension GL_GOOGLE_include_directive : require
-
+#include "common.glsl" 
 
 layout(location = 0) in vec2 position2d;
 layout(location = 1) in vec2 texCoord;
 
 layout(location = 0) out vec2 fragTexCoord;
 
-#include "common.glsl" 
+
 
 void main() {
 

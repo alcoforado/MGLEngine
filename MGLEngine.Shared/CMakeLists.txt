@@ -28,7 +28,7 @@ foreach (sh IN LISTS SHADERS )
     message("\t\tProcessing Shader File: ${sh} to Header: ${HEADER_FILE} Into Variable ${VAR_NAME}")
 	add_custom_command(
 	OUTPUT "${HEADER_FILE}" 
-	COMMAND ${SHADER_COMPILER_EXEC} ARGS -V --vn ${VAR_NAME} -I"${PROJECT_SOURCE_DIR}/Shaders" -o ${HEADER_FILE}  ${sh}
+	COMMAND ${SHADER_COMPILER_EXEC} ARGS -V  --vn ${VAR_NAME} -l -I${PROJECT_SOURCE_DIR}/Shaders/Shared -o ${HEADER_FILE}  ${sh}
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 	DEPENDS "${sh}" 
     VERBATIM
