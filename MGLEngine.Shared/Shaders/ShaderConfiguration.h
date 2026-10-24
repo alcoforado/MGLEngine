@@ -3,6 +3,7 @@
 #include <queue>
 #include <string>
 #include <typeinfo>
+#include <typeindex>
 
 struct ShaderByteCode {
 	const uint32_t* byteCode;
@@ -30,10 +31,9 @@ struct TextureSamplerConfig {
 };
 struct PushConstantConfig {
 	std::string name;
-	uint32_t dataTypeId;
+	std::type_index typeIndex;
 	size_t size;
 };
-std::vector<PushConstantConfig> pushConstants;
 
 
 struct WindowDimensions {
@@ -94,17 +94,20 @@ public: // s for IShaderConfiguration
 		return *this;
 
 	}
+	 /*
 	 template<typename T>
-	 ShaderConfiguration& DeclarePushContanst(std::string name, unsigned int binding)
+	 ShaderConfiguration& DeclarePushConstant(std::string name, unsigned int binding)
 	 {
-		 auto index = typeId(T).hash_code();
+		 std::type_index typeIndex(typeid(T));
 		 auto pushConstant = PushConstantConfig{
-			 .name=name,
-			 .size=sizeof(T),
-			 .
-		 }
+			 .name = name,
+			 .typeIndex = typeIndex,
+			 .size = sizeof(T)
+		 };
+		 pushConstants.push_back(pushConstant);
+		 return* this;
 	 }
-
+	 */
 
 	 WindowDimensions GetWindowSize();
 	 
