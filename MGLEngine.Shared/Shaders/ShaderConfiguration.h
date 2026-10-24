@@ -31,8 +31,13 @@ struct TextureSamplerConfig {
 };
 struct PushConstantConfig {
 	std::string name;
-	std::type_index typeIndex;
+	size_t typeIndex;
 	size_t size;
+	uint32_t binding;
+	bool Defined() {
+		return !name.empty();
+	}
+	
 };
 
 
@@ -50,7 +55,7 @@ public: //data
 	ShaderByteCode fragmentShader;
 	std::vector<VertexAttributeDeclaration> vertexAttributes;
 	std::vector<TextureSamplerConfig> samplers;
-	std::vector<PushConstantConfig> pushConstants;
+	PushConstantConfig pushConstant;
 	std::string name;
 	bool enableCulling = true;
 
@@ -94,20 +99,21 @@ public: // s for IShaderConfiguration
 		return *this;
 
 	}
-	 /*
+	 
 	 template<typename T>
 	 ShaderConfiguration& DeclarePushConstant(std::string name, unsigned int binding)
 	 {
 		 std::type_index typeIndex(typeid(T));
-		 auto pushConstant = PushConstantConfig{
+		 pushConstant = PushConstantConfig{
 			 .name = name,
-			 .typeIndex = typeIndex,
-			 .size = sizeof(T)
+			 .typeIndex = typeid(T).hash_code(),
+			 .size = sizeof(T),
+			 .binding=binding
 		 };
-		 pushConstants.push_back(pushConstant);
-		 return* this;
+		 return *this;
+		 
 	 }
-	 */
+	 
 
 	 WindowDimensions GetWindowSize();
 	 

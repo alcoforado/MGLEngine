@@ -1,7 +1,8 @@
+#pragma once
 #include <MGLEngine.Shared/Interfaces/GLID.h>
 
 enum BindedTypeEnum {
-	SAMPLER_2D
+	SAMPLER_2D, PUSH_CONSTANT
 };
 
 
@@ -11,6 +12,8 @@ constexpr std::string to_string(BindedTypeEnum e)
 	switch (e) {
 	case SAMPLER_2D:
 		return "Sampler2D";
+	case PUSH_CONSTANT:
+		return "PUSH_CONSTANT";
 	default:
 		return "Unknown";
 	}
@@ -43,7 +46,7 @@ public:
 	std::string name;
 	unsigned int binding;
 	BindedTypeEnum type;
-	std::vector<ResourceRef> resources;
+	
 	GLID glId;
 
 
@@ -71,5 +74,25 @@ public:
 class Sampler2DBinding : public ResourceBindingBase {
 public:
 	bool useAtlas;
+	std::vector<ResourceRef> resources;
 	virtual ~Sampler2DBinding() {}
+};
+
+class PushConstantBinding : public ResourceBindingBase {
+public:
+	size_t sizeOfDataType;
+	size_t typeIndex;
+	std::string shaderId;
+	virtual ~PushConstantBinding() {}
+
+	virtual bool Compatible(ResourceBindingBase& b1) const
+	{
+		if (ResourceBindingBase::Compatible(b1))
+		{
+			PushConstantBinding* pc = dynamic_cast<PushConstantBinding*>(&b1);
+			return typeIndex == pc->typeIndex && shaderId == pc->shaderId;
+		}
+		return false;
+	}
+
 };

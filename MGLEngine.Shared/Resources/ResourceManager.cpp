@@ -18,10 +18,17 @@ std::string ResourceManager::GetFullPath(std::string relPath)
 
 void ResourceManager::RegisterShaderBindings(ShaderContext& shader)
 {
-	for (auto& samplerConfig : shader.GetShaderConfiguration().samplers)
+	auto& shaderConfig = shader.GetShaderConfiguration();
+	for (auto& samplerConfig : shaderConfig.samplers)
 	{
 		_pGlobalBindingsTable->AddSampler2D(samplerConfig.binding, samplerConfig.name, shader.GetName());
 	}
+	if (shaderConfig.pushConstant.Defined())
+	{
+		_pGlobalBindingsTable->AddPushConstant(shaderConfig.pushConstant,shader.GetName());
+
+	}
+	
 }
 
 void ResourceManager::RegisterShapeResources(ShaderContext &shader)

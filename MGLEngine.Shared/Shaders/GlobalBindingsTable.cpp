@@ -31,6 +31,32 @@ void GlobalBindingsTable::AddSampler2D(unsigned binding, std::string name, std::
 
 
 }
+
+void GlobalBindingsTable::AddPushConstant(PushConstantConfig& cnst, std::string shaderId)
+{
+	PushConstantBinding elem;
+	elem.type = BindedTypeEnum::PUSH_CONSTANT;
+	elem.typeIndex = cnst.typeIndex;
+	elem.binding = cnst.binding;
+	elem.name = cnst.name;
+	elem.shaderId = shaderId;
+	elem.references.push_back(shaderId);
+	elem.sizeOfDataType = cnst.size;
+
+	bool exists = CheckCollisionAndThrowErrorIfIncompatible(elem);
+	if (!exists)
+	{
+		_vPushConstants.push_back(elem);
+		size_t constantIndex = _vPushConstants.size() - 1;
+		GlobalIndex gi = {
+			.index = constantIndex,
+			.type = BindedTypeEnum::PUSH_CONSTANT
+		};
+		_binding_index[elem.binding] = _name_index[elem.name] = gi;
+	}
+}
+
+
 void GlobalBindingsTable::AssignImageResource(std::string bindName, const ResourceDeclaration& config, ShaderRef& sourceReference)
 {
 	if (_name_index.contains(bindName))

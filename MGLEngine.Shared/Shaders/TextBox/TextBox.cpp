@@ -15,7 +15,7 @@ public:
 		config.SetFragmentShader(textRender_frag, sizeof(textRender_frag));
 
 		config.DeclareTextureSampler("fontSampler", 2, ONE_TEXTURE_ASSIGNMENT);
-	//	config.DeclarePushConstant<glm::vec4>("fontColor",1);
+		config.DeclarePushConstant<glm::vec4>("fontColor",1);
 		
 	}
 
