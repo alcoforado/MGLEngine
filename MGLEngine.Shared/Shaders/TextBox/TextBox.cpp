@@ -35,7 +35,7 @@ TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string 
 
 void TextBox::RenderData(RenderSerializationContext& context)
 {
-		
+		context.pushConstant<glm::vec4>("fontColor",glm::vec4(0,1,0,1));
 		auto& posStream = context.GetVerticeAttribute("position2d");
 		auto& texStream = context.GetVerticeAttribute("texCoord");
 		auto& indexStream = context.GetIndicesStream();

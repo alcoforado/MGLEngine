@@ -52,7 +52,7 @@ int main()
 
 		auto pEngine = app.Init();
 
-		Example2(*pEngine);
+		Example3(*pEngine);
 		
 		
 	}
