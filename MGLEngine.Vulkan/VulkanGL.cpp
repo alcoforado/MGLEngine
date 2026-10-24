@@ -16,6 +16,7 @@ MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = pWindow;
+	_numberOfDescriptorSets = coptions.SwapChainSize;
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
 		_vulkanConfiguration.EnableDebug,
@@ -204,7 +205,7 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 	{
 		poolSizes.push_back(VkDescriptorPoolSize{
 			.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size())
+			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size()*_numberOfDescriptorSets)
 			});
 	}
 
@@ -213,7 +214,7 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 	poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
 	poolInfo.pPoolSizes = poolSizes.data();
-	poolInfo.maxSets = 1;
+	poolInfo.maxSets = _numberOfDescriptorSets;
 
 	auto vkResult = vkCreateDescriptorPool(_pLogicalDevice->GetHandle(), &poolInfo, nullptr, &_descriptorPool);
 	AssertVulkanSuccess(vkResult);
@@ -262,48 +263,51 @@ void MGL::VulkanGL::CreateBindedResources(GlobalBindingsTable& tbl)
 
 void MGL::VulkanGL::CreateDescriptorSets()
 {
-
+	std::vector< VkDescriptorSetLayout> layouts(_numberOfDescriptorSets, _descriptorSetLayout);
 	VkDescriptorSetAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 	allocInfo.descriptorPool = _descriptorPool;
-	allocInfo.descriptorSetCount = 1;
-	allocInfo.pSetLayouts = &_descriptorSetLayout;
+	allocInfo.descriptorSetCount = _numberOfDescriptorSets;
+	allocInfo.pSetLayouts = layouts.data();
 
-	_vkDescriptorSets.resize(1);
+	_vkDescriptorSets.resize(_numberOfDescriptorSets);
 	auto result = vkAllocateDescriptorSets(_pLogicalDevice->GetHandle(), &allocInfo, _vkDescriptorSets.data());
 	AssertVulkanSuccess(result);
 }
 
 void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 {
-	eassert(_vkDescriptorSets.size() == 1, "Only one descriptor set is supported at this time");
 
 
 	std::vector<VkWriteDescriptorSet> writes;
-	writes.reserve(tbl.NBindings());
+	writes.reserve(tbl.NBindings()*_numberOfDescriptorSets);
 	std::deque<VkDescriptorImageInfo> imgInfos;
-	for (const auto& sampler : tbl.GetSampler2DBindings())
+	for (auto ds : _vkDescriptorSets)
 	{
-		eassert(!sampler.glId.Undefined(), "Sampler Undefined");
 
-		VkDescriptorImageInfo imageInfo{};
-		imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		imageInfo.imageView = _vImages[sampler.resources[0].glId.index].view;
-		imageInfo.sampler = _vSamplers[sampler.glId.index];
-		imgInfos.push_back(imageInfo);
+		for (const auto& sampler : tbl.GetSampler2DBindings())
+		{
+			eassert(!sampler.glId.Undefined(), "Sampler Undefined");
 
-		VkWriteDescriptorSet write{};
+			VkDescriptorImageInfo imageInfo{};
+			imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			imageInfo.imageView = _vImages[sampler.resources[0].glId.index].view;
+			imageInfo.sampler = _vSamplers[sampler.glId.index];
+			imgInfos.push_back(imageInfo);
 
-		write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		write.pNext = nullptr;
-		write.dstSet = _vkDescriptorSets[0];
-		write.dstBinding = sampler.binding;
-		write.dstArrayElement = 0;
-		write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		write.descriptorCount = 1;
-		write.pImageInfo = &(imgInfos.back());
-		writes.push_back(write);
-	};
+			VkWriteDescriptorSet write{};
+
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = nullptr;
+			write.dstSet = ds;
+			write.dstBinding = sampler.binding;
+			write.dstArrayElement = 0;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+			write.descriptorCount = 1;
+			write.pImageInfo = &(imgInfos.back());
+			writes.push_back(write);
+		};
+	}
 	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
 
 

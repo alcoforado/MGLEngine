@@ -2,6 +2,8 @@
 #include  <MGLEngine.Shared/Shaders/FieldType.h>
 #include <queue>
 #include <string>
+#include <typeinfo>
+
 struct ShaderByteCode {
 	const uint32_t* byteCode;
 	uint32_t size;
@@ -26,6 +28,13 @@ struct TextureSamplerConfig {
 	unsigned int binding;
 	SamplerAssignmentStrategy strategy;
 };
+struct PushConstantConfig {
+	std::string name;
+	uint32_t dataTypeId;
+	size_t size;
+};
+std::vector<PushConstantConfig> pushConstants;
+
 
 struct WindowDimensions {
 	uint32_t height;
@@ -41,6 +50,7 @@ public: //data
 	ShaderByteCode fragmentShader;
 	std::vector<VertexAttributeDeclaration> vertexAttributes;
 	std::vector<TextureSamplerConfig> samplers;
+	std::vector<PushConstantConfig> pushConstants;
 	std::string name;
 	bool enableCulling = true;
 
@@ -84,6 +94,16 @@ public: // s for IShaderConfiguration
 		return *this;
 
 	}
+	 template<typename T>
+	 ShaderConfiguration& DeclarePushContanst(std::string name, unsigned int binding)
+	 {
+		 auto index = typeId(T).hash_code();
+		 auto pushConstant = PushConstantConfig{
+			 .name=name,
+			 .size=sizeof(T),
+			 .
+		 }
+	 }
 
 
 	 WindowDimensions GetWindowSize();

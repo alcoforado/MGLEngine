@@ -1,11 +1,11 @@
 #include <functional>
 #include <memory>
-#include  <MGLEngine.Shared/Window/MWindow.h>
-#include  <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
-#include  <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
-#include  <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
-#include  <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
-#include  <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
+#include <MGLEngine.Shared/Window/MWindow.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanInstance.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanPhysicalDevice.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanSurface.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
+#include <MGLEngine.Vulkan/VulkanApp/SwapChainData.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryAllocator.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandPool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanFence.h>
@@ -35,6 +35,7 @@ struct VulkanImageData {
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
+			unsigned _numberOfDescriptorSets;
 			s_ptr<MWindow> _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
