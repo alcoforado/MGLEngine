@@ -44,6 +44,8 @@ public:
 	std::vector<Sampler2DBinding>& GetSampler2DBindings()  {
 		return _vSampler2DBindings;
 	}
+	bool ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT);
+
 
 	
 

@@ -206,7 +206,6 @@ VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VkBuffer buff)
 
 
 
-
 VulkanCommandBuffer& VulkanCommandBuffer::CopyBuffers(VkBuffer src, VkBuffer dst, long size)
 {
 	AssertIsOpen();
@@ -320,6 +319,12 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyToImage(VulkanBuffer& buffer, Vulk
 	vkCmdCopyBufferToImage(this->GetHandle(), buffer.GetHandle(), image.GetHandle(), image.GetCurrentImageLayout(), 1, &region);
 
 
+	return *this;
+}
+
+
+VulkanCommandBuffer& VulkanCommandBuffer::PushConstant(void* pData, size_t index)
+{
 	return *this;
 }
 

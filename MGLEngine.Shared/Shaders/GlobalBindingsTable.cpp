@@ -56,6 +56,24 @@ void GlobalBindingsTable::AddPushConstant(PushConstantConfig& cnst, std::string 
 	}
 }
 
+bool GlobalBindingsTable::ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT)
+{
+	if (_name_index.contains(varName))
+	{
+		auto gi = _name_index[varName];
+		if (gi.type == BindedTypeEnum::PUSH_CONSTANT)
+		{
+			auto& pc = _vPushConstants[gi.index];
+			return pc.shaderId == shaderId &&
+				pc.name == varName &&
+				pc.typeIndex == typeIndex &&
+				pc.sizeOfDataType == sizeofT;
+		}
+			
+
+	}
+	return false;
+}
 
 void GlobalBindingsTable::AssignImageResource(std::string bindName, const ResourceDeclaration& config, ShaderRef& sourceReference)
 {

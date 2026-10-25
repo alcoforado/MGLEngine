@@ -3,6 +3,9 @@
 #include "textRender_vert.h"
 #include <MGLEngine.Shared/Utils/numeric_vector_functions.h>
 
+struct TextPushConstant {
+	alignas(16) glm::vec4 fontColor;
+};
 class TextRenderShader :IShader {
 public:
 	//ShaderConfiguration
@@ -15,7 +18,7 @@ public:
 		config.SetFragmentShader(textRender_frag, sizeof(textRender_frag));
 
 		config.DeclareTextureSampler("fontSampler", 2, ONE_TEXTURE_ASSIGNMENT);
-		config.DeclarePushConstant<glm::vec4>("fontColor",1);
+		config.DeclarePushConstant<TextPushConstant>("fontColor",1);
 		
 	}
 
@@ -35,7 +38,6 @@ TextBox::TextBox(MGLEngine& engine, glm::vec2 tl, std::string text, std::string 
 
 void TextBox::RenderData(RenderSerializationContext& context)
 {
-		context.pushConstant<glm::vec4>("fontColor",glm::vec4(0,1,0,1));
 		auto& posStream = context.GetVerticeAttribute("position2d");
 		auto& texStream = context.GetVerticeAttribute("texCoord");
 		auto& indexStream = context.GetIndicesStream();
@@ -93,6 +95,16 @@ void TextBox::RenderData(RenderSerializationContext& context)
 
 
 	
+}
+
+
+void TextBox::Draw(IDrawContext& ctx) 
+{
+	TextPushConstant pc;
+	pc.fontColor = glm::vec4(0, 1, 0, 1);
+	ctx.PushConstant<glm::vec4>("fontColor", pc.fontColor);
+
+	ctx.DrawIndexed();
 }
 
 

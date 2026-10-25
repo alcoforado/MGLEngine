@@ -18,6 +18,8 @@ class RenderSerializationContext  {
 	IndicesMemoryStream& _iStream;
 	MGLContainer& _mglContainer;
 	glm::vec2 _windowSize;
+
+
 public:
 	RenderSerializationContext(std::map<std::string, InterleavedMemoryStream>& vStreams, IndicesMemoryStream& iStream,MGLContainer &mglContainer)
 		:_vStreams(vStreams), _iStream(iStream), _mglContainer(mglContainer)
@@ -38,5 +40,6 @@ public:
 
 	const FontAtlasMetadata& GetFontMetadata(std::string samplerName);
 
+	
 
 };

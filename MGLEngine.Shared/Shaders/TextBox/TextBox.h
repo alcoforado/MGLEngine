@@ -21,10 +21,8 @@ public:
 	virtual void RenderData(RenderSerializationContext& context) override;
 	
 
-	virtual void Draw(IDrawContext& ctx) override
-	{
-		ctx.DrawIndexed();
-	}
+	virtual void Draw(IDrawContext& ctx) override;
+	
 	virtual ~TextBox() {}
 
 	

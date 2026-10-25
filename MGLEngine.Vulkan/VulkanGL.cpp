@@ -44,7 +44,7 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mg
 	for (auto& ctx : shaders)
 	{
 		VulkanShaderData shaderData;
-		shaderData.pipeline = CreatePipeline(ctx);
+		shaderData.pipeline = CreatePipeline(ctx,bindingTable);
 		_vVulkanShaderData.push_back(shaderData);
 		ctx.glId = GLID(GLID_VULKAN_TYPES::SHADER_DATA, _vVulkanShaderData.size() - 1);
 
@@ -447,7 +447,7 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLContainer& mglContainer)
 
 }
 
-void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer)
+void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer,MGLContainer &mglContainer)
 {
 	if (ctx.GetTotalVertices() == 0)
 		return;
@@ -459,13 +459,13 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer->GetHandle());
 	for (auto& drawingElement : ctx.GetDrawingElements())
 	{
-		VulkanDrawContext drawContext(commandBuffer, drawingElement);
+		VulkanDrawContext drawContext(commandBuffer, ctx.GetName(), drawingElement, mglContainer);
 		drawingElement.pObject->Draw(drawContext);
 
 	}
 }
 
-VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
+VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTable &globalBindingTable)
 {
 	auto& config = ctx.GetShaderConfiguration();
 	const VerticeDataLayout& binding = ctx.GetVerticeDataLayout();
@@ -565,12 +565,20 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx)
 	_pipelineVertexInputState.pVertexBindingDescriptions = bindingDescriptions.data();
 	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
 
+	//Shader push constant
+	auto pc=ctx.GetShaderConfiguration().pushConstant;
+	VkPushConstantRange pushConstantRange{};
+	pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT	; // The stages that will read this data
+	pushConstantRange.offset = 0;                             // Offset in bytes from the start of the push constant block
+	pushConstantRange.size = pc.size;
+	
 	//PipelineLayout 
 	VkPipelineLayoutCreateInfo vkPipelineLayoutInfo{};
 	vkPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	vkPipelineLayoutInfo.setLayoutCount = 1;
 	vkPipelineLayoutInfo.pSetLayouts = &_descriptorSetLayout;
-	vkPipelineLayoutInfo.pushConstantRangeCount = 0;
+	vkPipelineLayoutInfo.pushConstantRangeCount = pc.Defined() ? 1 : 0;
+	vkPipelineLayoutInfo.pPushConstantRanges = pc.Defined() ? &pushConstantRange : nullptr;
 	VkPipelineLayout vkPipelineLayout;
 	auto err = vkCreatePipelineLayout(_pLogicalDevice->GetHandle(), &vkPipelineLayoutInfo, nullptr, &vkPipelineLayout);
 	AssertVulkanSuccess(err);
@@ -635,7 +643,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	{
 		
 		Serialize(ctx, mglContainer);
-		WriteCommandBuffer(ctx, *_pCommandBuffer);
+		WriteCommandBuffer(ctx, *_pCommandBuffer,mglContainer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();

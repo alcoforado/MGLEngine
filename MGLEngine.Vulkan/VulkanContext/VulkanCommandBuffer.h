@@ -36,7 +36,6 @@ public:
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
 	VulkanCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0);
 
-
 	VulkanCommandBuffer& BindGraphicsPipeline( VkPipeline pipeline);
 
 	VulkanCommandBuffer& BindDescriptorSet(VulkanPipeline * pipeline, std::string layoutNumber, int dsNumber);
@@ -62,8 +61,7 @@ public:
 	VulkanCommandBuffer& TransitionImageToFinalLayout(VulkanImage& image);
 
 	VulkanCommandBuffer& BindDescriptorSetsToGraphicPipeline(VkPipelineLayout pipelineLayout, VkDescriptorSet ds);
-	
-
+	VulkanCommandBuffer& PushConstant(void* pData, size_t index);
 
 	void Delete();
 	~VulkanCommandBuffer();

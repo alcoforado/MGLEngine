@@ -8,6 +8,8 @@ const FontAtlasMetadata& RenderSerializationContext::GetFontMetadata(std::string
 }
 
 
+
+
 glm::vec2 RenderSerializationContext::WindowSize()
 {
 	auto size=_mglContainer.GetWindow().Size();

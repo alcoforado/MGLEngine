@@ -39,6 +39,7 @@ public:
 	void RegisterShaderBindings(ShaderContext& shader);
 	void RegisterShapeResources(ShaderContext& shader);
 	void LoadAllResources();
+	void ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT);
 	
 
 

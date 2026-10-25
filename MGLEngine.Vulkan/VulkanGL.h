@@ -81,7 +81,7 @@ struct VulkanImageData {
 			void CreateDescriptorSets();
 			void UpdateDescriptorSets(GlobalBindingsTable& tbl);
 		private: //auxiliary
-				VkFormat MapToVulkanFormat(ImageFormat format);
+			VkFormat MapToVulkanFormat(ImageFormat format);
 			GLID CreateTextureSampler(const Sampler2DBinding& sampler);
 		private:
 			void DestroySwapChain();
@@ -97,10 +97,10 @@ struct VulkanImageData {
 			
 			void DestroySamplers();
 		private:
-			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer);
+			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer, MGLContainer& mglContainer);
 			void Serialize(ShaderContext& ctx,MGLContainer &mglContainer);
 
-			VulkanPipelineData CreatePipeline(ShaderContext& ctx);
+			VulkanPipelineData CreatePipeline(ShaderContext& ctx, GlobalBindingsTable &globalBindingTable);
 			std::vector<VkVertexInputBindingDescription> CreatePipelineVertexInputBinding(const VerticeDataLayout &binding);
 			std::vector<VkVertexInputAttributeDescription> CreatePipelineVertexInputAttributes(const VerticeDataLayout &binding);
 			
