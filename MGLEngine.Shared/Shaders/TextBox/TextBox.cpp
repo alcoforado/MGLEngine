@@ -101,7 +101,7 @@ void TextBox::RenderData(RenderSerializationContext& context)
 void TextBox::Draw(IDrawContext& ctx) 
 {
 	TextPushConstant pc;
-	pc.fontColor = glm::vec4(0, 1, 0, 1);
+	pc.fontColor = glm::vec4(1, 1, 0.1, 1);
 	ctx.PushConstant("fontColor", pc);
 
 	ctx.DrawIndexed();
