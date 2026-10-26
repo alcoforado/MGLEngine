@@ -61,7 +61,7 @@ public:
 	VulkanCommandBuffer& TransitionImageToFinalLayout(VulkanImage& image);
 
 	VulkanCommandBuffer& BindDescriptorSetsToGraphicPipeline(VkPipelineLayout pipelineLayout, VkDescriptorSet ds);
-	VulkanCommandBuffer& PushConstant(void* pData, size_t index);
+	VulkanCommandBuffer& PushConstant(VkPipelineLayout pipelineLayout, VkShaderStageFlags stages,void* pData, size_t index);
 
 	void Delete();
 	~VulkanCommandBuffer();

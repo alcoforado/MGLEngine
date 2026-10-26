@@ -83,7 +83,7 @@ public:
 	
 	
 
-	ShaderConfiguration& GetShaderConfiguration() { return _options; }
+	ShaderConfiguration& GetConfiguration() { return _options; }
 };
 
 

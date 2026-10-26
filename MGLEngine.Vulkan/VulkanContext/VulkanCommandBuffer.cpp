@@ -323,8 +323,17 @@ VulkanCommandBuffer& VulkanCommandBuffer::CopyToImage(VulkanBuffer& buffer, Vulk
 }
 
 
-VulkanCommandBuffer& VulkanCommandBuffer::PushConstant(void* pData, size_t index)
+VulkanCommandBuffer& VulkanCommandBuffer::PushConstant(VkPipelineLayout layout, VkShaderStageFlags stages,void* pData, size_t size)
 {
+	vkCmdPushConstants(
+		this->GetHandle(),
+		layout,              // Must match layout used by bound pipeline
+		stages,              // Must match or be a subset of range flags
+		0,                   // Offset inside the push constant block
+		size,                // Size of data to update
+		pData                       // CPU pointer to raw payload data
+	);
+
 	return *this;
 }
 

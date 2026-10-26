@@ -24,6 +24,12 @@ enum SamplerAssignmentStrategy {
 	ONE_TEXTURE_ASSIGNMENT,
 	MERGE_TEXTURES_INTO_ATLAS
 };
+enum ShaderStage {
+	VERTEX_STAGE,
+	FRAGMENT_STAGE,
+	VERTEX_FRAGMENT_STAGE
+};
+
 struct TextureSamplerConfig {
 	std::string name;
 	unsigned int binding;
@@ -34,8 +40,13 @@ struct PushConstantConfig {
 	size_t typeIndex;
 	size_t size;
 	uint32_t binding;
+	ShaderStage stage;
 	bool Defined() {
 		return !name.empty();
+	}
+	bool Validate(std::string name, size_t typeIndex, size_t size)
+	{
+		return this->name == name && this->typeIndex == typeIndex && this->size == size;
 	}
 	
 };
@@ -101,14 +112,15 @@ public: // s for IShaderConfiguration
 	}
 	 
 	 template<typename T>
-	 ShaderConfiguration& DeclarePushConstant(std::string name, unsigned int binding)
+	 ShaderConfiguration& DeclarePushConstant(std::string name, unsigned int binding,ShaderStage stage)
 	 {
 		 std::type_index typeIndex(typeid(T));
 		 pushConstant = PushConstantConfig{
 			 .name = name,
 			 .typeIndex = typeid(T).hash_code(),
 			 .size = sizeof(T),
-			 .binding=binding
+			 .binding=binding,
+			 .stage=stage
 		 };
 		 return *this;
 		 

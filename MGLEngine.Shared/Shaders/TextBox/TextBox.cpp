@@ -18,7 +18,7 @@ public:
 		config.SetFragmentShader(textRender_frag, sizeof(textRender_frag));
 
 		config.DeclareTextureSampler("fontSampler", 2, ONE_TEXTURE_ASSIGNMENT);
-		config.DeclarePushConstant<TextPushConstant>("fontColor",1);
+		config.DeclarePushConstant<TextPushConstant>("fontColor",1,FRAGMENT_STAGE);
 		
 	}
 
@@ -102,7 +102,7 @@ void TextBox::Draw(IDrawContext& ctx)
 {
 	TextPushConstant pc;
 	pc.fontColor = glm::vec4(0, 1, 0, 1);
-	ctx.PushConstant<glm::vec4>("fontColor", pc.fontColor);
+	ctx.PushConstant("fontColor", pc);
 
 	ctx.DrawIndexed();
 }

@@ -18,7 +18,7 @@ std::string ResourceManager::GetFullPath(std::string relPath)
 
 void ResourceManager::RegisterShaderBindings(ShaderContext& shader)
 {
-	auto& shaderConfig = shader.GetShaderConfiguration();
+	auto& shaderConfig = shader.GetConfiguration();
 	for (auto& samplerConfig : shaderConfig.samplers)
 	{
 		_pGlobalBindingsTable->AddSampler2D(samplerConfig.binding, samplerConfig.name, shader.GetName());

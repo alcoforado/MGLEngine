@@ -5,6 +5,7 @@
 #include <MGLEngine.Shared/Utils/utils.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
+#include <MGLEngine.Vulkan/VulkanContext/VulkanMappings.h>
 #include "VulkanContext/VulkanDrawContext.h"
 
 using namespace MGL;
@@ -459,7 +460,7 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer->GetHandle());
 	for (auto& drawingElement : ctx.GetDrawingElements())
 	{
-		VulkanDrawContext drawContext(commandBuffer, ctx.GetName(), drawingElement, mglContainer);
+		VulkanDrawContext drawContext(vkShaderData,commandBuffer, ctx, drawingElement);
 		drawingElement.pObject->Draw(drawContext);
 
 	}
@@ -467,7 +468,7 @@ void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& 
 
 VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTable &globalBindingTable)
 {
-	auto& config = ctx.GetShaderConfiguration();
+	auto& config = ctx.GetConfiguration();
 	const VerticeDataLayout& binding = ctx.GetVerticeDataLayout();
 
 	VkPipelineShaderStageCreateInfo VertShaderStageInfo = {};
@@ -566,9 +567,9 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 	_pipelineVertexInputState.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	//Shader push constant
-	auto pc=ctx.GetShaderConfiguration().pushConstant;
+	auto pc=ctx.GetConfiguration().pushConstant;
 	VkPushConstantRange pushConstantRange{};
-	pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT	; // The stages that will read this data
+	pushConstantRange.stageFlags = VulkanMappings::Map(pc.stage); // The stages that will read this data
 	pushConstantRange.offset = 0;                             // Offset in bytes from the start of the push constant block
 	pushConstantRange.size = pc.size;
 	
