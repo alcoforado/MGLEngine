@@ -1,8 +1,9 @@
 #pragma once
+#include <MGLEngine.Shared/Shaders/ShaderConfiguration.h>
 #include <MGLEngine.Shared/Interfaces/GLID.h>
 
 enum BindedTypeEnum {
-	SAMPLER_2D, PUSH_CONSTANT
+	SAMPLER_2D, PUSH_CONSTANT, UBO
 };
 
 
@@ -91,6 +92,26 @@ public:
 		{
 			PushConstantBinding* pc = dynamic_cast<PushConstantBinding*>(&b1);
 			return typeIndex == pc->typeIndex && shaderId == pc->shaderId;
+		}
+		return false;
+	}
+
+};
+
+
+class UboBinding : public ResourceBindingBase {
+public:
+	size_t typeIndex;
+	size_t sizeOfDataType;
+	std::string shaderId;
+
+
+	virtual bool Compatible(ResourceBindingBase& b1) const
+	{
+		if (ResourceBindingBase::Compatible(b1))
+		{
+			UboBinding* p1 = dynamic_cast<UboBinding*>(&b1);
+			return typeIndex == p1->typeIndex && sizeOfDataType == p1->sizeOfDataType && p1->shaderId == shaderId;
 		}
 		return false;
 	}

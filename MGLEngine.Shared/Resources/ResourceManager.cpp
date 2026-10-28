@@ -28,6 +28,10 @@ void ResourceManager::RegisterShaderBindings(ShaderContext& shader)
 		_pGlobalBindingsTable->AddPushConstant(shaderConfig.pushConstant,shader.GetName());
 
 	}
+	for (auto& ubo : shaderConfig.ubos)
+	{
+		_pGlobalBindingsTable->AddUbo(ubo, shader.GetName());
+	}
 	
 }
 
@@ -75,7 +79,17 @@ void ResourceManager::LoadAllResources()
 			sampler2D.resources[0].glId = res.glid;
 			sampler2D.resources[0].MetadataId = res.MetadataId;
 		}
+
+
 	}
+
+	for (auto& ubo : _pGlobalBindingsTable->GetUboBindings())
+	{
+		ubo.glId=_gl.CreateUbo(ubo.binding,ubo.sizeOfDataType)
+	}
+
+
+
 
 
 };

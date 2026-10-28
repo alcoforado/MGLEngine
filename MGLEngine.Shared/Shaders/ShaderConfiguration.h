@@ -51,6 +51,23 @@ struct PushConstantConfig {
 	
 };
 
+enum FrequencyUsage {
+	PER_OBJECT,
+	PER_FRAME
+};
+
+enum UboScope {
+	GLOBAL,
+	LOCAL_SHADER
+};
+
+struct UboConfig {
+	std::string name;
+	FrequencyUsage usage;
+	uint32_t binding;
+	size_t typeIndex;
+	size_t sizeofType;
+};
 
 struct WindowDimensions {
 	uint32_t height;
@@ -66,6 +83,8 @@ public: //data
 	ShaderByteCode fragmentShader;
 	std::vector<VertexAttributeDeclaration> vertexAttributes;
 	std::vector<TextureSamplerConfig> samplers;
+	std::vector<UboConfig> ubos;
+
 	PushConstantConfig pushConstant;
 	std::string name;
 	bool enableCulling = true;
@@ -98,6 +117,19 @@ public: // s for IShaderConfiguration
 		fragmentShader.size = size;
 		return *this;
 	}
+
+	 template<typename T>
+	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding)
+	 {
+		 ubos.push_back(UboConfig{
+			 .name = name,
+			 .binding = binding,
+			 .usage = frequency,
+			 .typeIndex = typeid(T).hash_code(),
+			 .sizeofType = sizeof(T)
+		 });
+		 return *this;
+	 }
 
 	 ShaderConfiguration& DeclareTextureSampler(std::string name, unsigned int binding, SamplerAssignmentStrategy strategy) 
 	{

@@ -115,7 +115,7 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/ShapeRegistrationConfig.h" 
    "Utils/stb_implementation.cpp" 
    "utils.h" 
-   "Shaders/global_bindings.h" 
+    
    "Shaders/GlobalBindingsTable.h" 
    "Shaders/GlobalBindingsTable.cpp" 
    "Utils/Tracer.h" 

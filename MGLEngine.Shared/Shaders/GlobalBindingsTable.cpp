@@ -56,6 +56,31 @@ void GlobalBindingsTable::AddPushConstant(PushConstantConfig& cnst, std::string 
 	}
 }
 
+void GlobalBindingsTable::AddUbo(const UboConfig& ubo, std::string shaderId)
+{
+	UboBinding elem;
+	elem.type = BindedTypeEnum::UBO;
+	elem.typeIndex = ubo.typeIndex;
+	elem.sizeOfDataType = ubo.sizeofType;
+	elem.binding = ubo.binding;
+	elem.name = ubo.name;
+	elem.references.push_back(shaderId);
+	elem.shaderId = shaderId;
+	bool exists = CheckCollisionAndThrowErrorIfIncompatible(elem);
+	if (!exists)
+	{
+		_vUbos.push_back(elem);
+		size_t constantIndex = _vUbos.size() - 1;
+		GlobalIndex gi = {
+			.index = constantIndex,
+			.type = BindedTypeEnum::UBO
+		};
+		_binding_index[elem.binding] = _name_index[elem.name] = gi;
+	}
+
+}
+
+
 bool GlobalBindingsTable::ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT)
 {
 	if (_name_index.contains(varName))
