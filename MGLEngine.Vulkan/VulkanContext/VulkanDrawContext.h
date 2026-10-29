@@ -3,7 +3,7 @@
 #include <MGLEngine.Shared/Shaders/ShaderContext.h>
 #include <MGLEngine.Shared/Container/MGLContainer.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanCommandBuffer.h>
-class VulkanShaderData;
+struct VulkanShaderData;
 class VulkanDrawContext : public IDrawContext
 {
 	const ShapeElement& _drawContext;

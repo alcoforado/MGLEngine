@@ -85,7 +85,7 @@ void ResourceManager::LoadAllResources()
 
 	for (auto& ubo : _pGlobalBindingsTable->GetUboBindings())
 	{
-		ubo.glId=_gl.CreateUbo(ubo.binding,ubo.sizeOfDataType)
+		ubo.glId = _gl.CreateUbo(ubo.binding, ubo.sizeOfDataType);
 	}
 
 

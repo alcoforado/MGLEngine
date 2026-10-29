@@ -78,11 +78,29 @@ s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateIndexBuffer(uint64_t numOfBytes
 	
 }
 
+
+
+
 s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateStagingBuffer(uint64_t sizeInBytes)
 {
 	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
 	bufferInfo.size = sizeInBytes;
 	bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+
+
+	VmaAllocationCreateInfo allocInfo = {};
+	allocInfo.usage = VMA_MEMORY_USAGE_AUTO;
+	allocInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
+
+	return CreateBuffer(&bufferInfo, &allocInfo);
+}
+
+
+s_ptr<VulkanBuffer> VulkanMemoryAllocator::CreateUniformBuffer(uint64_t sizeInBytes)
+{
+	VkBufferCreateInfo bufferInfo = { VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
+	bufferInfo.size = sizeInBytes;
+	bufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
 
 
 	VmaAllocationCreateInfo allocInfo = {};

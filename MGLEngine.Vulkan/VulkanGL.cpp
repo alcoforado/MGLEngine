@@ -22,6 +22,7 @@ MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 		_vulkanConfiguration.Name,
 		_vulkanConfiguration.EnableDebug,
 		vulkanVersion);
+	_vUbos.resize(coptions.SwapChainSize);
 	ChoosePhysicalDevice();
 	CreateVulkanSurface();
 	CreateLogicalDevice();
@@ -209,6 +210,13 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size()*_numberOfDescriptorSets)
 			});
 	}
+	if (tbl.GetUboBindings().size() > 0)
+	{
+		poolSizes.push_back(VkDescriptorPoolSize{
+			.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+			.descriptorCount = static_cast<uint32_t>(tbl.GetUboBindings().size() * _numberOfDescriptorSets)
+		});
+	}
 
 
 	VkDescriptorPoolCreateInfo poolInfo{};
@@ -231,11 +239,23 @@ void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable& tbl)
 			.binding = sampler.binding,
 			.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 			.descriptorCount = 1,
-			.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
+			.stageFlags =  VK_SHADER_STAGE_FRAGMENT_BIT,
 			.pImmutableSamplers = nullptr,
 		};
 		vulkanBindings.push_back(layout);
 	};
+
+	for (const auto& ubo : tbl.GetUboBindings())
+	{
+		VkDescriptorSetLayoutBinding layout{
+			.binding = ubo.binding,
+			.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+			.descriptorCount = 1,
+			.stageFlags = VulkanMappings::Map(ubo.stage),
+			.pImmutableSamplers = nullptr,
+		};
+		vulkanBindings.push_back(layout);
+	}
 
 
 	//Finally assign all the layouts
@@ -245,7 +265,7 @@ void VulkanGL::CreateDescriptorSetLayout(GlobalBindingsTable& tbl)
 		.pBindings = vulkanBindings.data()
 	};
 
-	//Create DescRirptor Set Layout
+	//Create Descrirptor Set Layout
 	auto vkResult = vkCreateDescriptorSetLayout(_pLogicalDevice->GetHandle(), &layoutInfo, nullptr, &_descriptorSetLayout);
 	AssertVulkanSuccess(vkResult);
 
@@ -283,6 +303,8 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 	std::vector<VkWriteDescriptorSet> writes;
 	writes.reserve(tbl.NBindings()*_numberOfDescriptorSets);
 	std::deque<VkDescriptorImageInfo> imgInfos;
+	std::deque<VkDescriptorBufferInfo> bufferInfos;
+	uint32_t frameIndex = 0;
 	for (auto ds : _vkDescriptorSets)
 	{
 
@@ -308,6 +330,33 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 			write.pImageInfo = &(imgInfos.back());
 			writes.push_back(write);
 		};
+
+
+		for (const auto& ubo : tbl.GetUboBindings())
+		{
+			eassert(!ubo.glId.Undefined(), "UBO not created yet");
+
+			VkDescriptorBufferInfo bufferInfo{};
+			bufferInfo.buffer = _vUbos[frameIndex][ubo.glId.index].pBuffer->GetHandle();
+			bufferInfo.offset = 0;
+			bufferInfo.range = sizeof(ubo.sizeOfDataType);
+			bufferInfos.push_back(bufferInfo);
+
+			VkWriteDescriptorSet write{};
+
+			write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			write.pNext = nullptr;
+			write.dstSet = ds;
+			write.dstBinding = ubo.binding;
+			write.dstArrayElement = 0;
+			write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;;
+			write.descriptorCount = 1;
+			write.pBufferInfo= &(bufferInfos.back());
+			writes.push_back(write);
+		};
+
+
+		frameIndex++;
 	}
 	vkUpdateDescriptorSets(_pLogicalDevice->GetHandle(), static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
 
@@ -571,7 +620,7 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 	VkPushConstantRange pushConstantRange{};
 	pushConstantRange.stageFlags = VulkanMappings::Map(pc.stage); // The stages that will read this data
 	pushConstantRange.offset = 0;                             // Offset in bytes from the start of the push constant block
-	pushConstantRange.size = pc.size;
+	pushConstantRange.size = static_cast<uint32_t>(pc.size);
 	
 	//PipelineLayout 
 	VkPipelineLayoutCreateInfo vkPipelineLayoutInfo{};
@@ -766,6 +815,21 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 	stagingBuffer->Delete();
 	return GLID(GLID_VULKAN_TYPES::IMAGE, id);
 
+}
+
+
+GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType)
+{
+	auto index = _vUbos[0].size();
+	for (auto perFrameUbos : _vUbos)
+	{
+		VulkanUbo ubo = VulkanUbo
+		{
+			.pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType)
+		};
+		perFrameUbos.push_back(ubo);
+	};
+	return GLID(GLID_VULKAN_TYPES::UBO, index);
 }
 
 GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)

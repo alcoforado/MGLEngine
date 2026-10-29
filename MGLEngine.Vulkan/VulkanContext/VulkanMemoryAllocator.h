@@ -14,6 +14,7 @@ class VulkanMemoryAllocator {
 		s_ptr<VulkanBuffer> CreateVertexBuffer(uint64_t sizeInBytes);
 		s_ptr<VulkanBuffer> CreateIndexBuffer(uint64_t numOfBytes);
 		s_ptr<VulkanBuffer> CreateStagingBuffer(uint64_t sizeInBytes);
+		s_ptr<VulkanBuffer> CreateUniformBuffer(uint64_t sizeInBytes);
 		s_ptr<VulkanImage> CreateImageBuffer(VkImageCreateInfo imgInfo);
 		s_ptr<VulkanImage> CreateImageBuffer(uint64_t sizeInBytes);
 		const VulkanLogicalDevice& GetDevice() {

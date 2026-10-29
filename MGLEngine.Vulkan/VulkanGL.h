@@ -27,6 +27,15 @@ struct VulkanShaderData {
 	s_ptr<VulkanBuffer> indicesBuffer;
 };
 
+
+
+
+struct VulkanUbo {
+	s_ptr<VulkanBuffer> pBuffer;
+	
+	
+};
+
 struct VulkanImageData {
 	s_ptr<VulkanImage> image;
 	VkImageView view;
@@ -64,6 +73,8 @@ struct VulkanImageData {
 			std::vector<VulkanShaderData> _vVulkanShaderData;
 			std::vector<VkSampler> _vSamplers;
 			std::vector<VulkanImageData> _vImages;
+			std::vector<std::vector<VulkanUbo>> _vUbos;  //one vector for each frame
+
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
@@ -108,7 +119,7 @@ struct VulkanImageData {
 			VulkanBuffer CreateVertexBuffer(uint64_t sizeInBytes);
 			void ResizeSwapChain();
 			void Draw(std::vector<ShaderContext> &shaders,MGLContainer &mglContainer);
-
+			
 			
 
 
@@ -117,6 +128,7 @@ struct VulkanImageData {
 				SAMPLER2D = 0,
 				IMAGE=1,
 				SHADER_DATA=2,
+				UBO=3
 
 			};
 
@@ -136,6 +148,7 @@ struct VulkanImageData {
 			// Inherited via IGraphicLibrary
 			
 			GLID LoadTexture(ITexImage& img) override;
+			GLID CreateUbo(uint32_t binding, size_t sizeOfDataType) override; 
 			void LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) override;
 			void Run(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer) override;
 			
@@ -143,4 +156,5 @@ struct VulkanImageData {
 			
 
 	};
+
 }

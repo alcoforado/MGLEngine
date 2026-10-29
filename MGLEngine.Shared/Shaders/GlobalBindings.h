@@ -104,6 +104,7 @@ public:
 	size_t typeIndex;
 	size_t sizeOfDataType;
 	std::string shaderId;
+	ShaderStage stage;
 
 
 	virtual bool Compatible(ResourceBindingBase& b1) const

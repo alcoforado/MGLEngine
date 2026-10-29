@@ -18,6 +18,7 @@ class IGraphicLibrary {
 		virtual GLID LoadTexture(ITexImage& img) = 0;
 		virtual void LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer& container) = 0;
 		virtual void Run(std::vector<ShaderContext>& shaders, MGLContainer& container)=0;
+		virtual GLID CreateUbo(uint32_t binding, size_t sizeOfDataType)=0;
 		virtual ~IGraphicLibrary() {}
 };
 

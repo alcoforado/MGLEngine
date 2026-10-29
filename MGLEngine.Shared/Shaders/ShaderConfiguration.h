@@ -67,6 +67,7 @@ struct UboConfig {
 	uint32_t binding;
 	size_t typeIndex;
 	size_t sizeofType;
+	ShaderStage stage;
 };
 
 struct WindowDimensions {
@@ -119,14 +120,15 @@ public: // s for IShaderConfiguration
 	}
 
 	 template<typename T>
-	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding)
+	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage)
 	 {
 		 ubos.push_back(UboConfig{
 			 .name = name,
 			 .binding = binding,
 			 .usage = frequency,
 			 .typeIndex = typeid(T).hash_code(),
-			 .sizeofType = sizeof(T)
+			 .sizeofType = sizeof(T),
+			 .stage=stage
 		 });
 		 return *this;
 	 }
