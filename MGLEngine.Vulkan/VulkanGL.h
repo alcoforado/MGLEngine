@@ -108,7 +108,7 @@ struct VulkanImageData {
 			
 			void DestroySamplers();
 		private:
-			void WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer, MGLContainer& mglContainer);
+			void WriteCommandBuffer(uint32_t frameIndex,ShaderContext& ctx, VulkanCommandBuffer& commandBuffer, MGLContainer& mglContainer);
 			void Serialize(ShaderContext& ctx,MGLContainer &mglContainer);
 
 			VulkanPipelineData CreatePipeline(ShaderContext& ctx, GlobalBindingsTable &globalBindingTable);

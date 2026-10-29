@@ -497,14 +497,14 @@ void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLContainer& mglContainer)
 
 }
 
-void MGL::VulkanGL::WriteCommandBuffer(ShaderContext& ctx, VulkanCommandBuffer& commandBuffer,MGLContainer &mglContainer)
+void MGL::VulkanGL::WriteCommandBuffer(uint32_t frameIndex,ShaderContext& ctx, VulkanCommandBuffer& commandBuffer,MGLContainer &mglContainer)
 {
 	if (ctx.GetTotalVertices() == 0)
 		return;
 	auto& vkShaderData = _vVulkanShaderData[ctx.glId.index];
 
 	commandBuffer.BindGraphicsPipeline(vkShaderData.pipeline.handle);
-	commandBuffer.BindDescriptorSetsToGraphicPipeline(vkShaderData.pipeline.layout, _vkDescriptorSets[0]);
+	commandBuffer.BindDescriptorSetsToGraphicPipeline(vkShaderData.pipeline.layout, _vkDescriptorSets[frameIndex]);
 	commandBuffer.BindVertexBuffer(vkShaderData.verticeBuffer->GetHandle());
 	commandBuffer.BindIndexBuffer(vkShaderData.indicesBuffer->GetHandle());
 	for (auto& drawingElement : ctx.GetDrawingElements())
@@ -693,7 +693,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	{
 		
 		Serialize(ctx, mglContainer);
-		WriteCommandBuffer(ctx, *_pCommandBuffer,mglContainer);
+		WriteCommandBuffer(imageIndex,ctx, *_pCommandBuffer,mglContainer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
