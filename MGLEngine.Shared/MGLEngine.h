@@ -10,6 +10,7 @@
 #include <MGLEngine.Shared/Interfaces/AppConfiguration.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
+#include <MGLEngine.Shared/Events/FrameTickSource.h>
 
 
 #include <typeindex>
@@ -35,13 +36,23 @@ class MGLEngine {
 		
 		std::map<std::string, GLID> _resourcesCache;
 
+		//Event Emitters
+		FrameTickSource frameTickEmitter;
+
+
+
 	private: //functions	
+		void LoadShaders();
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
 		~MGLEngine();
 
+		//Event Subscribing
+		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
 
+
+		//Register Shape in a Shader
 		template<std::default_initializable ShaderType>
 		void AddShape(IDrawingObject& shape, const std::function<void(ShapeRegistrationConfig&)>& f) {
 			std::type_index typeIndex(typeid(ShaderType));
@@ -73,9 +84,8 @@ class MGLEngine {
 		};
 		
 
-		void LoadShaders();
-		
 		void Run();
+
 		
 };
 
