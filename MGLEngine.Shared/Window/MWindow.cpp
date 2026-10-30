@@ -30,6 +30,19 @@ MWindow::WindowSize MWindow::Size() {
 	return sz;
 }
 
+
+bool MWindow::ShouldClose()
+{
+	return glfwWindowShouldClose(this->GLFWHandler());
+
+}
+
+void  MWindow::PollEvents()
+{
+	glfwPollEvents();
+
+}
+
 MWindow::MWindow(const WindowOptions &options)
 {
 	_width = options.Width;

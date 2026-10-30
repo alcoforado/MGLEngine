@@ -714,19 +714,6 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	}
 }
 
-void MGL::VulkanGL::Run(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) {
-
-
-	auto glfwWindow = _pWindow->GLFWHandler();
-
-
-	while (!glfwWindowShouldClose(glfwWindow))
-	{
-		glfwPollEvents();
-		Draw(shaders, mglContainer);
-	}
-	_pLogicalDevice->GetGraphicQueue().WaitIdle();
-}
 
 
 
@@ -862,6 +849,7 @@ GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)
 
 #pragma region Cleanup
 MGL::VulkanGL::~VulkanGL() {
+	_pLogicalDevice->GetGraphicQueue().WaitIdle();
 	DestroyFramebuffer();
 	DestroyShaderContexts();
 	DestroyRenderPass();

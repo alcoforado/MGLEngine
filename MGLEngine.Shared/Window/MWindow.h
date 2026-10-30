@@ -42,6 +42,8 @@ struct GLFWwindow;
 		WindowSize Size(); 
 		void AttachEventHandler(IWindowEventHandler *eh);
 		void DetachEventHandler(IWindowEventHandler *eb);
+		bool ShouldClose();
+		void PollEvents();
 
 	};
 

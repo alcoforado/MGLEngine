@@ -23,10 +23,17 @@ MGLEngine::~MGLEngine()
 
 void MGLEngine::Run()
 {
-	
 	this->LoadShaders();
 
-	_gl.Run(_shaders, *_pMGLContainer);
+	auto glfwWindow = _pWindow->GLFWHandler();
+
+
+	while (!_pWindow->ShouldClose())
+	{
+		_pWindow->PollEvents();
+		_gl.Draw(_shaders, *_pMGLContainer);
+	}
+
 }
 
 bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
