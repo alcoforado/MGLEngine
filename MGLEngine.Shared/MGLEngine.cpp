@@ -31,6 +31,7 @@ void MGLEngine::Run()
 	while (!_pWindow->ShouldClose())
 	{
 		_pWindow->PollEvents();
+		this->frameTickEmitter.Emit();
 		_gl.Draw(_shaders, *_pMGLContainer);
 	}
 
