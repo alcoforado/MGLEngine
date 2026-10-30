@@ -43,6 +43,12 @@ public:
 		{
 			sub->Process(ev);
 		}
+		for (auto& sub : this->fSubscribers)
+		{
+			sub(ev);
+		}
+
+
 	}
 
 	
