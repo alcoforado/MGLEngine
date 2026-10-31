@@ -104,13 +104,16 @@ public:
 	size_t typeIndex;
 	size_t sizeOfDataType;
 	std::string shaderId;
+	bool shared;
 	ShaderStage stage;
-
+	std::vector<std::byte> initValue;
 
 	virtual bool Compatible(ResourceBindingBase& b1) const
 	{
 		if (ResourceBindingBase::Compatible(b1))
 		{
+			if (!shared)
+				return false;
 			UboBinding* p1 = dynamic_cast<UboBinding*>(&b1);
 			return typeIndex == p1->typeIndex && sizeOfDataType == p1->sizeOfDataType && p1->shaderId == shaderId;
 		}

@@ -75,6 +75,9 @@ struct VulkanImageData {
 			std::vector<VulkanImageData> _vImages;
 			std::vector<std::vector<VulkanUbo>> _vUbos;  //one vector for each frame
 
+			//Frame Index
+			uint32_t _currentFrame;
+
 		private:
 			void ChoosePhysicalDevice();
 			void CreateVulkanSurface();
@@ -147,7 +150,9 @@ struct VulkanImageData {
 			// Inherited via IGraphicLibrary
 			
 			GLID LoadTexture(ITexImage& img) override;
-			GLID CreateUbo(uint32_t binding, size_t sizeOfDataType) override; 
+			GLID CreateUbo(uint32_t binding, size_t sizeOfDataType, std::vector<std::byte>& initValue) override;
+			void CopyToUbo(GLID glId, std::vector<std::byte>& value) override;
+
 			void LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) override;
 			void Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer) override;
 			

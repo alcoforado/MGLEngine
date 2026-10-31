@@ -805,7 +805,7 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 }
 
 
-GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType)
+GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vector<std::byte> &initValue)
 {
 	auto index = _vUbos[0].size();
 	for (auto perFrameUbos : _vUbos)
@@ -814,9 +814,19 @@ GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType)
 		{
 			.pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType)
 		};
+		ubo.pBuffer->Map();
+		ubo.pBuffer->CopyToGPU(initValue.data(), initValue.size());
 		perFrameUbos.push_back(ubo);
 	};
 	return GLID(GLID_VULKAN_TYPES::UBO, index);
+}
+
+void MGL::VulkanGL::CopyToUbo(GLID glId, std::vector<std::byte>& value)
+{
+	eassert(glId.type == GLID_VULKAN_TYPES::UBO, "Expected a UBO type");
+
+	auto& pBuffer = _vUbos[_currentFrame][glId.index].pBuffer;
+	pBuffer->CopyToGPU(value.data(), value.size());
 }
 
 GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)

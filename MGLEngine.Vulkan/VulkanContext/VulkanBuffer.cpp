@@ -47,6 +47,12 @@ void VulkanBuffer::CopyToGPU(void* pSrc, uint64_t sizeInBytes)
 
 }
 
+void VulkanBuffer::CopyToGPU(std::vector<std::byte>& src)
+{
+	CopyToGPU(src.data(), src.size());
+}
+
+
 void VulkanBuffer::Delete() {
 	if (_buffer == VK_NULL_HANDLE)
 		return;

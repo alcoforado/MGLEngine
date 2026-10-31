@@ -2,7 +2,7 @@
 #include <vulkan/vulkan.h>
 #include <MGLEngine.Vulkan/VulkanContext/vmausage.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanMemoryProperties.h>
-
+#include <vector>
 class VulkanMemoryAllocator;
 class VulkanBuffer {
 	friend class VulkanMemoryAllocator;
@@ -48,6 +48,7 @@ public:
 	}
 
 	void CopyToGPU(void* pData, uint64_t sizeInBytes);
+	void CopyToGPU(std::vector<std::byte>& src);
 	
 	//Flush the content to CPU
 	void Flush();

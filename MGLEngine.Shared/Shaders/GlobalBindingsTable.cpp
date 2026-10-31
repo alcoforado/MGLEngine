@@ -67,6 +67,8 @@ void GlobalBindingsTable::AddUbo(const UboConfig& ubo, std::string shaderId)
 	elem.references.push_back(shaderId);
 	elem.shaderId = shaderId;
 	elem.stage = ubo.stage;
+	elem.initValue = ubo.initValue;
+	elem.shared = false;
 	bool exists = CheckCollisionAndThrowErrorIfIncompatible(elem);
 	if (!exists)
 	{

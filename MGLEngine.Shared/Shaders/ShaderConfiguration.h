@@ -4,6 +4,7 @@
 #include <string>
 #include <typeinfo>
 #include <typeindex>
+#include <cstdlib>
 
 struct ShaderByteCode {
 	const uint32_t* byteCode;
@@ -68,6 +69,8 @@ struct UboConfig {
 	size_t typeIndex;
 	size_t sizeofType;
 	ShaderStage stage;
+	std::vector<std::byte> initValue;
+	
 };
 
 struct WindowDimensions {
@@ -120,16 +123,23 @@ public: // s for IShaderConfiguration
 	}
 
 	 template<typename T>
-	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage)
+	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage,T initValue)
 	 {
+		 static_assert(std::is_trivially_copyable<T>::value, "Initializable type must be Trivially Copyable to use with DeclareMappedUbo!");
 		 ubos.push_back(UboConfig{
 			 .name = name,
-			 .binding = binding,
 			 .usage = frequency,
+			 .binding = binding,
 			 .typeIndex = typeid(T).hash_code(),
 			 .sizeofType = sizeof(T),
-			 .stage=stage
+			 .stage=stage,
 		 });
+		 
+		 auto& buffer = ubos.back().initValue;
+		 buffer.resize(sizeof(T), std::byte{ 0 });
+		 std::memcpy(buffer.data(), &initValue, sizeof(T));
+
+
 		 return *this;
 	 }
 
