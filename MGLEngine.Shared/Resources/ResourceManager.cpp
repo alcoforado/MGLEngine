@@ -87,12 +87,8 @@ void ResourceManager::LoadAllResources()
 	{
 		ubo.glId = _gl.CreateUbo(ubo.binding, ubo.sizeOfDataType);
 	}
-
-
-
-
-
 };
+
 
 
 
