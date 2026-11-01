@@ -14,6 +14,7 @@ layout(set = 0, binding = 6, std140) uniform TransformBlock {
 void main() {
 	
 	gl_Position = vec4(uTransformMatrix * position2d, 0.0, 1.0);
+	//gl_Position = vec4(position2d,0.0,1.0);
     fragColor = color;
 }
 

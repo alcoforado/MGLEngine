@@ -106,6 +106,7 @@ struct VulkanImageData {
 			void DestroyVulkanMemoryAllocator();
 			void DestroyImages();
 			void DestroyDescriptorSets();
+			void DestroyMappedUbos();
 			
 
 			

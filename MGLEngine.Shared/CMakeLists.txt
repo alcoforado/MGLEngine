@@ -55,6 +55,7 @@ add_library(${PROJECT_NAME} STATIC
     "Interfaces/IWindowOptions.h"
     
     "Shaders/Color2D/ShaderColor2D.cpp"
+    "Shaders/Std140Types.h"
     "Shaders/Texture2D/Texture2D.h"
     "Shaders/IShader2D.h"
     "Shaders/VerticeDataLayout.cpp"

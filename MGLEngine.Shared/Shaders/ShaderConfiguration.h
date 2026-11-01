@@ -5,6 +5,10 @@
 #include <typeinfo>
 #include <typeindex>
 #include <cstdlib>
+#include <concepts>
+#include <cstring>
+#include <type_traits>
+#include <MGLEngine.Shared/Shaders/Std140Types.h>
 
 struct ShaderByteCode {
 	const uint32_t* byteCode;
@@ -125,7 +129,10 @@ public: // s for IShaderConfiguration
 	 template<typename T>
 	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage,T initValue)
 	 {
-		 static_assert(std::is_trivially_copyable<T>::value, "Initializable type must be Trivially Copyable to use with DeclareMappedUbo!");
+		static_assert(std::derived_from<T, std140>, "UBO types must publicly inherit from std140 and explicitly match the shader layout.");
+		static_assert(!std::is_same_v<T, std140>, "Use a concrete std140 data type, not the marker itself.");
+		static_assert(std::is_trivially_copyable<T>::value, "Initializable type must be Trivially Copyable to use with DeclareMappedUbo!");
+		static_assert(std::is_standard_layout_v<T>, "UBO types must have a standard layout.");
 		 ubos.push_back(UboConfig{
 			 .name = name,
 			 .usage = frequency,

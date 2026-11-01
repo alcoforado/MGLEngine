@@ -339,7 +339,7 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 			VkDescriptorBufferInfo bufferInfo{};
 			bufferInfo.buffer = _vUbos[frameIndex][ubo.glId.index].pBuffer->GetHandle();
 			bufferInfo.offset = 0;
-			bufferInfo.range = sizeof(ubo.sizeOfDataType);
+			bufferInfo.range = ubo.sizeOfDataType;
 			bufferInfos.push_back(bufferInfo);
 
 			VkWriteDescriptorSet write{};
@@ -618,10 +618,12 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 	//Shader push constant
 	auto pc=ctx.GetConfiguration().pushConstant;
 	VkPushConstantRange pushConstantRange{};
-	pushConstantRange.stageFlags = VulkanMappings::Map(pc.stage); // The stages that will read this data
-	pushConstantRange.offset = 0;                             // Offset in bytes from the start of the push constant block
-	pushConstantRange.size = static_cast<uint32_t>(pc.size);
-	
+	if (pc.Defined())
+	{
+		pushConstantRange.stageFlags = VulkanMappings::Map(pc.stage); // The stages that will read this data
+		pushConstantRange.offset = 0;                             // Offset in bytes from the start of the push constant block
+		pushConstantRange.size = static_cast<uint32_t>(pc.size);
+	}
 	//PipelineLayout 
 	VkPipelineLayoutCreateInfo vkPipelineLayoutInfo{};
 	vkPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -808,7 +810,7 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vector<std::byte> &initValue)
 {
 	auto index = _vUbos[0].size();
-	for (auto perFrameUbos : _vUbos)
+	for (auto& perFrameUbos : _vUbos)
 	{
 		VulkanUbo ubo = VulkanUbo
 		{
@@ -868,6 +870,7 @@ MGL::VulkanGL::~VulkanGL() {
 	DestroyImages();
 	DestroySamplers();
 	DestroyDescriptorSets();
+	DestroyMappedUbos();
 	DestroyVulkanMemoryAllocator();
 	if_free(_pCommandPool);
 	DestroySyncObjects();
@@ -889,6 +892,17 @@ void MGL::VulkanGL::DestroySyncObjects() {
 	_pRenderFinishedSemaphore.clear();
 	if_free(_pImageAvailableSemaphore);
 
+}
+
+void MGL::VulkanGL::DestroyMappedUbos()
+{
+	for (auto& frameData : _vUbos)
+	{
+		for (auto& elem : frameData)
+		{
+			elem.pBuffer->Delete();
+		}
+	}
 }
 
 void MGL::VulkanGL::DestroyDescriptorSets()
