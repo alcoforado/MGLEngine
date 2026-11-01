@@ -47,8 +47,8 @@ public:
 		return _size;
 	}
 
-	void CopyToGPU(void* pData, uint64_t sizeInBytes);
-	void CopyToGPU(std::vector<std::byte>& src);
+	void CopyToGPU(const void* pData, uint64_t sizeInBytes);
+	void CopyToGPU(const std::vector<std::byte>& src);
 	
 	//Flush the content to CPU
 	void Flush();

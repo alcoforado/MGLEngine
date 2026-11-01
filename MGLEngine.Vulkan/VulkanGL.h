@@ -76,7 +76,9 @@ struct VulkanImageData {
 			std::vector<std::vector<VulkanUbo>> _vUbos;  //one vector for each frame
 
 			//Frame Index
-			uint32_t _currentFrame;
+			uint32_t _currentFrame=0;
+
+			
 
 		private:
 			void ChoosePhysicalDevice();
@@ -94,6 +96,8 @@ struct VulkanImageData {
 			void CreateDescritorPool(GlobalBindingsTable& tbl);
 			void CreateDescriptorSets();
 			void UpdateDescriptorSets(GlobalBindingsTable& tbl);
+			void ProcessEngineCommandQueue(const CommandQueue& queue);
+
 		private: //auxiliary
 			VkFormat MapToVulkanFormat(ImageFormat format);
 			GLID CreateTextureSampler(const Sampler2DBinding& sampler);
@@ -147,15 +151,14 @@ struct VulkanImageData {
 			VkFormat ToVkFormat(enum FieldType type);
 			
 
-
 			// Inherited via IGraphicLibrary
 			
 			GLID LoadTexture(ITexImage& img) override;
 			GLID CreateUbo(uint32_t binding, size_t sizeOfDataType, std::vector<std::byte>& initValue) override;
-			void CopyToUbo(GLID glId, std::vector<std::byte>& value) override;
+			void CopyToUbo(const GLID& glId, const std::vector<std::byte>& value);
 
 			void LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mglContainer) override;
-			void Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer) override;
+			void Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer, const CommandQueue &queue) override;
 			
 
 			

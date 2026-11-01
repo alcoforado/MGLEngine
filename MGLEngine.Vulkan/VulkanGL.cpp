@@ -673,40 +673,55 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 
 
 
-void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer)
+
+void MGL::VulkanGL::ProcessEngineCommandQueue(const CommandQueue &queue)
+{
+	for (auto& cmd : queue.uboCommands)
+	{
+		this->CopyToUbo(cmd.glId, cmd.vData);
+	}
+}
+
+
+void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer, const CommandQueue& queue)
 {
 	_pInFlightFence->Wait();
 	_pInFlightFence->Reset();
 
 	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
+
 	if (imageIndexResult.bNeedResize)
 	{
 		this->ResizeSwapChain();
 		return;
 	}
-	uint32_t imageIndex = imageIndexResult.index;
+	_currentFrame = imageIndexResult.index;
+
+	ProcessEngineCommandQueue(queue);
+
+
 	(*_pCommandBuffer)
 		.Reset()
 		.Begin()
-		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
+		.BeginRenderPass(_vkRenderPass, _framebuffers[_currentFrame], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 
 	for (auto& ctx : shaders)
 	{
 		
 		Serialize(ctx, mglContainer);
-		WriteCommandBuffer(imageIndex,ctx, *_pCommandBuffer,mglContainer);
+		WriteCommandBuffer(_currentFrame,ctx, *_pCommandBuffer,mglContainer);
 	}
 	_pCommandBuffer->EndRenderPass();
 	_pCommandBuffer->End();
 	_pLogicalDevice->GetGraphicQueue().Submit(
 		_pCommandBuffer,
-		_pRenderFinishedSemaphore[imageIndex], //signal when finished
+		_pRenderFinishedSemaphore[_currentFrame], //signal when finished
 		_pImageAvailableSemaphore, //wait on
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
 		_pInFlightFence //fence to signal		
 	);
-	auto vkResult = _pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), imageIndex, _pRenderFinishedSemaphore[imageIndex]);
+	auto vkResult = _pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), _currentFrame, _pRenderFinishedSemaphore[_currentFrame]);
 	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR) {
 		ResizeSwapChain();
 		return;
@@ -823,7 +838,7 @@ GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vecto
 	return GLID(GLID_VULKAN_TYPES::UBO, index);
 }
 
-void MGL::VulkanGL::CopyToUbo(GLID glId, std::vector<std::byte>& value)
+void MGL::VulkanGL::CopyToUbo(const GLID& glId, const std::vector<std::byte>& value)
 {
 	eassert(glId.type == GLID_VULKAN_TYPES::UBO, "Expected a UBO type");
 

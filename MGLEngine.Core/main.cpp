@@ -22,7 +22,7 @@ void Example4(MGLEngine& engine)
 		auto m = glm::mat2(1.0f);
 		const float  rate = 2 * M_PI / 1000.0;
 		float rad = (event.tick % 1000) * rate;
-		engine.CommandQueue().SetUbo(
+		engine.CommandDispatcher().SetUbo(
 			Bindings::COLOR2D_MATRIX,
 			Std140Mat2(GLMExtensions::RotateMat2(rad)));
 	});
@@ -73,7 +73,7 @@ int main()
 
 		auto pEngine = app.Init();
 
-		Example1(*pEngine);
+		Example4(*pEngine);
 
 
 	}

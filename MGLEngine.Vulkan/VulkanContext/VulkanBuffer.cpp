@@ -36,18 +36,18 @@ void VulkanBuffer::Flush()
 
 }
 
-void VulkanBuffer::CopyToGPU(void* pSrc, uint64_t sizeInBytes)
+void VulkanBuffer::CopyToGPU(const void* pSrc, uint64_t sizeInBytes)
 {
 	eassert(_memType.HostVisible, std::format("This buffer is not host visible and cannot be mapped"));
 	eassert(sizeInBytes <= this->_size, std::format("Overflow detected"));
 	void* pDst = this->Map();
-	memcpy(pDst, pSrc, sizeInBytes);
+	std::memcpy(pDst, pSrc, sizeInBytes);
 	this->Flush();
 
 
 }
 
-void VulkanBuffer::CopyToGPU(std::vector<std::byte>& src)
+void VulkanBuffer::CopyToGPU(const std::vector<std::byte>& src)
 {
 	CopyToGPU(src.data(), src.size());
 }

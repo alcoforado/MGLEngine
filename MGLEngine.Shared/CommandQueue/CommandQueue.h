@@ -1,30 +1,32 @@
 #pragma once
 #include <vector>
-#include <concepts>
-#include <cstddef>
-#include <cstring>
-#include <type_traits>
-#include <typeinfo>
-#include <MGLEngine.Shared/Shaders/Std140Types.h>
+#include <MGLEngine.Shared/Resources/ResourceManager.h>
 
 
-class SetBufferCommand   {
-
-public:
-	std::vector<std::byte> vData;
-		unsigned int binding;
-	size_t size;
-	size_t type_id;
-
-};
 
 
 class MGLEngine;
-class CommandQueue {
+
+
+
+
+class CommandDispatcher {
 	friend class MGLEngine;
 private:
-	std::vector<SetBufferCommand> _uboCommands;
+	ResourceManager& _resourceManager;
+
+	CommandQueue _queues;
+
+	CommandDispatcher(ResourceManager& res)
+		:_resourceManager(res) {
+	};
+
+	const CommandQueue& GetCommandQueues()  const {
+		return _queues;
+	}
+
 public:
+	
 	template<typename T>
 	void SetUbo(unsigned  binding, const T& data)
 	{
@@ -34,15 +36,16 @@ public:
 		static_assert(std::is_standard_layout_v<T>, "UBO types must have a standard layout.");
 		
 		
+		auto& uboBinding = _resourceManager.GetGlobalBindingsTable()->GetUboBinding(binding);
+		eassert(uboBinding.sizeOfDataType == sizeof(T), "Ubo write command has incompatible sizes");
+		eassert(uboBinding.typeIndex == typeid(T).hash_code(), "Ubo write command has incompatible types");
+
 		
-		_uboCommands.push_back(SetBufferCommand{
-				.binding = binding,
-			.size = sizeof(T),
-			.type_id = typeid(T).hash_code()
+		_queues.uboCommands.push_back(BufferWriteCommand{
+			.glId = uboBinding.glId
 		});
 
-		auto& buffer = _uboCommands.back().vData; 
-
+		auto& buffer = _queues.uboCommands.back().vData; 
 		buffer.resize(sizeof(T));
 		std::memcpy(buffer.data(), &data, sizeof(T));
 	}

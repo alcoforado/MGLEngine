@@ -34,18 +34,16 @@ class MGLEngine {
 		
 		IGraphicLibrary& _gl;
 		ResourceManager _resourceManager;
-		
+		CommandDispatcher _commandQueue;
 		std::map<std::string, GLID> _resourcesCache;
 
 		//Event Emitters
 		FrameTickSource frameTickEmitter;
-		CommandQueue _commandQueue;
 
 
 
 	private: //functions	
 		void LoadShaders();
-		void ProcessCommandQueue();
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
@@ -54,10 +52,8 @@ class MGLEngine {
 		//Event Subscribing
 		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
 
-		CommandQueue& CommandQueue()
-		{
-			return _commandQueue;
-		}
+		CommandDispatcher& CommandDispatcher() { return _commandQueue; }
+
 
 		//Register Shape in a Shader
 		template<std::default_initializable ShaderType>
@@ -89,6 +85,7 @@ class MGLEngine {
 		void AddShape(IDrawingObject& shape) {
 			this->AddShape<ShaderType>(shape, [](ShapeRegistrationConfig& c) {});
 		};
+		
 		
 
 

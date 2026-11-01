@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EventSource.h";
+#include "EventSource.h"
 
 class TickEvent {
 public:
