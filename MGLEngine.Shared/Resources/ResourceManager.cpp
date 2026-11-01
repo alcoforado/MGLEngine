@@ -1,6 +1,7 @@
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
+#include <MGLEngine.Shared/CommandQueue/CommandQueue.h>
 
 ResourceManager::ResourceManager(IGraphicLibrary& gl, std::string basePath)
 	:_gl(gl),_base_path(basePath)
@@ -66,6 +67,8 @@ const FontAtlasMetadata& ResourceManager::GetFontMetadata(std::string sampleName
 	
 	return vFontAtlas[fontId]->metadata;
 }
+
+
 
 void ResourceManager::LoadAllResources()
 {

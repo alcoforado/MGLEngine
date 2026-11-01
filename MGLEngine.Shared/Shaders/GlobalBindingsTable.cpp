@@ -84,6 +84,14 @@ void GlobalBindingsTable::AddUbo(const UboConfig& ubo, std::string shaderId)
 }
 
 
+const UboBinding& GlobalBindingsTable::GetUboBinding(unsigned int binding) const
+{
+	auto it = _binding_index.find(binding);
+	eassert(it != _binding_index.end(), std::format("Binding {} not found", binding));
+	eassert(it->second.type == BindedTypeEnum::UBO, std::format("Binding {} is not a UBO", binding));
+	return _vUbos[it->second.index];
+}
+
 bool GlobalBindingsTable::ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT)
 {
 	if (_name_index.contains(varName))

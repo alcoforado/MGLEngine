@@ -32,10 +32,25 @@ void MGLEngine::Run()
 	{
 		_pWindow->PollEvents();
 		this->frameTickEmitter.Emit();
+		this->ProcessCommandQueue();
 		_gl.Draw(_shaders, *_pMGLContainer);
 	}
 
 }
+
+
+void MGLEngine::ProcessCommandQueue()
+{
+	for (auto& uboWrite : _commandQueue._uboCommands)
+	{
+		auto uboBinding = _resourceManager.GetGlobalBindingsTable()->GetUboBinding(uboWrite.binding);
+		eassert(uboBinding.sizeOfDataType == uboWrite.size, "Ubo write command has incompatible sizes");
+		eassert(uboBinding.typeIndex == uboWrite.type_id, "Ubo write command has incompatible types");
+
+		_gl.CopyToUbo(uboBinding.glId, uboWrite.vData);
+	}
+}
+
 
 bool MGLEngine::IsShaderRegistered(const std::type_index shaderType)
 {

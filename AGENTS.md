@@ -59,6 +59,8 @@ The declared CMake minimum is 3.10, but the project uses newer features such as 
 
 ## Editing conventions and invariants
 
+- This library is a developer-facing layer. Assume callers run Debug builds first to catch API misuse. Enforce developer contracts (valid bindings, compatible types, sizes, and layouts) with `eassert` or compile-time `static_assert`, rather than recoverable validation results or exceptions. Assertions must not perform work required for correct execution when assertions are disabled.
+- Applications and UI layers are responsible for validating end-user input before calling the engine. Keep runtime error handling for external failures such as missing files or device errors.
 - Follow nearby C++ formatting and naming: PascalCase types and methods, underscore-prefixed private members, and repository-root include paths such as `<MGLEngine.Shared/...>`. Avoid unrelated formatting changes or spelling renames in existing APIs such as `VerticeDataLayout`.
 - Keep drawing and shader abstractions in Shared and Vulkan operations in the backend where practical. Inspect existing dependencies before moving code across library boundaries.
 - Drawing objects registered with `AddShape` are retained through raw pointers; their meshes may also be held by reference. Keep both alive for all serialization and drawing, as the demo does by calling `Run()` within the objects' scope.

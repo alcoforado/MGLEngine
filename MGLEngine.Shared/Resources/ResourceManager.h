@@ -21,6 +21,8 @@ struct Resource {
 
 };
 
+class SetBufferCommand;
+
 class ResourceManager {
 
 	ImageLoader _imgLoader;

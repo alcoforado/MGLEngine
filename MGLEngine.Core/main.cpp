@@ -7,7 +7,28 @@
 #include <MGLEngine.Shared/Shaders/TextBox/TextBox.h>
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Shared/AppBuilder.h>
+#include <MGLEngine.Shared/Utils/glm_extensions.h>
+#define _USE_MATH_DEFINES 
+#include <math.h>
+#include <MGLEngine.Shared/Shaders/BindingConstants.h>
 
+void Example4(MGLEngine& engine)
+{
+	auto rect = OrthoRect2D(glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f);
+	auto rect2 = OrthoRect2D(glm::vec2(0.0f, -0.5f), 0.5f, 0.5f);
+	auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,1,0,1),glm::vec4(0,1,0,1) });
+	auto rectDraw2 = VertexColor2D(engine, rect2, { glm::vec4(1,1,0,1),glm::vec4(1,1,0,1),glm::vec4(1,0,1,1),glm::vec4(1,0,0,1) });
+	engine.FrameTick().Subscribe([&engine](const TickEvent& event) {
+		auto m = glm::mat2(1.0f);
+		const float  rate = 2 * M_PI / 1000.0;
+		float rad = (event.tick % 1000) * rate;
+		engine.CommandQueue().SetUbo(
+			Bindings::COLOR2D_MATRIX,
+			Std140Mat2(GLMExtensions::RotateMat2(rad)));
+	});
+
+	engine.Run();
+}
 
 void Example1(MGLEngine& engine)
 {
@@ -26,7 +47,7 @@ void Example2(MGLEngine& engine)
 
 void Example3(MGLEngine& engine)
 {
-	auto box = TextBox(engine, glm::vec2(-0.75f, 0.0f), "Hotel California", "fonts/RobotoMono-Medium.ttf",56);
+	auto box = TextBox(engine, glm::vec2(-0.75f, 0.0f), "Hotel California", "fonts/RobotoMono-Medium.ttf", 56);
 	engine.Run();
 }
 
@@ -53,8 +74,8 @@ int main()
 		auto pEngine = app.Init();
 
 		Example1(*pEngine);
-		
-		
+
+
 	}
 	catch (std::exception& e)
 	{

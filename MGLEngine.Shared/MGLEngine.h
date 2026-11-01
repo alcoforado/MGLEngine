@@ -16,6 +16,7 @@
 #include <typeindex>
 #include <typeinfo>
 #include <memory>
+#include <MGLEngine.Shared/CommandQueue/CommandQueue.h>
 
 class MWindow;
 
@@ -38,11 +39,13 @@ class MGLEngine {
 
 		//Event Emitters
 		FrameTickSource frameTickEmitter;
+		CommandQueue _commandQueue;
 
 
 
 	private: //functions	
 		void LoadShaders();
+		void ProcessCommandQueue();
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);
@@ -51,6 +54,10 @@ class MGLEngine {
 		//Event Subscribing
 		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
 
+		CommandQueue& CommandQueue()
+		{
+			return _commandQueue;
+		}
 
 		//Register Shape in a Shader
 		template<std::default_initializable ShaderType>
@@ -83,6 +90,7 @@ class MGLEngine {
 			this->AddShape<ShaderType>(shape, [](ShapeRegistrationConfig& c) {});
 		};
 		
+
 
 		void Run();
 

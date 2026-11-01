@@ -41,6 +41,12 @@ Keep module boundaries clear:
 
 ## Testing
 
+### API contracts and input validation
+
+MGLEngine is a developer-facing library. Callers are expected to run Debug builds first to catch API misuse. Use `eassert` for runtime contract checks and `static_assert` for compile-time requirements, including valid bindings, compatible types, sizes, and layouts. Contract violations are programming errors; do not introduce recoverable validation results or exceptions for them. Keep required operations outside assertions so execution remains correct when assertions are disabled.
+
+Applications and UI layers must validate end-user input before passing it to the engine. Runtime error handling remains appropriate for external failures, such as missing files or device errors.
+
 `MGLEngine.Tests` contains Catch2-based tests, but the root CMake currently comments out test subdirectory inclusion.
 
 To run tests, enable `add_subdirectory(MGLEngine.Tests)` in the root `CMakeLists.txt`, then rebuild and execute the test binary from the build folder.
