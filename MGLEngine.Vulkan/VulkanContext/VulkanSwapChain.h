@@ -11,6 +11,8 @@ class VulkanSwapChain
 			uint32_t index;
 			uint32_t bNeedResize;
 		};
+	private:
+		
 
 	public:
 		const VulkanSurface&  _surface;

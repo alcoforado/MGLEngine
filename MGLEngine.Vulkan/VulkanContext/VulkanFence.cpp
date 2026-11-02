@@ -22,7 +22,7 @@ VulkanFence::~VulkanFence()
 
 void VulkanFence::Wait() const 
 {
-	auto result = vkWaitForFences(_dev->GetHandle(), 1, &_fence, VK_TRUE, std::numeric_limits<long unsigned int>::max());
+	auto result = vkWaitForFences(_dev->GetHandle(), 1, &_fence, VK_TRUE, std::numeric_limits<uint64_t>::max());
 	AssertVulkanSuccess(result);
 }
 

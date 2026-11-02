@@ -41,6 +41,17 @@ struct VulkanImageData {
 	VkImageView view;
 };
 
+struct PerInFlightFrameData {
+	
+	VulkanFence* _pInFlightFence = nullptr;
+	VulkanCommandBuffer* _pCommandBuffer=nullptr;
+	VulkanSemaphore* _pImageAvailableSemaphore = nullptr;
+};
+
+struct PerImageBufferData {
+	VulkanSemaphore* _pRenderFinishedSemaphore=nullptr;
+};
+
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
@@ -53,17 +64,17 @@ struct VulkanImageData {
 			ByteCodeCollection* _pByteCodeCollection = nullptr;
 			VulkanMemoryAllocator* _pMemoryAllocator = nullptr;
 			VulkanCommandPool*  _pCommandPool=nullptr;
-			VulkanCommandBuffer* _pCommandBuffer;
 			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
 			
-			VulkanSemaphore* _pImageAvailableSemaphore;
-			VulkanFence* _pInFlightFence = nullptr;
+			
+			std::vector<PerInFlightFrameData> _vFrames;
+			std::vector<PerImageBufferData> _vImageBufferData;
+
 			AppConfiguration _vulkanConfiguration;
 			VkDescriptorPool _descriptorPool = VK_NULL_HANDLE;
 			VkDescriptorSetLayout _descriptorSetLayout = VK_NULL_HANDLE;
-			std::vector<VulkanSemaphore*> _pRenderFinishedSemaphore;
 			std::vector<VkFramebuffer> _framebuffers;
 			std::vector<VkDescriptorSet> _vkDescriptorSets;
 			std::vector<VkWriteDescriptorSet> _pendingWrites;

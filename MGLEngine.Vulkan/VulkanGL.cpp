@@ -18,6 +18,8 @@ MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = pWindow;
 	_numberOfDescriptorSets = coptions.SwapChainSize;
+	_vFrames.resize(coptions.SwapChainSize);
+	_vImageBufferData.resize(coptions.SwapChainSize);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
 		_vulkanConfiguration.EnableDebug,
@@ -112,7 +114,8 @@ void MGL::VulkanGL::ResizeSwapChain()
 void MGL::VulkanGL::CreateCommandBuffers()
 {
 	_pCommandPool = new VulkanCommandPool(*_pLogicalDevice);
-	_pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
+	for (auto &frame : _vFrames)
+		frame._pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
 }
 
 void MGL::VulkanGL::CreateRenderPass()
@@ -185,12 +188,16 @@ void MGL::VulkanGL::CreateFramebuffers() {
 
 void MGL::VulkanGL::CreateSyncObjects()
 {
-	for (auto i = 0; i < _pSwapChain->NImages(); i++)
+	for (auto &slot : _vFrames)
 	{
-		_pRenderFinishedSemaphore.push_back(new VulkanSemaphore(_pLogicalDevice));
+		slot._pInFlightFence           = new VulkanFence(_pLogicalDevice, true);
+		slot._pImageAvailableSemaphore = new VulkanSemaphore(_pLogicalDevice);
 	}
-	_pImageAvailableSemaphore = new VulkanSemaphore(_pLogicalDevice);
-	_pInFlightFence = new VulkanFence(_pLogicalDevice, true);
+
+	for (auto& frame : _vImageBufferData)
+	{
+		frame._pRenderFinishedSemaphore = new VulkanSemaphore(_pLogicalDevice);
+	}
 }
 
 void MGL::VulkanGL::CreateCommandPool()
@@ -685,43 +692,44 @@ void MGL::VulkanGL::ProcessEngineCommandQueue(const CommandQueue &queue)
 
 void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer, const CommandQueue& queue)
 {
-	_pInFlightFence->Wait();
-	_pInFlightFence->Reset();
+	auto& frame = _vFrames[_currentFrame];
+	frame._pInFlightFence->Wait();
 
-	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(_pImageAvailableSemaphore);
+	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(frame._pImageAvailableSemaphore);
 
 	if (imageIndexResult.bNeedResize)
 	{
 		this->ResizeSwapChain();
 		return;
 	}
-	_currentFrame = imageIndexResult.index;
-
+	uint32_t imageIndex = imageIndexResult.index;
+	auto& imageData = _vImageBufferData[imageIndex];
 	ProcessEngineCommandQueue(queue);
 
-
-	(*_pCommandBuffer)
+	VulkanCommandBuffer* pCommandBuffer = frame._pCommandBuffer;
+	(*pCommandBuffer)
 		.Reset()
 		.Begin()
-		.BeginRenderPass(_vkRenderPass, _framebuffers[_currentFrame], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
+		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 
 	for (auto& ctx : shaders)
 	{
 		
 		Serialize(ctx, mglContainer);
-		WriteCommandBuffer(_currentFrame,ctx, *_pCommandBuffer,mglContainer);
+		WriteCommandBuffer(_currentFrame,ctx, *pCommandBuffer,mglContainer);
 	}
-	_pCommandBuffer->EndRenderPass();
-	_pCommandBuffer->End();
+	pCommandBuffer->EndRenderPass();
+	pCommandBuffer->End();
+	_vFrames[_currentFrame]._pInFlightFence->Reset();
 	_pLogicalDevice->GetGraphicQueue().Submit(
-		_pCommandBuffer,
-		_pRenderFinishedSemaphore[_currentFrame], //signal when finished
-		_pImageAvailableSemaphore, //wait on
+		pCommandBuffer,
+		imageData._pRenderFinishedSemaphore, //signal when finished
+		frame._pImageAvailableSemaphore, //wait on
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, //stage to wait
-		_pInFlightFence //fence to signal		
+		frame._pInFlightFence //fence to signal		
 	);
-	auto vkResult = _pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), _currentFrame, _pRenderFinishedSemaphore[_currentFrame]);
+	auto vkResult = _pLogicalDevice->GetGraphicQueue().Present(_pSwapChain->GetHandle(), imageIndex, imageData._pRenderFinishedSemaphore);
 	if (vkResult == VK_ERROR_OUT_OF_DATE_KHR || vkResult == VK_SUBOPTIMAL_KHR) {
 		ResizeSwapChain();
 		return;
@@ -729,6 +737,8 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	else {
 		AssertVulkanSuccess(vkResult);
 	}
+	_currentFrame = (_currentFrame + 1) % _vFrames.size();
+
 }
 
 
@@ -899,14 +909,16 @@ MGL::VulkanGL::~VulkanGL() {
 }
 
 void MGL::VulkanGL::DestroySyncObjects() {
-	if_free(_pInFlightFence);
-	for (auto s : _pRenderFinishedSemaphore)
+	
+	for (auto& frame : _vFrames)
 	{
-		if_free(s);
+		if_free(frame._pInFlightFence);
+		if_free(frame._pImageAvailableSemaphore);
 	}
-	_pRenderFinishedSemaphore.clear();
-	if_free(_pImageAvailableSemaphore);
-
+	for (auto& frame : _vImageBufferData)
+	{
+		if_free(frame._pRenderFinishedSemaphore);
+	}
 }
 
 void MGL::VulkanGL::DestroyMappedUbos()
