@@ -123,7 +123,7 @@ add_library(${PROJECT_NAME} STATIC
    "Utils/Tracer.cpp" 
    "Resources/ImageLoader.h" 
    "Resources/ImageLoader.cpp" 
-   "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"   "Interfaces/ITexImage.h" "Interfaces/GLID.h" "Interfaces/RenderSerializationContext.cpp" "Interfaces/IEngineContext.h" "Container/MGLContainer.h" "Utils/numeric_vector_functions.h" "Events/EventSource.h" "Events/FrameTickSource.h"  "CommandQueue/CommandQueue.h" "Shaders/BindingConstants.h" "Utils/glm_extensions.h" "Utils/glm_extensions.cpp" "Interfaces/IGraphicLibraryModels.h" "Scene/Camera.h")
+   "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"   "Interfaces/ITexImage.h" "Interfaces/GLID.h" "Interfaces/RenderSerializationContext.cpp" "Interfaces/IEngineContext.h" "Container/MGLContainer.h" "Utils/numeric_vector_functions.h" "Events/EventSource.h" "Events/FrameTickSource.h"  "CommandQueue/CommandQueue.h" "Shaders/BindingConstants.h" "Utils/glm_extensions.h" "Utils/glm_extensions.cpp" "Interfaces/IGraphicLibraryModels.h" "Scene/Camera.h" "Scene/Camera.cpp")
 find_package(Stb REQUIRED)
 find_package(Freetype REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC Freetype::Freetype)
