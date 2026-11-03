@@ -10,6 +10,6 @@ public:
 	Camera(float cameraLensTotalAngle, float x_yRatio, float nearClipPlane, float farClipPlane);
 	void SetCamera(glm::vec3 pos, glm::vec3 ptToLookAt, glm::vec3 up);
 	
-	void GetNdcProjection()
+	const glm::mat4& GetNdcProjection();
 
 };
