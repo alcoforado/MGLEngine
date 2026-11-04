@@ -9,19 +9,50 @@ void Camera::SetCamera(glm::vec3 pos, glm::vec3 ptToLookAt, glm::vec3 up)
 	_right = glm::cross(_down, _depth);
 
 
+
+
 }
 
-const glm::mat4& Camera::GetNdcProjection()
+
+Camera::Camera(float cameraLensTotalAngleRad, float y_xRatio, float nearClipPlane, float farClipPlane)
 {
-	NdcProj = glm::mat4(//columnorder
+	_theta = cameraLensTotalAngleRad;
+	_alpha = y_xRatio;
+	_n = nearClipPlane;
+	_f = farClipPlane;
+
+	float tan_theta_2 = tan(_theta / 2.0);
+
+
+	glm::mat4 PerspectiveProjectionTranspose( //row vec4
+		glm::vec4(1.0/(tan_theta_2*_alpha),        0          ,         0     ,        0         ),
+		glm::vec4(         0              , 1.0/tan_theta_2   ,         0     ,        0         ),     
+		glm::vec4(         0              ,        0          ,    _f/(_f-_n) , -_f*_n/(_f-_n)   ),
+		glm::vec4(         0              ,        0          ,         1     ,        0         )
+	);
+
+	_PerspectiveProjection = glm::transpose(PerspectiveProjectionTranspose);
+
+
+}
+
+const glm::mat4& Camera::GetProjection()
+{
+	auto ViewTransform = glm::mat4(//columnorder
 		glm::vec4(_right.x, _down.x, _depth.x, 0),
 		glm::vec4(_right.y, _down.y, _depth.y, 0),
 		glm::vec4(_right.z, _down.z, _depth.z, 0),
 		glm::vec4(-glm::dot(_right, _pos), -glm::dot(_down, _pos), -glm::dot(_depth, _pos), 1)
 	);
+
+	NdcProj = _PerspectiveProjection * ViewTransform;
+
 	return NdcProj;
+
+
+
 }
 
-const 
+
 
 

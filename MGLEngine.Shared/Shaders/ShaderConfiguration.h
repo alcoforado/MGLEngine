@@ -96,7 +96,7 @@ public: //data
 	PushConstantConfig pushConstant;
 	std::string name;
 	bool enableCulling = true;
-
+	bool enableDepth = false;
 public: // s for IShaderConfiguration 
 	ShaderConfiguration() {}
 
@@ -126,6 +126,11 @@ public: // s for IShaderConfiguration
 		return *this;
 	}
 
+	 ShaderConfiguration& EnableDepth() {
+		 enableDepth = true;
+		 return *this;
+	 }
+
 	 template<typename T>
 	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage,T initValue)
 	 {
@@ -149,6 +154,8 @@ public: // s for IShaderConfiguration
 
 		 return *this;
 	 }
+
+	 
 
 	 ShaderConfiguration& DeclareTextureSampler(std::string name, unsigned int binding, SamplerAssignmentStrategy strategy) 
 	{
