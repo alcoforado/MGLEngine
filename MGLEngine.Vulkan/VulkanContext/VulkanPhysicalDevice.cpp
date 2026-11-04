@@ -246,4 +246,27 @@ bool VulkanPhysicalDevice::IsCPU() const {
 bool VulkanPhysicalDevice::IsVirtual() const {
 	return (_graphicProperties.deviceType & VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU;
 }
+
+
+VkFormat VulkanPhysicalDevice::FindOptimalSupportedFormat(const std::vector<VkFormat>& candidates, VkFormatFeatureFlags features) const {
+	for (VkFormat format : candidates) {
+		VkFormatProperties props;
+		vkGetPhysicalDeviceFormatProperties(this->GetHandle(), format, &props);
+		if ((props.optimalTilingFeatures & features) == features) {
+			return format;
+		}
+	}
+	throw_error("failed to find supported format!");
+}
+
+
+VkFormat VulkanPhysicalDevice::DepthFormat() const
+{
+	return FindOptimalSupportedFormat(
+		{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
+		VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+	);
+
+	
+}
 	 

@@ -66,7 +66,8 @@ public:
 	bool IsVirtual() const;
 	bool HasGhraphicsQueue() const;
 	bool HasComputeQueue() const;
-
+	VkFormat DepthFormat() const;
+	VkFormat FindOptimalSupportedFormat(const std::vector<VkFormat>& candidates, VkFormatFeatureFlags features) const;
 	VkSurfaceCapabilitiesKHR GetCapabilitiesForSurface(const VulkanSurface& surface) const;
 	std::vector<VkSurfaceFormatKHR> GetCompatibleSurfaceFormats(const VulkanSurface& surface) const;
 	std::vector<VkPresentModeKHR> GetPresentModes(const VulkanSurface& surface) const;

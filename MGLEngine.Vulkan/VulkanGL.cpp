@@ -44,7 +44,6 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mg
 	CreateBindedResources(bindingTable);
 	CreateDescriptorSets();
 	UpdateDescriptorSets(bindingTable);
-
 	for (auto& ctx : shaders)
 	{
 		VulkanShaderData shaderData;
@@ -52,7 +51,15 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mg
 		_vVulkanShaderData.push_back(shaderData);
 		ctx.glId = GLID(GLID_VULKAN_TYPES::SHADER_DATA, _vVulkanShaderData.size() - 1);
 
+		if (ctx.GetConfiguration().enableDepth)
+		{ 
+			CreateDepthBufferOnce(); 
+		}
+
 	}
+
+
+
 
 }
 
@@ -91,6 +98,13 @@ void MGL::VulkanGL::CreateSwapChain() {
 
 }
 
+void MGL::VulkanGL::CreateDepthBufferOnce()
+{
+	if (_depthImage)
+	_depthBuffer.needDepthBuffer = true;
+
+}
+
 void MGL::VulkanGL::ResizeSwapChain()
 {
 
@@ -106,8 +120,10 @@ void MGL::VulkanGL::ResizeSwapChain()
 	if_free(_pSwapChain);
 	this->DestroyFramebuffer();
 	this->DestroySyncObjects();
+	this->DestroyDepthBuffer();
 	this->CreateSwapChain();
 	this->CreateFramebuffers();
+	this->CreateDepthBuffer();
 	this->CreateSyncObjects();
 }
 

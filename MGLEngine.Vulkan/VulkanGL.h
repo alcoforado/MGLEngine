@@ -52,6 +52,8 @@ struct PerImageBufferData {
 	VulkanSemaphore* _pRenderFinishedSemaphore=nullptr;
 };
 
+
+
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
@@ -90,6 +92,11 @@ struct PerImageBufferData {
 			uint32_t _currentFrame=0;
 
 			
+			//Depth Buffer
+			struct DepthBuffer {
+				bool needDepthBuffer;
+			} _depthBuffer;
+
 
 		private:
 			void ChoosePhysicalDevice();
@@ -97,6 +104,7 @@ struct PerImageBufferData {
 			void CreateLogicalDevice();
 			void CreateCommandPool();
 			void CreateSwapChain();
+			void CreateDepthBufferOnce();
 			void CreateCommandBuffers();
 			void CreateRenderPass();
 			void CreateFramebuffers();
