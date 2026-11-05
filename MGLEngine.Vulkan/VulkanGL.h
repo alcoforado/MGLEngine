@@ -95,6 +95,8 @@ struct PerImageBufferData {
 			//Depth Buffer
 			struct DepthBuffer {
 				bool needDepthBuffer;
+				s_ptr<VulkanImage> image=nullptr;
+				VkImageView depthView = VK_NULL_HANDLE;
 			} _depthBuffer;
 
 
@@ -130,6 +132,7 @@ struct PerImageBufferData {
 			void DestroyImages();
 			void DestroyDescriptorSets();
 			void DestroyMappedUbos();
+			void DestroyDepthBuffer();
 			
 
 			
