@@ -31,8 +31,6 @@ MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
 	CreateVulkanMemoryAllocator();
 	CreateCommandBuffers();
 	CreateSwapChain();
-	CreateRenderPass();
-	CreateFramebuffers();
 	CreateSyncObjects();
 }
 
@@ -98,6 +96,7 @@ void MGL::VulkanGL::CreateSwapChain() {
 
 }
 
+
 void MGL::VulkanGL::CreateDepthBufferOnce()
 {
 	
@@ -134,9 +133,66 @@ void MGL::VulkanGL::CreateDepthBufferOnce()
 	VkResult result = vkCreateImageView(_pLogicalDevice->GetHandle(), &viewInfo, nullptr, &_depthBuffer.depthView);
 	AssertVulkanSuccess(result);
 
-	
-
 }
+
+void MGL::VulkanGL::CreateRenderingInfo()
+{
+	vRenderingInfo.clear();
+	
+	for (auto imgView : _pSwapChain->GetImageViews())
+	{
+		vRenderingInfo.push_back(RenderingInfo{});
+		RenderingInfo& renderingInfo = vRenderingInfo.back();
+		             // Set to a struct if using stencil
+
+		
+		VkRenderingAttachmentInfo colorAttachment{};
+
+		colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+		colorAttachment.imageView = imgView;
+		colorAttachment.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;  // <-- Enforces the clear operation
+		colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+		colorAttachment.clearValue.color.float32[0] = 0.0f;
+		colorAttachment.clearValue.color.float32[0] = 0.0f;
+		colorAttachment.clearValue.color.float32[0] = 0.0f;
+		colorAttachment.clearValue.color.float32[0] = 1.0f;
+		colorAttachment.clearValue.depthStencil.depth = 0.0;
+		colorAttachment.clearValue.depthStencil.stencil = 0.0;
+
+
+
+		renderingInfo.vkRenderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO;
+		renderingInfo.vkRenderingInfo.pNext = NULL;
+		renderingInfo.vkRenderingInfo.renderArea = { {0, 0}, {_pSwapChain->GetExtent2D().width, _pSwapChain->GetExtent2D().height} };
+		renderingInfo.vkRenderingInfo.layerCount = 1;
+		renderingInfo.vkRenderingInfo.pStencilAttachment = NULL;
+		renderingInfo.vAttachments.push_back(colorAttachment);
+		renderingInfo.vkRenderingInfo.colorAttachmentCount = renderingInfo.vAttachments.size();
+		renderingInfo.vkRenderingInfo.pColorAttachments = renderingInfo.vAttachments.data();
+
+		if (_depthBuffer.needDepthBuffer) //if any shader requested a depth buffer
+		{
+			VkRenderingAttachmentInfo depthAttachment{};
+			depthAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
+			depthAttachment.pNext = NULL;
+			depthAttachment.imageView = _depthBuffer.depthView;
+			depthAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
+			depthAttachment.resolveMode = VK_RESOLVE_MODE_NONE;
+			depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;               // <-- Crucial for clearing depth
+			depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;             // Or DONT_CARE if not needed next frame
+			depthAttachment.clearValue.depthStencil.depth = 0.0;
+			depthAttachment.clearValue.depthStencil.stencil = 0.0;
+			
+			renderingInfo.depthAttachment = depthAttachment;
+			renderingInfo.vkRenderingInfo.pDepthAttachment = &depthAttachment;
+		} 
+		
+
+		
+	}
+}
+
 
 void MGL::VulkanGL::ResizeSwapChain()
 {
@@ -155,8 +211,8 @@ void MGL::VulkanGL::ResizeSwapChain()
 	this->DestroySyncObjects();
 	this->DestroyDepthBuffer();
 	this->CreateSwapChain();
-	this->CreateFramebuffers();
 	this->CreateDepthBufferOnce();
+	this->CreateRenderingInfo();
 	this->CreateSyncObjects();
 }
 
@@ -167,73 +223,7 @@ void MGL::VulkanGL::CreateCommandBuffers()
 		frame._pCommandBuffer = new VulkanCommandBuffer(_pCommandPool);
 }
 
-void MGL::VulkanGL::CreateRenderPass()
-{
-	VkAttachmentDescription colorAttachment{};
-	colorAttachment.format = _pSwapChain->GetImageFormat();
-	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
-	VkAttachmentReference colorAttachmentRef{};
-	colorAttachmentRef.attachment = 0;
-	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-	VkSubpassDescription subpass{};
-	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-	subpass.colorAttachmentCount = 1;
-	subpass.pColorAttachments = &colorAttachmentRef;
-
-
-	//Specify that  the dst Subpass (The only subpass We defined) will wait for the external subpass to finish
-	//It will wait for the external souce to finish the color attachment output stage
-	//before it can access the same stage
-	VkSubpassDependency dependency{};
-	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-	dependency.srcAccessMask = 0;
-	dependency.dstSubpass = 0;
-	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-
-	VkRenderPassCreateInfo passInfo{};
-	passInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-	passInfo.attachmentCount = 1;
-	passInfo.pAttachments = &colorAttachment;
-	passInfo.subpassCount = 1;
-	passInfo.pSubpasses = &subpass;
-	passInfo.dependencyCount = 1;
-	passInfo.pDependencies = &dependency;
-	vkCreateRenderPass(_pLogicalDevice->GetHandle(), &passInfo, nullptr, &_vkRenderPass);
-}
-
-void MGL::VulkanGL::CreateFramebuffers() {
-	auto imageViews = _pSwapChain->GetImageViews();
-	for (auto imageView : imageViews) {
-		VkImageView attachments[] = {
-			imageView
-		};
-
-		VkFramebufferCreateInfo framebufferInfo{};
-		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		framebufferInfo.renderPass = _vkRenderPass;
-		framebufferInfo.attachmentCount = 1;
-		framebufferInfo.pAttachments = attachments;
-		framebufferInfo.width = _pSwapChain->GetExtent2D().width;
-		framebufferInfo.height = _pSwapChain->GetExtent2D().height;
-		framebufferInfo.layers = 1;
-
-		VkFramebuffer framebuffer;
-		auto result = vkCreateFramebuffer(_pLogicalDevice->GetHandle(), &framebufferInfo, nullptr, &framebuffer);
-		AssertVulkanSuccess(result);
-		_framebuffers.push_back(framebuffer);
-	}
-
-}
 
 void MGL::VulkanGL::CreateSyncObjects()
 {
@@ -933,9 +923,7 @@ GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)
 #pragma region Cleanup
 MGL::VulkanGL::~VulkanGL() {
 	_pLogicalDevice->GetGraphicQueue().WaitIdle();
-	DestroyFramebuffer();
 	DestroyShaderContexts();
-	DestroyRenderPass();
 	if (_pSwapChain)
 		delete _pSwapChain;
 	DestroyImages();

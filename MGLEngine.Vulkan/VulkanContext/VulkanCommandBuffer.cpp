@@ -95,6 +95,9 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPas
 	return *this;
 }
 
+
+
+
 VulkanCommandBuffer& VulkanCommandBuffer::SetViewportAndScissor(VkExtent2D extent)
 {
 	AssertIsOpen();

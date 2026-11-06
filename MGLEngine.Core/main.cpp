@@ -67,7 +67,7 @@ int main()
 			config.EnableDebugLayer(true);
 			config.EnableVSync(true);
 			config.SetDoubleBuffer();
-			config.SetVersion(1, 2, 0);
+			config.SetVersion(4, 1, 0);
 			config.ImagesRoot("./assets");
 			});
 

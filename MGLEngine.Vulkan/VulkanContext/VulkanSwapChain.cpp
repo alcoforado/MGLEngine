@@ -129,22 +129,3 @@ VulkanSwapChain::NextImage  VulkanSwapChain::NextImagePipelineAsync(VulkanSemaph
 	};
 }
 
-void VulkanSwapChain::Present(const VulkanSemaphore* lock)
-{
-	VkPresentInfoKHR presentInfo = {};
-	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-
-	auto lh = lock->GetHandle();
-	auto h = this->GetHandle();
-
-	presentInfo.waitSemaphoreCount = 1;
-	presentInfo.pWaitSemaphores = &lh;
-	VkSwapchainKHR swapChains[] = { h };
-	presentInfo.swapchainCount = 1;
-	presentInfo.pSwapchains = swapChains;
-	presentInfo.pImageIndices = &_currentImageIndex;
-	presentInfo.pResults = nullptr;
-	auto err = vkQueuePresentKHR(_logicalDevice.GetGraphicQueue().GetHandle(), &presentInfo);
-	AssertVulkanSuccess(err);
-
-}

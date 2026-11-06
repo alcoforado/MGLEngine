@@ -50,9 +50,15 @@ struct PerInFlightFrameData {
 
 struct PerImageBufferData {
 	VulkanSemaphore* _pRenderFinishedSemaphore=nullptr;
+	
 };
 
+struct RenderingInfo {
+	std::vector<VkRenderingAttachmentInfo> vAttachments;
+	VkRenderingAttachmentInfo depthAttachment;
+	VkRenderingInfo vkRenderingInfo;
 
+};
 
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
@@ -94,10 +100,13 @@ struct PerImageBufferData {
 			
 			//Depth Buffer
 			struct DepthBuffer {
-				bool needDepthBuffer;
+				bool needDepthBuffer=false;
 				s_ptr<VulkanImage> image=nullptr;
 				VkImageView depthView = VK_NULL_HANDLE;
 			} _depthBuffer;
+
+			//Rendering Info
+			std::vector<RenderingInfo> vRenderingInfo;
 
 
 		private:
@@ -107,9 +116,8 @@ struct PerImageBufferData {
 			void CreateCommandPool();
 			void CreateSwapChain();
 			void CreateDepthBufferOnce();
+			void CreateRenderingInfo();
 			void CreateCommandBuffers();
-			void CreateRenderPass();
-			void CreateFramebuffers();
 			void CreateSyncObjects();
 			void CreateVulkanMemoryAllocator();
 			void CreateDescriptorSetLayout(GlobalBindingsTable& tbl);
