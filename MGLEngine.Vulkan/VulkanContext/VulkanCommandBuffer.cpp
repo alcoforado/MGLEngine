@@ -9,12 +9,11 @@ class VulkanRenderPass;
 void VulkanCommandBuffer::AssertIsOpen()
 {
 	AssertIsNotDisposed();
-	if (!_isOpen)
-	{
-		throw new Exception("Command Buffer is already closed, make sure you add the command before calling VulkanCommandBuffer::End()");
-
-	}
+	eassert(_isOpen, "Command Buffer is already closed, make sure you add the command before calling VulkanCommandBuffer::End()");
 }
+
+
+
 
 void VulkanCommandBuffer::AssertIsNotDisposed() const
 {
@@ -28,6 +27,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::Reset()
 	auto err = vkResetCommandBuffer(_vkCommandBuffer, 0);
 	AssertVulkanSuccess(err);
 	_isOpen = false;
+	_isInsideRenderingBlock = false;
 	return *this;
 }
 
@@ -57,6 +57,7 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginOnce()
 VulkanCommandBuffer& VulkanCommandBuffer::Begin(bool simultaneousUsage,bool oneSubmissionPerReset )
 {
 	AssertIsNotDisposed();
+	_isInsideRenderingBlock = false;
 	eassert(!_isOpen, "Buffer already started");
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -92,6 +93,22 @@ VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(VkRenderPass renderPas
 	vkCmdBeginRenderPass(_vkCommandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 
+	return *this;
+}
+
+VulkanCommandBuffer& VulkanCommandBuffer::BeginRendering(const VkRenderingInfo& vkRenderingInfo)
+{
+	AssertIsOpen();
+	eassert(!_isInsideRenderingBlock, "Error, nested rendering blocks");
+	_isInsideRenderingBlock = true;
+
+	vkCmdBeginRendering(this->GetHandle(), &vkRenderingInfo);
+	return *this;
+}
+
+VulkanCommandBuffer& VulkanCommandBuffer::EndRendering() {
+	eassert(_isInsideRenderingBlock, "Error begin/end rendering hlock mismatch");
+	vkCmdEndRendering(this->GetHandle());
 	return *this;
 }
 

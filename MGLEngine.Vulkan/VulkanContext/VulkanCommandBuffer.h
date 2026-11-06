@@ -21,6 +21,7 @@ private:
 	VkCommandBuffer _vkCommandBuffer;
 	
 	bool _isOpen=false;
+	bool _isInsideRenderingBlock = false;
 	void AssertIsOpen();
 	void AssertIsNotDisposed() const;
 
@@ -31,6 +32,12 @@ public:
 	VulkanCommandBuffer& BeginOnce();
 
 	VulkanCommandBuffer& BeginRenderPass(VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D extent, glm::vec4 color);
+	void EndRenderPass();
+	
+
+	VulkanCommandBuffer& BeginRendering(const VkRenderingInfo& vkRenderingInfo);
+	VulkanCommandBuffer& EndRendering();
+	
 	VulkanCommandBuffer& SetViewportAndScissor(VkExtent2D extent);
 
 	VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
@@ -48,7 +55,6 @@ public:
 	VulkanCommandBuffer& CopyBuffers(VkBuffer src, VkBuffer dst, long size);
 	
 	void End();
-	void EndRenderPass();
 	
 	VulkanSemaphore*  SubmitPipelineAsync(VulkanSemaphore* wait, VkPipelineStageFlagBits pipelineStage);
 

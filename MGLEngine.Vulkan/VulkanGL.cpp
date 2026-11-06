@@ -55,6 +55,7 @@ void VulkanGL::LoadShaders(std::vector<ShaderContext>& shaders, MGLContainer &mg
 		}
 
 	}
+	CreateRenderingInfo();
 
 
 
@@ -137,12 +138,12 @@ void MGL::VulkanGL::CreateDepthBufferOnce()
 
 void MGL::VulkanGL::CreateRenderingInfo()
 {
-	vRenderingInfo.clear();
+	_vRenderingInfo.clear();
 	
 	for (auto imgView : _pSwapChain->GetImageViews())
 	{
-		vRenderingInfo.push_back(RenderingInfo{});
-		RenderingInfo& renderingInfo = vRenderingInfo.back();
+		_vRenderingInfo.push_back(RenderingInfo{});
+		RenderingInfo& renderingInfo = _vRenderingInfo.back();
 		             // Set to a struct if using stencil
 
 		
@@ -749,7 +750,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	(*pCommandBuffer)
 		.Reset()
 		.Begin()
-		.BeginRenderPass(_vkRenderPass, _framebuffers[imageIndex], _pSwapChain->GetExtent2D(), glm::vec4(0, 0, 0, 1))
+		.BeginRendering(_vRenderingInfo[imageIndex].vkRenderingInfo)
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 
 	for (auto& ctx : shaders)
@@ -758,7 +759,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 		Serialize(ctx, mglContainer);
 		WriteCommandBuffer(_currentFrame,ctx, *pCommandBuffer,mglContainer);
 	}
-	pCommandBuffer->EndRenderPass();
+	pCommandBuffer->EndRendering();
 	pCommandBuffer->End();
 	_vFrames[_currentFrame]._pInFlightFence->Reset();
 	_pLogicalDevice->GetGraphicQueue().Submit(

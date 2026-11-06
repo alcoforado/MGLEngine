@@ -106,7 +106,7 @@ struct RenderingInfo {
 			} _depthBuffer;
 
 			//Rendering Info
-			std::vector<RenderingInfo> vRenderingInfo;
+			std::vector<RenderingInfo> _vRenderingInfo;
 
 
 		private:
