@@ -13,7 +13,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(const VulkanInstance& inst, VkPhysica
 	this->ComputeFamilyQueues();
 	this->ComputeLayers();
 	vkGetPhysicalDeviceProperties(_handler, &_graphicProperties);
-	vkGetPhysicalDeviceFeatures(_handler, &_features);
+	vkGetPhysicalDeviceFeatures2(_handler, &_features.V1);
 
 	_graphic_family_index=this->FindQueueFamilyIndex([](auto family) {
 		return family.IsGraphic;

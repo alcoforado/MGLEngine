@@ -6,6 +6,7 @@
 #include <glfw/glfw3.h>
 #include "VulkanMemoryProperties.h"
 #include <functional>
+#include "VulkanDeviceFeatures.h"
 class VulkanInstance;
 class VulkanSurface;
 
@@ -31,6 +32,7 @@ struct VulkanQueueFamily {
 };
 
 
+
 class VulkanPhysicalDevice {
 
 	friend VulkanInstance;
@@ -41,7 +43,8 @@ class VulkanPhysicalDevice {
 	std::vector<VulkanQueueFamily> _queueFamilies;
 	VkPhysicalDevice _handler;
 	
-	VkPhysicalDeviceFeatures _features;
+	VulkanDeviceFeatures  _features;
+	
 	VkPhysicalDeviceProperties _graphicProperties;
 	std::vector<MVulkanLayer> _layers;
 	int32_t _graphic_family_index;
@@ -55,7 +58,7 @@ public:
 	VkPhysicalDevice GetHandle() const  { return _handler; }
 	const std::vector<VulkanQueueFamily>& GetQueueFamilies() const { return _queueFamilies; }
 	VkPhysicalDeviceProperties GetProperties() const { return _graphicProperties; }
-	VkPhysicalDeviceFeatures GetFeatures() const { return _features; }
+	VulkanDeviceFeatures GetFeatures() const { return _features; }
 	std::vector<VulkanMemoryProperties> GetMemoryProperties() const { return _memProperties; }
 	int32_t FindQueueFamilyIndex(std::function<bool(const VulkanQueueFamily& family)> selector) const;
 	int32_t FindMemoryPropertyIndex(std::function<bool(const VulkanMemoryProperties& memory)> selector) const;

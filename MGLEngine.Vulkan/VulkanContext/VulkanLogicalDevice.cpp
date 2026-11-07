@@ -39,23 +39,29 @@ VulkanLogicalDevice::VulkanLogicalDevice(const VulkanPhysicalDevice &physicalDev
 	queues.push_back(queue_info);
 	
 	
-	if (physicalDevice.GetFeatures().samplerAnisotropy)
+	if (physicalDevice.GetFeatures().V1.features.samplerAnisotropy)
 	{
-		_enabledFeatures.samplerAnisotropy = VK_TRUE;
+		_enabledFeatures.V1.features.samplerAnisotropy = VK_TRUE;
 	};
 
+	if (physicalDevice.GetFeatures().V13.dynamicRendering)
+	{
+		_enabledFeatures.V13.dynamicRendering = VK_TRUE;
+	}
+	else
+		throw_error("DynamicRendering feature is required");
 
 	auto enabled_extensions= ConvertToVectorChar(_enabledExtensions);
 	VkDeviceCreateInfo device_info = {};
 	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	device_info.pNext = NULL;
+	device_info.pNext = &(_enabledFeatures.V1);
 	device_info.queueCreateInfoCount = (uint32_t) queues.size();
 	device_info.pQueueCreateInfos = queues.data();
 	device_info.enabledExtensionCount = (uint32_t)_enabledExtensions.size();
 	device_info.ppEnabledExtensionNames = enabled_extensions.data();
 	device_info.enabledLayerCount = 0;
 	device_info.ppEnabledLayerNames = NULL;
-	device_info.pEnabledFeatures = &_enabledFeatures;
+	device_info.pEnabledFeatures = nullptr;
 
 	
 	//create device;

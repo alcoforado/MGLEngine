@@ -159,7 +159,7 @@ void MGL::VulkanGL::CreateRenderingInfo()
 		colorAttachment.clearValue.color.float32[0] = 0.0f;
 		colorAttachment.clearValue.color.float32[0] = 1.0f;
 		colorAttachment.clearValue.depthStencil.depth = 0.0;
-		colorAttachment.clearValue.depthStencil.stencil = 0.0;
+		colorAttachment.clearValue.depthStencil.stencil = 0;
 
 
 
@@ -169,7 +169,7 @@ void MGL::VulkanGL::CreateRenderingInfo()
 		renderingInfo.vkRenderingInfo.layerCount = 1;
 		renderingInfo.vkRenderingInfo.pStencilAttachment = NULL;
 		renderingInfo.vAttachments.push_back(colorAttachment);
-		renderingInfo.vkRenderingInfo.colorAttachmentCount = renderingInfo.vAttachments.size();
+		renderingInfo.vkRenderingInfo.colorAttachmentCount = static_cast<uint32_t>(renderingInfo.vAttachments.size());
 		renderingInfo.vkRenderingInfo.pColorAttachments = renderingInfo.vAttachments.data();
 
 		if (_depthBuffer.needDepthBuffer) //if any shader requested a depth buffer
@@ -183,7 +183,7 @@ void MGL::VulkanGL::CreateRenderingInfo()
 			depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;               // <-- Crucial for clearing depth
 			depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;             // Or DONT_CARE if not needed next frame
 			depthAttachment.clearValue.depthStencil.depth = 0.0;
-			depthAttachment.clearValue.depthStencil.stencil = 0.0;
+			depthAttachment.clearValue.depthStencil.stencil = 0;
 			
 			renderingInfo.depthAttachment = depthAttachment;
 			renderingInfo.vkRenderingInfo.pDepthAttachment = &depthAttachment;
@@ -692,7 +692,7 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 	pipelineInfo.pVertexInputState = &_pipelineVertexInputState;
 	pipelineInfo.pInputAssemblyState = &InputAssembly;
 
-	pipelineInfo.renderPass = _vkRenderPass;
+	pipelineInfo.renderPass = VK_NULL_HANDLE;
 	pipelineInfo.subpass = 0;
 
 
@@ -902,7 +902,7 @@ GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)
 	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	samplerInfo.anisotropyEnable = _pLogicalDevice->GetEnabledFeatures().samplerAnisotropy;
+	samplerInfo.anisotropyEnable = _pLogicalDevice->GetEnabledFeatures().V1.features.samplerAnisotropy;
 	samplerInfo.maxAnisotropy = _pLogicalDevice->GetPhysicalDevice().GetProperties().limits.maxSamplerAnisotropy;
 	samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
 	samplerInfo.unnormalizedCoordinates = VK_FALSE;
