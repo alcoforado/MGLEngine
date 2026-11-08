@@ -30,6 +30,8 @@ public:
 
 	}
 
+	
+
 	bool IsEmpty() {
 		return _handle == VK_NULL_HANDLE;
 	}

@@ -151,7 +151,7 @@ void MGL::VulkanGL::CreateRenderingInfo()
 
 		colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
 		colorAttachment.imageView = imgView;
-		colorAttachment.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		colorAttachment.imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;  // <-- Enforces the clear operation
 		colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 		colorAttachment.clearValue.color.float32[0] = 0.0f;
@@ -683,6 +683,14 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 	AssertVulkanSuccess(err);
 
 
+	VkPipelineRenderingCreateInfo pipelineRenderingInfo{};
+	VkFormat formats = _pSwapChain->GetImageFormat();
+	pipelineRenderingInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
+	pipelineRenderingInfo.colorAttachmentCount = 1;
+	pipelineRenderingInfo.pColorAttachmentFormats = &formats;
+	//pipelineRenderingInfo.depthAttachmentFormat = VK_FORMAT_D32_SFLOAT; // Optional
+
+
 
 	//Create Pipeline
 	VkGraphicsPipelineCreateInfo pipelineInfo = {};
@@ -694,6 +702,7 @@ VulkanPipelineData VulkanGL::CreatePipeline(ShaderContext& ctx, GlobalBindingsTa
 
 	pipelineInfo.renderPass = VK_NULL_HANDLE;
 	pipelineInfo.subpass = 0;
+	pipelineInfo.pNext = &pipelineRenderingInfo;
 
 
 	pipelineInfo.pViewportState = &ViewportState;

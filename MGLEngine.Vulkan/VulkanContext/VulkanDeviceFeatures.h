@@ -8,6 +8,10 @@ struct VulkanDeviceFeatures {
 	VkPhysicalDeviceVulkan14Features V14;
 	
 	VulkanDeviceFeatures() {
+		V1 = {};
+		V12 = {};
+		V13 = {};
+		V14 = {};
 		V1.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
 		V12.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
 		V13.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;

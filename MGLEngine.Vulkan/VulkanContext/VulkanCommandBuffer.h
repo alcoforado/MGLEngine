@@ -65,9 +65,14 @@ public:
 	//Transition image to the final layout. The final layout is according to the purpose of that image.
 	//For now all images are used as read only for the fragment shader.
 	VulkanCommandBuffer& TransitionImageToFinalLayout(VulkanImage& image);
-
 	VulkanCommandBuffer& BindDescriptorSetsToGraphicPipeline(VkPipelineLayout pipelineLayout, VkDescriptorSet ds);
 	VulkanCommandBuffer& PushConstant(VkPipelineLayout pipelineLayout, VkShaderStageFlags stages,void* pData, size_t index);
+
+	//Memory Barrier
+	VulkanCommandBuffer& ImageMemoryBarrier(const VkImageMemoryBarrier& barrier, VkPipelineStageFlagBits src, VkPipelineStageFlagBits dst);
+
+
+
 
 	void Delete();
 	~VulkanCommandBuffer();

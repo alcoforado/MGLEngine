@@ -357,6 +357,19 @@ VulkanCommandBuffer& VulkanCommandBuffer::PushConstant(VkPipelineLayout layout, 
 	return *this;
 }
 
+VulkanCommandBuffer& VulkanCommandBuffer::ImageMemoryBarrier(const VkImageMemoryBarrier& barrier, VkPipelineStageFlagBits src, VkPipelineStageFlagBits dst)
+{
+	// TODO: insert return statement here
+	AssertIsOpen();
+	vkCmdPipelineBarrier(
+		this->GetHandle(),
+		src,
+		dst,
+		0,  
+		0, nullptr, 0, nullptr, 1, &barrier
+	);
+	return *this;
+}
 
 
 #pragma endregion
