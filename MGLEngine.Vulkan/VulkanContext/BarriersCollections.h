@@ -2,18 +2,18 @@
 #include <vulkan/vulkan.hpp>
 #include "VulkanCommandBuffer.h"
 class BarrierCollection {
-	VkImageMemoryBarrier SwapChainImageReadyToWriteBarrier;
-	VkImageMemoryBarrier SwapChainImageReadyToPresentBarrier;
+	VulkanImageMemoryBarrier SwapChainImageReadyToWriteBarrier;
+	VulkanImageMemoryBarrier SwapChainImageReadyToPresentBarrier;
 
 private:
-	void CreateSwapChaingImageReadyToWriteBarrier();
-	void CreateSwapChainImageReadyToPresentBarrier();
+	void InitRenderingTransition();
+	void InitPresentationTransition();
 public:
 	BarrierCollection();
 
-	void WriteTransitionToRendering(VulkanCommandBuffer& cmdBuffer, VkImage img);
-	void WriteTransitionToPresentation(VulkanCommandBuffer& cmdBuffer, VkImage img);
-
 	
+
+	const VulkanImageMemoryBarrier& TransitionToRendering(VkImage img);
+	const VulkanImageMemoryBarrier& TransitionToPresentation(VkImage img);
 
 };

@@ -40,6 +40,7 @@ class VulkanSwapChain
 		NextImage  NextImagePipelineAsync(VulkanSemaphore* sToSignal=nullptr, VulkanFence *fenceToSignal=nullptr);
 		VkSwapchainKHR GetHandle() { return _swapChainHandle; }
 		uint32_t GetCurrentImageIndex() const { return _currentImageIndex; }
+		VkImage GetCurrentImage() const { return _images[_currentImageIndex]; }
 };
 
 

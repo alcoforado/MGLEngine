@@ -16,7 +16,7 @@
 #include <MGLEngine.Vulkan/VulkanApp/ByteCodeCollection.h>
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
-
+#include <MGLEngine.Vulkan/VulkanContext/BarriersCollections.h>
 struct VulkanPipelineData {
 	VkPipeline handle;
 	VkPipelineLayout layout;
@@ -60,6 +60,14 @@ struct RenderingInfo {
 
 };
 
+//Depth Buffer
+struct DepthBuffer {
+	s_ptr<VulkanImage> pImage = nullptr;
+	VkImageView depthView = VK_NULL_HANDLE;
+};
+
+
+
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
@@ -75,7 +83,7 @@ struct RenderingInfo {
 			VulkanSwapChain *_pSwapChain = nullptr;
 			VmaAllocator _allocator;
 			VkRenderPass _vkRenderPass;
-			
+			BarrierCollection _barriers;
 			
 			std::vector<PerInFlightFrameData> _vFrames;
 			std::vector<PerImageBufferData> _vImageBufferData;
@@ -97,13 +105,9 @@ struct RenderingInfo {
 			//Frame Index
 			uint32_t _currentFrame=0;
 
-			
 			//Depth Buffer
-			struct DepthBuffer {
-				bool needDepthBuffer=false;
-				s_ptr<VulkanImage> image=nullptr;
-				VkImageView depthView = VK_NULL_HANDLE;
-			} _depthBuffer;
+			std::vector<DepthBuffer> _depthBuffers;
+			
 
 			//Rendering Info
 			std::vector<RenderingInfo> _vRenderingInfo;

@@ -9,6 +9,12 @@ class VulkanDescriptorSet;
 class VulkanPipeline;
 class VulkanCommandBuffer;
 
+struct VulkanImageMemoryBarrier {
+	VkImageMemoryBarrier barrier;
+	VkPipelineStageFlagBits srcPipeline;
+	VkPipelineStageFlagBits dstPipeline;
+};
+
 
 class VulkanCommandBuffer
 {
@@ -69,7 +75,9 @@ public:
 	VulkanCommandBuffer& PushConstant(VkPipelineLayout pipelineLayout, VkShaderStageFlags stages,void* pData, size_t index);
 
 	//Memory Barrier
-	VulkanCommandBuffer& ImageMemoryBarrier(const VkImageMemoryBarrier& barrier, VkPipelineStageFlagBits src, VkPipelineStageFlagBits dst);
+	VulkanCommandBuffer& ImageMemoryBarrier(const VulkanImageMemoryBarrier& barrier);
+	
+
 
 
 

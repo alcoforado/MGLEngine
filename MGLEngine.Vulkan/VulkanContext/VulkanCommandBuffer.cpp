@@ -350,23 +350,23 @@ VulkanCommandBuffer& VulkanCommandBuffer::PushConstant(VkPipelineLayout layout, 
 		layout,              // Must match layout used by bound pipeline
 		stages,              // Must match or be a subset of range flags
 		0,                   // Offset inside the push constant block
-		size,                // Size of data to update
-		pData                       // CPU pointer to raw payload data
+		static_cast<uint32_t>(size),                // Size of data to update
+		pData                // CPU pointer to raw payload data
 	);
 
 	return *this;
 }
 
-VulkanCommandBuffer& VulkanCommandBuffer::ImageMemoryBarrier(const VkImageMemoryBarrier& barrier, VkPipelineStageFlagBits src, VkPipelineStageFlagBits dst)
+VulkanCommandBuffer& VulkanCommandBuffer::ImageMemoryBarrier(const VulkanImageMemoryBarrier& barrier)
 {
 	// TODO: insert return statement here
 	AssertIsOpen();
 	vkCmdPipelineBarrier(
 		this->GetHandle(),
-		src,
-		dst,
+		barrier.srcPipeline,
+		barrier.dstPipeline,
 		0,  
-		0, nullptr, 0, nullptr, 1, &barrier
+		0, nullptr, 0, nullptr, 1, &barrier.barrier
 	);
 	return *this;
 }

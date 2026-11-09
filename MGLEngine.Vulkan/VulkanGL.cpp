@@ -100,48 +100,60 @@ void MGL::VulkanGL::CreateSwapChain() {
 
 void MGL::VulkanGL::CreateDepthBufferOnce()
 {
+	auto nImages=_pSwapChain->NImages();
+	if (!_depthBuffers.empty())
+		return;
+	for (int i = 0; i < nImages; i++)
+	{
+		VkImageCreateInfo imageInfo{};
+		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+		imageInfo.imageType = VK_IMAGE_TYPE_2D;
+		imageInfo.extent.width = _pSwapChain->GetExtent2D().width;
+		imageInfo.extent.height = _pSwapChain->GetExtent2D().width;
+		imageInfo.extent.depth = 1;
+		imageInfo.mipLevels = 1;
+		imageInfo.arrayLayers = 1;
+		imageInfo.format = _pLogicalDevice->GetPhysicalDevice().DepthFormat();
+		imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+		imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		s_ptr<VulkanImage> image = _pMemoryAllocator->CreateImageBuffer(imageInfo);
+
+		VkImageViewCreateInfo viewInfo{};
+		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		viewInfo.image = image->GetHandle();
+		viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		viewInfo.format = imageInfo.format;
+		viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+		viewInfo.subresourceRange.baseMipLevel = 0;
+		viewInfo.subresourceRange.levelCount = 1;
+		viewInfo.subresourceRange.baseArrayLayer = 0;
+		viewInfo.subresourceRange.layerCount = 1;
+
+		VkImageView imageView;
+		VkResult result = vkCreateImageView(_pLogicalDevice->GetHandle(), &viewInfo, nullptr, &imageView);
+		AssertVulkanSuccess(result);
+
+		_depthBuffers.push_back(
+			DepthBuffer{
+			.pImage = image,
+			.depthView = imageView
+		});
+
+	}
 	
-	_depthBuffer.needDepthBuffer = true;
-	VkImageCreateInfo imageInfo{};
-	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-	imageInfo.imageType = VK_IMAGE_TYPE_2D;
-	imageInfo.extent.width = _pSwapChain->GetExtent2D().width;
-	imageInfo.extent.height = _pSwapChain->GetExtent2D().width; 
-	imageInfo.extent.depth = 1;
-	imageInfo.mipLevels = 1;
-	imageInfo.arrayLayers = 1;
-	imageInfo.format = _pLogicalDevice->GetPhysicalDevice().DepthFormat();
-	imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
-	imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-	imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-	imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
-	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-	_depthBuffer.image = _pMemoryAllocator->CreateImageBuffer(imageInfo);
-
-	VkImageViewCreateInfo viewInfo{};
-	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-	viewInfo.image = _depthBuffer.image->GetHandle();
-	viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-	viewInfo.format = imageInfo.format;
-	viewInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-	viewInfo.subresourceRange.baseMipLevel = 0;
-	viewInfo.subresourceRange.levelCount = 1;
-	viewInfo.subresourceRange.baseArrayLayer = 0;
-	viewInfo.subresourceRange.layerCount = 1;
-
-	VkImageView imageView;
-	VkResult result = vkCreateImageView(_pLogicalDevice->GetHandle(), &viewInfo, nullptr, &_depthBuffer.depthView);
-	AssertVulkanSuccess(result);
 
 }
 
 void MGL::VulkanGL::CreateRenderingInfo()
 {
 	_vRenderingInfo.clear();
-	
-	for (auto imgView : _pSwapChain->GetImageViews())
+	for (int i=0;i<_pSwapChain->NImages();i++)
 	{
+		VkImageView imgView = _pSwapChain->GetImageViews()[i];
 		_vRenderingInfo.push_back(RenderingInfo{});
 		RenderingInfo& renderingInfo = _vRenderingInfo.back();
 		             // Set to a struct if using stencil
@@ -151,7 +163,7 @@ void MGL::VulkanGL::CreateRenderingInfo()
 
 		colorAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
 		colorAttachment.imageView = imgView;
-		colorAttachment.imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		colorAttachment.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;  // <-- Enforces the clear operation
 		colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 		colorAttachment.clearValue.color.float32[0] = 0.0f;
@@ -172,12 +184,12 @@ void MGL::VulkanGL::CreateRenderingInfo()
 		renderingInfo.vkRenderingInfo.colorAttachmentCount = static_cast<uint32_t>(renderingInfo.vAttachments.size());
 		renderingInfo.vkRenderingInfo.pColorAttachments = renderingInfo.vAttachments.data();
 
-		if (_depthBuffer.needDepthBuffer) //if any shader requested a depth buffer
+		if (!_depthBuffers.empty()) //if we have depth buffer created
 		{
 			VkRenderingAttachmentInfo depthAttachment{};
 			depthAttachment.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO;
 			depthAttachment.pNext = NULL;
-			depthAttachment.imageView = _depthBuffer.depthView;
+			depthAttachment.imageView = _depthBuffers[i].depthView;
 			depthAttachment.imageLayout = VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
 			depthAttachment.resolveMode = VK_RESOLVE_MODE_NONE;
 			depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;               // <-- Crucial for clearing depth
@@ -752,6 +764,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 		return;
 	}
 	uint32_t imageIndex = imageIndexResult.index;
+	VkImage framebuffer= _pSwapChain->GetCurrentImage();
 	auto& imageData = _vImageBufferData[imageIndex];
 	ProcessEngineCommandQueue(queue);
 
@@ -759,6 +772,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	(*pCommandBuffer)
 		.Reset()
 		.Begin()
+		.ImageMemoryBarrier(_barriers.TransitionToRendering(framebuffer))
 		.BeginRendering(_vRenderingInfo[imageIndex].vkRenderingInfo)
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 
@@ -769,6 +783,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 		WriteCommandBuffer(_currentFrame,ctx, *pCommandBuffer,mglContainer);
 	}
 	pCommandBuffer->EndRendering();
+	pCommandBuffer->ImageMemoryBarrier(_barriers.TransitionToPresentation(framebuffer));
 	pCommandBuffer->End();
 	_vFrames[_currentFrame]._pInFlightFence->Reset();
 	_pLogicalDevice->GetGraphicQueue().Submit(
@@ -978,11 +993,12 @@ void MGL::VulkanGL::DestroyMappedUbos()
 
 void MGL::VulkanGL::DestroyDepthBuffer() {
 
-	if (!_depthBuffer.image->IsEmpty())
+	for(auto& elem:_depthBuffers)
 	{
-		_depthBuffer.image->Delete();
-		vkDestroyImageView(_pLogicalDevice->GetHandle(), _depthBuffer.depthView, nullptr);
+		vkDestroyImageView(_pLogicalDevice->GetHandle(), elem.depthView, nullptr);
+		elem.pImage->Delete();
 	}
+	_depthBuffers.clear();
 }
 
 void MGL::VulkanGL::DestroyDescriptorSets()
