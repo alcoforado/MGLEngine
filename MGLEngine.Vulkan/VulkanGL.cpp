@@ -772,7 +772,12 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	(*pCommandBuffer)
 		.Reset()
 		.Begin()
-		.ImageMemoryBarrier(_barriers.TransitionToRendering(framebuffer))
+		.ImageMemoryBarrier(_barriers.ColorTransitionToRendering(framebuffer));
+	if (!_depthBuffers.empty())
+	{
+		pCommandBuffer->ImageMemoryBarrier(_barriers.DepthTransitionToRendering(_depthBuffers[imageIndex].pImage->GetHandle()));
+	}
+	(*pCommandBuffer)
 		.BeginRendering(_vRenderingInfo[imageIndex].vkRenderingInfo)
 		.SetViewportAndScissor(_pSwapChain->GetExtent2D());
 
@@ -783,7 +788,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 		WriteCommandBuffer(_currentFrame,ctx, *pCommandBuffer,mglContainer);
 	}
 	pCommandBuffer->EndRendering();
-	pCommandBuffer->ImageMemoryBarrier(_barriers.TransitionToPresentation(framebuffer));
+	pCommandBuffer->ImageMemoryBarrier(_barriers.ColorTransitionToPresentation(framebuffer));
 	pCommandBuffer->End();
 	_vFrames[_currentFrame]._pInFlightFence->Reset();
 	_pLogicalDevice->GetGraphicQueue().Submit(

@@ -11,8 +11,8 @@ class VulkanCommandBuffer;
 
 struct VulkanImageMemoryBarrier {
 	VkImageMemoryBarrier barrier;
-	VkPipelineStageFlagBits srcPipeline;
-	VkPipelineStageFlagBits dstPipeline;
+	VkPipelineStageFlags srcPipeline;
+	VkPipelineStageFlags dstPipeline;
 };
 
 
