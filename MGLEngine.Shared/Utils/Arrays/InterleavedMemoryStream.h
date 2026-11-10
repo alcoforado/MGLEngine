@@ -24,18 +24,21 @@ class InterleavedMemoryStream {
 		sizeof(unsigned), // TYPE_UINT
 		sizeof(float),    // TYPE_FLOAT
 		sizeof(float)*2,  // TYPE_VEC_FLOAT_2
+		sizeof(float)*3,  // TYPE_VEC_FLOAT_3
 		sizeof(float)*4   // TYPE_VEC_FLOAT_4
 	};
 	inline static  bool _isFloatBased[] = {
 		false, // TYPE_UINT
 		true,    // TYPE_FLOAT
 		true,  // TYPE_VEC_FLOAT_2
+		true,  // TYPE_VEC_FLOAT_3
 		true   // TYPE_VEC_FLOAT_4
 	};
 	constexpr   static  unsigned _fieldsPerElement[] = {
 		1, // TYPE_UINT
 		1,  // TYPE_FLOAT
 		2,  // TYPE_VEC_FLOAT_2
+		3,  // TYPE_VEC_FLOAT_3
 		4   // TYPE_VEC_FLOAT_4
 	};
 	InterleavedMemoryStream& operator<<(const std::vector<uint32_t>& v);
@@ -52,6 +55,7 @@ public:
 	
 	InterleavedMemoryStream& operator<<(float value);
 	InterleavedMemoryStream& operator<<(const glm::vec2 &v);
+	InterleavedMemoryStream& operator<<(const glm::vec3 &v);
 	InterleavedMemoryStream& operator<<(const glm::vec4 &v);
 	InterleavedMemoryStream& operator<<(const std::vector<float>&v);
 	

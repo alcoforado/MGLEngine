@@ -1,6 +1,6 @@
 #pragma once
 #include<stddef.h>
-
+#include <vector>
 
 enum FieldType {
 	TYPE_UINT = 0,
@@ -14,33 +14,41 @@ enum FieldType {
 class FieldTypeInfo {
 
 	private:
-		inline static  bool _isFloatBased[] = {
+		inline static  std::vector<bool> _isFloatBased = {
 			false, // TYPE_UINT
 			true,    // TYPE_FLOAT
 			true,  // TYPE_VEC_FLOAT_2
 			true,  // TYPE_VEC_FLOAT_3
 			true   // TYPE_VEC_FLOAT_4
 		};
-		constexpr   static  unsigned _fieldsPerElement[] = {
+		inline static  std::vector<uint32_t> _fieldsPerElement = {
 			1, // TYPE_UINT
 			1,  // TYPE_FLOAT
 			2,  // TYPE_VEC_FLOAT_2
 			3,  // TYPE_VEC_FLOAT_3
 			4   // TYPE_VEC_FLOAT_4
 		};
-		constexpr   static  unsigned _sizeOf[] = { //total size in bytes
-			4, // TYPE_UINT
-			4,  // TYPE_FLOAT
-			8,  // TYPE_VEC_FLOAT_2,
-			12, //  TYPE_VEC_FLOAT_3,
-			16,   // TYPE_VEC_FLOAT_4
+		inline static  std::vector<uint32_t> _sizeOf = {
+			sizeof(unsigned), // TYPE_UINT
+			sizeof(float),    // TYPE_FLOAT
+			sizeof(float) * 2,  // TYPE_VEC_FLOAT_2
+			sizeof(float) * 3,  // TYPE_VEC_FLOAT_3
+			sizeof(float) * 4   // TYPE_VEC_FLOAT_4
 		};
-		
 	public:
 		static unsigned int sizeOfType(FieldType type) {
 			return _sizeOf[type];
 		}
 		
+		static unsigned int fieldsPerElement(FieldType type)
+		{
+			return _fieldsPerElement[type];
+		}
+
+		static bool  isFloat(FieldType type)
+		{
+			return _isFloatBased[type];
+		}
 
 
 };
