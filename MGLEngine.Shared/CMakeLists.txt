@@ -105,6 +105,7 @@ add_library(${PROJECT_NAME} STATIC
  "Interfaces/RenderSerializationContext.h" 
  "Interfaces/IDrawContext.h" 
  "Mesh/OrthoRect2D.h" 
+ "Mesh/OrthoBox3D.h"
  "Shaders/Color2D/VertexColor2D.h" 
  "Shaders/FieldType.h"
  "Shaders/VerticeDataLayout.h" 
