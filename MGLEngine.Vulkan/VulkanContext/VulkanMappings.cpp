@@ -1,6 +1,8 @@
 #include "VulkanMappings.h"
 #include <MGLEngine.Vulkan/VulkanGL.h>
 #include <MGLEngine.Shared//Shaders/ShaderConfiguration.h>
+#include <MGLEngine.Shared/Shaders/FieldType.h>
+
 
 VkShaderStageFlags VulkanMappings::Map(ShaderStage stage)
 {
@@ -16,5 +18,21 @@ VkShaderStageFlags VulkanMappings::Map(ShaderStage stage)
 		throw_error("Cannot Map Shader Stage");
 		
 	}
+	
+}
+
+VkFormat VulkanMappings::MapFormat(FieldType field)
+{
+	static std::vector<VkFormat> map = {
+		 VK_FORMAT_R32_UINT,			// TYPE_UINT
+		VK_FORMAT_R32_SFLOAT,			//TYPE_FLOAT
+		VK_FORMAT_R32G32_SFLOAT,		//TYPE_VEC_FLOAT_2
+		VK_FORMAT_R32G32B32_SFLOAT,		//TYPE_VEC_FLOAT_3
+		VK_FORMAT_R32G32B32A32_SFLOAT	//TYPE_VEC_FLOAT_4;
+	};
+	eassert(field >= 0 && field < 5, "Field Type conversion not supported");
+	return map[field];
+
+
 	
 }

@@ -182,7 +182,6 @@ struct DepthBuffer {
 
 			//IMGLEngine Implementation
 		
-			VkFormat ToVkFormat(enum FieldType type);
 			
 
 			// Inherited via IGraphicLibrary

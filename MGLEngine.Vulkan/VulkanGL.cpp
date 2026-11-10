@@ -500,7 +500,7 @@ std::vector<VkVertexInputAttributeDescription> MGL::VulkanGL::CreatePipelineVert
 		VkVertexInputAttributeDescription elem = {
 			.location = attr.location,
 			.binding = 0,
-			.format = ToVkFormat(attr.type),
+			.format = VulkanMappings::MapFormat(attr.type),
 			.offset = static_cast<uint32_t>(attr.offset)
 		};
 		result.push_back(elem);
@@ -515,17 +515,6 @@ VkShaderModule VulkanGL::CreatePipelineShader(ShaderByteCode byteCode)
 }
 
 
-VkFormat MGL::VulkanGL::ToVkFormat(enum FieldType type)
-{
-	VkFormat tbl[4];
-	tbl[TYPE_UINT] = VK_FORMAT_R32_UINT;
-	tbl[TYPE_FLOAT] = VK_FORMAT_R32_SFLOAT;
-	tbl[TYPE_VEC_FLOAT_2] = VK_FORMAT_R32G32_SFLOAT;
-	tbl[TYPE_VEC_FLOAT_4] = VK_FORMAT_R32G32B32A32_SFLOAT;
-	eassert(type < 4, "Field Type conversion not supported");
-	return tbl[type];
-
-}
 
 void MGL::VulkanGL::Serialize(ShaderContext& ctx, MGLContainer& mglContainer)
 {

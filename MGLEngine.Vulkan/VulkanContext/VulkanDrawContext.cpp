@@ -10,7 +10,7 @@ void VulkanDrawContext::_PushConstant(std::string varName, void* pData, size_t t
 	eassert(_shader.GetConfiguration().pushConstant.Validate(varName, typeIndex, sizeofT), std::format("Wrong assignment for Push Constant {} ", varName));
 	_commandBuffer.PushConstant(
 		_vulkanShaderData.pipeline.layout, 
-		VulkanMappings::Map(pushConstant.stage), 
+		VulkanMappings::Map(pushConstant.stage),
 		pData, 
 		sizeofT);
 }

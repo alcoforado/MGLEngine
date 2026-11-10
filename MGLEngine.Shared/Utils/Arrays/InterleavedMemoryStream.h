@@ -5,6 +5,7 @@
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
+#include <glm/vec3.hpp>
 #include <MGLEngine.Shared/Shaders/FieldType.h>
 
 
@@ -110,6 +111,31 @@ class MemoryStreamFloat2DAdapter
 		_stream << v;
 		return *this;
 	}
-
-
 };
+
+
+
+class MemoryStreamFloat3DAdapter
+{
+	InterleavedMemoryStream& _stream;
+public:
+	MemoryStreamFloat3DAdapter(InterleavedMemoryStream& v)
+		:_stream(v)
+	{
+		eassert(_stream.getFieldType() == TYPE_VEC_FLOAT_3, "Expect a Vec Float 3 stream");
+
+	}
+
+	MemoryStreamFloat3DAdapter& operator<<(const glm::vec3& v) {
+		_stream << v;
+		return *this;
+	}
+
+	MemoryStreamFloat3DAdapter& operator<<(const std::vector<float>& v)
+	{
+		_stream << v;
+		return *this;
+	}
+};
+
+
