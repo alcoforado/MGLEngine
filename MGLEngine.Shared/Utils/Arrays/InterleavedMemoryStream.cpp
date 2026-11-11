@@ -5,7 +5,7 @@
 InterleavedMemoryStream::InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum FieldType elemType)
 {
 	_pData = pData;
-	_elementSize = elementSizeTable[elemType];
+	_elementSize = FieldTypeInfo::sizeOfType(elemType);
 	_stride = stride;
 	_maxElementCount = maxNumElements;
 	_elemType = elemType;
@@ -67,9 +67,9 @@ InterleavedMemoryStream& InterleavedMemoryStream::operator<<(const glm::vec4 &v)
 
 InterleavedMemoryStream& InterleavedMemoryStream::operator<<(const std::vector<float>& v)
 {
-	const uint32_t floatsPerElement = _fieldsPerElement[_elemType];
+	const uint32_t floatsPerElement = FieldTypeInfo::fieldsPerElement(_elemType);
 
-	eassert(_isFloatBased[_elemType], "Incompatible Types");
+	eassert(FieldTypeInfo::isFloat(_elemType), "Incompatible Types");
 	eassert((v.size() % floatsPerElement) == 0, "Vector passed has incompatible dimensions");
 	eassert(_currentElementCount + (v.size()/floatsPerElement) <= _maxElementCount, "Vector passed is too big. It won't fit in array");
 
