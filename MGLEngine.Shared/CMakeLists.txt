@@ -126,7 +126,7 @@ add_library(${PROJECT_NAME} STATIC
    "Resources/ImageLoader.cpp"
    "Utils/glm_extensions.cpp"
    "Utils/glm_extensions.h"
-   "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"   "Interfaces/ITexImage.h" "Interfaces/GLID.h" "Interfaces/RenderSerializationContext.cpp" "Interfaces/IEngineContext.h" "Container/MGLContainer.h" "Utils/numeric_vector_functions.h" "Interfaces/IMesh3D.h")
+   "Utils/string.h" "Utils/string.cpp" "Interfaces/IGraphicLibrary.h" "Shaders/ShaderConfiguration.h" "Shaders/ShaderContext.cpp" "AppBuilder.h" "AppBuilder.cpp" "Resources/ResourceLoader.h" "Resources/FreeTypeLoader.h" "Resources/FreeTypeLoader.cpp" "Resources/ResourceManager.h" "Resources/ResourceManager.cpp"   "Interfaces/ITexImage.h" "Interfaces/GLID.h" "Interfaces/RenderSerializationContext.cpp" "Interfaces/IEngineContext.h" "Container/MGLContainer.h" "Utils/numeric_vector_functions.h" "Interfaces/IMesh3D.h" "Shaders/Color3D/color3D_frag.h" "Shaders/Color3D/color2D_vert.h")
 find_package(Stb REQUIRED)
 find_package(Freetype REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC Freetype::Freetype)
