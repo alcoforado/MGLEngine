@@ -13,7 +13,7 @@ public:
 		config.DeclareVertexAttribute_FloatVec4("color", 1);
 		config.SetVerticeShader(color3D_vert, sizeof(color3D_vert));
 		config.SetFragmentShader(color3D_frag, sizeof(color3D_frag));
-		config.DeclareUbo(ConstBindingTable::CameraTransform, Std140Mat4(glm::mat4(1.0f)));
+		config.DeclareUbo(UboBindingCollection::CameraTransform, Std140Mat4(glm::mat4(1.0f)));
 
 
 		
@@ -34,9 +34,9 @@ VertexColor3D::VertexColor3D(MGLEngine& engine, IMesh3D& mesh, const std::vector
 void VertexColor3D::RenderData(RenderSerializationContext& context)
 {
 
-	auto& posStream = context.GetVerticeAttribute("position2d");
+	auto& posStream = context.GetVerticeAttribute("position3d");
 	auto& indexStream = context.GetIndicesStream();
-	_mesh.RenderMesh(context.GetVerticeAttribute("position2d"), context.GetIndicesStream());
+	_mesh.RenderMesh(context.GetVerticeAttribute("position3d"), context.GetIndicesStream());
 
 
 	auto& colorStream = context.GetVerticeAttribute("color");

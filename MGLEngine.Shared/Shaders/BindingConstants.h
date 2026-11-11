@@ -11,7 +11,7 @@ CAMERA_TRANSFORM=7
 
 
 
-class ConstBindingTable
+class UboBindingCollection
 {
 public:
 	static inline  StaticUboConfig<Std140Mat2> Mat2Transform = {
