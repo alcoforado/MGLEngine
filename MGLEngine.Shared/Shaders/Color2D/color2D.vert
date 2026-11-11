@@ -7,7 +7,7 @@ layout(location = 1) in vec4 color;
 layout(location = 0) out vec4 fragColor;
 
 
-layout(set = 0, binding = 6, std140) uniform TransformBlock {
+layout(set = 0, binding = 6, std140) uniform Transform2D {
     mat2 uTransformMatrix;
 };
 

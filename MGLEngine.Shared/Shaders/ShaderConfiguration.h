@@ -61,6 +61,17 @@ enum FrequencyUsage {
 	PER_FRAME
 };
 
+template<typename T>
+struct StaticUboConfig
+{
+	using  DataType = T;
+	uint32_t binding;
+	const char* name;
+	FrequencyUsage frequency;
+	ShaderStage stage;
+
+};
+
 enum UboScope {
 	GLOBAL,
 	LOCAL_SHADER
@@ -130,6 +141,8 @@ public: // s for IShaderConfiguration
 		 enableDepth = true;
 		 return *this;
 	 }
+	
+
 
 	 template<typename T>
 	 ShaderConfiguration& DeclareMappedUbo(std::string name, FrequencyUsage frequency, uint32_t binding,ShaderStage stage,T initValue)
@@ -153,6 +166,12 @@ public: // s for IShaderConfiguration
 
 
 		 return *this;
+	 }
+
+	 template<typename T>
+	 ShaderConfiguration& DeclareUbo(StaticUboConfig<T>& uboConfig,T initValue)
+	 {
+		 return DeclareMappedUbo<T>(uboConfig.name, uboConfig.frequency, uboConfig.binding, uboConfig.stage, initValue);
 	 }
 
 	 
@@ -202,6 +221,19 @@ public: // s for IShaderConfiguration
 		vertexAttributes.push_back(attr);
 		return *this;
 	}
+
+	 ShaderConfiguration& DeclareVertexAttribute_FloatVec3(std::string name, uint32_t location)
+	 {
+		 VertexAttributeDeclaration attr = {
+			 .name = name,
+			 .location = location,
+			 .type = TYPE_VEC_FLOAT_3
+		 };
+		 vertexAttributes.push_back(attr);
+		 return *this;
+	 }
+
+
 	 ShaderConfiguration& DeclareVertexAttribute_FloatVec2(std::string name, uint32_t location)
 	{
 		VertexAttributeDeclaration attr = {

@@ -20,6 +20,17 @@ struct alignas(16) Std140Mat2 : public std140
 	}
 };
 
+struct alignas(16) Std140Mat4 : public std140
+{
+	glm::mat4 matrix;
+
+	explicit Std140Mat4(const glm::mat4& value = glm::mat4(1.0f))
+	{
+		matrix = value;
+	}
+};
+
+
 static_assert(std::is_trivially_copyable_v<Std140Mat2>);
 static_assert(std::is_standard_layout_v<Std140Mat2>);
 static_assert(alignof(Std140Mat2) == 16);
