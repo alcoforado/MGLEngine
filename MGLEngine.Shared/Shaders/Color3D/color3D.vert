@@ -7,15 +7,16 @@ layout(location = 1) in vec4 color;
 layout(location = 0) out vec4 fragColor;
 
 
-layout(set = 0, binding = 7, std140) uniform WorldToNdc {
-    mat4 Data;
+layout(set = 0, binding = 7, std140) uniform CameraNdc {
+    mat4 WorldToNdc;
 };
 
 
 
 void main() {
 	
-	gl_Position = Data * vec4(position3d, 1.0);
+	gl_Position = WorldToNdc * vec4(position3d, 1.0);
     fragColor = color;
 }
+
 
