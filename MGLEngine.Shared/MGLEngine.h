@@ -17,6 +17,7 @@
 #include <typeinfo>
 #include <memory>
 #include <MGLEngine.Shared/CommandQueue/CommandQueue.h>
+#include "Scene/Camera.h"
 
 class MWindow;
 
@@ -39,7 +40,7 @@ class MGLEngine {
 
 		//Event Emitters
 		FrameTickSource frameTickEmitter;
-
+		Camera _camera;
 
 
 	private: //functions	
@@ -87,7 +88,7 @@ class MGLEngine {
 		};
 		
 		
-
+		Camera& GetCamera() { return _camera; }
 
 		void Run();
 

@@ -11,6 +11,9 @@
 #define _USE_MATH_DEFINES 
 #include <math.h>
 #include <MGLEngine.Shared/Shaders/BindingConstants.h>
+#include <MGLEngine.Shared/Mesh/OrthoBox3D.h>
+#include <MGLEngine.Shared/Shaders/Color3D/VertexColor3D.h>
+#include <MGLEngine.Shared/Shaders/ColorPalette.h>
 
 void Example4(MGLEngine& engine)
 {
@@ -20,7 +23,7 @@ void Example4(MGLEngine& engine)
 	auto rectDraw2 = VertexColor2D(engine, rect2, { glm::vec4(1,1,0,1),glm::vec4(1,1,0,1),glm::vec4(1,0,1,1),glm::vec4(1,0,0,1) });
 	engine.FrameTick().Subscribe([&engine](const TickEvent& event) {
 		auto m = glm::mat2(1.0f);
-		const float  rate = 2 * M_PI / 1000.0;
+		const float  rate = static_cast<float>(2 * M_PI / 1000.0);
 		float rad = (event.tick % 1000) * rate;
 		engine.CommandDispatcher().SetUbo(
 			Bindings::COLOR2D_MATRIX,
@@ -29,6 +32,21 @@ void Example4(MGLEngine& engine)
 
 	engine.Run();
 }
+
+void Example5(MGLEngine& engine)
+{
+	auto cube = OrthoBox3D(1,1,1);
+	auto rectDraw = VertexColor3D(engine, cube, {ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red});
+	engine.GetCamera().GetEmitter().Subscribe([&engine](const glm::mat4& matrix) {
+		engine.CommandDispatcher().SetUbo(
+			UboBindingCollection::CameraTransform.binding,
+			Std140Mat4(matrix)
+		);
+	});
+	engine.GetCamera().SetCamera(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
+	engine.Run();
+}
+
 
 void Example1(MGLEngine& engine)
 {
