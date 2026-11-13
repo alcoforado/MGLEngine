@@ -13,7 +13,8 @@ public:
 		config.DeclareVertexAttribute_FloatVec4("color", 1);
 		config.SetVerticeShader(color3D_vert, sizeof(color3D_vert));
 		config.SetFragmentShader(color3D_frag, sizeof(color3D_frag));
-		config.DeclareUbo(UboBindingCollection::CameraTransform, Std140Mat4(glm::mat4(1.0f)));
+		glm::mat4 m(1);
+		config.DeclareUbo(UboBindingCollection::CameraTransform, Std140Mat4(m));
 
 
 		

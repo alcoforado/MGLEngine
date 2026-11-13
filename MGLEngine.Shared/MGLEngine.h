@@ -55,7 +55,7 @@ class MGLEngine {
 
 		//Event Subscribing
 		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
-		IObservable<glm::mat4> OnCameraChange() { return _camera.GetEmitter(); }
+		IObservable<glm::mat4>& OnCameraChange() { return _camera.GetEmitter(); }
 		CommandDispatcher& CommandDispatcher() { return _commandQueue; }
 
 
