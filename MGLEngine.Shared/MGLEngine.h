@@ -38,10 +38,13 @@ class MGLEngine {
 		CommandDispatcher _commandQueue;
 		std::map<std::string, GLID> _resourcesCache;
 
+		
+		//Global Scene
+		Camera _camera;
+		
 		//Event Emitters
 		FrameTickSource frameTickEmitter;
-		Camera _camera;
-
+		
 
 	private: //functions	
 		void LoadShaders();
@@ -52,8 +55,10 @@ class MGLEngine {
 
 		//Event Subscribing
 		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
-
+		IObservable<glm::mat4> OnCameraChange() { return _camera.GetEmitter(); }
 		CommandDispatcher& CommandDispatcher() { return _commandQueue; }
+
+
 
 
 		//Register Shape in a Shader
@@ -87,8 +92,8 @@ class MGLEngine {
 			this->AddShape<ShaderType>(shape, [](ShapeRegistrationConfig& c) {});
 		};
 		
+		//Camera& GetCamera() { return _camera; }
 		
-		Camera& GetCamera() { return _camera; }
 
 		void Run();
 

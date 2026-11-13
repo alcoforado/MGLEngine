@@ -25,6 +25,10 @@ MGLEngine::~MGLEngine()
 void MGLEngine::Run()
 {
 	this->LoadShaders();
+	//Initialize Camera
+	this->_camera.SetCamera(_appConfig._pos, _appConfig._lookAt, _appConfig._up);
+	this->_camera.Emit();
+
 
 	auto glfwWindow = _pWindow->GLFWHandler();
 

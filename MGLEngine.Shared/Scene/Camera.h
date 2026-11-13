@@ -7,7 +7,7 @@ class Camera
 private:
 	glm::vec3 _down, _right, _depth,_pos;
 	float _theta, _alpha, _n, _f;
-	glm::mat4 NdcProj;
+	glm::mat4 _NdcProj;
 	glm::mat4 _PerspectiveProjection;
 
 	EventSource<glm::mat4> _NdcProjectionEmitter;
@@ -20,7 +20,7 @@ public:
 	void Resize(float x_yRatio);
 	void SetLens(float cameraLensTotalAngle, float x_yRatio, float nearClipPlane, float farClipPlane);
 	const glm::mat4& GetProjection();
-
+	void Emit();
 	IObservable<glm::mat4>& GetEmitter() { return _NdcProjectionEmitter; }
 
 

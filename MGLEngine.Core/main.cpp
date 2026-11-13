@@ -37,13 +37,12 @@ void Example5(MGLEngine& engine)
 {
 	auto cube = OrthoBox3D(1,1,1);
 	auto rectDraw = VertexColor3D(engine, cube, {ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red});
-	engine.GetCamera().GetEmitter().Subscribe([&engine](const glm::mat4& matrix) {
+	engine.OnCameraChange().Subscribe([&engine](const glm::mat4& matrix) {
 		engine.CommandDispatcher().SetUbo(
 			UboBindingCollection::CameraTransform.binding,
 			Std140Mat4(matrix)
 		);
 	});
-	engine.GetCamera().SetCamera(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
 	engine.Run();
 }
 
@@ -87,11 +86,12 @@ int main()
 			config.SetDoubleBuffer();
 			config.SetVersion(4, 1, 0);
 			config.ImagesRoot("./assets");
-			});
+			config.SetCameraPosition({ 5,5,5 }, { 0,0,0 }, { 0,0,1 });
+		});
 
 		auto pEngine = app.Init();
 
-		Example4(*pEngine);
+		Example5(*pEngine);
 
 
 	}

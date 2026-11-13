@@ -31,6 +31,8 @@ public:
 	unsigned int MajorVersion = 1;
 	unsigned int MinorVersion = 0;
 	unsigned int PatchVersion = 0;
+
+	glm::vec3 _pos, _lookAt, _up; //Camera
 	std::map<std::type_index, IShader*> Shaders;
 public:
 	const std::map<std::type_index, IShader*>& GetShadersMap() { return Shaders; }
@@ -43,4 +45,7 @@ public:
 	void SetTrippleBuffer() override { SwapChainSize = 3; }
 	void EnableVSync(bool flag) override { VSync = flag; }
 	void SetVersion(unsigned int major, unsigned int minor, unsigned int patch) override { MajorVersion = major; MinorVersion = minor; PatchVersion = patch; }
+	void SetCameraPosition(glm::vec3 pos, glm::vec3 lookAt, glm::vec3 up) {
+		_pos = pos; _lookAt = lookAt; _up;
+	}
 };

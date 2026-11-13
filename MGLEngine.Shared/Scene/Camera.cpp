@@ -1,5 +1,5 @@
 #include "Camera.h"
-
+#include <iostream>
 Camera::Camera()
 {
 	this->SetLens(0.6109, 1, 0.5, 1000);
@@ -43,16 +43,20 @@ void Camera::Resize(float x_yRatio)
 
 void Camera::SetCamera(glm::vec3 pos, glm::vec3 ptToLookAt, glm::vec3 up)
 {
-	_pos = pos;
-	_depth = glm::normalize(ptToLookAt - pos);
+	_pos  = pos;
+	_depth= glm::normalize(ptToLookAt - pos);
 	_down = -up + _depth * glm::dot(up, _depth); // - (up - _depth*dot(_depth,up)
 	_down = glm::normalize(_down);
-	_right = glm::cross(_down, _depth);
-
-	auto& projection = GetProjection();
-	_NdcProjectionEmitter.EmitEvent(projection);
+	_right= glm::cross(_down, _depth);
 
 
+	GetProjection();
+
+
+}
+
+void Camera::Emit() {
+	_NdcProjectionEmitter.EmitEvent(_NdcProj);
 }
 
 
@@ -65,9 +69,9 @@ const glm::mat4& Camera::GetProjection()
 		glm::vec4(-glm::dot(_right, _pos), -glm::dot(_down, _pos), -glm::dot(_depth, _pos), 1)
 	);
 
-	NdcProj = _PerspectiveProjection * ViewTransform;
+	_NdcProj = _PerspectiveProjection * ViewTransform;
 
-	return NdcProj;
+	return _NdcProj;
 
 
 

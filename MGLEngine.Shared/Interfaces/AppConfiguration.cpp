@@ -4,6 +4,10 @@
 AppConfiguration::AppConfiguration()
 {
 	AssetsRootPath = std::filesystem::current_path().string();
+	_pos = { 2,2,2 };
+	_lookAt = { 0,0,0 };
+	_up = {0, 0, 1};
+
 
 }
 
