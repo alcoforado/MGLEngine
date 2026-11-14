@@ -11,6 +11,7 @@
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
 #include <MGLEngine.Shared/Events/FrameTickSource.h>
+#include <MGLEngine.Shared/Window/MWindow.h>
 
 
 #include <typeindex>
@@ -18,6 +19,7 @@
 #include <memory>
 #include <MGLEngine.Shared/CommandQueue/CommandQueue.h>
 #include "Scene/Camera.h"
+#include "Events/KeyboardSource.h"
 
 class MWindow;
 
@@ -56,6 +58,7 @@ class MGLEngine {
 		//Event Subscribing
 		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
 		IObservable<glm::mat4>& OnCameraChange() { return _camera.GetEmitter(); }
+		IObservable<KeyboardEvent>& OnKeyboardPress() { return _pWindow->OnKeyPress(); }
 		CommandDispatcher& CommandDispatcher() { return _commandQueue; }
 
 

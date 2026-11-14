@@ -14,6 +14,20 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 
 }
 
+void MWindow::window_keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	MWindow* w = static_cast<MWindow*>(glfwGetWindowUserPointer(window));
+	w->_keyboard.EmitEvent(KeyboardEvent{
+		.key = key,
+		.scancode = scancode,
+		.action = action,
+		.mods = mods
+	});
+
+
+
+
+}
 
 void MWindow::window_mouse_move_callback(GLFWwindow* window, double x, double y)
 {
@@ -73,7 +87,8 @@ MWindow::MWindow(const WindowOptions &options)
 	//Register mouse move event
 	glfwSetCursorPosCallback(_window, MWindow::window_mouse_move_callback);
 	
-		
+	//keyboard event
+	glfwSetKeyCallback(_window, MWindow::window_keyboard_callback);
 }
 
 
