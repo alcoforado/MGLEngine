@@ -86,8 +86,6 @@ class MGLEngine {
 			f(config);
 			auto& ctx = _shaders[_shadersIndex[typeIndex]];
 			ctx.AddShape(&shape, config);
-
-			
 		};
 
 		template<std::default_initializable ShaderType>

@@ -32,8 +32,7 @@ struct VulkanShaderData {
 
 struct VulkanUbo {
 	s_ptr<VulkanBuffer> pBuffer;
-	
-	
+	bool dirty;
 };
 
 struct VulkanImageData {

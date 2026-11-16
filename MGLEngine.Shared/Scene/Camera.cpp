@@ -2,7 +2,7 @@
 #include <iostream>
 Camera::Camera()
 {
-	this->SetLens(0.6109, 1, 0.5, 1000);
+	this->SetLens(0.6109f, 1.0f, 0.5f, 1000.0f);
 }
 
 
@@ -12,21 +12,21 @@ Camera::Camera(float cameraLensTotalAngleRad, float y_xRatio, float nearClipPlan
 }
 
 
-void Camera::SetLens(float cameraLensTotalAngleRad, float y_xRatio, float nearClipPlane, float farClipPlane)
+void Camera::SetLens(double cameraLensTotalAngleRad, double y_xRatio, double nearClipPlane, double farClipPlane)
 {
 	_theta = cameraLensTotalAngleRad;
 	_alpha = y_xRatio;
 	_n = nearClipPlane;
 	_f = farClipPlane;
 
-	float tan_theta_2 = tan(_theta / 2.0);
+	double tan_theta_2 = tan(_theta / 2.0);
 
 
 	glm::mat4 PerspectiveProjectionTranspose( //row vec4
-		glm::vec4(1.0 / (tan_theta_2 * _alpha), 0, 0, 0),
-		glm::vec4(0, 1.0 / tan_theta_2, 0, 0),
-		glm::vec4(0, 0, _f / (_f - _n), -_f * _n / (_f - _n)),
-		glm::vec4(0, 0, 1, 0)
+		glm::vec4(1.0/(tan_theta_2*_alpha)	,			0		,		0		,		0		),
+		glm::vec4(			0				, 1.0 / tan_theta_2	,		0		,		0		),
+		glm::vec4(			0				,			0		,	_f/(_f-_n)	, -_f*_n/(_f-_n)),
+		glm::vec4(			0				,			0		,		1		,		0		)
 	);
 
 	_PerspectiveProjection = glm::transpose(PerspectiveProjectionTranspose);
@@ -41,7 +41,7 @@ void Camera::Resize(float x_yRatio)
 
 
 
-void Camera::SetCamera(glm::vec3 pos, glm::vec3 ptToLookAt, glm::vec3 up)
+void Camera::SetCamera(glm::dvec3 pos, glm::dvec3 ptToLookAt, glm::dvec3 up)
 {
 	_pos  = pos;
 	_depth= glm::normalize(ptToLookAt - pos);

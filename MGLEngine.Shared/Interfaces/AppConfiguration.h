@@ -41,8 +41,10 @@ public:
 	void EnableDebugLayer(bool flag) override { EnableDebug = flag; }
 	void AppName(std::string name) override { Name = name; }
 	void ImagesRoot(std::string imageRootPath) override;
+	
 	void SetDoubleBuffer() override { SwapChainSize = 2; }
 	void SetTrippleBuffer() override { SwapChainSize = 3; }
+
 	void EnableVSync(bool flag) override { VSync = flag; }
 	void SetVersion(unsigned int major, unsigned int minor, unsigned int patch) override { MajorVersion = major; MinorVersion = minor; PatchVersion = patch; }
 	void SetCameraPosition(glm::vec3 pos, glm::vec3 lookAt, glm::vec3 up) {

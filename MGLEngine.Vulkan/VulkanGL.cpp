@@ -894,7 +894,8 @@ GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vecto
 	{
 		VulkanUbo ubo = VulkanUbo
 		{
-			.pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType)
+			.pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType),
+			.dirty = false
 		};
 		ubo.pBuffer->Map();
 		ubo.pBuffer->CopyToGPU(initValue.data(), initValue.size());
