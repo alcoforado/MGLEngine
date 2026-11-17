@@ -21,7 +21,7 @@ struct VulkanUboState {
 class VulkanUboData
 {
 	unsigned framesInFlight;
-	static const size_t NULL_INDEX = -1;
+	static const int NULL_INDEX = -1;
 
 public:
 
@@ -35,7 +35,7 @@ public:
 
 	}
 
-	unsigned AddUbo(const std::vector<s_ptr<VulkanBuffer>>& uboBuffers)
+	size_t AddUbo(const std::vector<s_ptr<VulkanBuffer>>& uboBuffers)
 	{
 		eassert(uboBuffers.size() == framesInFlight, "Expect buffers size equal to frames in flight ");
 		auto resultIndex = uboStates.size();
@@ -56,7 +56,7 @@ public:
 		return resultIndex;
 	}
 	//data will be garbage after it
-	void AddAssignment(size_t uboIndex, std::vector<std::byte>& data)
+	void AddAssignment(int uboIndex, std::vector<std::byte>& data)
 	{
 		auto& uboState = uboStates[uboIndex];
 		//add to queue if not found
@@ -69,7 +69,7 @@ public:
 
 		//first of all, dirt all buffers
 		size_t k = uboState.bufferStartIndex;
-		for (int i = 0; i < framesInFlight; i++)
+		for (unsigned i = 0; i < framesInFlight; i++)
 		{
 			buffers[k++].dirty = true;
 		}
@@ -80,7 +80,7 @@ public:
 	bool CheckAllBuffersClean(unsigned index) {
 		auto& uboState = uboStates[index];
 		size_t k = uboState.bufferStartIndex;
-		for (int i = 0; i < framesInFlight; i++)
+		for (unsigned i = 0; i < framesInFlight; i++)
 		{
 			if (buffers[k++].dirty)
 			{
@@ -120,6 +120,13 @@ public:
 		}
 
 	}
+
+	s_ptr<VulkanBuffer> GetBuffer(unsigned frameIndex, size_t uboIndex)
+	{
+		eassert(uboIndex < uboStates.size(), "Index out of range");
+		return buffers[uboStates[uboIndex].bufferStartIndex + frameIndex].pBuffer;
+	}
+
 
 
 

@@ -17,6 +17,7 @@
 #include <MGLEngine.Shared/Shaders/GlobalBindingsTable.h>
 #include <MGLEngine.Shared/Interfaces/IGraphicLibrary.h>
 #include <MGLEngine.Vulkan/VulkanContext/BarriersCollections.h>
+#include "VulkanApp/VulkanUboData.h"
 struct VulkanPipelineData {
 	VkPipeline handle;
 	VkPipelineLayout layout;
@@ -30,10 +31,7 @@ struct VulkanShaderData {
 
 
 
-struct VulkanUbo {
-	s_ptr<VulkanBuffer> pBuffer;
-	bool dirty;
-};
+
 
 struct VulkanImageData {
 	s_ptr<VulkanImage> image;
@@ -70,7 +68,7 @@ struct DepthBuffer {
  namespace MGL {
 	class VulkanGL: public IGraphicLibrary  {
 		private:
-			unsigned _numberOfDescriptorSets;
+			unsigned _nFramesInFlight;
 			s_ptr<MWindow> _pWindow=nullptr;
 			VulkanInstance* _pVulkanInstance=nullptr;
 			const VulkanPhysicalDevice* _pPhysicalDevice = nullptr; //Active physical device
@@ -99,7 +97,7 @@ struct DepthBuffer {
 			std::vector<VulkanShaderData> _vVulkanShaderData;
 			std::vector<VkSampler> _vSamplers;
 			std::vector<VulkanImageData> _vImages;
-			std::vector<std::vector<VulkanUbo>> _vUbos;  // vector for each frame
+			VulkanUboData _ubos;
 
 			//Frame Index
 			uint32_t _currentFrame=0;

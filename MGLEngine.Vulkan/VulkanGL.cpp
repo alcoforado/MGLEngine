@@ -13,18 +13,18 @@ using namespace MGL;
 
 
 MGL::VulkanGL::VulkanGL(s_ptr<MWindow> pWindow, AppConfiguration coptions)
-	:  _vulkanConfiguration(coptions)
+	:  _vulkanConfiguration(coptions),
+	_ubos(coptions.SwapChainSize)
 {
 	uint32_t vulkanVersion = VK_MAKE_API_VERSION(0, _vulkanConfiguration.MajorVersion, _vulkanConfiguration.MinorVersion, _vulkanConfiguration.PatchVersion);
 	_pWindow = pWindow;
-	_numberOfDescriptorSets = coptions.SwapChainSize;
+	_nFramesInFlight = coptions.SwapChainSize;
 	_vFrames.resize(coptions.SwapChainSize);
 	_vImageBufferData.resize(coptions.SwapChainSize);
 	_pVulkanInstance = new VulkanInstance(
 		_vulkanConfiguration.Name,
 		_vulkanConfiguration.EnableDebug,
 		vulkanVersion);
-	_vUbos.resize(coptions.SwapChainSize);
 	ChoosePhysicalDevice();
 	CreateVulkanSurface();
 	CreateLogicalDevice();
@@ -266,14 +266,14 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 	{
 		poolSizes.push_back(VkDescriptorPoolSize{
 			.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size()*_numberOfDescriptorSets)
+			.descriptorCount = static_cast<uint32_t>(tbl.GetSampler2DBindings().size()*_nFramesInFlight)
 			});
 	}
 	if (tbl.GetUboBindings().size() > 0)
 	{
 		poolSizes.push_back(VkDescriptorPoolSize{
 			.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-			.descriptorCount = static_cast<uint32_t>(tbl.GetUboBindings().size() * _numberOfDescriptorSets)
+			.descriptorCount = static_cast<uint32_t>(tbl.GetUboBindings().size() * _nFramesInFlight)
 		});
 	}
 
@@ -282,7 +282,7 @@ void VulkanGL::CreateDescritorPool(GlobalBindingsTable& tbl)
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 	poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
 	poolInfo.pPoolSizes = poolSizes.data();
-	poolInfo.maxSets = _numberOfDescriptorSets;
+	poolInfo.maxSets = _nFramesInFlight;
 
 	auto vkResult = vkCreateDescriptorPool(_pLogicalDevice->GetHandle(), &poolInfo, nullptr, &_descriptorPool);
 	AssertVulkanSuccess(vkResult);
@@ -343,14 +343,14 @@ void MGL::VulkanGL::CreateBindedResources(GlobalBindingsTable& tbl)
 
 void MGL::VulkanGL::CreateDescriptorSets()
 {
-	std::vector< VkDescriptorSetLayout> layouts(_numberOfDescriptorSets, _descriptorSetLayout);
+	std::vector< VkDescriptorSetLayout> layouts(_nFramesInFlight, _descriptorSetLayout);
 	VkDescriptorSetAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 	allocInfo.descriptorPool = _descriptorPool;
-	allocInfo.descriptorSetCount = _numberOfDescriptorSets;
+	allocInfo.descriptorSetCount = _nFramesInFlight;
 	allocInfo.pSetLayouts = layouts.data();
 
-	_vkDescriptorSets.resize(_numberOfDescriptorSets);
+	_vkDescriptorSets.resize(_nFramesInFlight);
 	auto result = vkAllocateDescriptorSets(_pLogicalDevice->GetHandle(), &allocInfo, _vkDescriptorSets.data());
 	AssertVulkanSuccess(result);
 }
@@ -360,7 +360,7 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 
 
 	std::vector<VkWriteDescriptorSet> writes;
-	writes.reserve(tbl.NBindings()*_numberOfDescriptorSets);
+	writes.reserve(tbl.NBindings()*_nFramesInFlight);
 	std::deque<VkDescriptorImageInfo> imgInfos;
 	std::deque<VkDescriptorBufferInfo> bufferInfos;
 	uint32_t frameIndex = 0;
@@ -396,7 +396,7 @@ void MGL::VulkanGL::UpdateDescriptorSets(GlobalBindingsTable& tbl)
 			eassert(!ubo.glId.Undefined(), "UBO not created yet");
 
 			VkDescriptorBufferInfo bufferInfo{};
-			bufferInfo.buffer = _vUbos[frameIndex][ubo.glId.index].pBuffer->GetHandle();
+			bufferInfo.buffer = _ubos.GetBuffer(frameIndex,ubo.glId.index)->GetHandle();
 			bufferInfo.offset = 0;
 			bufferInfo.range = ubo.sizeOfDataType;
 			bufferInfos.push_back(bufferInfo);
@@ -889,8 +889,7 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 
 GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vector<std::byte> &initValue)
 {
-	auto index = _vUbos[0].size();
-	for (auto& perFrameUbos : _vUbos)
+	for (unsigned i=0;i<_nFramesInFlight;i++)
 	{
 		VulkanUbo ubo = VulkanUbo
 		{
