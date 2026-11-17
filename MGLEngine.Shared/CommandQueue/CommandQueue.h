@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <MGLEngine.Shared/Resources/ResourceManager.h>
-
+#include <MGLEngine.Shared/Utils/Pool.h>
 
 
 
@@ -14,14 +14,14 @@ class CommandDispatcher {
 	friend class MGLEngine;
 private:
 	ResourceManager& _resourceManager;
-
+	Pool<std::vector<std::byte> > _vectorOfBytesPool;
 	CommandQueue _queues;
 
 	CommandDispatcher(ResourceManager& res)
 		:_resourceManager(res) {
 	};
 
-	const CommandQueue& GetCommandQueues()  const {
+	CommandQueue& GetCommandQueues()   {
 		return _queues;
 	}
 
@@ -42,10 +42,11 @@ public:
 
 		
 		_queues.uboCommands.push_back(BufferWriteCommand{
+			.dataHandle = _vectorOfBytesPool.Allocate(),
 			.glId = uboBinding.glId
 		});
 
-		auto& buffer = _queues.uboCommands.back().vData; 
+		std::vector<std::byte>& buffer = _queues.uboCommands.back().dataHandle->Data();
 		buffer.resize(sizeof(T));
 		std::memcpy(buffer.data(), &data, sizeof(T));
 	}

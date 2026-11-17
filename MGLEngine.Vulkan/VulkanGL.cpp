@@ -735,8 +735,7 @@ void MGL::VulkanGL::ProcessEngineCommandQueue(const CommandQueue &queue)
 {
 	for (auto& cmd : queue.uboCommands)
 	{
-		this->_ubos.AddAssignment(cmd.glId.index, cmd.vData);
-		cmd.vData.clear();
+		this->_ubos.AddAssignment(cmd.glId.index, cmd.dataHandle);
 	}
 	this->_ubos.ProcessAssignment(_currentFrameInFlight);
 }

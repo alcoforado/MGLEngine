@@ -3,6 +3,7 @@
 #include <deque>
 #include <MGLEngine.Shared/Utils/eassert.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
+#include <MGLEngine.Shared/Utils/Pool.h>
 #include <MGLEngine.Vulkan/VulkanContext/VulkanBuffer.h>
 #include <stddef.h>
 
@@ -10,9 +11,10 @@ struct VulkanUboBufferElem {
 	s_ptr<VulkanBuffer> pBuffer;
 	bool dirty;
 };
+typedef Pool<std::vector<std::byte>>::Handle VecOfBytesHandle;
 
 struct VulkanUboState {
-	std::vector<std::byte> valueToCopy;
+	VecOfBytesHandle valueToCopy;
 	size_t bufferStartIndex;
 	bool inQueue;
 	size_t dirtyFrames; // number of dirty frames
@@ -56,7 +58,7 @@ public:
 		return resultIndex;
 	}
 	//data will be garbage after it
-	void AddAssignment(int uboIndex, std::vector<std::byte>& data)
+	void AddAssignment(int uboIndex, VecOfBytesHandle data)
 	{
 		auto& uboState = uboStates[uboIndex];
 		//add to queue if not found
@@ -74,7 +76,7 @@ public:
 			buffers[k++].dirty = true;
 		}
 		uboState.dirtyFrames = this->framesInFlight;
-		uboState.valueToCopy.swap(data);
+		uboState.valueToCopy = data;
 	}
 
 	bool CheckAllBuffersClean(unsigned index) {
@@ -105,7 +107,7 @@ public:
 			VulkanUboState& uboState = uboStates[uboIndex];
 			VulkanUboBufferElem& buffer = buffers[uboState.bufferStartIndex + frameIndex];
 			eassert(buffer.dirty, "Panic serious misallignment");
-			buffer.pBuffer->CopyToGPU(uboState.valueToCopy.data(), uboState.valueToCopy.size());
+			buffer.pBuffer->CopyToGPU(uboState.valueToCopy->Data().data(), uboState.valueToCopy->Data().size());
 			buffer.dirty = false;
 			uboState.dirtyFrames--;
 			if (uboState.dirtyFrames == 0)
