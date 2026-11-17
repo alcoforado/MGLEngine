@@ -99,7 +99,7 @@ struct DepthBuffer {
 			std::vector<VulkanShaderData> _vVulkanShaderData;
 			std::vector<VkSampler> _vSamplers;
 			std::vector<VulkanImageData> _vImages;
-			std::vector<std::vector<VulkanUbo>> _vUbos;  //one vector for each frame
+			std::vector<std::vector<VulkanUbo>> _vUbos;  // vector for each frame
 
 			//Frame Index
 			uint32_t _currentFrame=0;
