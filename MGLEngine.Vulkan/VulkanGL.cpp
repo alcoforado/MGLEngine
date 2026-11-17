@@ -735,14 +735,16 @@ void MGL::VulkanGL::ProcessEngineCommandQueue(const CommandQueue &queue)
 {
 	for (auto& cmd : queue.uboCommands)
 	{
-		this->CopyToUbo(cmd.glId, cmd.vData);
+		this->_ubos.AddAssignment(cmd.glId.index, cmd.vData);
+		cmd.vData.clear();
 	}
+	this->_ubos.ProcessAssignment(_currentFrameInFlight);
 }
 
 
 void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglContainer, const CommandQueue& queue)
 {
-	auto& frame = _vFrames[_currentFrame];
+	auto& frame = _vFrames[_currentFrameInFlight];
 	frame._pInFlightFence->Wait();
 
 	auto imageIndexResult = _pSwapChain->NextImagePipelineAsync(frame._pImageAvailableSemaphore);
@@ -774,12 +776,12 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	{
 		
 		Serialize(ctx, mglContainer);
-		WriteCommandBuffer(_currentFrame,ctx, *pCommandBuffer,mglContainer);
+		WriteCommandBuffer(_currentFrameInFlight,ctx, *pCommandBuffer,mglContainer);
 	}
 	pCommandBuffer->EndRendering();
 	pCommandBuffer->ImageMemoryBarrier(_barriers.ColorTransitionToPresentation(framebuffer));
 	pCommandBuffer->End();
-	_vFrames[_currentFrame]._pInFlightFence->Reset();
+	_vFrames[_currentFrameInFlight]._pInFlightFence->Reset();
 	_pLogicalDevice->GetGraphicQueue().Submit(
 		pCommandBuffer,
 		imageData._pRenderFinishedSemaphore, //signal when finished
@@ -795,7 +797,7 @@ void MGL::VulkanGL::Draw(std::vector<ShaderContext>& shaders, MGLContainer& mglC
 	else {
 		AssertVulkanSuccess(vkResult);
 	}
-	_currentFrame = (_currentFrame + 1) % _vFrames.size();
+	_currentFrameInFlight = (_currentFrameInFlight + 1) % _vFrames.size();
 
 }
 
@@ -889,27 +891,20 @@ GLID MGL::VulkanGL::LoadTexture(ITexImage& img)
 
 GLID MGL::VulkanGL::CreateUbo(uint32_t binding, size_t sizeOfDataType,std::vector<std::byte> &initValue)
 {
+	std::vector<s_ptr<VulkanBuffer>> buffers;
 	for (unsigned i=0;i<_nFramesInFlight;i++)
 	{
-		VulkanUbo ubo = VulkanUbo
-		{
-			.pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType),
-			.dirty = false
-		};
-		ubo.pBuffer->Map();
-		ubo.pBuffer->CopyToGPU(initValue.data(), initValue.size());
-		perFrameUbos.push_back(ubo);
+		s_ptr<VulkanBuffer> pBuffer = _pMemoryAllocator->CreateUniformBuffer(sizeOfDataType);
+		pBuffer->Map();
+		pBuffer->CopyToGPU(initValue.data(), initValue.size());
+		buffers.push_back(pBuffer);
 	};
+	size_t index = _ubos.AddUbo(buffers);
+
 	return GLID(GLID_VULKAN_TYPES::UBO, index);
 }
 
-void MGL::VulkanGL::CopyToUbo(const GLID& glId, const std::vector<std::byte>& value)
-{
-	eassert(glId.type == GLID_VULKAN_TYPES::UBO, "Expected a UBO type");
 
-	auto& pBuffer = _vUbos[_currentFrame][glId.index].pBuffer;
-	pBuffer->CopyToGPU(value.data(), value.size());
-}
 
 GLID MGL::VulkanGL::CreateTextureSampler(const Sampler2DBinding& sampler)
 {
@@ -976,13 +971,7 @@ void MGL::VulkanGL::DestroySyncObjects() {
 
 void MGL::VulkanGL::DestroyMappedUbos()
 {
-	for (auto& frameData : _vUbos)
-	{
-		for (auto& elem : frameData)
-		{
-			elem.pBuffer->Delete();
-		}
-	}
+	_ubos.Dispose();
 }
 
 void MGL::VulkanGL::DestroyDepthBuffer() {

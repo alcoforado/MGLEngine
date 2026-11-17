@@ -127,7 +127,16 @@ public:
 		return buffers[uboStates[uboIndex].bufferStartIndex + frameIndex].pBuffer;
 	}
 
-
+	void Dispose() {
+		for (auto& elem : buffers)
+		{
+			elem.pBuffer->Delete();
+		}
+		buffers.clear();
+		uboStates.clear();
+		activeUboState.clear();
+		return;
+	}
 
 
 };

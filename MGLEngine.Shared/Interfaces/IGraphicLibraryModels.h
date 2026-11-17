@@ -9,6 +9,8 @@ public:
 	GLID glId;
 
 };
-struct CommandQueue {
-	std::vector<BufferWriteCommand> uboCommands;
+class CommandQueue {
+	public:
+		std::vector<BufferWriteCommand> uboCommands;
+
 };

@@ -39,6 +39,7 @@ void MGLEngine::Run()
 		_pWindow->PollEvents();
 		this->frameTickEmitter.Emit();
 		_gl.Draw(_shaders, *_pMGLContainer,_commandQueue.GetCommandQueues());
+		_commandQueue.ClearQueue();
 	}
 
 }

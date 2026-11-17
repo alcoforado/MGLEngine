@@ -100,7 +100,7 @@ struct DepthBuffer {
 			VulkanUboData _ubos;
 
 			//Frame Index
-			uint32_t _currentFrame=0;
+			uint32_t _currentFrameInFlight=0;
 
 			//Depth Buffer
 			std::vector<DepthBuffer> _depthBuffers;

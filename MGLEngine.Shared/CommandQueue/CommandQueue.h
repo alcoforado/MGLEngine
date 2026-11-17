@@ -50,5 +50,9 @@ public:
 		std::memcpy(buffer.data(), &data, sizeof(T));
 	}
 
+	void ClearQueue() {
+		_queues.uboCommands.clear();
+	}
+
 
 };
