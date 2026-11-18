@@ -38,11 +38,13 @@ public:
 	void SphericGoNear()
 	{
 		_camera._pos = _camera._pos + _camera._depth * _sphere.dr;
+		_camera.GetProjection();
 	}
 
 	void SphericGoFar()
 	{
 		_camera._pos = _camera._pos - _camera._depth * _sphere.dr;
+		_camera.GetProjection();
 	}
 
 	void SphericGoDown()
