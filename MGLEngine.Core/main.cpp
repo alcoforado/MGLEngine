@@ -8,8 +8,7 @@
 #include <MGLEngine.Shared/Utils/Exception.h>
 #include <MGLEngine.Shared/AppBuilder.h>
 #include <MGLEngine.Shared/Utils/glm_extensions.h>
-#define _USE_MATH_DEFINES 
-#include <math.h>
+#include <MGLEngine.Shared/Utils/math.h>
 #include <MGLEngine.Shared/Shaders/BindingConstants.h>
 #include <MGLEngine.Shared/Mesh/OrthoBox3D.h>
 #include <MGLEngine.Shared/Shaders/Color3D/VertexColor3D.h>

@@ -1,12 +1,14 @@
 #pragma once
 #include "EventSource.h"
 
-struct KeyboardEvent {
+class KeyboardEvent {
+public:
 	int key;
 	int scancode;
 	int action;
 	int mods;
-
+public:
+	bool KeyPressed() const;
 
 };
 

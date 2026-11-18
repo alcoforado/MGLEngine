@@ -17,17 +17,19 @@ class CameraController
 	SphericCoordinate _sphere;
 	Camera& _camera;
 public:
-	CameraController(Camera& cam,float dr,float dPhi)
+	CameraController(Camera& cam)
 		:_camera(cam)
 	{
-		_sphere.dr = dr;
-		_sphere.dPhi = dPhi;
-		_sphere.cos_dphi = cos(dPhi);
-		_sphere.sin_dphi = sin(dPhi);
+		
+		
 	}
 	
-	void SetSphericLockMode(glm::vec3 pointLock)
+	void SetSphericLockMode(glm::vec3 pointLock, float dr, float dPhi)
 	{
+		_sphere.cos_dphi = cos(dPhi);
+		_sphere.sin_dphi = sin(dPhi);
+		_sphere.dr = dr;
+		_sphere.dPhi = dPhi;
 		_sphere.lockPoint = pointLock;
 		_camera.SetCamera(_camera.Pos(), pointLock, glm::vec3(0, 0, 1));
 	}
@@ -47,7 +49,7 @@ public:
 	{
 		//set 
 		auto pos  = _camera._pos-_sphere.lockPoint; //origin translation to lockPoint
-		float rxy = hypot(pos.x, pos.y);
+		double rxy = hypot(pos.x, pos.y);
 		if (rxy < 0.00001*fabs(pos.z))
 			return;
 		_camera._pos.z = pos.z * _sphere.cos_dphi - rxy * _sphere.sin_dphi;
@@ -64,12 +66,12 @@ public:
 
 	void SphericGoUp() {
 		auto pos = _camera._pos -_sphere.lockPoint; //origin translation to lockPoint
-		float rxy = hypot(pos.x, pos.y);
+		double rxy = hypot(pos.x, pos.y);
 		if (rxy < 0.00001 * fabs(pos.z))
 			return;
 
 		_camera._pos.z = pos.z * _sphere.cos_dphi + rxy * _sphere.sin_dphi;
-		float aux = (_sphere.cos_dphi - pos.z * _sphere.sin_dphi / rxy);
+		double aux = (_sphere.cos_dphi - pos.z * _sphere.sin_dphi / rxy);
 		_camera._pos.y = aux * pos.y;
 		_camera._pos.x = aux * pos.x;
 
@@ -142,6 +144,10 @@ public:
 
 		_camera.GetProjection();
 
+	}
+
+	void Emit() {
+		_camera.Emit();
 	}
 
 
