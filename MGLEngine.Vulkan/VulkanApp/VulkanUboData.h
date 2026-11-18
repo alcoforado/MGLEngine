@@ -96,8 +96,8 @@ public:
 	void ProcessAssignment(unsigned frameIndex)
 	{
 		eassert(frameIndex < framesInFlight, "Invalid frame index");
-		//First clean the kitchen, befor add dishes.
-		while (activeUboState.front() == NULL_INDEX)
+		//First clean the kitchen, befor adding dishes.
+		while (!activeUboState.empty() && activeUboState.front() == NULL_INDEX)
 		{
 			activeUboState.pop_front();
 		}
@@ -106,22 +106,26 @@ public:
 		{
 			VulkanUboState& uboState = uboStates[uboIndex];
 			VulkanUboBufferElem& buffer = buffers[uboState.bufferStartIndex + frameIndex];
-			eassert(buffer.dirty, "Panic serious misallignment");
-			buffer.pBuffer->CopyToGPU(uboState.valueToCopy->Data().data(), uboState.valueToCopy->Data().size());
-			buffer.dirty = false;
-			uboState.dirtyFrames--;
-			if (uboState.dirtyFrames == 0)
+			if (buffer.dirty) //nothing to be done if not dirty
 			{
+				buffer.pBuffer->CopyToGPU(uboState.valueToCopy->Data().data(), uboState.valueToCopy->Data().size());
+				buffer.dirty = false;
+				uboState.dirtyFrames--;
+				if (uboState.dirtyFrames == 0)
+				{
 
-				activeUboState[index] = NULL_INDEX;
-				uboState.inQueue = false;
-				eassert(CheckAllBuffersClean(uboIndex), "Inconsisteny found, all buffers should be clear, but at least one is dirty");
+					activeUboState[index] = NULL_INDEX;
+					uboState.inQueue = false;
+					eassert(CheckAllBuffersClean(uboIndex), "Inconsisteny found, all buffers should be clear, but at least one is dirty");
+				}
 			}
 			index++;
 
 		}
 
 	}
+
+	
 
 	s_ptr<VulkanBuffer> GetBuffer(unsigned frameIndex, size_t uboIndex)
 	{
