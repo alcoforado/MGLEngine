@@ -37,12 +37,7 @@ void Example5(MGLEngine& engine)
 {
 	auto cube = OrthoBox3D(1,1,1);
 	auto rectDraw = VertexColor3D(engine, cube, {ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red});
-	engine.OnCameraChange().Subscribe([&engine](const glm::mat4& matrix) {
-		engine.CommandDispatcher().SetUbo(
-			UboBindingCollection::CameraTransform.binding,
-			Std140Mat4(matrix)
-		);
-	});
+	
 	engine.Run();
 }
 
@@ -91,7 +86,7 @@ int main()
 
 		auto pEngine = app.Init();
 
-		Example4(*pEngine);
+		Example5(*pEngine);
 
 
 	}
