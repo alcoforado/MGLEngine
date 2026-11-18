@@ -9,27 +9,27 @@ void CameraInputMapping::Process(const KeyboardEvent& ev)
 	switch (ev.key)
 	{
 	case GLFW_KEY_SPACE:
-		_camController.SphericGoFar();
+		_camera.SphericGoFar();
 		break;
 	case GLFW_KEY_ENTER:
-		_camController.SphericGoNear();
+		_camera.SphericGoNear();
 		break;
 	case GLFW_KEY_DOWN:
-		_camController.SphericGoDown();
+		_camera.SphericGoDown();
 		break;
 	case GLFW_KEY_UP:
-		_camController.SphericGoUp();
+		_camera.SphericGoUp();
 		break;
 	case GLFW_KEY_LEFT:
-		_camController.SphericGoLeft();
+		_camera.SphericGoLeft();
 		break;
 	case GLFW_KEY_RIGHT:
-		_camController.SphericGoRight();
+		_camera.SphericGoRight();
 		break;
 	default:
 		return;
 
 	}
-	_camController.Emit();
+	_camera.Emit();
 	
 }

@@ -1,15 +1,15 @@
 #pragma once
-#include "CameraController.h"
+#include "Camera.h"
 #include <MGLEngine.Shared/Events/KeyboardSource.h>
 #include <MGLengine.Shared/Utils/math.h>
 class CameraInputMapping : public EventListener<KeyboardEvent>
 {
-	CameraController _camController;
+	Camera& _camera;
 public:
 	CameraInputMapping(Camera& cam) 
-	:_camController(cam) {
-		_camController.SetSphericLockMode(glm::vec3(0, 0, 0), 0.5, degToRad(1.0));
-		_camController.Emit();
+	:_camera(cam) {
+		_camera.SetSphericLockMode(glm::vec3(0, 0, 0), 0.5, degToRad(1.0));
+		_camera.Emit();
 	
 	}
 
