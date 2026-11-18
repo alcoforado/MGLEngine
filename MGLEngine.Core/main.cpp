@@ -23,8 +23,8 @@ void Example4(MGLEngine& engine)
 	auto rectDraw2 = VertexColor2D(engine, rect2, { glm::vec4(1,1,0,1),glm::vec4(1,1,0,1),glm::vec4(1,0,1,1),glm::vec4(1,0,0,1) });
 	engine.FrameTick().Subscribe([&engine](const TickEvent& event) {
 		auto m = glm::mat2(1.0f);
-		const float  rate = static_cast<float>(2 * M_PI / 1000.0);
-		float rad = (event.tick % 1000) * rate;
+		const float  rate = static_cast<float>(2 * M_PI / 360.0);
+		float rad = (event.tick % 360) * rate;
 		engine.CommandDispatcher().SetUbo(
 			Bindings::COLOR2D_MATRIX,
 			Std140Mat2(GLMExtensions::RotateMat2(rad)));
@@ -92,7 +92,7 @@ int main()
 
 		auto pEngine = app.Init();
 
-		Example5(*pEngine);
+		Example4(*pEngine);
 
 
 	}

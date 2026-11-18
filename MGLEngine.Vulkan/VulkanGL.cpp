@@ -101,7 +101,7 @@ void MGL::VulkanGL::CreateSwapChain() {
 void MGL::VulkanGL::CreateDepthBufferOnce()
 {
 	auto nImages=_pSwapChain->NImages();
-	if (!_depthBuffers.empty())
+	if (_depthBuffers.empty())
 		return;
 	for (int i = 0; i < nImages; i++)
 	{
