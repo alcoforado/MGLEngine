@@ -49,7 +49,7 @@ public:
 	std::vector<UboBinding>& GetUboBindings() { return _vUbos; }
 	const UboBinding& GetUboBinding(unsigned int binding) const;
 	bool ValidatePushConstant(std::string shaderId, std::string varName, size_t typeIndex, size_t sizeofT);
-
+	bool HasUboBinding(unsigned binding);
 
 	
 

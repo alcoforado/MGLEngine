@@ -18,7 +18,9 @@
 #include <typeinfo>
 #include <memory>
 #include <MGLEngine.Shared/CommandQueue/CommandQueue.h>
+
 #include "Scene/Camera.h"
+#include "Scene/CameraInputMapping.h"
 #include "Events/KeyboardSource.h"
 
 class MWindow;
@@ -43,13 +45,14 @@ class MGLEngine {
 		
 		//Global Scene
 		Camera _camera;
-		
+		s_ptr<CameraInputMapping> _pCamInputMapping;
 		//Event Emitters
 		FrameTickSource frameTickEmitter;
 		
 
 	private: //functions	
 		void LoadShaders();
+		void WiringEvents();
 
 	public:
 		MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig);

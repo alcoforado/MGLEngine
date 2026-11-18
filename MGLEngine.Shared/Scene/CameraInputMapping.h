@@ -2,7 +2,7 @@
 #include "CameraController.h"
 #include <MGLEngine.Shared/Events/KeyboardSource.h>
 #include <MGLengine.Shared/Utils/math.h>
-class CameraInputMapping : EventListener<KeyboardEvent>
+class CameraInputMapping : public EventListener<KeyboardEvent>
 {
 	CameraController _camController;
 public:
@@ -12,6 +12,8 @@ public:
 		_camController.Emit();
 	
 	}
+
+	~CameraInputMapping() override {}
 
 	void Process(const KeyboardEvent& ev) override;
 

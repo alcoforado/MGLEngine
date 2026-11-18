@@ -8,6 +8,7 @@ class EventListener {
 
 public:
 	virtual void Process(const EventDataT& ev)=0;
+	virtual ~EventListener() {}
 
 };
 template<class EventDataT>

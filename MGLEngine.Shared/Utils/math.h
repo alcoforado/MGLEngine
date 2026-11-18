@@ -3,7 +3,7 @@
 #include <math.h>
 
 
-float degToRad(float deg)
+inline float degToRad(float deg)
 {
 	return static_cast<float>(deg * 2 * M_PI / 360.0);
 }

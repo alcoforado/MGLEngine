@@ -4,6 +4,7 @@
 #include <MGLEngine.Vulkan/VulkanEngineContainer.h>
 #include<MGLEngine.Shared/Resources/ImageLoader.h>
 #include <MGLEngine.Shared/Window/MWindow.h>
+#include "Shaders/BindingConstants.h"
 MGLEngine::MGLEngine(WindowOptions& wOptions, AppConfiguration& appConfig)
 	:_appConfig(appConfig),
 	_pWindow(s_new<MWindow>(wOptions)),
@@ -22,14 +23,37 @@ MGLEngine::~MGLEngine()
 	std::cout << "Use Count " << _pWindow.use_count() << std::endl;
 }
 
+void MGLEngine::WiringEvents()
+{
+	//Initialize Camera
+	this->_camera.SetCamera(_appConfig._pos, _appConfig._lookAt, _appConfig._up);
+	
+
+	if (_resourceManager.GetGlobalBindingsTable()->HasUboBinding(UboBindingCollection::CameraTransform.binding))
+	{
+		this->OnCameraChange().Subscribe([this](const glm::mat4& matrix) {
+			this->CommandDispatcher().SetUbo(
+				UboBindingCollection::CameraTransform.binding,
+				Std140Mat4(matrix)
+			);
+		});
+	}
+	this->_pCamInputMapping = s_new<CameraInputMapping>(_camera);
+	s_ptr<EventListener<KeyboardEvent>> p = this->_pCamInputMapping;
+	this->OnKeyboardPress().Subscribe(p);
+
+
+
+}
+
 void MGLEngine::Run()
 {
 	this->LoadShaders();
 	
-	//Initialize Camera
-	this->_camera.SetCamera(_appConfig._pos, _appConfig._lookAt, _appConfig._up);
-	this->_camera.Emit();
+	
 
+	//Wiring Events
+	WiringEvents();
 
 	auto glfwWindow = _pWindow->GLFWHandler();
 

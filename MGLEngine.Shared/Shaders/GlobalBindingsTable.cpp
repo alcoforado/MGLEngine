@@ -215,4 +215,7 @@ const Sampler2DBinding& GlobalBindingsTable::GetSampler(std::string name)
 
 }
 
-
+bool GlobalBindingsTable::HasUboBinding(unsigned binding)
+{
+	return _binding_index.contains(binding) && _binding_index[binding].type == BindedTypeEnum::UBO;
+}
