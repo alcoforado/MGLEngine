@@ -1,6 +1,6 @@
 #pragma once
 #include <MGLEngine.Shared/Utils/pointers.h>
-#include <vector>
+#include <deque>
 #include <functional>
 
 template<class EventDataT>
@@ -11,6 +11,12 @@ public:
 	virtual ~EventListener() {}
 
 };
+
+template<class EventDataT>
+class Subscription {
+
+};
+
 template<class EventDataT>
 class IObservable
 {
@@ -18,15 +24,39 @@ public:
 	using function_listener = std::function<void(const EventDataT&)>;
 
 protected:
-	std::vector<s_ptr<EventListener<EventDataT> > > subscribers;
-	std::vector<function_listener> fSubscribers;
+	struct Listener {
+		s_ptr<EventListener<EventDataT> > eventListener;
+		function_listener functional;
+		bool isPaused;
+		 
+	};
+
+	class Subscription {
+		Listener* pListener;
+		size_t index;
+	public:
+		void Pause() { pListener->isPaused = true; }
+		void Resume() { pListener->isPaused = false; }
+
+	};
+
+	std::deque<Listener> subscribers;
 public:
 	void Subscribe(s_ptr<EventListener<EventDataT> >& listener) 
 	{
-		subscribers.push_back(listener);
+		subscribers.push_back(Listener{
+			.eventListener = listener,
+			.isPaused = false
+		});
 	}
 	void Subscribe(const function_listener& f)  {
-		fSubscribers.push_back(f);
+		
+		
+		subscribers.push_back(Listener{
+			.eventListener = nullptr,
+			.functional=f,
+			.isPaused=false
+		});
 	}
 	
 };
@@ -42,14 +72,14 @@ public:
 	{
 		for (auto& sub : this->subscribers)
 		{
-			sub->Process(ev);
+			if (sub.isPaused)
+				continue;
+			if (sub.eventListener == nullptr)
+				sub.functional(ev);
+			else
+				sub.eventListener->Process(ev);
 		}
-		for (auto& sub : this->fSubscribers)
-		{
-			sub(ev);
-		}
-
-
+		
 	}
 
 	
