@@ -10,3 +10,16 @@ public:
 	virtual void Draw(IDrawContext& context) = 0;
 
 };
+
+class IMesh3DWithNormals
+{
+public:
+	virtual uint32_t NVertices() = 0;
+	virtual uint32_t NIndices() = 0;
+	virtual void RenderMesh(MemoryStreamFloat3DAdapter positions, MemoryStreamFloat3DAdapter normals, IndicesMemoryStream& indices) = 0;
+	virtual void Draw(IDrawContext& context) = 0;
+
+	
+
+
+};

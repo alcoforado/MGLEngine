@@ -3,6 +3,7 @@
 #include <MGLEngine.Shared/Interfaces/IMesh3D.h>
 #include <MGLEngine.Shared/Utils/pointers.h>
 #include <MGLEngine.Shared/Utils/eassert.h>
+#include <stdint.h>
 #include <MGLEngine.Shared/Shaders/BindingConstants.h>
 
 
