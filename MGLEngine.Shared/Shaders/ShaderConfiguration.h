@@ -58,7 +58,8 @@ struct PushConstantConfig {
 
 enum FrequencyUsage {
 	PER_OBJECT,
-	PER_FRAME
+	PER_FRAME,
+	ONCE
 };
 
 template<typename T>

@@ -28,6 +28,12 @@ public:
 		.stage = ShaderStage::VERTEX_STAGE
 	};
 
+	static inline  StaticUboConfig<Std140Light> Lights = {
+		.binding = 8,
+		.name = "Lights",
+		.frequency = FrequencyUsage::ONCE,
+		.stage = ShaderStage::VERTEX_FRAGMENT_STAGE
+	};
 	
 
 

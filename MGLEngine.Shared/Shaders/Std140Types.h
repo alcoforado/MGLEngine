@@ -38,14 +38,17 @@ static_assert(sizeof(Std140Mat2) == 32);
 static_assert(offsetof(Std140Mat2, Column0) == 0);
 static_assert(offsetof(Std140Mat2, Column1) == 16);
 
-struct alignas(16) Std140Light 
+struct alignas(16) Std140Light : public std140
 {
 	glm::vec4 pos;
 	glm::vec4 direction;
 	glm::vec4 color;
-	
-	Std140Light(glm::vec3& _pos, glm::vec3& _direction, glm::vec3& _color)
-	:pos(_pos,1.0),direction(_direction,1.0),color(_color,1.0)
-	{}
+	glm::vec4 parameters;
 
-}
+	Std140Light(glm::vec3 _pos, glm::vec3 _direction, glm::vec3 _color,float ambientStrength)
+		:pos(_pos, 1.0), direction(_direction, 1.0), color(_color, 1.0), parameters({ ambientStrength,0,0,0})
+	{
+
+	}
+
+};
