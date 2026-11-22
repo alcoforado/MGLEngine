@@ -29,9 +29,16 @@ public:
 	InterleavedMemoryStream(uint8_t* pData, size_t stride, size_t maxNumElements, enum FieldType elemType);
 	InterleavedMemoryStream()
 		:InterleavedMemoryStream(nullptr, 0, 0, TYPE_UINT) {
-
 	}
-	
+	InterleavedMemoryStream(std::vector<glm::vec3>& v)
+		:InterleavedMemoryStream(reinterpret_cast<uint8_t*>(v.data()),sizeof(glm::vec3),v.size(),FieldType::TYPE_VEC_FLOAT_3)
+	{}
+	InterleavedMemoryStream(std::vector<unsigned>& v)
+		:InterleavedMemoryStream(reinterpret_cast<uint8_t*>(v.data()), sizeof(unsigned), v.size(), FieldType::TYPE_UINT)
+	{
+	}
+
+
 	InterleavedMemoryStream& operator<<(float value);
 	InterleavedMemoryStream& operator<<(const glm::vec2 &v);
 	InterleavedMemoryStream& operator<<(const glm::vec3 &v);
@@ -119,6 +126,26 @@ public:
 		_stream << v;
 		return *this;
 	}
+	template<int N>
+	MemoryStreamFloat3DAdapter& operator<<(const std::array<glm::vec3,N>& v)
+	{
+		for (auto& elem : v)
+		{
+			_stream << elem;
+		}
+		return *this;
+	}
+	
+	MemoryStreamFloat3DAdapter& operator<<(const std::vector<glm::vec3>& v)
+	{
+		for (auto& elem : v)
+		{
+			_stream << elem;
+		}
+		return *this;
+	}
+
+
 };
 
 

@@ -9,10 +9,14 @@ class IndicesMemoryStream {
 	size_t _currentCount;
 public:
 	IndicesMemoryStream(uint32_t* indices, size_t size, size_t offDisplacement);
-
+	
+	IndicesMemoryStream(std::vector<unsigned> indices)
+		:IndicesMemoryStream(indices.data(), indices.size(), 0) {}
 
 
 	IndicesMemoryStream& operator<<(const std::vector<size_t>& index);
+	IndicesMemoryStream& operator<<(const std::vector<unsigned>& indices);
+
 
 	IndicesMemoryStream& operator<<(size_t index);
 

@@ -15,7 +15,16 @@ IndicesMemoryStream& IndicesMemoryStream::operator<<(const std::vector<size_t>& 
 	eassert(v.size() + _currentCount <= _max_size, "Memory Stream overflow detected");
 	for (size_t i = 0; i < v.size(); i++)
 	{
-		_indices[_currentCount++] = v[i] +  _offDisplacement;
+		_indices[_currentCount++] = static_cast<unsigned>(v[i] +  _offDisplacement);
+	}
+	return *this;
+}
+IndicesMemoryStream& IndicesMemoryStream::operator<<(const std::vector<unsigned>& v)
+{
+	eassert(v.size() + _currentCount <= _max_size, "Memory Stream overflow detected");
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		_indices[_currentCount++] = static_cast<unsigned>(v[i] + _offDisplacement);
 	}
 	return *this;
 }
@@ -24,9 +33,10 @@ IndicesMemoryStream& IndicesMemoryStream::operator<<(const std::vector<size_t>& 
 
 
 
+
 IndicesMemoryStream& IndicesMemoryStream::operator<<(size_t index)
 {
 	eassert(1 + _currentCount <= _max_size, "Memory Stream overflow detected");
-	_indices[++_currentCount] = index + _offDisplacement;
+	_indices[++_currentCount] = static_cast<unsigned>(index + _offDisplacement);
 	return *this;
 }
