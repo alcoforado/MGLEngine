@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 class PhongLight : public IDrawingObject {
 private:
-	IMesh3D& _mesh;
+	IMesh3DWithNormals& _mesh;
 
 public:
 	PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh);

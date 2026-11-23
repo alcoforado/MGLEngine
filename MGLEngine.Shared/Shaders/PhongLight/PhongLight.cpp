@@ -21,3 +21,8 @@ public:
 
 };
 
+PhongLight::PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh)
+{
+
+}
+
