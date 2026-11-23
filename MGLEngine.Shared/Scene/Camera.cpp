@@ -109,8 +109,10 @@ void Camera::SphericGoDown()
 	double rxy = hypot(pos.x, pos.y);
 	if (rxy < 0.00001*fabs(pos.z))
 		return;
-	_pos.z = pos.z * _sphere.cos_dphi - rxy * _sphere.sin_dphi;
 	double aux = (_sphere.cos_dphi + pos.z * _sphere.sin_dphi / rxy);
+	if (aux < 0)
+		return;
+	_pos.z = pos.z * _sphere.cos_dphi - rxy * _sphere.sin_dphi;
 	_pos.y = aux * pos.y;
 	_pos.x = aux * pos.x;
 	glm::dvec3 up = glm::vec3(0, 0, 1);
@@ -126,9 +128,10 @@ void Camera::SphericGoUp() {
 	double rxy = hypot(pos.x, pos.y);
 	if (rxy < 0.00001 * fabs(pos.z))
 		return;
-
-	_pos.z = pos.z * _sphere.cos_dphi + rxy * _sphere.sin_dphi;
 	double aux = (_sphere.cos_dphi - pos.z * _sphere.sin_dphi / rxy);
+	if (aux < 0)
+		return;
+	_pos.z = pos.z * _sphere.cos_dphi + rxy * _sphere.sin_dphi;
 	_pos.y = aux * pos.y;
 	_pos.x = aux * pos.x;
 

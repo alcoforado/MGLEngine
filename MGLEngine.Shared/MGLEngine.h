@@ -59,7 +59,7 @@ class MGLEngine {
 		~MGLEngine();
 
 		//Event Subscribing
-		FrameTickSource::Observable& FrameTick() { return frameTickEmitter; }
+		FrameTickSource::Observable& OnFrameTick() { return frameTickEmitter; }
 		IObservable<glm::mat4>& OnCameraChange() { return _camera.GetEmitter(); }
 		IObservable<KeyboardEvent>& OnKeyboardPress() { return _pWindow->OnKeyPress(); }
 		CommandDispatcher& CommandDispatcher() { return _commandQueue; }
