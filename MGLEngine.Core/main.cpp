@@ -20,7 +20,7 @@ void Example4(MGLEngine& engine)
 	auto rect2 = OrthoRect2D(glm::vec2(0.0f, -0.5f), 0.5f, 0.5f);
 	auto rectDraw = VertexColor2D(engine, rect, { glm::vec4(1,0,0,1),glm::vec4(0,1,0,1),glm::vec4(0,1,0,1) });
 	auto rectDraw2 = VertexColor2D(engine, rect2, { glm::vec4(1,1,0,1),glm::vec4(1,1,0,1),glm::vec4(1,0,1,1),glm::vec4(1,0,0,1) });
-	engine.FrameTick().Subscribe([&engine](const TickEvent& event) {
+	engine.OnFrameTick().Subscribe([&engine](const TickEvent& event) {
 		auto m = glm::mat2(1.0f);
 		const float  rate = static_cast<float>(2 * M_PI / 360.0);
 		float rad = (event.tick % 360) * rate;

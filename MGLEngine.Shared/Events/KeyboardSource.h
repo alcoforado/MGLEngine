@@ -9,6 +9,7 @@ public:
 	int mods;
 public:
 	bool KeyPressed() const;
+	bool KeyReleased() const;
 
 };
 
@@ -17,11 +18,5 @@ class KeyboardSource : public EventSource<KeyboardEvent>
 private:
 	size_t count = 0;
 public:
-	void Emit() {
-		auto ev = KeyboardEvent{
-			
-		};
-		this->EmitEvent(ev);
-	}
-
+	
 }; 

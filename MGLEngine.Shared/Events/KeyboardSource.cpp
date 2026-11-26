@@ -4,3 +4,7 @@ bool KeyboardEvent::KeyPressed() const
 {
 	return action == GLFW_PRESS;
 }
+
+bool KeyboardEvent::KeyReleased() const {
+	return action == GLFW_RELEASE;
+}

@@ -38,9 +38,8 @@ void MGLEngine::WiringEvents()
 			);
 		});
 	}
-	this->_pCamInputMapping = s_new<CameraInputMapping>(_camera);
-	s_ptr<EventListener<KeyboardEvent>> p = this->_pCamInputMapping;
-	this->OnKeyboardPress().Subscribe(p);
+	this->_pCamInputMapping = s_new<CameraInputMapping>(_camera,this->OnKeyboardPress(),this->OnFrameTick());
+	
 
 
 
