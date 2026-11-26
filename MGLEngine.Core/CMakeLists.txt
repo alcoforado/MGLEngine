@@ -6,7 +6,7 @@ file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 
 
 # Create the executable
-add_executable(${PROJECT_NAME}  ${SOURCES}  "Examples/Example4.h")
+add_executable(${PROJECT_NAME}  ${SOURCES}  "Examples/Example4.h" "Examples/Example6.h")
 
 
 # Copy specific configuration files
