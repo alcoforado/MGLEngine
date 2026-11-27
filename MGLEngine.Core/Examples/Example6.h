@@ -19,7 +19,11 @@
 void Example6(MGLEngine& engine)
 {
 	auto cube = OrthoBox3DN(1, 1, 1);
-	auto rectDraw = PhongLight(engine, cube, { ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red });
+	auto rectDraw = PhongLight(engine, cube, { 
+		ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,
+		ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,
+		ColorPalette::Blue,ColorPalette::Blue,ColorPalette::Blue,ColorPalette::Blue,
+		ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple	});
 
 	engine.Run();
 }

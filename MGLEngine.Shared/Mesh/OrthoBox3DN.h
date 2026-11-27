@@ -29,7 +29,7 @@ public:
 	uint32_t NVertices() override { return 24; }
 	uint32_t NIndices() override { return 36; }
 
-	void RenderMesh(MemoryStreamFloat3DAdapter posStream, IndicesMemoryStream& indexStream, MemoryStreamFloat3DAdapter& normals) override
+	void RenderMesh(MemoryStreamFloat3DAdapter posStream, IndicesMemoryStream& indexStream, MemoryStreamFloat3DAdapter normals) override
 	{
 		glm::vec3 X00 = _origin;
 		glm::vec3 X10 = _origin + glm::vec3(_width, 0.0f, 0.0f);

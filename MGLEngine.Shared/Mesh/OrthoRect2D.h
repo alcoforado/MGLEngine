@@ -1,3 +1,4 @@
+#pragma once
 #include <MGLEngine.Shared/common.h>
 #include <glm/vec2.hpp>
 #include <iostream>

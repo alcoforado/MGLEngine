@@ -45,7 +45,11 @@ PhongLight::PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh, const std::v
 			 j = 0;
 		 }
 	 }
+
+	 
+
+
 }
 
 
-
+  

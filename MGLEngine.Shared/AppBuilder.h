@@ -1,4 +1,4 @@
-
+#pragma once
 #include <MGLEngine.Shared/MGLEngine.h>
 #include <MGLEngine.Shared/Interfaces/IWindowOptions.h>
 #include <MGLEngine.Shared/Interfaces/AppConfiguration.h>

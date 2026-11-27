@@ -17,6 +17,12 @@ public:
 		return _mesh.NIndices();
 	}
 
+	 void Draw(IDrawContext& context)  override {
+		 _mesh.Draw(context);
+	 }
+
+
+
 	 void RenderData(RenderSerializationContext& context) override;
 };
 

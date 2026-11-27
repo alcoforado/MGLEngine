@@ -13,7 +13,7 @@
 #include <MGLEngine.Shared/Mesh/OrthoBox3D.h>
 #include <MGLEngine.Shared/Shaders/Color3D/VertexColor3D.h>
 #include <MGLEngine.Shared/Shaders/ColorPalette.h>
-
+#include <MGLEngine.Core/Examples/Example6.h>
 void Example4(MGLEngine& engine)
 {
 	auto rect = OrthoRect2D(glm::vec2(-1.0f, -0.5f), 0.5f, 0.5f);
@@ -86,7 +86,7 @@ int main()
 
 		auto pEngine = app.Init();
 
-		Example5(*pEngine);
+		Example6(*pEngine);
 
 
 	}

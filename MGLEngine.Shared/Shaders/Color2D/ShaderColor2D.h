@@ -1,3 +1,4 @@
+#pragma once
 #include <MGLEngine.Shared/Interfaces/IShader.h>
 #include <stdint.h>
 #include <MGLEngine.Shared/Shaders/Color2D/color2d_vert.h>
