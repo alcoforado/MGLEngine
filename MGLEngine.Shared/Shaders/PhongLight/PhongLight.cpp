@@ -29,13 +29,13 @@ PhongLight::PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh, const std::v
 
  void PhongLight::RenderData(RenderSerializationContext& context)
 {
+	 auto& colorStream = context.GetVerticeAttribute("color");
 	 auto& posStream = context.GetVerticeAttribute("position3d");
 	 auto& normalStream = context.GetVerticeAttribute("normal");
 	 auto& indexStream = context.GetIndicesStream();
 	 _mesh.RenderMesh(posStream, indexStream,normalStream);
 
 
-	 auto& colorStream = context.GetVerticeAttribute("color");
 	 auto nVertices = _mesh.NVertices();
 	 //Fill colors in a round-robin fashion
 	 int j = 0;
