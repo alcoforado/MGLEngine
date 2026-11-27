@@ -50,7 +50,7 @@ public:
 		//Z+
 		normal = glm::vec3(0, 0, 1);
 		posStream << std::array<glm::vec3,4>{Z00, Z10, Z11, Z01};
-		indexStream << std::array<size_t, 6>{4, 6, 5, 4, 7, 6};
+		indexStream << std::array<size_t, 6>{4, 5, 6, 4, 6, 7};
 		normals << normal << normal << normal << normal;
 		                                                         
 		//X-

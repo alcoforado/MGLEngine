@@ -6,9 +6,9 @@
 class PhongLight : public IDrawingObject {
 private:
 	IMesh3DWithNormals& _mesh;
-	std::vector<glm::vec3> _colors;
+	std::vector<glm::vec4> _colors;
 public:
-	PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh,const std::vector<glm::vec3>& colors);
+	PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh,const std::vector<glm::vec4>& colors);
 
 	 uint32_t NVertices() override {
 		return _mesh.NVertices();

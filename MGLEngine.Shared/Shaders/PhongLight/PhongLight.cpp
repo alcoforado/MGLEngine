@@ -10,7 +10,8 @@ public:
 	{
 		config.EnableCulling(true);
 		config.DeclareVertexAttribute_FloatVec3("position3d", 0);
-		config.DeclareVertexAttribute_FloatVec3("normal", 1);
+		config.DeclareVertexAttribute_FloatVec4("color", 1); 
+		config.DeclareVertexAttribute_FloatVec3("normal", 2);
 		config.SetVerticeShader(phongLight_vert, sizeof(phongLight_vert));
 		config.SetFragmentShader(phongLight_frag, sizeof(phongLight_frag));
 		glm::mat4 m(1);
@@ -21,7 +22,7 @@ public:
 
 };
 
-PhongLight::PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh, const std::vector<glm::vec3>& colors)
+PhongLight::PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh, const std::vector<glm::vec4>& colors)
 	:_mesh(mesh),_colors(colors)
 {
 	engine.AddShape<PhongLightShader>(*this);

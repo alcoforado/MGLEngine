@@ -23,7 +23,10 @@ void Example6(MGLEngine& engine)
 		ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,ColorPalette::Green,
 		ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,ColorPalette::Red,
 		ColorPalette::Blue,ColorPalette::Blue,ColorPalette::Blue,ColorPalette::Blue,
-		ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple	});
+		ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple,ColorPalette::Purple,
+		ColorPalette::Yellow,ColorPalette::Yellow,ColorPalette::Yellow,ColorPalette::Yellow,
+		ColorPalette::Orange,ColorPalette::Orange,ColorPalette::Orange,ColorPalette::Orange
+		});
 
 	engine.Run();
 }
