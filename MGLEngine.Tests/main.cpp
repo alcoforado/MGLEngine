@@ -1,6 +1,3 @@
-// MGLEngine.Test.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #define CATCH_CONFIG_RUNNER
 #define CATCH_CONFIG_COLOUR_WINDOWS
@@ -15,6 +12,3 @@ int main(int argc, char* argv[])
 	//getchar();
 	return 0;
 }
-
-
-

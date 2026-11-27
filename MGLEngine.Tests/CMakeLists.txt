@@ -4,32 +4,21 @@ project(MGLEngine.Tests)
 
 
 
-include_directories(${Vulkan_INCLUDE_DIRS}  "../")
-
 
 include_directories(${Boost_INCLUDE_DIR})
 message("Boost libraries found at ${Boost_LIBRARY_DIRS}")
-
 # Create the executable
-add_executable(${PROJECT_NAME}  "ArrayTest.cpp" "MGLEngine.Test.cpp" "MJsonTest.cpp" "ObservableTest.cpp" "ShapesTests.cpp" "stdafx.cpp" "stdafx.h" 
-"targetver.h" "TemplateTests.cpp" "TestDefragArray.cpp"  "Vulkan/VulkanContextTests.cpp" 
-  "HttpServerTest.cpp")
-
-message ("GLF3 ${glfw3_DIR}")
+add_executable(${PROJECT_NAME}  "main.cpp" "MeshUtils.cpp" )
 
 
 
-message("Vulkan lib at ${LOCAL_EXTERNAL_LIBS}/vulkan-1.lib")
 
-find_package("glfw3")
+
 
 target_link_libraries	(${PROJECT_NAME} 
 	                    MGLEngine.Shared
-						MGLEngine.Vulkan
-						MGLEngine.HttpServer
-						${Vulkan_LIBRARIES}
 						Catch2::Catch2
-						glfw)
+						)
 
 
 
