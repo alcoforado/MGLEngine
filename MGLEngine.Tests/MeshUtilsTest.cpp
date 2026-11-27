@@ -4,32 +4,6 @@
 #include <MGLEngine.Shared/Utils/MeshUtils.h>
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
-#include <algorithm>
-#include <array>
-
-namespace {
-    
-
-    std::vector<std::array<unsigned, 3>> CanonicalTriangles(const std::vector<unsigned>& indices)
-    {
-        REQUIRE(indices.size() % 3 == 0);
-        std::vector<std::array<unsigned, 3>> triangles;
-        for (size_t i = 0; i < indices.size(); i += 3)
-        {
-            const auto a = indices[i];
-            const auto b = indices[i + 1];
-            const auto c = indices[i + 2];
-            // Cyclic rotations preserve winding; reversing the corners does not.
-            triangles.push_back(std::min({
-                std::array<unsigned, 3>{ a, b, c },
-                std::array<unsigned, 3>{ b, c, a },
-                std::array<unsigned, 3>{ c, a, b }
-            }));
-        }
-        std::sort(triangles.begin(), triangles.end());
-        return triangles;
-    }
-}
 
 TEST_CASE("ComputeNormals returns unit length normals", "[MeshUtils]")
 {
@@ -85,37 +59,107 @@ TEST_CASE("OrthoBox3DN and NormalsAdapter produce the same topology", "[MeshUtil
     const auto expected = MeshUtils::ReadTopologyFromMesh(boxWithNormals);
     const auto actual = MeshUtils::ReadTopologyFromMesh(adaptedBox);
 
-    // Match each vertex once by position and normal, allowing different numbering.
-    std::vector<unsigned> vertexMap(actual.pos.size());
-    std::vector<bool> matched(expected.pos.size(), false);
-    for (size_t i = 0; i < actual.pos.size(); i++)
+    CHECK(MeshUtils::AreTopologiesEqual(actual, expected));
+}
+
+TEST_CASE("Topology comparison checks geometry and oriented connectivity", "[MeshUtils][TopologyComparison]")
+{
+    const MeshUtils::TopologyWithNormals expected{
+        .pos = { { 0, 0, 0 }, { 2, 0, 0 }, { 2, 3, 0 }, { 0, 3, 0 } },
+        .normals = std::vector<glm::vec3>(4, glm::vec3(0, 0, 1)),
+        .indices = { 0, 1, 2, 0, 2, 3 },
+        .bytesSavedIfIndicesDontExist = 0
+    };
+    auto actual = expected;
+    bool equal = true;
+
+    SECTION("Identical topology") {}
+
+    SECTION("Vertex order, triangle order and starting corners may differ")
     {
-        CAPTURE(i);
-        bool found = false;
-        for (size_t j = 0; j < expected.pos.size(); j++)
-        {
-            if (!matched[j]
-                && glm::length(actual.pos[i] - expected.pos[j]) < 1e-5f
-                && glm::length(actual.normals[i] - expected.normals[j]) < 1e-5f)
-            {
-                vertexMap[i] = static_cast<unsigned>(j);
-                matched[j] = true;
-                found = true;
-                break;
-            }
-        }
-        REQUIRE(found);
+        actual.pos = { expected.pos[2], expected.pos[0], expected.pos[3], expected.pos[1] };
+        actual.indices = { 2, 1, 0, 3, 0, 1 };
     }
 
-    std::vector<unsigned> mappedIndices;
-    for (const auto index : actual.indices)
+    SECTION("Storage savings metadata does not affect equality")
     {
-        REQUIRE(index < vertexMap.size());
-        mappedIndices.push_back(vertexMap[index]);
+        actual.bytesSavedIfIndicesDontExist = 100;
     }
-    for (const auto index : expected.indices)
+
+    SECTION("Tolerance applies to positions and normals")
     {
-        REQUIRE(index < expected.pos.size());
+        actual.pos[0].x += 5e-6f;
+        actual.normals[0].x += 5e-6f;
+        CHECK_FALSE(MeshUtils::AreTopologiesEqual(actual, expected, 1e-6f));
+        CHECK(MeshUtils::AreTopologiesEqual(actual, expected, 1e-4f));
     }
-    CHECK(CanonicalTriangles(mappedIndices) == CanonicalTriangles(expected.indices));
+
+    SECTION("Different positions")
+    {
+        actual.pos[0].x += 0.5f;
+        equal = false;
+    }
+
+    SECTION("Different normals")
+    {
+        actual.normals[0].z = -1.0f;
+        equal = false;
+    }
+
+    SECTION("Reversed triangle winding")
+    {
+        actual.indices = { 0, 2, 1, 0, 2, 3 };
+        equal = false;
+    }
+
+    SECTION("Different diagonal connections")
+    {
+        actual.indices = { 0, 1, 3, 1, 2, 3 };
+        equal = false;
+    }
+
+    SECTION("A repeated triangle cannot replace another triangle")
+    {
+        actual.indices = { 0, 1, 2, 0, 1, 2 };
+        equal = false;
+    }
+
+    SECTION("Different vertex counts")
+    {
+        actual.pos.push_back({ 1, 1, 0 });
+        actual.normals.push_back({ 0, 0, 1 });
+        equal = false;
+    }
+
+    SECTION("Different triangle counts")
+    {
+        actual.indices.resize(3);
+        equal = false;
+    }
+
+    CHECK(MeshUtils::AreTopologiesEqual(actual, expected) == equal);
+    CHECK(MeshUtils::AreTopologiesEqual(expected, actual) == equal);
+    CHECK(MeshUtils::AreTopologiesEqual(expected, expected, 0.0f));
+}
+
+TEST_CASE("Topology comparison resolves coincident vertices by connectivity", "[MeshUtils][TopologyComparison]")
+{
+    const MeshUtils::TopologyWithNormals expected{
+        .pos = { { 0, 0, 0 }, { 0, 0, 0 }, { 2, 0, 0 }, { 2, 3, 0 }, { 0, 3, 0 } },
+        .normals = std::vector<glm::vec3>(5, glm::vec3(0, 0, 1)),
+        .indices = { 0, 2, 3, 1, 3, 4 },
+        .bytesSavedIfIndicesDontExist = 0
+    };
+    auto actual = expected;
+    actual.indices = { 1, 2, 3, 0, 3, 4 };
+    CHECK(MeshUtils::AreTopologiesEqual(actual, expected));
+    CHECK(MeshUtils::AreTopologiesEqual(expected, actual));
+
+    actual.indices = { 1, 3, 2, 0, 3, 4 };
+    CHECK_FALSE(MeshUtils::AreTopologiesEqual(actual, expected));
+}
+
+TEST_CASE("Empty topologies compare equal", "[MeshUtils][TopologyComparison]")
+{
+    CHECK(MeshUtils::AreTopologiesEqual({}, {}));
 }
