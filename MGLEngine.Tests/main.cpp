@@ -10,5 +10,5 @@ int main(int argc, char* argv[])
 
 	//global clean-up...
 	//getchar();
-	return 0;
+	return result;
 }

@@ -46,8 +46,7 @@ MeshUtils::TopologyWithNormals MeshUtils::ComputeNormals(const std::vector<glm::
 	//Build Edges
 	eassert(indices.size() % 3 == 0, "Data mismatch");
 	size_t triangleI = 0;
-	std::vector<VertexData> vertMap;
-	vertMap.reserve(points.size());
+	std::vector<VertexData> vertMap(points.size());
 	std::vector<glm::vec3> normals;
 	normals.reserve(indices.size() / 3);
 	for (size_t i = 0; i < indices.size(); i += 3, triangleI++)
@@ -109,10 +108,10 @@ MeshUtils::TopologyWithNormals MeshUtils::ComputeNormals(const std::vector<glm::
 			}
 			if (!foundVerticeToReuse)
 			{
-				size_t newIndex = outPos.size();
-				vertMap[v].SetNewVertForTriangle(triangleI, newIndex);
+				size_t newVerticeIndex = outPos.size();
+				vertMap[v].SetNewVertForTriangle(triangleI, newVerticeIndex);
 				outPos.push_back(points[v]);
-				outIndices.push_back(static_cast<unsigned>(newIndex));
+				outIndices.push_back(static_cast<unsigned>(newVerticeIndex));
 				outNormals.push_back(normals[triangleI]);
 				nNormalsAdded.push_back(1);
 			}
@@ -125,7 +124,7 @@ MeshUtils::TopologyWithNormals MeshUtils::ComputeNormals(const std::vector<glm::
 	{
 		if (nNormalsAdded[i] != 1)
 		{
-			normals[i] = glm::normalize(normals[i]);
+			outNormals[i] = glm::normalize(outNormals[i]);
 			verticesMerged += nNormalsAdded[i] - 1;
 		}
 
@@ -140,3 +139,18 @@ MeshUtils::TopologyWithNormals MeshUtils::ComputeNormals(const std::vector<glm::
 	};
 
 };
+
+
+MeshUtils::TopologyWithNormals MeshUtils::ReadTopologyFromMesh(IMesh3DWithNormals& mesh)
+{
+	MeshUtils::TopologyWithNormals topology{};
+	topology.pos.resize(mesh.NVertices());
+	topology.normals.resize(mesh.NVertices());
+	topology.indices.resize(mesh.NIndices());
+
+	InterleavedMemoryStream positions(topology.pos);
+	InterleavedMemoryStream normals(topology.normals);
+	IndicesMemoryStream indices(topology.indices.data(), topology.indices.size(), 0);
+	mesh.RenderMesh(MemoryStreamFloat3DAdapter(positions), indices, MemoryStreamFloat3DAdapter(normals));
+	return topology;
+}

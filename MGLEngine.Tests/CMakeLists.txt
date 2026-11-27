@@ -1,6 +1,8 @@
 set(CMAKE_GENERATOR_PLATFORM "x64")
 project(MGLEngine.Tests)
 
+find_package(Catch2 3 CONFIG REQUIRED)
+
 
 
 
@@ -8,7 +10,10 @@ project(MGLEngine.Tests)
 include_directories(${Boost_INCLUDE_DIR})
 message("Boost libraries found at ${Boost_LIBRARY_DIRS}")
 # Create the executable
-add_executable(${PROJECT_NAME}  "main.cpp" "MeshUtils.cpp" )
+add_executable(${PROJECT_NAME}  "main.cpp" "MeshUtilsTest.cpp" )
+
+include(Catch)
+catch_discover_tests(${PROJECT_NAME})
 
 
 

@@ -10,7 +10,7 @@ class IndicesMemoryStream {
 public:
 	IndicesMemoryStream(uint32_t* indices, size_t size, size_t offDisplacement);
 	
-	IndicesMemoryStream(std::vector<unsigned> indices)
+	IndicesMemoryStream(std::vector<unsigned>& indices)
 		:IndicesMemoryStream(indices.data(), indices.size(), 0) {}
 
 

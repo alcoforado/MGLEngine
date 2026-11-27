@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.21)
+
 set(CMAKE_SUPPRESS_REGENERATION true)
 SET(CMAKE_CXX_STANDARD 20)
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "" FORCE)
@@ -104,7 +106,6 @@ endmacro()
 
 
 
-cmake_minimum_required (VERSION 3.10)
 set(VERBOSE "1")
 set(LOCAL_EXTERNAL_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/../References/lib/x64")
 set(CMAKE_FIND_DEBUG_MODE Off)

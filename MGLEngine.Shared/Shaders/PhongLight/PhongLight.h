@@ -10,6 +10,8 @@ private:
 public:
 	PhongLight(MGLEngine& engine, IMesh3DWithNormals& mesh,const std::vector<glm::vec4>& colors);
 
+	
+
 	 uint32_t NVertices() override {
 		return _mesh.NVertices();
 	}
