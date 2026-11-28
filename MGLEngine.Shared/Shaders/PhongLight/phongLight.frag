@@ -8,19 +8,32 @@ layout(location = 2) in vec3 fragPos;
 layout(location = 0) out vec4 outColor;
 
 
-layout(set = 0, binding = 8, std140) uniform Light {
-     vec4 lightPos;
-     vec4 direction;
-     vec4 lcolor;
-     vec4 parameters;
+// 2. Storage Buffer (SSBO) - Variable-length array
+struct Light {
+    vec4 position;
+    vec4 color;
+    float ambientLight;
+    float reserved1;
+    float reserved3;
+    float reserved4;
+};
+
+layout(std430, set = 0, binding = 8) readonly buffer LightSSBO {
+     Light lights[];
+     uint lightCount;
 };
 
 
 void main() {
-    float ambientLight= parameters.x;
-    vec3 ambient=ambientLight*lcolor.rgb;
+    for (uint i=0;i<lightCount; ++i)
+    {
+        vec3 ambient = lights[i].ambientLight*lights[i].color.rgb;
+        vec3 lightDir = normalize(lightPos.xyz-fragPos);
 
-    vec3 lightDir = normalize(lightPos.xyz-fragPos);
+    }
+    
+    
+
     float diff = max(dot(fragNormal,lightDir),0.0); 
     vec3 diffuse=diff*lcolor.rgb;
 

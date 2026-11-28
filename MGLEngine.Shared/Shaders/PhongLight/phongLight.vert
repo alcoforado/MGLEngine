@@ -14,13 +14,6 @@ layout(set = 0, binding = 7, std140) uniform CameraNdc {
     mat4 WorldToNdc;
 };
 
-layout(set = 0, binding = 8, std140) uniform Light {
-     vec4 pos;
-     vec4 direction;
-     vec4 lcolor;
-     vec4 parameters;
-};
-
 
 
 
