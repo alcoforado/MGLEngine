@@ -15,7 +15,7 @@ public:
 		config.SetVerticeShader(phongLight_vert, sizeof(phongLight_vert));
 		config.SetFragmentShader(phongLight_frag, sizeof(phongLight_frag));
 		glm::mat4 m(1);
-		Std140Light light({ 10,10,10 }, { 0,0,0 }, { 1,1,1 }, 1.0);
+		Std140Light light({ 10,10,10 }, { 0,0,0 }, { 1,1,1 }, 0.01);
 		config.DeclareUbo(UboBindingCollection::CameraTransform, Std140Mat4(m));
 		config.DeclareUbo(UboBindingCollection::Lights, light);
 	}
